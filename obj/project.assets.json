@@ -3838,11 +3838,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\1680229\\Desktop\\e7\\e7-arsoud-serveur\\arsoudServeur\\arsoudServeur.csproj",
-      "projectName": "arsoudServeur",
-      "projectPath": "C:\\Users\\1680229\\Desktop\\e7\\e7-arsoud-serveur\\arsoudServeur\\arsoudServeur.csproj",
+      "projectUniqueName": "C:\\Users\\1680229\\Desktop\\e7\\e7-arsoud-serveur\\arsoudeServeur.csproj",
+      "projectName": "arsoudeServeur",
+      "projectPath": "C:\\Users\\1680229\\Desktop\\e7\\e7-arsoud-serveur\\arsoudeServeur.csproj",
       "packagesPath": "C:\\Users\\1680229\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\1680229\\Desktop\\e7\\e7-arsoud-serveur\\arsoudServeur\\obj\\",
+      "outputPath": "C:\\Users\\1680229\\Desktop\\e7\\e7-arsoud-serveur\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\1680229\\AppData\\Roaming\\NuGet\\NuGet.Config",

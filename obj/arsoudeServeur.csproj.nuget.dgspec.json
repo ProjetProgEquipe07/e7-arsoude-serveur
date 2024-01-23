@@ -1,15 +1,15 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\1680229\\Desktop\\e7\\e7-arsoud-serveur\\arsoudServeur.csproj": {}
+    "C:\\Users\\1680229\\Desktop\\e7\\e7-arsoud-serveur\\arsoudeServeur.csproj": {}
   },
   "projects": {
-    "C:\\Users\\1680229\\Desktop\\e7\\e7-arsoud-serveur\\arsoudServeur.csproj": {
+    "C:\\Users\\1680229\\Desktop\\e7\\e7-arsoud-serveur\\arsoudeServeur.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\1680229\\Desktop\\e7\\e7-arsoud-serveur\\arsoudServeur.csproj",
-        "projectName": "arsoudServeur",
-        "projectPath": "C:\\Users\\1680229\\Desktop\\e7\\e7-arsoud-serveur\\arsoudServeur.csproj",
+        "projectUniqueName": "C:\\Users\\1680229\\Desktop\\e7\\e7-arsoud-serveur\\arsoudeServeur.csproj",
+        "projectName": "arsoudeServeur",
+        "projectPath": "C:\\Users\\1680229\\Desktop\\e7\\e7-arsoud-serveur\\arsoudeServeur.csproj",
         "packagesPath": "C:\\Users\\1680229\\.nuget\\packages\\",
         "outputPath": "C:\\Users\\1680229\\Desktop\\e7\\e7-arsoud-serveur\\obj\\",
         "projectStyle": "PackageReference",
