@@ -39,11 +39,11 @@ namespace arsoudServeur.Data
             IdentityUser adminUser = new IdentityUser
             {
                 Id = "11111111-1111-1111-1111-111111111111",
-                UserName = "admin@admin.com",
+                UserName = "admin@gmail.com",
                 Email = "admin@gmail.com",
 
-                NormalizedUserName = "ADMIN@ADMIN.COM",
-                NormalizedEmail = "ADMIN@ADMIN.COM",
+                NormalizedUserName = "ADMIN@GMAIL.COM",
+                NormalizedEmail = "ADMIN@GMAIL.COM",
                 EmailConfirmed = true,
 
                 PasswordHash = hasher.HashPassword(null, "Admin1!")
@@ -54,8 +54,8 @@ namespace arsoudServeur.Data
                 UserName = "user1@hotmail.com",
                 Email = "user1@hotmail.com",
 
-                NormalizedUserName = "USER2@HOTMAIL.COM",
-                NormalizedEmail = "USER2@HOTMAIL.COM",
+                NormalizedUserName = "USER1@HOTMAIL.COM",
+                NormalizedEmail = "USER1@HOTMAIL.COM",
                 EmailConfirmed = true,
 
                 PasswordHash = hasher.HashPassword(null, "Passw0rd!")

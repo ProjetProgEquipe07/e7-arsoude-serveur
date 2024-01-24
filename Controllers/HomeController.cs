@@ -5,8 +5,6 @@ using System.Numerics;
 
 namespace arsoudServeur.Controllers
 {
-    [Route("api/[controller]/[action]")]
-    [ApiController]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -24,13 +22,6 @@ namespace arsoudServeur.Controllers
         public IActionResult Privacy()
         {
             return View();
-        }
-
-        [HttpGet]
-        public IActionResult GetHelloWorld()
-        {
-            var responseObject = new { text = "Hello World" };
-            return Json(responseObject);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

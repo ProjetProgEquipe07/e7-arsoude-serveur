@@ -1,3 +1,5 @@
+using arsoudeServeur.Services;
+using arsoudeServeur.Services.Interfaces;
 using arsoudServeur.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -35,6 +37,10 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
 
+builder.Services.AddScoped<UtilisateursService>();
+builder.Services.AddScoped<IUtilisateursService,  UtilisateursService>();
+builder.Services.AddScoped<RandonnéesService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -57,6 +63,7 @@ app.UseRouting();
 app.UseCors("AllowAlmostAll");
 
 app.UseAuthorization();
+
 app.MapControllerRoute(
     name: "Admin",
     pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
