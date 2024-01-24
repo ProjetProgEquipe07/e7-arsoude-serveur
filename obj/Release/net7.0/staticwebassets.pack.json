@@ -1,8 +1,8 @@
 {
   "Files": [
     {
-      "Id": "C:\\Users\\1680229\\Desktop\\e7\\e7-arsoud-serveur\\obj\\Release\\net7.0\\scopedcss\\projectbundle\\arsoudServeur.bundle.scp.css",
-      "PackagePath": "staticwebassets\\arsoudServeur.bundle.scp.css"
+      "Id": "C:\\Users\\1680229\\Desktop\\e7\\e7-arsoud-serveur\\obj\\Release\\net7.0\\scopedcss\\projectbundle\\arsoudeServeur.bundle.scp.css",
+      "PackagePath": "staticwebassets\\arsoudeServeur.bundle.scp.css"
     },
     {
       "Id": "C:\\Users\\1680229\\Desktop\\e7\\e7-arsoud-serveur\\wwwroot\\css\\site.css",
@@ -245,20 +245,20 @@
       "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.min.map"
     },
     {
-      "Id": "obj\\Release\\net7.0\\staticwebassets\\msbuild.arsoudServeur.Microsoft.AspNetCore.StaticWebAssets.props",
+      "Id": "obj\\Release\\net7.0\\staticwebassets\\msbuild.arsoudeServeur.Microsoft.AspNetCore.StaticWebAssets.props",
       "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
     },
     {
-      "Id": "obj\\Release\\net7.0\\staticwebassets\\msbuild.build.arsoudServeur.props",
-      "PackagePath": "build\\arsoudServeur.props"
+      "Id": "obj\\Release\\net7.0\\staticwebassets\\msbuild.build.arsoudeServeur.props",
+      "PackagePath": "build\\arsoudeServeur.props"
     },
     {
-      "Id": "obj\\Release\\net7.0\\staticwebassets\\msbuild.buildMultiTargeting.arsoudServeur.props",
-      "PackagePath": "buildMultiTargeting\\arsoudServeur.props"
+      "Id": "obj\\Release\\net7.0\\staticwebassets\\msbuild.buildMultiTargeting.arsoudeServeur.props",
+      "PackagePath": "buildMultiTargeting\\arsoudeServeur.props"
     },
     {
-      "Id": "obj\\Release\\net7.0\\staticwebassets\\msbuild.buildTransitive.arsoudServeur.props",
-      "PackagePath": "buildTransitive\\arsoudServeur.props"
+      "Id": "obj\\Release\\net7.0\\staticwebassets\\msbuild.buildTransitive.arsoudeServeur.props",
+      "PackagePath": "buildTransitive\\arsoudeServeur.props"
     }
   ],
   "ElementsToRemove": []

@@ -12,8 +12,8 @@
         public string difficulté { get; set; }
         public string accessibilité { get; set; }
 
-        public List<Image> listeImage { get; set; }
-        public List<GPS> listeGPS { get; set; }
+        public virtual List<Image> listeImage { get; set; }
+        public virtual List<GPS> listeGPS { get; set; }
 
         public bool terminé { get; set; }
 

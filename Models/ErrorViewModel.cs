@@ -1,4 +1,4 @@
-namespace arsoudServeur.Models
+namespace arsoudeServeur.Models
 {
     public class ErrorViewModel
     {

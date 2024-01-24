@@ -2,7 +2,7 @@
 
 namespace arsoudeServeur.Services.Interfaces
 {
-    public interface IUtilisateurService
+    public interface IUtilisateursService
     {
         public Utilisateur? GetUtilisateurFromUserId(string userId);
         public Task PostUtilisateurFromIdentityUserId(string identityUserId);

@@ -22,7 +22,7 @@ namespace arsoudeServeur.Controllers
             {
                 if(utilisateur == null)
                 {
-                    utilisateur = utilisateursService.GetUtilisateurFromUserId(UserId);
+                    //utilisateur = utilisateursService.GetUtilisateurFromUserId(UserId);
                 }
                 return utilisateur;
             }

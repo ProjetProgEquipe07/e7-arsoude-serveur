@@ -5,8 +5,11 @@ namespace arsoudeServeur.Models
 {
     public class Utilisateur
     {
-        public int id { get; set; }
+        // Nécessaire pour faire le seed
+        public Utilisateur() { }
 
+        public int id { get; set; }
+        public string pseudo { get; set; }
         public required string identityUserId { get; set; }
         [JsonIgnore]
         public virtual IdentityUser? identityUser { get; set; }

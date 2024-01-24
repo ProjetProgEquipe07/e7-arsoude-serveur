@@ -1,12 +1,17 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using arsoudeServeur.Services;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace arsoudeServeur.Controllers
 {
-    public class UtilisateurController : Controller
+    [Route("api/[controller]/[action]")]
+    [ApiController]
+    [Authorize]
+    public class UtilisateurController : BaseController
     {
-        public IActionResult Index()
+        public UtilisateurController(UtilisateursService utilisateursService) : base(utilisateursService)
         {
-            return View();
         }
+
     }
 }

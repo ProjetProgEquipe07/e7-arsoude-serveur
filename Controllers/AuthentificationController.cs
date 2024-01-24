@@ -38,6 +38,7 @@ namespace arsoudeServeur.Controllers
 
             IdentityUser user = new IdentityUser()
             {
+                UserName = register.pseudo,
                 Email = register.courriel
             };
             IdentityResult identityResult = await this.userManager.CreateAsync(user, register.motDePasse);
@@ -47,8 +48,8 @@ namespace arsoudeServeur.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, new { Error = identityResult.Errors });
             }
 
-            await utilisateursService.PostUtilisateurFromIdentityUserId(user.Id);
-            var result = await signInManager.PasswordSignInAsync(register.courriel, register.motDePasse, true, lockoutOnFailure: false);
+            //await utilisateursService.PostUtilisateurFromIdentityUserId(user.Id);
+            var result = await signInManager.PasswordSignInAsync(register.pseudo, register.motDePasse, true, lockoutOnFailure: false);
             if (result.Succeeded)
             {
                 return Ok();
@@ -59,7 +60,7 @@ namespace arsoudeServeur.Controllers
         [HttpPost]
         public async Task<ActionResult> Login(LoginDTO login)
         {
-            var result = await signInManager.PasswordSignInAsync(login.courriel, login.motDePasse, true, lockoutOnFailure: false);
+            var result = await signInManager.PasswordSignInAsync(login.pseudo, login.motDePasse, true, lockoutOnFailure: false);
             if (result.Succeeded)
             {
                 return Ok();
