@@ -57,6 +57,9 @@ app.UseRouting();
 app.UseCors("AllowAlmostAll");
 
 app.UseAuthorization();
+app.MapControllerRoute(
+    name: "Admin",
+    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
 
 app.MapControllerRoute(
     name: "default",
