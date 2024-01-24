@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
 namespace arsoudeServeur.Models
@@ -9,11 +10,20 @@ namespace arsoudeServeur.Models
         public Utilisateur() { }
 
         public int id { get; set; }
-        public string pseudo { get; set; }
+        public string courriel { get; set; }
+        public string prenom { get; set; }
+        public string nom { get; set; }
+        public string codePostal { get; set; }
+
+        // TODO : doit être valide (currentYear - 100)
+        public int anneeDeNaissance { get; set; } 
+        // TODO : doit être valide (1-12)
+        public int moisDeNaissance { get; set; }
+
+        public string? adresse { get; set; }
+
         public required string identityUserId { get; set; }
         [JsonIgnore]
         public virtual IdentityUser? identityUser { get; set; }
-        [JsonIgnore]
-        public virtual List<Randonnée> listeRandonnée { get; set; }
     }
 }

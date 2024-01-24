@@ -101,19 +101,28 @@ namespace arsoudServeur.Data
                 new Utilisateur
                 {
                     id = 1,
-                    pseudo = adminUser.UserName,
+                    nom = "tangerine",
+                    prenom = "robert",
+                    codePostal = "E3A4R4",
+                    courriel = adminUser.UserName,
                     identityUserId = adminUser.Id,
                 },
                 new Utilisateur
                 {
                     id = 2,
-                    pseudo = utilisateur1.UserName,
+                    nom = "prévost",
+                    prenom = "bertrand",
+                    codePostal = "E3A4R4",
+                    courriel = utilisateur1.UserName,
                     identityUserId = utilisateur1.Id,
                 },
                 new Utilisateur
                 {
                     id = 3,
-                    pseudo = utilisateur2.UserName,
+                    nom = "audet",
+                    prenom = "michelle",
+                    codePostal = "E3A4R4",
+                    courriel = utilisateur2.UserName,
                     identityUserId = utilisateur2.Id,
                 }
             };

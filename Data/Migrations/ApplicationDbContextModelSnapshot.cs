@@ -49,13 +49,13 @@ namespace arsoudServeur.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "420dbeee-9c44-49ad-9c48-eebe1c3b1072",
+                            Id = "9cd47377-af01-4761-8e4d-151a1c32e3b1",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
-                            Id = "cbacacd2-d295-4c9a-b4ec-52a86bed0de5",
+                            Id = "351b031f-2385-421d-9d28-1a46079b23ad",
                             Name = "Randonneur",
                             NormalizedName = "RANDONNEUR"
                         });
@@ -152,31 +152,31 @@ namespace arsoudServeur.Data.Migrations
                         {
                             Id = "11111111-1111-1111-1111-111111111111",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "9a366daf-bab8-4219-a5ac-f494bb4195e8",
+                            ConcurrencyStamp = "ed603329-6e19-4023-becb-ff0018f698f2",
                             Email = "admin@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
-                            NormalizedEmail = "ADMIN@ADMIN.COM",
-                            NormalizedUserName = "ADMIN@ADMIN.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEOQvhiqSebR/TNn8FCDRcXsE35w+uS0jenKLbyZGrpXmnRrecOXCQIjEdiLEEU/tIg==",
+                            NormalizedEmail = "ADMIN@GMAIL.COM",
+                            NormalizedUserName = "ADMIN@GMAIL.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAEFcCf33+urGi6c0Z/A1229mukAy6CvEvHb25Qot7+pVZen/J0Nd1Dvp8stfL9xjRSw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "f592ae1d-3b8d-4dcc-ac6c-d8bed7cdf223",
+                            SecurityStamp = "b7795d44-c87f-49bd-8b0d-8814c9b5fb46",
                             TwoFactorEnabled = false,
-                            UserName = "admin@admin.com"
+                            UserName = "admin@gmail.com"
                         },
                         new
                         {
                             Id = "11111111-1111-1111-1111-111111111112",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "1f02f11d-d103-4f0b-a79a-c1990f67c4ba",
+                            ConcurrencyStamp = "5690ff58-9fce-4505-ad0d-a3a09499960f",
                             Email = "user1@hotmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
-                            NormalizedEmail = "USER2@HOTMAIL.COM",
-                            NormalizedUserName = "USER2@HOTMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEFKRxosWgCmvy70xpXqditCBGtmEb8W68IAwjGutGAu+TUQdQt42rc9skr7tnM2lJA==",
+                            NormalizedEmail = "USER1@HOTMAIL.COM",
+                            NormalizedUserName = "USER1@HOTMAIL.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAEA2OjTUEP5Y45P8hcQbFyCb1XRjMTITwPG8p4nFzqw68qFEYjuT2EHgVLFsmGbAF6A==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "7bd9fce8-63fc-4b33-86c2-80598d2a5841",
+                            SecurityStamp = "8b65f12b-110e-4f24-93d0-fc38ef10282b",
                             TwoFactorEnabled = false,
                             UserName = "user1@hotmail.com"
                         },
@@ -184,15 +184,15 @@ namespace arsoudServeur.Data.Migrations
                         {
                             Id = "11111111-1111-1111-1111-111111111113",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "0d59a683-f894-4f2c-897e-c9a522579f07",
+                            ConcurrencyStamp = "079ec84b-1ffe-49a9-bdf4-1c777962060b",
                             Email = "user2@hotmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "USER2@HOTMAIL.COM",
                             NormalizedUserName = "USER2@HOTMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAECSgsNSA5t38TbPVaOu1KpXcgVJi2+YMOiLRzt4HIyIm9Pums83C3NItLMH5whn7nQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEK/5enK2ChEPh2qrVK2ZgPuucjz9qo54u3OPGMwTL75uaKpILx6LqrO0FxQGy+4AsQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "86780424-ddef-4106-b8b0-3a395b75ea76",
+                            SecurityStamp = "7fe46aff-3623-4f1c-93f5-0b27991f509f",
                             TwoFactorEnabled = false,
                             UserName = "user2@hotmail.com"
                         });
@@ -263,17 +263,17 @@ namespace arsoudServeur.Data.Migrations
                         new
                         {
                             UserId = "11111111-1111-1111-1111-111111111111",
-                            RoleId = "420dbeee-9c44-49ad-9c48-eebe1c3b1072"
+                            RoleId = "9cd47377-af01-4761-8e4d-151a1c32e3b1"
                         },
                         new
                         {
                             UserId = "11111111-1111-1111-1111-111111111112",
-                            RoleId = "cbacacd2-d295-4c9a-b4ec-52a86bed0de5"
+                            RoleId = "351b031f-2385-421d-9d28-1a46079b23ad"
                         },
                         new
                         {
                             UserId = "11111111-1111-1111-1111-111111111113",
-                            RoleId = "cbacacd2-d295-4c9a-b4ec-52a86bed0de5"
+                            RoleId = "351b031f-2385-421d-9d28-1a46079b23ad"
                         });
                 });
 
@@ -329,18 +329,18 @@ namespace arsoudServeur.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<int?>("Randonnéeid")
+                        .HasColumnType("INTEGER");
+
                     b.Property<double>("X")
                         .HasColumnType("REAL");
 
                     b.Property<double>("Y")
                         .HasColumnType("REAL");
 
-                    b.Property<int>("randonnéeId")
-                        .HasColumnType("INTEGER");
-
                     b.HasKey("id");
 
-                    b.HasIndex("randonnéeId");
+                    b.HasIndex("Randonnéeid");
 
                     b.ToTable("gps");
                 });
@@ -360,7 +360,8 @@ namespace arsoudServeur.Data.Migrations
 
                     b.HasKey("id");
 
-                    b.HasIndex("randonnéeId");
+                    b.HasIndex("randonnéeId")
+                        .IsUnique();
 
                     b.ToTable("images");
                 });
@@ -371,35 +372,37 @@ namespace arsoudServeur.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("accessibilité")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
                     b.Property<string>("description")
                         .IsRequired()
+                        .HasMaxLength(255)
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("difficulté")
+                    b.Property<string>("emplacement")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("nom")
                         .IsRequired()
+                        .HasMaxLength(25)
                         .HasColumnType("TEXT");
 
-                    b.Property<double>("pointArrivée")
-                        .HasColumnType("REAL");
+                    b.Property<int>("pointArrivéeid")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<double>("pointDépart")
-                        .HasColumnType("REAL");
+                    b.Property<int>("pointDépartid")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<bool>("terminé")
+                    b.Property<bool>("tracée")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("utilisateurId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("id");
+
+                    b.HasIndex("pointArrivéeid");
+
+                    b.HasIndex("pointDépartid");
 
                     b.HasIndex("utilisateurId");
 
@@ -412,11 +415,32 @@ namespace arsoudServeur.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("adresse")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("anneeDeNaissance")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("codePostal")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("courriel")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("identityUserId")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("pseudo")
+                    b.Property<int>("moisDeNaissance")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("nom")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("prenom")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
@@ -430,20 +454,35 @@ namespace arsoudServeur.Data.Migrations
                         new
                         {
                             id = 1,
+                            anneeDeNaissance = 0,
+                            codePostal = "E3A4R4",
+                            courriel = "admin@gmail.com",
                             identityUserId = "11111111-1111-1111-1111-111111111111",
-                            pseudo = "admin@admin.com"
+                            moisDeNaissance = 0,
+                            nom = "tangerine",
+                            prenom = "robert"
                         },
                         new
                         {
                             id = 2,
+                            anneeDeNaissance = 0,
+                            codePostal = "E3A4R4",
+                            courriel = "user1@hotmail.com",
                             identityUserId = "11111111-1111-1111-1111-111111111112",
-                            pseudo = "user1@hotmail.com"
+                            moisDeNaissance = 0,
+                            nom = "prévost",
+                            prenom = "bertrand"
                         },
                         new
                         {
                             id = 3,
+                            anneeDeNaissance = 0,
+                            codePostal = "E3A4R4",
+                            courriel = "user2@hotmail.com",
                             identityUserId = "11111111-1111-1111-1111-111111111113",
-                            pseudo = "user2@hotmail.com"
+                            moisDeNaissance = 0,
+                            nom = "audet",
+                            prenom = "michelle"
                         });
                 });
 
@@ -519,31 +558,43 @@ namespace arsoudServeur.Data.Migrations
 
             modelBuilder.Entity("arsoudeServeur.Models.GPS", b =>
                 {
-                    b.HasOne("arsoudeServeur.Models.Randonnée", "randonnée")
+                    b.HasOne("arsoudeServeur.Models.Randonnée", null)
                         .WithMany("listeGPS")
-                        .HasForeignKey("randonnéeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("randonnée");
+                        .HasForeignKey("Randonnéeid");
                 });
 
             modelBuilder.Entity("arsoudeServeur.Models.Image", b =>
                 {
                     b.HasOne("arsoudeServeur.Models.Randonnée", "randonnée")
-                        .WithMany("listeImage")
-                        .HasForeignKey("randonnéeId");
+                        .WithOne("image")
+                        .HasForeignKey("arsoudeServeur.Models.Image", "randonnéeId");
 
                     b.Navigation("randonnée");
                 });
 
             modelBuilder.Entity("arsoudeServeur.Models.Randonnée", b =>
                 {
+                    b.HasOne("arsoudeServeur.Models.GPS", "pointArrivée")
+                        .WithMany()
+                        .HasForeignKey("pointArrivéeid")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("arsoudeServeur.Models.GPS", "pointDépart")
+                        .WithMany()
+                        .HasForeignKey("pointDépartid")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("arsoudeServeur.Models.Utilisateur", "utilisateur")
-                        .WithMany("listeRandonnée")
+                        .WithMany()
                         .HasForeignKey("utilisateurId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("pointArrivée");
+
+                    b.Navigation("pointDépart");
 
                     b.Navigation("utilisateur");
                 });
@@ -561,14 +612,10 @@ namespace arsoudServeur.Data.Migrations
 
             modelBuilder.Entity("arsoudeServeur.Models.Randonnée", b =>
                 {
+                    b.Navigation("image")
+                        .IsRequired();
+
                     b.Navigation("listeGPS");
-
-                    b.Navigation("listeImage");
-                });
-
-            modelBuilder.Entity("arsoudeServeur.Models.Utilisateur", b =>
-                {
-                    b.Navigation("listeRandonnée");
                 });
 #pragma warning restore 612, 618
         }
