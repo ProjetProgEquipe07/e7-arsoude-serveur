@@ -48,7 +48,7 @@ namespace arsoudeServeur.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, new { Error = identityResult.Errors });
             }
 
-            //await utilisateursService.PostUtilisateurFromIdentityUserId(user.Id);
+            await utilisateursService.PostUtilisateurFromIdentityUserId(user.Id);
             var result = await signInManager.PasswordSignInAsync(register.pseudo, register.motDePasse, true, lockoutOnFailure: false);
             if (result.Succeeded)
             {
