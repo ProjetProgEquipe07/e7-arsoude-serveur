@@ -16,6 +16,7 @@ namespace arsoudeServeur.Models.DTOs
         public string prénom { get; set; }
 
         [Required(ErrorMessage = "La propriété est obligatoire.")]
+        [EmailAddress]
         public string courriel { get; set; }
         [Required(ErrorMessage = "La propriété est obligatoire.")]
         public string motDePasse { get; set; }
@@ -24,6 +25,7 @@ namespace arsoudeServeur.Models.DTOs
 
         // TODO : vérifier si c'est 6 carac
         [Required(ErrorMessage = "La propriété est obligatoire.")]
+        [RegularExpression(@"^[A-Za-z]\d[A-Za-z] \d[A-Za-z]\d$", ErrorMessage = "Le code postal doit être sous la forme X1X 1X1.")]
         public string codePostal { get; set; }
 
         //Optionnel

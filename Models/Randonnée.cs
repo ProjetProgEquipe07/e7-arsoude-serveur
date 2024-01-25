@@ -27,7 +27,7 @@ namespace arsoudeServeur.Models
         [Required(ErrorMessage = "La propriété est obligatoire.")]
         public virtual Image image { get; set; }
 
-        public virtual List<GPS> listeGPS { get; set; }
+       
 
         public enum Type
         {
@@ -38,8 +38,7 @@ namespace arsoudeServeur.Models
         public bool tracée { get; set; }
 
         // Clé étrangère 
-        public int utilisateurId { get; set; }
-        public virtual Utilisateur utilisateur { get; set; }
+        public virtual List<GPS> listeGPS { get; set; } = new();
 
     }
 }

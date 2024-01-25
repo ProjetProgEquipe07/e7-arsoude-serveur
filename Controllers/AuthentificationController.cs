@@ -50,7 +50,7 @@ namespace arsoudeServeur.Controllers
             };
             IdentityResult identityResult = await userManager.CreateAsync(user, register.motDePasse);
 
-            await utilisateursService.PostUtilisateurFromIdentityUserId(user.Id);
+            await utilisateursService.PostUtilisateurFromIdentityUserId(user.Id, register);
             if (!identityResult.Succeeded)
             {
                 return BadRequest(identityResult);

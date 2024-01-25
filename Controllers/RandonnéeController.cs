@@ -8,7 +8,7 @@ namespace arsoudeServeur.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
-    [Authorize]
+   // [Authorize]
     public class RandonnéeController : BaseController
     {
         private readonly RandonnéesService _randonnéeService;
