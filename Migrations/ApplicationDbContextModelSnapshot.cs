@@ -2,20 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using arsoudServeur.Data;
 
 #nullable disable
 
-namespace arsoudServeur.Data.Migrations
+namespace arsoudeServeur.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240124214843_US277_UserRegisterLogin")]
-    partial class US277_UserRegisterLogin
+    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -52,13 +49,13 @@ namespace arsoudServeur.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "9cd47377-af01-4761-8e4d-151a1c32e3b1",
+                            Id = "dc327fa7-a985-4f97-b2a1-85b8189338ea",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
-                            Id = "351b031f-2385-421d-9d28-1a46079b23ad",
+                            Id = "c6808e4e-364b-4bc0-96e3-b5a67fd5c8de",
                             Name = "Randonneur",
                             NormalizedName = "RANDONNEUR"
                         });
@@ -155,15 +152,15 @@ namespace arsoudServeur.Data.Migrations
                         {
                             Id = "11111111-1111-1111-1111-111111111111",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "ed603329-6e19-4023-becb-ff0018f698f2",
+                            ConcurrencyStamp = "329b37c4-a036-4bd6-ab3f-bd6b3516328d",
                             Email = "admin@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@GMAIL.COM",
                             NormalizedUserName = "ADMIN@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEFcCf33+urGi6c0Z/A1229mukAy6CvEvHb25Qot7+pVZen/J0Nd1Dvp8stfL9xjRSw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEJlW9PrtGUBE5mLDwF+7zq/OrtomV5nyr/AwDSR8aRZ3luCrsk1VHIT2hYGFyZTXog==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "b7795d44-c87f-49bd-8b0d-8814c9b5fb46",
+                            SecurityStamp = "5f6f494f-1c03-46a2-bcfc-2cabb7ca0b94",
                             TwoFactorEnabled = false,
                             UserName = "admin@gmail.com"
                         },
@@ -171,15 +168,15 @@ namespace arsoudServeur.Data.Migrations
                         {
                             Id = "11111111-1111-1111-1111-111111111112",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "5690ff58-9fce-4505-ad0d-a3a09499960f",
+                            ConcurrencyStamp = "8331c80b-0874-4048-9ced-66b1a6d5fcb1",
                             Email = "user1@hotmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "USER1@HOTMAIL.COM",
                             NormalizedUserName = "USER1@HOTMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEA2OjTUEP5Y45P8hcQbFyCb1XRjMTITwPG8p4nFzqw68qFEYjuT2EHgVLFsmGbAF6A==",
+                            PasswordHash = "AQAAAAIAAYagAAAAED/y0LiCHYe55gmWsYMxs2pXkPybk1qjDYKzIdZFafGSLg2QvlmV8rjs7MZAmM1bnw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "8b65f12b-110e-4f24-93d0-fc38ef10282b",
+                            SecurityStamp = "7920f5cd-49e2-457a-bd58-e874167f4dd6",
                             TwoFactorEnabled = false,
                             UserName = "user1@hotmail.com"
                         },
@@ -187,15 +184,15 @@ namespace arsoudServeur.Data.Migrations
                         {
                             Id = "11111111-1111-1111-1111-111111111113",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "079ec84b-1ffe-49a9-bdf4-1c777962060b",
+                            ConcurrencyStamp = "7604b163-c1d2-461e-9954-9b4b0322deb8",
                             Email = "user2@hotmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "USER2@HOTMAIL.COM",
                             NormalizedUserName = "USER2@HOTMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEK/5enK2ChEPh2qrVK2ZgPuucjz9qo54u3OPGMwTL75uaKpILx6LqrO0FxQGy+4AsQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEMWiYlovGPkLIiDaKDuuRcLICnf/Gc+J/LD9DF/a73irS2YL5OeTS15yIeHhPd+ZaQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "7fe46aff-3623-4f1c-93f5-0b27991f509f",
+                            SecurityStamp = "4758f4f0-568c-49a8-910e-954518729bab",
                             TwoFactorEnabled = false,
                             UserName = "user2@hotmail.com"
                         });
@@ -266,17 +263,17 @@ namespace arsoudServeur.Data.Migrations
                         new
                         {
                             UserId = "11111111-1111-1111-1111-111111111111",
-                            RoleId = "9cd47377-af01-4761-8e4d-151a1c32e3b1"
+                            RoleId = "dc327fa7-a985-4f97-b2a1-85b8189338ea"
                         },
                         new
                         {
                             UserId = "11111111-1111-1111-1111-111111111112",
-                            RoleId = "351b031f-2385-421d-9d28-1a46079b23ad"
+                            RoleId = "c6808e4e-364b-4bc0-96e3-b5a67fd5c8de"
                         },
                         new
                         {
                             UserId = "11111111-1111-1111-1111-111111111113",
-                            RoleId = "351b031f-2385-421d-9d28-1a46079b23ad"
+                            RoleId = "c6808e4e-364b-4bc0-96e3-b5a67fd5c8de"
                         });
                 });
 

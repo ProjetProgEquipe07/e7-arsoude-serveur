@@ -27,7 +27,7 @@ namespace arsoudeServeur.Models.DTOs
         public string codePostal { get; set; }
 
         //Optionnel
-        public string adresse { get; set; }
+        public string adresse { get; set; } = null;
 
         // TODO : doit être valide (currentYear - 100)
         public int anneeDeNaissance { get; set; }

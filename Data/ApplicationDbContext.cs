@@ -44,9 +44,7 @@ namespace arsoudServeur.Data
 
                 NormalizedUserName = "ADMIN@GMAIL.COM",
                 NormalizedEmail = "ADMIN@GMAIL.COM",
-                EmailConfirmed = true,
-
-                PasswordHash = hasher.HashPassword(null, "Admin1!")
+                EmailConfirmed = true
             };
             IdentityUser utilisateur1 = new IdentityUser
             {
@@ -56,9 +54,7 @@ namespace arsoudServeur.Data
 
                 NormalizedUserName = "USER1@HOTMAIL.COM",
                 NormalizedEmail = "USER1@HOTMAIL.COM",
-                EmailConfirmed = true,
-
-                PasswordHash = hasher.HashPassword(null, "Passw0rd!")
+                EmailConfirmed = true
             };
             IdentityUser utilisateur2 = new IdentityUser
             {
@@ -68,10 +64,11 @@ namespace arsoudServeur.Data
 
                 NormalizedUserName = "USER2@HOTMAIL.COM",
                 NormalizedEmail = "USER2@HOTMAIL.COM",
-                EmailConfirmed = true,
-
-                PasswordHash = hasher.HashPassword(null, "Passw0rd!")
+                EmailConfirmed = true
             };
+            adminUser.PasswordHash = hasher.HashPassword(adminUser, "Passw0rd!");
+            utilisateur1.PasswordHash = hasher.HashPassword(utilisateur1, "Passw0rd!");
+            utilisateur2.PasswordHash = hasher.HashPassword(utilisateur2, "Passw0rd!");
 
             builder.Entity<IdentityUser>().HasData(adminUser, utilisateur1, utilisateur2);
 
