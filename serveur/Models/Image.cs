@@ -9,8 +9,8 @@ namespace arsoudeServeur.Models
         public string lien { get; set; }
 
         // Clé étrangère 
-        public int? randonnéeId { get; set; }
+        public int? randonneeId { get; set; }
         [JsonIgnore]
-        public virtual Randonnée? randonnée { get; set; }
+        public virtual Randonnee? randonnee { get; set; }
     }
 }

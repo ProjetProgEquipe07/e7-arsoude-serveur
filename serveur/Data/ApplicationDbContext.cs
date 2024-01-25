@@ -127,7 +127,7 @@ namespace arsoudServeur.Data
             };
 
             builder.Entity<Utilisateur>().HasData(utilisateurs);
-            Randonnée rando1 = new Randonnée
+            Randonnee rando1 = new Randonnee
             {
                 id = 1,
                 nom = "st-brun",
@@ -141,9 +141,9 @@ namespace arsoudServeur.Data
                 //GPS = new List<GPS> { donnee1, donnee2 },
                 //imageId = 1
                 utilisateurId = 1,
-                TypeRandonnée = (Randonnée.Type)Enum.Parse(typeof(Randonnée.Type), "Marche"),
+                typeRandonnee = (Randonnee.Type)Enum.Parse(typeof(Randonnee.Type), "Marche"),
             };
-            builder.Entity<Randonnée>().HasData(rando1);
+            builder.Entity<Randonnee>().HasData(rando1);
 
             GPS donnee1 = new GPS
             {
@@ -151,7 +151,7 @@ namespace arsoudServeur.Data
                 X = 45.53665313486474,
                 Y = -73.49497434095912,
                 Depart = true,
-                randonnéeId = 1,
+                randonneeId = 1,
             };
             builder.Entity<GPS>().HasData(donnee1);
             GPS donnee2 = new GPS
@@ -160,14 +160,14 @@ namespace arsoudServeur.Data
                 X = 45.63665313486474,
                 Y = -73.59497434095912,
                 Arrivee = true,
-                randonnéeId = 1,
+                randonneeId = 1,
             };
             builder.Entity<GPS>().HasData(donnee2);
             Image image1 = new Image
             {
                 id = 1,
                 lien = "https://stbruno.ca/culture/wp-content/uploads/2016/08/23_lacsmontagne_actuelle_01-600x400.jpg",
-                randonnéeId = 1,
+                randonneeId = 1,
             };
             builder.Entity<Image>().HasData(image1);
 
@@ -194,7 +194,7 @@ namespace arsoudServeur.Data
                     .OnDelete(DeleteBehavior.Cascade);*/
         }
         public DbSet<Utilisateur> utilisateurs { get; set; } = default!;
-        public DbSet<Randonnée> randonnées { get; set; } = default!;
+        public DbSet<Randonnee> randonnees { get; set; } = default!;
         public DbSet<Image> images { get; set; } = default!;
         public DbSet<GPS> gps { get; set; } = default!;
         public DbSet<Commentaire> commentaires { get; set; } = default!;

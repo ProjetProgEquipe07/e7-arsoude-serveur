@@ -1,5 +1,7 @@
 ﻿using arsoudeServeur.Models;
+using arsoudeServeur.Models.DTOs;
 using arsoudServeur.Data;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace arsoudeServeur.Services
@@ -13,19 +15,34 @@ namespace arsoudeServeur.Services
             _context = context;
         }
 
-        public async Task<List<Randonnee>> GetAllRandonneesAsync()
+        public async Task<List<Randonnee>> GetAllRandonneesAsync(int idMin, int idMax)
         {
-            return await _context.randonnées.ToListAsync();
+            return await _context.randonnees.Where(r => r.id >= idMin && r.id <= idMax).ToListAsync();
         }
 
         public async Task<Randonnee> GetRandonneeByIdAsync(int id)
         {
-            return await _context.randonnées.FindAsync(id);
+            return await _context.randonnees.FindAsync(id);
         }
 
-        public async Task<Randonnee> CreateRandonneeAsync(Randonnee randonnee)
+        public async Task<Randonnee> CreateRandonneeAsync(RandonneeDTO randonneeDTO, Utilisateur user)
         {
-            _context.randonnées.Add(randonnee);
+            // Trouver le currentUser et l'associer à la randonnée 
+            // 
+
+            
+            Randonnee randonnee = new Randonnee
+            {
+                id= 0,
+                nom = randonneeDTO.nom,
+                description = randonneeDTO.description,
+                emplacement = randonneeDTO.emplacement,
+                typeRandonnee = (Randonnee.Type)randonneeDTO.typeRandonnee,
+                GPS = randonneeDTO.gps,
+                utilisateur = user
+
+            };
+            _context.randonnees.Add(randonnee);
             await _context.SaveChangesAsync();
             return randonnee;
         }
@@ -60,13 +77,13 @@ namespace arsoudeServeur.Services
 
         public async Task<bool> DeleteRandonneeAsync(int id)
         {
-            var randonnee = await _context.randonnées.FindAsync(id);
+            var randonnee = await _context.randonnees.FindAsync(id);
             if (randonnee == null)
             {
                 return false;
             }
 
-            _context.randonnées.Remove(randonnee);
+            _context.randonnees.Remove(randonnee);
             await _context.SaveChangesAsync();
 
             return true;
@@ -74,7 +91,7 @@ namespace arsoudeServeur.Services
 
         private bool RandonneeExists(int id)
         {
-            return _context.randonnées.Any(e => e.id == id);
+            return _context.randonnees.Any(e => e.id == id);
         }
     }
 }

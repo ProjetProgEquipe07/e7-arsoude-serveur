@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\e7-arsoud-serveur\arsoudeServeur.csproj" />
+    <ProjectReference Include="..\Serveur\arsoudeServeur.csproj" />
   </ItemGroup>
 
 </Project>

@@ -382,3 +382,6 @@ C:\Users\1680229\Desktop\e7\Serveur\Tests\obj\Debug\net7.0\refint\Tests.dll
 C:\Users\1680229\Desktop\e7\Serveur\Tests\obj\Debug\net7.0\Tests.pdb
 C:\Users\1680229\Desktop\e7\Serveur\Tests\obj\Debug\net7.0\Tests.genruntimeconfig.cache
 C:\Users\1680229\Desktop\e7\Serveur\Tests\obj\Debug\net7.0\ref\Tests.dll
+C:\Users\2151688\Desktop\e7-arsoude-serveur\Tests\obj\Debug\net7.0\Tests.dll
+C:\Users\2151688\Desktop\e7-arsoude-serveur\Tests\obj\Debug\net7.0\refint\Tests.dll
+C:\Users\2151688\Desktop\e7-arsoude-serveur\Tests\obj\Debug\net7.0\Tests.pdb

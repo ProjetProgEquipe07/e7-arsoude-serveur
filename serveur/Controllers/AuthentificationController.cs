@@ -18,14 +18,10 @@ namespace arsoudeServeur.Controllers
     public class AuthentificationController : BaseController
     {
         UserManager<IdentityUser> userManager;
-        IConfiguration configuration;
-        SignInManager<IdentityUser> signInManager;
 
-        public AuthentificationController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, UtilisateursService utilisateursService, IConfiguration configuration) : base(utilisateursService)
+        public AuthentificationController(UserManager<IdentityUser> userManager, UtilisateursService utilisateursService) : base(utilisateursService)
         {
             this.userManager = userManager;
-            this.signInManager = signInManager;
-            this.configuration = configuration;
 
         }
 
@@ -50,7 +46,7 @@ namespace arsoudeServeur.Controllers
             };
             IdentityResult identityResult = await userManager.CreateAsync(user, register.motDePasse);
 
-            await utilisateursService.PostUtilisateurFromIdentityUserId(user.Id);
+            await utilisateursService.PostUtilisateurFromIdentityUserId(user.Id, register);
             if (!identityResult.Succeeded)
             {
                 return BadRequest(identityResult);
@@ -108,11 +104,11 @@ namespace arsoudeServeur.Controllers
              return NotFound(new { Error = "L'utilisateur est introuvable ou le mot de passe de concorde pas" });
          }*/
 
-        [HttpGet]
+        /*[HttpGet]
         public async Task<ActionResult> Logout()
         {
             await signInManager.SignOutAsync();
             return Ok();
-        }
+        }*/
     }
 }

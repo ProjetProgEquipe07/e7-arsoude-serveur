@@ -3871,19 +3871,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\1680229\\.nuget\\packages\\": {}
+    "C:\\Users\\2050357\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\1680229\\Desktop\\e7\\Serveur\\e7-arsoud-serveur\\arsoudeServeur.csproj",
+      "projectUniqueName": "C:\\Users\\2050357\\Desktop\\e7-arsoude-serveur\\serveur\\arsoudeServeur.csproj",
       "projectName": "arsoudeServeur",
-      "projectPath": "C:\\Users\\1680229\\Desktop\\e7\\Serveur\\e7-arsoud-serveur\\arsoudeServeur.csproj",
-      "packagesPath": "C:\\Users\\1680229\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\1680229\\Desktop\\e7\\Serveur\\e7-arsoud-serveur\\obj\\",
+      "projectPath": "C:\\Users\\2050357\\Desktop\\e7-arsoude-serveur\\serveur\\arsoudeServeur.csproj",
+      "packagesPath": "C:\\Users\\2050357\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\2050357\\Desktop\\e7-arsoude-serveur\\serveur\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\1680229\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\2050357\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -3891,7 +3891,7 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "C:\\Program Files\\dotnet\\sdk\\7.0.310\\Sdks\\Microsoft.NET.Sdk.Web\\library-packs": {},
+        "C:\\Program Files\\dotnet\\sdk\\7.0.311\\Sdks\\Microsoft.NET.Sdk.Web\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -3968,7 +3968,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.310\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.311\\RuntimeIdentifierGraph.json"
       }
     }
   }
