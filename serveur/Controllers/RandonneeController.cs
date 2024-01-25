@@ -11,20 +11,20 @@ namespace arsoudeServeur.Controllers
     //[Authorize]
     public class RandonneeController : BaseController
     {
-        private readonly RandonnéesService _randonnéeService;
-        public RandonneeController(UtilisateursService utilisateursService, RandonnéesService randonnéeService) : base(utilisateursService)
+        private readonly RandonneesService _randonnéeService;
+        public RandonneeController(UtilisateursService utilisateursService, RandonneesService randonnéeService) : base(utilisateursService)
         {
             _randonnéeService = randonnéeService;
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Randonnée>>> GetRandonnees()
+        public async Task<ActionResult<IEnumerable<Randonnee>>> GetRandonnees()
         {
             return await _randonnéeService.GetAllRandonneesAsync();
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Randonnée>> GetRandonnee(int id)
+        public async Task<ActionResult<Randonnee>> GetRandonnee(int id)
         {
             var randonnee = await _randonnéeService.GetRandonneeByIdAsync(id);
 
@@ -37,14 +37,14 @@ namespace arsoudeServeur.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Randonnée>> CreateRandonnee(Randonnée randonnee)
+        public async Task<ActionResult<Randonnee>> CreateRandonnee(Randonnee randonnee)
         {
             var newRandonnee = await _randonnéeService.CreateRandonneeAsync(randonnee);
             return CreatedAtAction(nameof(GetRandonnee), new { id = newRandonnee.id }, newRandonnee);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> EditRandonnee(int id, Randonnée randonnee)
+        public async Task<IActionResult> EditRandonnee(int id, Randonnee randonnee)
         {
             var success = await _randonnéeService.UpdateRandonneeAsync(id, randonnee);
 

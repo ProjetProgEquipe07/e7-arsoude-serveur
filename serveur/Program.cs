@@ -51,7 +51,7 @@ builder.Services.AddAuthentication(options =>
 });
 
 
-builder.Services.AddScoped<RandonnéesService>();
+builder.Services.AddScoped<RandonneesService>();
 builder.Services.AddScoped<UtilisateursService>();
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 

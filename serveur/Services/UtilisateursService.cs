@@ -1,4 +1,5 @@
 ﻿using arsoudeServeur.Models;
+using arsoudeServeur.Models.DTOs;
 using arsoudeServeur.Services.Interfaces;
 using arsoudServeur.Data;
 using Microsoft.EntityFrameworkCore;
@@ -21,7 +22,7 @@ namespace arsoudeServeur.Services
         }
 
 
-        public async Task PostUtilisateurFromIdentityUserId(string identityUserId)
+        public async Task PostUtilisateurFromIdentityUserId(string identityUserId, RegisterDTO register)
         {
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == identityUserId);
             if (user == null)
@@ -33,9 +34,20 @@ namespace arsoudeServeur.Services
             await _context.utilisateurs.AddAsync(new Utilisateur()
             {
                 identityUserId = identityUserId,
+                courriel = register.courriel,
+                prenom = register.prénom,
+                nom = register.nom,
+                codePostal = register.codePostal,
+                anneeDeNaissance = register.anneeDeNaissance,
+                moisDeNaissance = register.moisDeNaissance,
+                adresse = register.adresse
             });
             await _context.SaveChangesAsync();
         }
 
+        public Task PostUtilisateurFromIdentityUserId(string identityUserId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

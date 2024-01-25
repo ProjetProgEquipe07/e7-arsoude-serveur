@@ -2,7 +2,7 @@
 
 namespace arsoudeServeur.Models
 {
-    public class Randonnée
+    public class Randonnee
     {
         public int id { get; set; }
 
