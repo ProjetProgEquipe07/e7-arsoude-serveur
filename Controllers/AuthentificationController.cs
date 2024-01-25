@@ -35,34 +35,6 @@ namespace arsoudeServeur.Controllers
             return UtilisateurCourant;
         }
 
-        /* [HttpPost]
-         public async Task<ActionResult> Register(RegisterDTO register)
-         {
-             if (register.motDePasse != register.confirmationMotDePasse)
-             {
-                 return StatusCode(StatusCodes.Status500InternalServerError, new { Error = "Le mot de passe et la confirmation ne sont pas identique" });
-             }
-
-             IdentityUser user = new IdentityUser()
-             {
-                 UserName = register.pseudo,
-                 Email = register.courriel
-             };
-             IdentityResult identityResult = await this.userManager.CreateAsync(user, register.motDePasse);
-
-             if (!identityResult.Succeeded)
-             {
-                 return StatusCode(StatusCodes.Status500InternalServerError, new { Error = identityResult.Errors });
-             }
-
-             //await utilisateursService.PostUtilisateurFromIdentityUserId(user.Id);
-             var result = await signInManager.PasswordSignInAsync(register.pseudo, register.motDePasse, true, lockoutOnFailure: false);
-             if (result.Succeeded)
-             {
-                 return Ok();
-             }
-             return Ok();
-         }*/
         [HttpPost]
         public async Task<ActionResult> Register([FromBody] RegisterDTO register)
         {
@@ -78,7 +50,7 @@ namespace arsoudeServeur.Controllers
             };
             IdentityResult identityResult = await userManager.CreateAsync(user, register.motDePasse);
 
-            //await utilisateursService.PostUtilisateurFromIdentityUserId(user.Id);
+            await utilisateursService.PostUtilisateurFromIdentityUserId(user.Id);
             if (!identityResult.Succeeded)
             {
                 return BadRequest(identityResult);
