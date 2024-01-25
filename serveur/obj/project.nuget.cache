@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Rc2/n9ZxIgC7MwRRrgbBjRDvgZQqQ0s5h5xy+oY4vxo9MNr/9ZVBMSzZu5FbKRueIr76c0JZ1efhGw9xxSzGTQ==",
+  "dgSpecHash": "nbnVzMh4vLCBOy6T5MRQ1lV5RCQLPYN/H8uTP8b7cUGfemTtgjrtUFoqYtU+Iza+Hyr4Dlo+n4n2zDPhRpJLXg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\1680229\\Desktop\\e7\\Serveur\\e7-arsoud-serveur\\arsoudeServeur.csproj",
+  "projectFilePath": "C:\\Users\\1680229\\Desktop\\e7\\e7-arsoude-serveur\\serveur\\arsoudeServeur.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\1680229\\.nuget\\packages\\azure.core\\1.25.0\\azure.core.1.25.0.nupkg.sha512",
     "C:\\Users\\1680229\\.nuget\\packages\\azure.identity\\1.7.0\\azure.identity.1.7.0.nupkg.sha512",

@@ -2,7 +2,7 @@
 
 namespace arsoudeServeur.Models
 {
-    public class Randonnée
+    public class Randonnee
     {
         public int id { get; set; }
 
@@ -17,7 +17,7 @@ namespace arsoudeServeur.Models
 
         [Required(ErrorMessage = "La propriété est obligatoire.")]
         public string emplacement { get; set; }
-        public Type TypeRandonnée { get; set; }
+        public Type typeRandonnee { get; set; }
 
         /*public virtual int? pointDépartId { get; set; }
         [Required(ErrorMessage = "La propriété est obligatoire.")]
@@ -31,8 +31,8 @@ namespace arsoudeServeur.Models
         public virtual List<GPS> GPS { get; set; } = new List<GPS>();
 
         //public virtual int? imageId { get; set; }
-        [Required(ErrorMessage = "La propriété est obligatoire.")]
-        public virtual Image image { get; set; }
+        //[Required(ErrorMessage = "La propriété est obligatoire.")]
+        //public virtual Image image { get; set; }
 
 
         public enum Type

@@ -46,12 +46,12 @@ builder.Services.AddAuthentication(options =>
     {
         ValidateAudience = false,
         ValidateIssuer = false,
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Secret"]!))
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("this is my custom Secret key for authentication"))
     };
 });
 
 
-builder.Services.AddScoped<RandonnéesService>();
+builder.Services.AddScoped<RandonneesService>();
 builder.Services.AddScoped<UtilisateursService>();
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 

@@ -127,7 +127,7 @@ namespace arsoudServeur.Data
             };
 
             builder.Entity<Utilisateur>().HasData(utilisateurs);
-            Randonnée rando1 = new Randonnée
+            Randonnee rando1 = new Randonnee
             {
                 id = 1,
                 nom = "st-brun",
@@ -141,9 +141,9 @@ namespace arsoudServeur.Data
                 //GPS = new List<GPS> { donnee1, donnee2 },
                 //imageId = 1
                 utilisateurId = 1,
-                TypeRandonnée = (Randonnée.Type)Enum.Parse(typeof(Randonnée.Type), "Marche"),
+                typeRandonnee = (Randonnee.Type)Enum.Parse(typeof(Randonnee.Type), "Marche"),
             };
-            builder.Entity<Randonnée>().HasData(rando1);
+            builder.Entity<Randonnee>().HasData(rando1);
 
             GPS donnee1 = new GPS
             {
@@ -194,7 +194,7 @@ namespace arsoudServeur.Data
                     .OnDelete(DeleteBehavior.Cascade);*/
         }
         public DbSet<Utilisateur> utilisateurs { get; set; } = default!;
-        public DbSet<Randonnée> randonnées { get; set; } = default!;
+        public DbSet<Randonnee> randonnees { get; set; } = default!;
         public DbSet<Image> images { get; set; } = default!;
         public DbSet<GPS> gps { get; set; } = default!;
         public DbSet<Commentaire> commentaires { get; set; } = default!;
