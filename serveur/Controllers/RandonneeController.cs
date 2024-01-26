@@ -17,10 +17,10 @@ namespace arsoudeServeur.Controllers
             _randonnéeService = randonnéeService;
         }
 
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Randonnee>>> GetRandonnees()
+        [HttpGet("{idMin}/{idMax}")]
+        public async Task<ActionResult<IEnumerable<Randonnee>>> GetRandonnees(int idMin, int idMax)
         {
-            return await _randonnéeService.GetAllRandonneesAsync();
+            return await _randonnéeService.GetAllRandonneesAsync(idMin,idMax);
         }
 
         [HttpGet("{id}")]

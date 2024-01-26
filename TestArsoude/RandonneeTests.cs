@@ -21,7 +21,7 @@ namespace Tests.Controllers
             var controller = new RandonneeController(null, mockRandonneeService.Object);
 
             // Act
-            var result = await controller.GetRandonnees();
+            var result = await controller.GetRandonnees(0,1);
 
             // Assert
             Assert.IsInstanceOfType(result, typeof(ActionResult<IEnumerable<Randonnee>>));

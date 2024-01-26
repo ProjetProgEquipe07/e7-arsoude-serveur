@@ -5803,12 +5803,13 @@
     },
     "arsoudeServeur/1.0.0": {
       "type": "project",
-      "path": "../arsoudeServeur.csproj",
-      "msbuildProject": "../arsoudeServeur.csproj"
+      "path": "../serveur/arsoudeServeur.csproj",
+      "msbuildProject": "../serveur/arsoudeServeur.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net7.0": [
+      "C:\\Users\\1680229\\Desktop\\e7\\e7-arsoude-serveur\\arsoudeServeur.csproj",
       "MSTest.TestAdapter >= 2.2.10",
       "MSTest.TestFramework >= 2.2.10",
       "Microsoft.EntityFrameworkCore.InMemory >= 7.0.15",
@@ -5819,19 +5820,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\2151688\\.nuget\\packages\\": {}
+    "C:\\Users\\1680229\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\2151688\\Desktop\\e7-arsoude-serveur\\TestArsoude\\TestArsoude.csproj",
+      "projectUniqueName": "C:\\Users\\1680229\\Desktop\\e7\\e7-arsoude-serveur\\TestArsoude\\TestArsoude.csproj",
       "projectName": "TestArsoude",
-      "projectPath": "C:\\Users\\2151688\\Desktop\\e7-arsoude-serveur\\TestArsoude\\TestArsoude.csproj",
-      "packagesPath": "C:\\Users\\2151688\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\2151688\\Desktop\\e7-arsoude-serveur\\TestArsoude\\obj\\",
+      "projectPath": "C:\\Users\\1680229\\Desktop\\e7\\e7-arsoude-serveur\\TestArsoude\\TestArsoude.csproj",
+      "packagesPath": "C:\\Users\\1680229\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\1680229\\Desktop\\e7\\e7-arsoude-serveur\\TestArsoude\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\2151688\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\1680229\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -5845,11 +5846,11 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "projectReferences": {
-            "C:\\Users\\2151688\\Desktop\\e7-arsoude-serveur\\arsoudeServeur.csproj": {
-              "projectPath": "C:\\Users\\2151688\\Desktop\\e7-arsoude-serveur\\arsoudeServeur.csproj"
+            "C:\\Users\\1680229\\Desktop\\e7\\e7-arsoude-serveur\\arsoudeServeur.csproj": {
+              "projectPath": "C:\\Users\\1680229\\Desktop\\e7\\e7-arsoude-serveur\\arsoudeServeur.csproj"
             },
-            "C:\\Users\\2151688\\Desktop\\e7-arsoude-serveur\\Serveur\\arsoudeServeur.csproj": {
-              "projectPath": "C:\\Users\\2151688\\Desktop\\e7-arsoude-serveur\\Serveur\\arsoudeServeur.csproj"
+            "C:\\Users\\1680229\\Desktop\\e7\\e7-arsoude-serveur\\Serveur\\arsoudeServeur.csproj": {
+              "projectPath": "C:\\Users\\1680229\\Desktop\\e7\\e7-arsoude-serveur\\Serveur\\arsoudeServeur.csproj"
             }
           }
         }
@@ -5905,8 +5906,19 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.311\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.310\\RuntimeIdentifierGraph.json"
       }
     }
-  }
+  },
+  "logs": [
+    {
+      "code": "NU1104",
+      "level": "Error",
+      "message": "Projet 'C:\\Users\\1680229\\Desktop\\e7\\e7-arsoude-serveur\\arsoudeServeur.csproj' introuvable. Vérifiez que la référence de projet est valide et que le fichier projet existe.",
+      "libraryId": "C:\\Users\\1680229\\Desktop\\e7\\e7-arsoude-serveur\\arsoudeServeur.csproj",
+      "targetGraphs": [
+        "net7.0"
+      ]
+    }
+  ]
 }

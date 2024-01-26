@@ -13,9 +13,9 @@ namespace arsoudeServeur.Services
             _context = context;
         }
 
-        public async Task<List<Randonnee>> GetAllRandonneesAsync()
+        public async Task<List<Randonnee>> GetAllRandonneesAsync(int idMin, int idMax)
         {
-            return await _context.randonnées.ToListAsync();
+            return await _context.randonnées.Where(r => r.id >= idMin && r.id <= idMax).ToListAsync();
         }
 
         public async Task<Randonnee> GetRandonneeByIdAsync(int id)

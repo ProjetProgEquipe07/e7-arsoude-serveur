@@ -17,7 +17,7 @@ namespace arsoudeServeur.Models
 
         [Required(ErrorMessage = "La propriété est obligatoire.")]
         public string emplacement { get; set; }
-        public Type TypeRandonnée { get; set; }
+        public Type TypeRandonnee { get; set; }
 
         /*public virtual int? pointDépartId { get; set; }
         [Required(ErrorMessage = "La propriété est obligatoire.")]
