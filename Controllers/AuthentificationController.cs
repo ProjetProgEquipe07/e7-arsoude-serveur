@@ -17,12 +17,15 @@ namespace arsoudeServeur.Controllers
     [ApiController]
     public class AuthentificationController : BaseController
     {
-        UserManager<IdentityUser> userManager;
+        private readonly UserManager<IdentityUser> userManager;
+        private readonly SignInManager<IdentityUser> signInManager;
+        private readonly ILogger<AuthentificationController> logger;
 
-        public AuthentificationController(UserManager<IdentityUser> userManager, UtilisateursService utilisateursService) : base(utilisateursService)
+        public AuthentificationController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, ILogger<AuthentificationController> logger,UtilisateursService utilisateursService) : base(utilisateursService)
         {
             this.userManager = userManager;
-
+            this.signInManager = signInManager;
+            this.logger = logger;
         }
 
         [HttpGet]
@@ -46,6 +49,19 @@ namespace arsoudeServeur.Controllers
             };
             IdentityResult identityResult = await userManager.CreateAsync(user, register.motDePasse);
 
+            if(identityResult.Succeeded)
+            {
+                var token = await userManager.GenerateEmailConfirmationTokenAsync(user);
+
+                var confirmationLink = Url.Action("ConfirmEmail", "Account",
+                    new { userId = user.Id, token = token }, Request.Scheme);
+                logger.Log(LogLevel.Warning, confirmationLink);
+                if(signInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+                {
+                    return Ok();
+                }
+                
+            }
             await utilisateursService.PostUtilisateurFromIdentityUserId(user.Id, register);
             if (!identityResult.Succeeded)
             {
@@ -91,6 +107,27 @@ namespace arsoudeServeur.Controllers
 
             return BadRequest(new { Error = "L'utilisateur est introuvable ou le mot de passe de concorde pas" });
         }
+
+        [HttpGet]
+        public async Task<IActionResult> ConfirmEmail(string userId, string token)
+        {
+            if(userId == null || token == null)
+            { return Ok(); }
+
+            var user = await userManager.FindByIdAsync(userId);
+
+            if (user == null)
+            {
+                return BadRequest(new { Error = $"L'identifiant de l'utilisateur {userId} est invalide" });
+            }
+            var result = await userManager.ConfirmEmailAsync(user, token);
+            if (result.Succeeded)
+            {
+                return Ok("Courriel confirmé");
+            }
+            return BadRequest(new { Error = "Le courriel ne peut pas être confirmé" });
+        }
+
 
         /* [HttpPost]
          public async Task<ActionResult> Login(LoginDTO login)
