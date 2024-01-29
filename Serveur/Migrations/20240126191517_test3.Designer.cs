@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using arsoudServeur.Data;
 
@@ -10,9 +11,11 @@ using arsoudServeur.Data;
 namespace arsoudeServeur.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240126191517_test3")]
+    partial class test3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -49,13 +52,13 @@ namespace arsoudeServeur.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "9f034f51-1cda-4ef3-89eb-fa5fd3392606",
+                            Id = "37bd7b38-3ccb-4349-8e48-92cc5ff2b92d",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
-                            Id = "f93557c5-9223-4648-9863-6b4337a2b303",
+                            Id = "e65df771-3bed-4420-9516-280768d4dd5a",
                             Name = "Randonneur",
                             NormalizedName = "RANDONNEUR"
                         });
@@ -152,15 +155,15 @@ namespace arsoudeServeur.Migrations
                         {
                             Id = "11111111-1111-1111-1111-111111111111",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "d9925239-2b42-4687-ab81-2f203a42e78f",
+                            ConcurrencyStamp = "cffe5fa0-4ce4-43e6-aa50-a515535dc2ec",
                             Email = "admin@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@GMAIL.COM",
                             NormalizedUserName = "ADMIN@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEGXjfBEt1rsqdmqafPL55kUxbUXSOrhG1ZXhnLuhFqaiHwS9BbDxOgUhQyM0irG7kg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEHeTP1LPUB7bNZtFQo5vikbO10deLENvfT8yU6vvn0O3amyhojT1x9SUULKDK36URQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "db411e6c-a476-4890-a685-d562120fe357",
+                            SecurityStamp = "07b82b91-8279-4389-b2d5-6d47c0164054",
                             TwoFactorEnabled = false,
                             UserName = "admin@gmail.com"
                         },
@@ -168,15 +171,15 @@ namespace arsoudeServeur.Migrations
                         {
                             Id = "11111111-1111-1111-1111-111111111112",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "554695d6-988f-4020-9bcb-3b76f11daf01",
+                            ConcurrencyStamp = "a9305db4-650e-486c-8b7b-53a0c1e8ba69",
                             Email = "user1@hotmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "USER1@HOTMAIL.COM",
                             NormalizedUserName = "USER1@HOTMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEETtS76n+S/yZVZeprdjdSdGLdq2ZKPkEtBxopJnIUWt2URNTlESJ/Ie2FE6GaXseQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEFlMuHKndzs9fyBbDKl5QxeFLv/FxAmEKn/gtpsiSBHejNu3nSr5nl8CO283qS+fiQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "ad84191b-0b51-4bc5-9803-1a98b4114824",
+                            SecurityStamp = "20bb695b-a4c3-4842-9c18-ed43fe3a1dc6",
                             TwoFactorEnabled = false,
                             UserName = "user1@hotmail.com"
                         },
@@ -184,15 +187,15 @@ namespace arsoudeServeur.Migrations
                         {
                             Id = "11111111-1111-1111-1111-111111111113",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "cd9238e9-7a88-4e4f-80a9-bf818fa74cb5",
+                            ConcurrencyStamp = "bf30664d-8926-4243-bb9f-21cebba68bc6",
                             Email = "user2@hotmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "USER2@HOTMAIL.COM",
                             NormalizedUserName = "USER2@HOTMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEAabSmgr2yooF6uMTzEf2LPmEi7uehURHC/MORQGOcTessdtWZ1O6ySO9EP9boqEGQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEECpHjTuE44pRImCKaT/yRIZKMDHIg3KcM4aRcza9xdf96MdeBjOHCDAgSknZO1znA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "29105f63-6130-4149-9525-3900e92fb620",
+                            SecurityStamp = "865a1db6-e12b-4534-9fda-88431c21ecdb",
                             TwoFactorEnabled = false,
                             UserName = "user2@hotmail.com"
                         });
@@ -263,17 +266,17 @@ namespace arsoudeServeur.Migrations
                         new
                         {
                             UserId = "11111111-1111-1111-1111-111111111111",
-                            RoleId = "9f034f51-1cda-4ef3-89eb-fa5fd3392606"
+                            RoleId = "37bd7b38-3ccb-4349-8e48-92cc5ff2b92d"
                         },
                         new
                         {
                             UserId = "11111111-1111-1111-1111-111111111112",
-                            RoleId = "f93557c5-9223-4648-9863-6b4337a2b303"
+                            RoleId = "e65df771-3bed-4420-9516-280768d4dd5a"
                         },
                         new
                         {
                             UserId = "11111111-1111-1111-1111-111111111113",
-                            RoleId = "f93557c5-9223-4648-9863-6b4337a2b303"
+                            RoleId = "e65df771-3bed-4420-9516-280768d4dd5a"
                         });
                 });
 
@@ -397,24 +400,6 @@ namespace arsoudeServeur.Migrations
                             id = 1,
                             lien = "https://stbruno.ca/culture/wp-content/uploads/2016/08/23_lacsmontagne_actuelle_01-600x400.jpg",
                             randonneeId = 1
-                        },
-                        new
-                        {
-                            id = 2,
-                            lien = "https://stbruno.ca/culture/wp-content/uploads/2016/08/23_lacsmontagne_actuelle_01-600x400.jpg",
-                            randonneeId = 2
-                        },
-                        new
-                        {
-                            id = 3,
-                            lien = "https://stbruno.ca/culture/wp-content/uploads/2016/08/23_lacsmontagne_actuelle_01-600x400.jpg",
-                            randonneeId = 3
-                        },
-                        new
-                        {
-                            id = 4,
-                            lien = "https://stbruno.ca/culture/wp-content/uploads/2016/08/23_lacsmontagne_actuelle_01-600x400.jpg",
-                            randonneeId = 4
                         });
                 });
 

@@ -5,6 +5,8 @@ VisualStudioVersion = 17.6.33829.357
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "arsoudeServeur", "arsoudeServeur.csproj", "{446C019D-4AE5-42B9-A051-7DC2777929FF}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestArsoude", "..\TestArsoude\TestArsoude.csproj", "{9CD916B0-53B4-4F22-A14F-C1C2AEA8714C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{446C019D-4AE5-42B9-A051-7DC2777929FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{446C019D-4AE5-42B9-A051-7DC2777929FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{446C019D-4AE5-42B9-A051-7DC2777929FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9CD916B0-53B4-4F22-A14F-C1C2AEA8714C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9CD916B0-53B4-4F22-A14F-C1C2AEA8714C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9CD916B0-53B4-4F22-A14F-C1C2AEA8714C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9CD916B0-53B4-4F22-A14F-C1C2AEA8714C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

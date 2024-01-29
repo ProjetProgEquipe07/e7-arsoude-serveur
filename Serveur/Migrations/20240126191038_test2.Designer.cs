@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using arsoudServeur.Data;
 
@@ -10,9 +11,11 @@ using arsoudServeur.Data;
 namespace arsoudeServeur.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240126191038_test2")]
+    partial class test2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -49,13 +52,13 @@ namespace arsoudeServeur.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "9f034f51-1cda-4ef3-89eb-fa5fd3392606",
+                            Id = "faee8a6f-a3ba-4db6-ad11-875e22b548ba",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
-                            Id = "f93557c5-9223-4648-9863-6b4337a2b303",
+                            Id = "f16cf2cf-8bf6-4929-9d84-cf0d0ec23ec0",
                             Name = "Randonneur",
                             NormalizedName = "RANDONNEUR"
                         });
@@ -152,15 +155,15 @@ namespace arsoudeServeur.Migrations
                         {
                             Id = "11111111-1111-1111-1111-111111111111",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "d9925239-2b42-4687-ab81-2f203a42e78f",
+                            ConcurrencyStamp = "324861e1-d31d-4928-959f-10386f3132b5",
                             Email = "admin@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@GMAIL.COM",
                             NormalizedUserName = "ADMIN@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEGXjfBEt1rsqdmqafPL55kUxbUXSOrhG1ZXhnLuhFqaiHwS9BbDxOgUhQyM0irG7kg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAENx+23SRaCbbXi+VUF2hAeS8s36Rr4VjUpHGfhgr16WipaHTnbI/pGFTBDLYJ6dMIA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "db411e6c-a476-4890-a685-d562120fe357",
+                            SecurityStamp = "b2733433-fee2-4909-ba93-de93a95c8edc",
                             TwoFactorEnabled = false,
                             UserName = "admin@gmail.com"
                         },
@@ -168,15 +171,15 @@ namespace arsoudeServeur.Migrations
                         {
                             Id = "11111111-1111-1111-1111-111111111112",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "554695d6-988f-4020-9bcb-3b76f11daf01",
+                            ConcurrencyStamp = "5c6bf290-076b-4ff8-8c0e-51854ae4f67a",
                             Email = "user1@hotmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "USER1@HOTMAIL.COM",
                             NormalizedUserName = "USER1@HOTMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEETtS76n+S/yZVZeprdjdSdGLdq2ZKPkEtBxopJnIUWt2URNTlESJ/Ie2FE6GaXseQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEKn/EOPZePjuQCE7378eB9iKcHXlOfzX6hYZlL5dF41JQf9bzbWKnLNFAwlydSj2vw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "ad84191b-0b51-4bc5-9803-1a98b4114824",
+                            SecurityStamp = "3637dbc3-e73d-4166-b8e9-1eeed115252b",
                             TwoFactorEnabled = false,
                             UserName = "user1@hotmail.com"
                         },
@@ -184,15 +187,15 @@ namespace arsoudeServeur.Migrations
                         {
                             Id = "11111111-1111-1111-1111-111111111113",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "cd9238e9-7a88-4e4f-80a9-bf818fa74cb5",
+                            ConcurrencyStamp = "685ea9de-b35a-4c92-9d34-d92b0d38aada",
                             Email = "user2@hotmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "USER2@HOTMAIL.COM",
                             NormalizedUserName = "USER2@HOTMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEAabSmgr2yooF6uMTzEf2LPmEi7uehURHC/MORQGOcTessdtWZ1O6ySO9EP9boqEGQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEAHMwilze2FZjLId2Dgx9I7D0jxPuDslCJcu5zL0tV2pNn8L30v3VrZS3b0+vb0Lig==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "29105f63-6130-4149-9525-3900e92fb620",
+                            SecurityStamp = "056e356b-ba82-4edb-b90d-167dc9806a75",
                             TwoFactorEnabled = false,
                             UserName = "user2@hotmail.com"
                         });
@@ -263,17 +266,17 @@ namespace arsoudeServeur.Migrations
                         new
                         {
                             UserId = "11111111-1111-1111-1111-111111111111",
-                            RoleId = "9f034f51-1cda-4ef3-89eb-fa5fd3392606"
+                            RoleId = "faee8a6f-a3ba-4db6-ad11-875e22b548ba"
                         },
                         new
                         {
                             UserId = "11111111-1111-1111-1111-111111111112",
-                            RoleId = "f93557c5-9223-4648-9863-6b4337a2b303"
+                            RoleId = "f16cf2cf-8bf6-4929-9d84-cf0d0ec23ec0"
                         },
                         new
                         {
                             UserId = "11111111-1111-1111-1111-111111111113",
-                            RoleId = "f93557c5-9223-4648-9863-6b4337a2b303"
+                            RoleId = "f16cf2cf-8bf6-4929-9d84-cf0d0ec23ec0"
                         });
                 });
 
@@ -341,12 +344,12 @@ namespace arsoudeServeur.Migrations
                     b.Property<double>("Y")
                         .HasColumnType("REAL");
 
-                    b.Property<int?>("randonneeId")
+                    b.Property<int?>("randonnéeId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("id");
 
-                    b.HasIndex("randonneeId");
+                    b.HasIndex("randonnéeId");
 
                     b.ToTable("gps");
 
@@ -358,7 +361,7 @@ namespace arsoudeServeur.Migrations
                             Depart = true,
                             X = 45.536653134864743,
                             Y = -73.494974340959118,
-                            randonneeId = 1
+                            randonnéeId = 1
                         },
                         new
                         {
@@ -367,7 +370,7 @@ namespace arsoudeServeur.Migrations
                             Depart = false,
                             X = 45.636653134864737,
                             Y = -73.594974340959126,
-                            randonneeId = 1
+                            randonnéeId = 1
                         });
                 });
 
@@ -381,12 +384,12 @@ namespace arsoudeServeur.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("randonneeId")
+                    b.Property<int?>("randonnéeId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("id");
 
-                    b.HasIndex("randonneeId")
+                    b.HasIndex("randonnéeId")
                         .IsUnique();
 
                     b.ToTable("images");
@@ -396,25 +399,7 @@ namespace arsoudeServeur.Migrations
                         {
                             id = 1,
                             lien = "https://stbruno.ca/culture/wp-content/uploads/2016/08/23_lacsmontagne_actuelle_01-600x400.jpg",
-                            randonneeId = 1
-                        },
-                        new
-                        {
-                            id = 2,
-                            lien = "https://stbruno.ca/culture/wp-content/uploads/2016/08/23_lacsmontagne_actuelle_01-600x400.jpg",
-                            randonneeId = 2
-                        },
-                        new
-                        {
-                            id = 3,
-                            lien = "https://stbruno.ca/culture/wp-content/uploads/2016/08/23_lacsmontagne_actuelle_01-600x400.jpg",
-                            randonneeId = 3
-                        },
-                        new
-                        {
-                            id = 4,
-                            lien = "https://stbruno.ca/culture/wp-content/uploads/2016/08/23_lacsmontagne_actuelle_01-600x400.jpg",
-                            randonneeId = 4
+                            randonnéeId = 1
                         });
                 });
 
@@ -640,7 +625,7 @@ namespace arsoudeServeur.Migrations
                 {
                     b.HasOne("arsoudeServeur.Models.Randonnee", "randonnée")
                         .WithMany("GPS")
-                        .HasForeignKey("randonneeId");
+                        .HasForeignKey("randonnéeId");
 
                     b.Navigation("randonnée");
                 });
@@ -649,7 +634,7 @@ namespace arsoudeServeur.Migrations
                 {
                     b.HasOne("arsoudeServeur.Models.Randonnee", "randonnée")
                         .WithOne("image")
-                        .HasForeignKey("arsoudeServeur.Models.Image", "randonneeId");
+                        .HasForeignKey("arsoudeServeur.Models.Image", "randonnéeId");
 
                     b.Navigation("randonnée");
                 });

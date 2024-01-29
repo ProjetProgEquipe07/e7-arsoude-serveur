@@ -6,7 +6,7 @@
         public string texte { get; set; }
 
         // Clé étrangère 
-        public int randonneeId { get; set; }
+        public int randonnéeId { get; set; }
         public virtual Randonnee randonnee { get; set; }
 
         // Clé étrangère 
