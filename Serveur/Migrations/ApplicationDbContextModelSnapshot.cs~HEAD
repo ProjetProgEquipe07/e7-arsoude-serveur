@@ -49,13 +49,13 @@ namespace arsoudeServeur.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "4ddeb9f3-f38e-43be-8d19-354b821d44d3",
+                            Id = "fb4a8ade-404d-4931-80f0-49e48f89d169",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
-                            Id = "79486b91-54cc-400e-880c-6c89f5327b5d",
+                            Id = "f46a73dc-844e-4ed5-a8fd-ea83f535391d",
                             Name = "Randonneur",
                             NormalizedName = "RANDONNEUR"
                         });
@@ -152,15 +152,15 @@ namespace arsoudeServeur.Migrations
                         {
                             Id = "11111111-1111-1111-1111-111111111111",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "19c09e31-7d71-4fd9-8762-071261cfb6f4",
+                            ConcurrencyStamp = "ac1bfd48-5753-41e0-a0cb-b1d554039e82",
                             Email = "admin@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@GMAIL.COM",
                             NormalizedUserName = "ADMIN@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEFPpjTI1jEjXxgb435OBMoehwIM37GB+fbkdyGjU5POiBBncvxqZcPt1bA4Q4bXc+Q==",
+                            PasswordHash = "AQAAAAIAAYagAAAAED7+QmjKj71JmrludQuL8v29qL+j+VonF47ZsSb1h6Fe2T+wl3zMUJdkSoFgetYwzw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "b7cea203-1727-4d69-8159-c32cdb190f91",
+                            SecurityStamp = "ca9419ca-b9c2-48a4-8358-614a618d15ba",
                             TwoFactorEnabled = false,
                             UserName = "admin@gmail.com"
                         },
@@ -168,15 +168,15 @@ namespace arsoudeServeur.Migrations
                         {
                             Id = "11111111-1111-1111-1111-111111111112",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "e4a98657-f3f8-4717-b0ea-377a8ec9e70f",
+                            ConcurrencyStamp = "746468d2-a077-4f72-9f9c-b45b76533e9f",
                             Email = "user1@hotmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "USER1@HOTMAIL.COM",
                             NormalizedUserName = "USER1@HOTMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEJs4pw5OScCI4r6t1JsgHlONL9xAHxZItV6ngWh8cHNpLritKv8CdgdETNgl++qN6g==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEGMSggHb+LhFDKbY9JIiYLOnVmOp7fgnyQQ7HJmnRYh/4M8b4ieJpNAJ1/X2e3eTTw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "8a6fb5b6-2f13-4bd0-9933-a520fc28ff22",
+                            SecurityStamp = "07ce17d5-c4bb-4960-a040-c1d80ac559db",
                             TwoFactorEnabled = false,
                             UserName = "user1@hotmail.com"
                         },
@@ -184,15 +184,15 @@ namespace arsoudeServeur.Migrations
                         {
                             Id = "11111111-1111-1111-1111-111111111113",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "b2fac39b-d1e9-4c1a-9301-c21e6e0e32b8",
+                            ConcurrencyStamp = "0c59d585-d803-463b-91d6-59672997ec07",
                             Email = "user2@hotmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "USER2@HOTMAIL.COM",
                             NormalizedUserName = "USER2@HOTMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEDkLzqeGfCgHanhT5oZOV+Yc4dnL9sBAzlHvwTbgNeihcYRvXSH4NGGMNU9p41kRiw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAED8K27Sn1I42XmKncpXU8mZ1dcEY8BeO3d0cO9rkaKrEl7mssKpFMypTgKlkB+/tMg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "3358b1b8-fa0c-4349-afc0-0ce2d7d0e435",
+                            SecurityStamp = "f75d8284-37a7-4f5e-82f6-07926776caf7",
                             TwoFactorEnabled = false,
                             UserName = "user2@hotmail.com"
                         });
@@ -263,17 +263,17 @@ namespace arsoudeServeur.Migrations
                         new
                         {
                             UserId = "11111111-1111-1111-1111-111111111111",
-                            RoleId = "4ddeb9f3-f38e-43be-8d19-354b821d44d3"
+                            RoleId = "fb4a8ade-404d-4931-80f0-49e48f89d169"
                         },
                         new
                         {
                             UserId = "11111111-1111-1111-1111-111111111112",
-                            RoleId = "79486b91-54cc-400e-880c-6c89f5327b5d"
+                            RoleId = "f46a73dc-844e-4ed5-a8fd-ea83f535391d"
                         },
                         new
                         {
                             UserId = "11111111-1111-1111-1111-111111111113",
-                            RoleId = "79486b91-54cc-400e-880c-6c89f5327b5d"
+                            RoleId = "f46a73dc-844e-4ed5-a8fd-ea83f535391d"
                         });
                 });
 

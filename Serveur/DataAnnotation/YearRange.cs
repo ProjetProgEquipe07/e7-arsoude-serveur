@@ -9,7 +9,7 @@ public class YearRangeAttribute : ValidationAttribute
         {
             int yearToValidate = (int)value;
             int currentYear = DateTime.Now.Year;
-            if (yearToValidate >= currentYear - 100 && yearToValidate <= currentYear)
+            if (yearToValidate >= 1900 && yearToValidate <= currentYear )
             {
                 return ValidationResult.Success;
             }
@@ -17,6 +17,10 @@ public class YearRangeAttribute : ValidationAttribute
             {
                 return new ValidationResult(GetErrorMessage());
             }
+        }
+        else if (value is null)
+        {
+            return ValidationResult.Success;
         }
         else
         {
@@ -26,6 +30,6 @@ public class YearRangeAttribute : ValidationAttribute
 
     private string GetErrorMessage()
     {
-        return $"The year must be between {DateTime.Now.Year - 100} and {DateTime.Now.Year}.";
+        return $"The year must be between 1900 and {DateTime.Now.Year}.";
     }
 }

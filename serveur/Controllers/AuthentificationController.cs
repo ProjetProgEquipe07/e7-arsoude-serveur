@@ -73,7 +73,8 @@ namespace arsoudeServeur.Controllers
 
                 authClaims.Add(new Claim(ClaimTypes.NameIdentifier, user.Id));
 
-                SymmetricSecurityKey authkey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("this is my custom Secret key for authentication"));
+                SymmetricSecurityKey authkey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("this is my custom Secret key for authentication"
+                    ));
 
                 JwtSecurityToken token = new JwtSecurityToken(
                     claims: authClaims,

@@ -29,6 +29,19 @@ namespace arsoudeServeur.Services
             {
                 return;
             }
+            if(register.moisDeNaissance == null)
+            {
+                register.moisDeNaissance = 0;
+            }
+            if (register.anneeDeNaissance == null)
+            {
+                register.anneeDeNaissance = 0;
+            }
+            if (register.adresse == null)
+            {
+                register.adresse = "";
+            }
+
 
             // Creer l'utilisateur
             await _context.utilisateurs.AddAsync(new Utilisateur()
@@ -38,8 +51,8 @@ namespace arsoudeServeur.Services
                 prenom = register.prénom,
                 nom = register.nom,
                 codePostal = register.codePostal,
-                anneeDeNaissance = register.anneeDeNaissance,
-                moisDeNaissance = register.moisDeNaissance,
+                anneeDeNaissance = (int)register.anneeDeNaissance,
+                moisDeNaissance = (int)register.moisDeNaissance,
                 adresse = register.adresse
             });
             await _context.SaveChangesAsync();
