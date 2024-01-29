@@ -1,7 +1,6 @@
 ﻿using arsoudeServeur.Models;
 using arsoudeServeur.Models.DTOs;
 using arsoudServeur.Data;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace arsoudeServeur.Services
@@ -30,10 +29,10 @@ namespace arsoudeServeur.Services
             // Trouver le currentUser et l'associer à la randonnée 
             // 
 
-            
+
             Randonnee randonnee = new Randonnee
             {
-                id= 0,
+                id = 0,
                 nom = randonneeDTO.nom,
                 description = randonneeDTO.description,
                 emplacement = randonneeDTO.emplacement,

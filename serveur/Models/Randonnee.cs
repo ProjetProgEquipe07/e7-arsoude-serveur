@@ -31,8 +31,8 @@ namespace arsoudeServeur.Models
         public virtual List<GPS> GPS { get; set; } = new List<GPS>();
 
         //public virtual int? imageId { get; set; }
-        //[Required(ErrorMessage = "La propriété est obligatoire.")]
-        //public virtual Image image { get; set; }
+        [Required(ErrorMessage = "La propriété est obligatoire.")]
+        public virtual Image image { get; set; }
 
 
         public enum Type

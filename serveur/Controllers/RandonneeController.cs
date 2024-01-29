@@ -1,4 +1,4 @@
-﻿using arsoudeServeur.Models;
+using arsoudeServeur.Models;
 using arsoudeServeur.Models.DTOs;
 using arsoudeServeur.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -9,7 +9,7 @@ namespace arsoudeServeur.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
-    [Authorize]
+    
     public class RandonneeController : BaseController
     {
         private readonly RandonneesService _randonneeService;
@@ -38,6 +38,7 @@ namespace arsoudeServeur.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult<Randonnee>> CreateRandonnee(RandonneeDTO randonneeDTO)
         {
             Utilisateur? user = UtilisateurCourant;

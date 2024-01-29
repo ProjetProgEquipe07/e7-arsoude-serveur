@@ -3871,19 +3871,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\2050357\\.nuget\\packages\\": {}
+    "C:\\Users\\2151688\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\2050357\\Desktop\\e7-arsoude-serveur\\serveur\\arsoudeServeur.csproj",
+      "projectUniqueName": "C:\\Users\\2151688\\Desktop\\e7-arsoude-serveur\\Serveur\\arsoudeServeur.csproj",
       "projectName": "arsoudeServeur",
-      "projectPath": "C:\\Users\\2050357\\Desktop\\e7-arsoude-serveur\\serveur\\arsoudeServeur.csproj",
-      "packagesPath": "C:\\Users\\2050357\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\2050357\\Desktop\\e7-arsoude-serveur\\serveur\\obj\\",
+      "projectPath": "C:\\Users\\2151688\\Desktop\\e7-arsoude-serveur\\Serveur\\arsoudeServeur.csproj",
+      "packagesPath": "C:\\Users\\2151688\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\2151688\\Desktop\\e7-arsoude-serveur\\Serveur\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\2050357\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\2151688\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
