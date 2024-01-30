@@ -29,8 +29,8 @@ namespace arsoudServeur.Data
             var userRole = new IdentityRole
             {
                 Id = Guid.NewGuid().ToString(),
-                Name = "User",
-                NormalizedName = "USER"
+                Name = "Randonneur",
+                NormalizedName = "RANDONNEUR"
             };
 
             builder.Entity<IdentityRole>().HasData(adminRole, userRole);

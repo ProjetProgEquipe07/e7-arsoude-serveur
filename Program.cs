@@ -1,10 +1,17 @@
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using arsoudeServeur.Services;
 using arsoudServeur.Data;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using arsoudeServeur.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -50,15 +57,27 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
-
+builder.Services.AddTransient<IEmailService>(provider =>
+    new EmailService(
+        builder.Configuration["Smtp:Host"],
+        int.Parse(builder.Configuration["Smtp:Port"]),
+        builder.Configuration["Smtp:Username"],
+        builder.Configuration["Smtp:Password"]
+    )
+);
 builder.Services.AddScoped<RandonneesService>();
 builder.Services.AddScoped<UtilisateursService>();
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+builder.Services.AddDefaultIdentity<IdentityUser>(options => {
+    options.Password.RequireUppercase = false;
+    options.SignIn.RequireConfirmedAccount = true;
+})
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
+
 builder.Services.AddControllersWithViews();
+
 
 var app = builder.Build();
 

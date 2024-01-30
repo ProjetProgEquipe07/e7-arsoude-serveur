@@ -13,7 +13,6 @@ using System.Data;
 namespace arsoudeServeur.Areas.Admin.Controllers
 {
     [Route("api/[controller]/[action]")]
-    [Authorize(Roles = "Administrator")]
     [Area("Admin")]
     public class RandonneesController : Controller
     {
