@@ -26,14 +26,14 @@ namespace arsoudServeur.Data
                 NormalizedName = "ADMINISTRATOR"
             };
 
-            var randoRole = new IdentityRole
+            var userRole = new IdentityRole
             {
                 Id = Guid.NewGuid().ToString(),
-                Name = "Randonneur",
-                NormalizedName = "RANDONNEUR"
+                Name = "User",
+                NormalizedName = "USER"
             };
 
-            builder.Entity<IdentityRole>().HasData(adminRole, randoRole);
+            builder.Entity<IdentityRole>().HasData(adminRole, userRole);
 
             //Seed IdentityUsers
 
@@ -84,12 +84,12 @@ namespace arsoudServeur.Data
                 },
                 new IdentityUserRole<string>
                 {
-                    RoleId = randoRole.Id,
+                    RoleId = userRole.Id,
                     UserId = utilisateur1.Id
                 },
                 new IdentityUserRole<string>
                 {
-                    RoleId = randoRole.Id,
+                    RoleId = userRole.Id,
                     UserId = utilisateur2.Id
                 }
             );
@@ -127,110 +127,105 @@ namespace arsoudServeur.Data
             };
 
             builder.Entity<Utilisateur>().HasData(utilisateurs);
-            Randonnee rando0 = new Randonnee
-            {
-                id = 1,
-                nom = "st-bruno",
-                description = "promenade cool a st-brun",
-                emplacement = "st-bruno",
-                utilisateurId = 1,
-                typeRandonnee = (Randonnee.Type)Enum.Parse(typeof(Randonnee.Type), "Marche"),
-            };
-
-            Randonnee rando1 = new Randonnee
-            {
-                id = 2,
-                nom = "st-grégoire",
-                description = "promenade moyennement cool la bas",
-                emplacement = "st-grégoire",
-                utilisateurId = 2,
-                typeRandonnee = (Randonnee.Type)Enum.Parse(typeof(Randonnee.Type), "Marche"),
-            };
-            Randonnee rando2 = new Randonnee
-            {
-                id = 3,
-                nom = "st-hilaire",
-                description = "promenade fresh a st-hilaire",
-                emplacement = "st-hilaire",
-                utilisateurId = 3,
-                typeRandonnee = (Randonnee.Type)Enum.Parse(typeof(Randonnee.Type), "Vélo"),
-            };
-            builder.Entity<Randonnee>().HasData(rando0, rando1, rando2);
-
-            GPS donnee01 = new GPS
-            {
-                id = 1,
-                X = 45.53665313486474,
-                Y = -73.49497434095912,
-                Depart = true,
-                randonneeId = 1,
-            };
-            GPS donnee02 = new GPS
-            {
-                id = 2,
-                X = 45.63665313486474,
-                Y = -73.59497434095912,
-                Arrivee = true,
-                randonneeId = 1,
-            };
-
-            GPS donnee11 = new GPS
-            {
-                id = 3,
-                X = 45.354999,
-                Y = -73.150238,
-                Depart = true,
-                randonneeId = 2,
-            };
-            GPS donnee12 = new GPS
-            {
-                id = 4,
-                X = 45.356925,
-                Y = -73.150234,
-                Arrivee = true,
-                randonneeId = 2,
-            };
-
-            GPS donnee21 = new GPS
-            {
-                id = 5,
-                X = 45.538015,
-                Y = -73.156983,
-                Depart = true,
-                randonneeId = 3,
-            };
-            GPS donnee22 = new GPS
-            {
-                id = 6,
-                X = 45.63665313486474,
-                Y = -73.59497434095912,
-                Arrivee = true,
-                randonneeId = 3,
-            };
-            builder.Entity<GPS>().HasData(donnee01, donnee02, donnee11, donnee12,donnee21, donnee22);
-
-            ConfigureRelationships(builder);
+            SeedRandonnees(builder);
+            SeedGPSData(builder);
         }
-        private static void ConfigureRelationships(ModelBuilder builder)
+
+
+
+        private void SeedRandonnees(ModelBuilder builder)
         {
-            //Rando-GPS relationship
-            /*builder.Entity<Randonnée>()
-                    .HasOne(r => r.pointDépart)               // Une randonnée a un point de départ
-                    .WithMany()                               // Un point de départ peut être partagé par plusieurs randonnées
-                    .HasForeignKey(r => r.pointDépartId)      // Clé étrangère pour la relation
-                    .OnDelete(DeleteBehavior.Restrict);       
-            builder.Entity<Randonnée>()
-                    .HasOne(r => r.pointArrivée)              // Une randonnée a un point d'arrivée
-                    .WithMany()                               // Un point d'arrivée peut être partagé par plusieurs randonnées
-                    .HasForeignKey(r => r.pointArrivéeId)     // Clé étrangère pour la relation
-                    .OnDelete(DeleteBehavior.Restrict);*/
+            var randonnees = new List<Randonnee>
+            {
+                new Randonnee
+                {
+                    id = 1,
+                    nom = "st-bruno",
+                    description = "promenade cool a st-brun",
+                    emplacement = "st-bruno",
+                    utilisateurId = 1,
+                    typeRandonnee = Randonnee.Type.Marche,
+                },
+                new Randonnee
+                {
+                    id = 2,
+                    nom = "st-grégoire",
+                    description = "promenade moyennement cool la bas",
+                    emplacement = "st-grégoire",
+                    utilisateurId = 2,
+                    typeRandonnee = Randonnee.Type.Marche,
+                },
+                new Randonnee
+                {
+                    id = 3,
+                    nom = "st-hilaire",
+                    description = "promenade fresh a st-hilaire",
+                    emplacement = "st-hilaire",
+                    utilisateurId = 3,
+                    typeRandonnee = Randonnee.Type.Vélo,
+                }
+            };
 
-            /*builder.Entity<Randonnée>()
-                    .HasOne(r => r.image)
-                    .WithOne(i => i.randonnée)
-                    .HasForeignKey<Randonnée>(r => r.imageId)
-                    .OnDelete(DeleteBehavior.Cascade);*/
+            builder.Entity<Randonnee>().HasData(randonnees);
         }
+
+        private void SeedGPSData(ModelBuilder builder)
+        {
+            var gpsData = new List<GPS>
+            {
+                new GPS
+                {
+                    id = 1,
+                    X = 45.53665313486474,
+                    Y = -73.49497434095912,
+                    Depart = true,
+                    randonneeId = 1,
+                },
+                new GPS
+                {
+                    id = 2,
+                    X = 45.63665313486474,
+                    Y = -73.59497434095912,
+                    Arrivee = true,
+                    randonneeId = 1,
+                },
+                new GPS
+                {
+                    id = 3,
+                    X = 45.354999,
+                    Y = -73.150238,
+                    Depart = true,
+                    randonneeId = 2,
+                },
+                new GPS
+                {
+                    id = 4,
+                    X = 45.356925,
+                    Y = -73.150234,
+                    Arrivee = true,
+                    randonneeId = 2,
+                },
+                new GPS
+                {
+                    id = 5,
+                    X = 45.538015,
+                    Y = -73.156983,
+                    Depart = true,
+                    randonneeId = 3,
+                },
+                new GPS
+                {
+                    id = 6,
+                    X = 45.63665313486474,
+                    Y = -73.59497434095912,
+                    Arrivee = true,
+                    randonneeId = 3,
+                }
+            };
+
+            builder.Entity<GPS>().HasData(gpsData);
+        }
+        
         public DbSet<Utilisateur> utilisateurs { get; set; } = default!;
         public DbSet<Randonnee> randonnees { get; set; } = default!;
         public DbSet<Image> images { get; set; } = default!;
