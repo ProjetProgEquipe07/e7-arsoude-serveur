@@ -49,15 +49,15 @@ namespace arsoudeServeur.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "beca0fe0-af2d-41d4-bc7e-e5d45259adf4",
+                            Id = "24f84c96-2a16-4e7b-b8ed-c95580415e4b",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
-                            Id = "3a0deb61-a559-4e12-a731-e41677ea9ecc",
-                            Name = "Randonneur",
-                            NormalizedName = "RANDONNEUR"
+                            Id = "067b7ef7-4111-4b9f-a5b6-6567e4e2a35f",
+                            Name = "User",
+                            NormalizedName = "USER"
                         });
                 });
 
@@ -152,15 +152,15 @@ namespace arsoudeServeur.Migrations
                         {
                             Id = "11111111-1111-1111-1111-111111111111",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "0ee365a9-d36b-455e-9372-e52460888713",
+                            ConcurrencyStamp = "5f1f5b2c-d1e4-4c04-a297-e8cfea726781",
                             Email = "admin@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@GMAIL.COM",
                             NormalizedUserName = "ADMIN@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAELW7qsJ0WWdKEJcQA8elBEUblHez2NH6YEy3tJpYkpvEPXGJS6aYhCUhckpo5rEFLA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEP0HfwetNRemUykD29jAhZoO3kypm8jkHReIVGokcFe91FMXDWPYLbeL0YlcR7RQkw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "ec25599e-f871-4844-bb53-d1b0d4520f2c",
+                            SecurityStamp = "d91f2a6f-0e32-49bb-b151-399b3604078f",
                             TwoFactorEnabled = false,
                             UserName = "admin@gmail.com"
                         },
@@ -168,15 +168,15 @@ namespace arsoudeServeur.Migrations
                         {
                             Id = "11111111-1111-1111-1111-111111111112",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "fb25c8e6-d8d1-40ad-98d8-c5af6050dded",
+                            ConcurrencyStamp = "1f5215b9-3bbc-43ad-90f1-0c4793ac9d18",
                             Email = "user1@hotmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "USER1@HOTMAIL.COM",
                             NormalizedUserName = "USER1@HOTMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEKrBxXZbyxzvuCYOLf17gWBYKSstKhl3F2unUb/P6DA95Wkn+n2h2k/oA6TCgU+13A==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEE5uNyvZaw/hOYfWf5/jpB+QTRj705QIConAfM/U6M5JlE+WQolP5kU5JwUc/bFNNQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "0d01c4cd-211d-45d1-b6d0-5564beb87914",
+                            SecurityStamp = "469c0106-3d76-47b4-aae0-a1db89f1475b",
                             TwoFactorEnabled = false,
                             UserName = "user1@hotmail.com"
                         },
@@ -184,15 +184,15 @@ namespace arsoudeServeur.Migrations
                         {
                             Id = "11111111-1111-1111-1111-111111111113",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "d462634f-89b2-4ba0-b710-4c746adb2371",
+                            ConcurrencyStamp = "a51ec699-6a73-457c-abf8-27433905c743",
                             Email = "user2@hotmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "USER2@HOTMAIL.COM",
                             NormalizedUserName = "USER2@HOTMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEOfmJHy6W4jGZcaEBjQ9BdyDhJv4d+fjCwHxR9PSkCargNDdDW+ScVvj3dQD8XHopA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEI7xGfFPUXDtFHZScV3/1mQwyS8w4gbGUHmHWqKbwKVZksfST1SG+6SZMCjt686Lpg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "6e0d2b18-ee7b-41ae-9df3-abb70e64c478",
+                            SecurityStamp = "e8b1978f-7453-4acf-9b53-612416ae4955",
                             TwoFactorEnabled = false,
                             UserName = "user2@hotmail.com"
                         });
@@ -263,17 +263,17 @@ namespace arsoudeServeur.Migrations
                         new
                         {
                             UserId = "11111111-1111-1111-1111-111111111111",
-                            RoleId = "beca0fe0-af2d-41d4-bc7e-e5d45259adf4"
+                            RoleId = "24f84c96-2a16-4e7b-b8ed-c95580415e4b"
                         },
                         new
                         {
                             UserId = "11111111-1111-1111-1111-111111111112",
-                            RoleId = "3a0deb61-a559-4e12-a731-e41677ea9ecc"
+                            RoleId = "067b7ef7-4111-4b9f-a5b6-6567e4e2a35f"
                         },
                         new
                         {
                             UserId = "11111111-1111-1111-1111-111111111113",
-                            RoleId = "3a0deb61-a559-4e12-a731-e41677ea9ecc"
+                            RoleId = "067b7ef7-4111-4b9f-a5b6-6567e4e2a35f"
                         });
                 });
 
@@ -407,6 +407,114 @@ namespace arsoudeServeur.Migrations
                             X = 45.636653134864737,
                             Y = -73.594974340959126,
                             randonneeId = 3
+                        },
+                        new
+                        {
+                            id = 7,
+                            Arrivee = false,
+                            Depart = true,
+                            X = 45.354998999999999,
+                            Y = -73.150238000000002,
+                            randonneeId = 4
+                        },
+                        new
+                        {
+                            id = 8,
+                            Arrivee = true,
+                            Depart = false,
+                            X = 45.356924999999997,
+                            Y = -73.150233999999998,
+                            randonneeId = 4
+                        },
+                        new
+                        {
+                            id = 9,
+                            Arrivee = false,
+                            Depart = true,
+                            X = 45.354998999999999,
+                            Y = -73.150238000000002,
+                            randonneeId = 5
+                        },
+                        new
+                        {
+                            id = 10,
+                            Arrivee = true,
+                            Depart = false,
+                            X = 45.356924999999997,
+                            Y = -73.150233999999998,
+                            randonneeId = 5
+                        },
+                        new
+                        {
+                            id = 11,
+                            Arrivee = false,
+                            Depart = true,
+                            X = 45.354998999999999,
+                            Y = -73.160238000000007,
+                            randonneeId = 6
+                        },
+                        new
+                        {
+                            id = 12,
+                            Arrivee = true,
+                            Depart = false,
+                            X = 45.356924999999997,
+                            Y = -73.150233999999998,
+                            randonneeId = 6
+                        },
+                        new
+                        {
+                            id = 13,
+                            Arrivee = false,
+                            Depart = true,
+                            X = 45.364998999999997,
+                            Y = -73.110237999999995,
+                            randonneeId = 7
+                        },
+                        new
+                        {
+                            id = 14,
+                            Arrivee = true,
+                            Depart = false,
+                            X = 45.386924999999998,
+                            Y = -73.152234000000007,
+                            randonneeId = 7
+                        },
+                        new
+                        {
+                            id = 15,
+                            Arrivee = false,
+                            Depart = true,
+                            X = 45.364998999999997,
+                            Y = -73.166238000000007,
+                            randonneeId = 8
+                        },
+                        new
+                        {
+                            id = 16,
+                            Arrivee = true,
+                            Depart = false,
+                            X = 45.456924999999998,
+                            Y = -73.128234000000006,
+                            randonneeId = 8
+                        },
+                        new
+                        {
+                            id = 17,
+                            Arrivee = false,
+                            Depart = true,
+                            X = 45.541245000000004,
+                            Y = -73.490803999999997,
+                            randonneeId = 9
+                        },
+                        new
+                        {
+                            id = 18,
+                            Arrivee = true,
+                            Depart = false,
+                            X = 45.535905999999997,
+                            Y = -73.496853000000002,
+                            randonneeId = 8
                         });
                 });
 
@@ -469,16 +577,16 @@ namespace arsoudeServeur.Migrations
                             id = 1,
                             description = "promenade cool a st-brun",
                             emplacement = "st-bruno",
-                            nom = "st-bruno",
-                            typeRandonnee = 0,
+                            nom = "St-Bruno",
+                            typeRandonnee = 1,
                             utilisateurId = 1
                         },
                         new
                         {
                             id = 2,
                             description = "promenade moyennement cool la bas",
-                            emplacement = "st-grégoire",
-                            nom = "st-grégoire",
+                            emplacement = "dehors",
+                            nom = "ptite marche au subway",
                             typeRandonnee = 0,
                             utilisateurId = 2
                         },
@@ -490,6 +598,60 @@ namespace arsoudeServeur.Migrations
                             nom = "st-hilaire",
                             typeRandonnee = 1,
                             utilisateurId = 3
+                        },
+                        new
+                        {
+                            id = 4,
+                            description = "promenade au subway",
+                            emplacement = "st-grégoire",
+                            nom = "ma randonnée pédestre",
+                            typeRandonnee = 0,
+                            utilisateurId = 2
+                        },
+                        new
+                        {
+                            id = 5,
+                            description = "ça doit être cool la bas",
+                            emplacement = "quelque part",
+                            nom = "rivière rouge",
+                            typeRandonnee = 0,
+                            utilisateurId = 2
+                        },
+                        new
+                        {
+                            id = 6,
+                            description = "je pense qu'on a beaucoup de fun",
+                            emplacement = "mont tremblant",
+                            nom = "Ma randonnée",
+                            typeRandonnee = 0,
+                            utilisateurId = 1
+                        },
+                        new
+                        {
+                            id = 7,
+                            description = "J'ai eu beaucoup de plaisir",
+                            emplacement = "st-jérome",
+                            nom = "ayyyyyy",
+                            typeRandonnee = 0,
+                            utilisateurId = 2
+                        },
+                        new
+                        {
+                            id = 8,
+                            description = "moyennement le fun pour vrai",
+                            emplacement = "ottoburn park",
+                            nom = "st-grégoire",
+                            typeRandonnee = 0,
+                            utilisateurId = 3
+                        },
+                        new
+                        {
+                            id = 9,
+                            description = "lylian voulait une belle randonnée au tim",
+                            emplacement = "gentilly ouest",
+                            nom = "la randonnée a lylian",
+                            typeRandonnee = 0,
+                            utilisateurId = 2
                         });
                 });
 
@@ -554,8 +716,8 @@ namespace arsoudeServeur.Migrations
                             courriel = "user1@hotmail.com",
                             identityUserId = "11111111-1111-1111-1111-111111111112",
                             moisDeNaissance = 0,
-                            nom = "prévost",
-                            prenom = "bertrand"
+                            nom = "Hogan",
+                            prenom = "Hulk"
                         },
                         new
                         {
@@ -565,8 +727,8 @@ namespace arsoudeServeur.Migrations
                             courriel = "user2@hotmail.com",
                             identityUserId = "11111111-1111-1111-1111-111111111113",
                             moisDeNaissance = 0,
-                            nom = "audet",
-                            prenom = "michelle"
+                            nom = "Charles",
+                            prenom = "Grégory"
                         });
                 });
 
