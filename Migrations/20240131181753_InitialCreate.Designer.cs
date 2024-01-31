@@ -11,7 +11,7 @@ using arsoudServeur.Data;
 namespace arsoudeServeur.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240129192644_InitialCreate")]
+    [Migration("20240131181753_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -52,15 +52,15 @@ namespace arsoudeServeur.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "7500b006-50e9-40c4-9017-f5da8f13482b",
+                            Id = "22bde0f1-b568-4a7a-ab56-282896edff1b",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
-                            Id = "25388c96-72a0-40f5-9c45-c442bee9ed26",
-                            Name = "Randonneur",
-                            NormalizedName = "RANDONNEUR"
+                            Id = "04798ff0-94f7-4b12-9e7e-4d65e05feee6",
+                            Name = "User",
+                            NormalizedName = "USER"
                         });
                 });
 
@@ -155,15 +155,15 @@ namespace arsoudeServeur.Migrations
                         {
                             Id = "11111111-1111-1111-1111-111111111111",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "07af9e5a-acc4-4c16-ac2c-3b9db9129678",
+                            ConcurrencyStamp = "44d5fb7f-301f-42a7-bf10-0798d51ae7c2",
                             Email = "admin@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@GMAIL.COM",
                             NormalizedUserName = "ADMIN@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEBOIOyQWRqCh9Mc4UIsCmyWecSITHlEADL9C1DIeeAB9ZhJH9Ha4aMCpyPHpcLG/xw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEAMn1sRHqkJ8PjfT4Ju40R74d9mQmd0PVODVDmp7a+2wOUTdnclBjjcaCoDlAqQOqg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "5cc0079a-4b28-46f6-b818-60a8bb589d73",
+                            SecurityStamp = "66ff312e-3e56-4664-97a9-2fbe2f0c105c",
                             TwoFactorEnabled = false,
                             UserName = "admin@gmail.com"
                         },
@@ -171,15 +171,15 @@ namespace arsoudeServeur.Migrations
                         {
                             Id = "11111111-1111-1111-1111-111111111112",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "6ff73c94-216c-4d85-9679-0b99942d0e12",
+                            ConcurrencyStamp = "8fff73f8-031a-4b87-a0cc-dfdf8ab15e7f",
                             Email = "user1@hotmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "USER1@HOTMAIL.COM",
                             NormalizedUserName = "USER1@HOTMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEBJIh6Y2358R//DESeGkGxGjNkiRi79111qb2c+BPd7YOGyLWIvj7kGUWEa1pP7xOw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEIMtS+dsFIQd7uiLe+jXMqSUKQdqWolz2YCqX9jdi2KEmG9ctyXDBzUqT+n4G8foOg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "85157c46-d06c-49e8-80cd-24a03674fcb3",
+                            SecurityStamp = "58f506a5-1599-414d-a92c-4672dd4d5bc5",
                             TwoFactorEnabled = false,
                             UserName = "user1@hotmail.com"
                         },
@@ -187,15 +187,15 @@ namespace arsoudeServeur.Migrations
                         {
                             Id = "11111111-1111-1111-1111-111111111113",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "39175db5-fc9e-4c6a-8935-463b1c360eb7",
+                            ConcurrencyStamp = "1a55bde1-e0b1-4797-b96a-cdfca5019b41",
                             Email = "user2@hotmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "USER2@HOTMAIL.COM",
                             NormalizedUserName = "USER2@HOTMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAECEoA7HodXCQZn8nyb8DOg3QVzYKxv6zpRmCoiirlNb6GqDl9Ud4t33MA8u5wzil4Q==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEDJyUoLpKHdT4KlxzEn2NLbAzequWIAxvSaqKsVtvUNiZqN0/TJuwfREVYjCIwfYHQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "21e57ce8-f91d-42b2-8f51-4ac037d5c209",
+                            SecurityStamp = "b94f04f9-266d-4da9-87a1-0dd1cec2a96a",
                             TwoFactorEnabled = false,
                             UserName = "user2@hotmail.com"
                         });
@@ -266,17 +266,17 @@ namespace arsoudeServeur.Migrations
                         new
                         {
                             UserId = "11111111-1111-1111-1111-111111111111",
-                            RoleId = "7500b006-50e9-40c4-9017-f5da8f13482b"
+                            RoleId = "22bde0f1-b568-4a7a-ab56-282896edff1b"
                         },
                         new
                         {
                             UserId = "11111111-1111-1111-1111-111111111112",
-                            RoleId = "25388c96-72a0-40f5-9c45-c442bee9ed26"
+                            RoleId = "04798ff0-94f7-4b12-9e7e-4d65e05feee6"
                         },
                         new
                         {
                             UserId = "11111111-1111-1111-1111-111111111113",
-                            RoleId = "25388c96-72a0-40f5-9c45-c442bee9ed26"
+                            RoleId = "04798ff0-94f7-4b12-9e7e-4d65e05feee6"
                         });
                 });
 
@@ -410,6 +410,96 @@ namespace arsoudeServeur.Migrations
                             X = 45.636653134864737,
                             Y = -73.594974340959126,
                             randonneeId = 3
+                        },
+                        new
+                        {
+                            id = 7,
+                            Arrivee = false,
+                            Depart = true,
+                            X = 45.354998999999999,
+                            Y = -73.150238000000002,
+                            randonneeId = 4
+                        },
+                        new
+                        {
+                            id = 8,
+                            Arrivee = true,
+                            Depart = false,
+                            X = 45.356924999999997,
+                            Y = -73.150233999999998,
+                            randonneeId = 4
+                        },
+                        new
+                        {
+                            id = 9,
+                            Arrivee = false,
+                            Depart = true,
+                            X = 45.354998999999999,
+                            Y = -73.150238000000002,
+                            randonneeId = 5
+                        },
+                        new
+                        {
+                            id = 10,
+                            Arrivee = true,
+                            Depart = false,
+                            X = 45.356924999999997,
+                            Y = -73.150233999999998,
+                            randonneeId = 5
+                        },
+                        new
+                        {
+                            id = 11,
+                            Arrivee = false,
+                            Depart = true,
+                            X = 45.354998999999999,
+                            Y = -73.160238000000007,
+                            randonneeId = 6
+                        },
+                        new
+                        {
+                            id = 12,
+                            Arrivee = true,
+                            Depart = false,
+                            X = 45.356924999999997,
+                            Y = -73.150233999999998,
+                            randonneeId = 6
+                        },
+                        new
+                        {
+                            id = 13,
+                            Arrivee = false,
+                            Depart = true,
+                            X = 45.364998999999997,
+                            Y = -73.110237999999995,
+                            randonneeId = 7
+                        },
+                        new
+                        {
+                            id = 14,
+                            Arrivee = true,
+                            Depart = false,
+                            X = 45.386924999999998,
+                            Y = -73.152234000000007,
+                            randonneeId = 7
+                        },
+                        new
+                        {
+                            id = 15,
+                            Arrivee = false,
+                            Depart = true,
+                            X = 45.364998999999997,
+                            Y = -73.166238000000007,
+                            randonneeId = 8
+                        },
+                        new
+                        {
+                            id = 16,
+                            Arrivee = true,
+                            Depart = false,
+                            X = 45.456924999999998,
+                            Y = -73.128234000000006,
+                            randonneeId = 8
                         });
                 });
 
@@ -472,16 +562,16 @@ namespace arsoudeServeur.Migrations
                             id = 1,
                             description = "promenade cool a st-brun",
                             emplacement = "st-bruno",
-                            nom = "st-bruno",
-                            typeRandonnee = 0,
+                            nom = "St-Bruno",
+                            typeRandonnee = 1,
                             utilisateurId = 1
                         },
                         new
                         {
                             id = 2,
                             description = "promenade moyennement cool la bas",
-                            emplacement = "st-grégoire",
-                            nom = "st-grégoire",
+                            emplacement = "dehors",
+                            nom = "ptite marche au subway",
                             typeRandonnee = 0,
                             utilisateurId = 2
                         },
@@ -492,6 +582,51 @@ namespace arsoudeServeur.Migrations
                             emplacement = "st-hilaire",
                             nom = "st-hilaire",
                             typeRandonnee = 1,
+                            utilisateurId = 3
+                        },
+                        new
+                        {
+                            id = 4,
+                            description = "promenade au subway",
+                            emplacement = "st-grégoire",
+                            nom = "ma randonnée pédestre",
+                            typeRandonnee = 0,
+                            utilisateurId = 2
+                        },
+                        new
+                        {
+                            id = 5,
+                            description = "ça doit être cool la bas",
+                            emplacement = "quelque part",
+                            nom = "rivière rouge",
+                            typeRandonnee = 0,
+                            utilisateurId = 2
+                        },
+                        new
+                        {
+                            id = 6,
+                            description = "je pense qu'on a beaucoup de fun",
+                            emplacement = "mont tremblant",
+                            nom = "Ma randonnée",
+                            typeRandonnee = 0,
+                            utilisateurId = 1
+                        },
+                        new
+                        {
+                            id = 7,
+                            description = "J'ai eu beaucoup de plaisir",
+                            emplacement = "st-jérome",
+                            nom = "ayyyyyy",
+                            typeRandonnee = 0,
+                            utilisateurId = 2
+                        },
+                        new
+                        {
+                            id = 8,
+                            description = "moyennement le fun pour vrai",
+                            emplacement = "ottoburn park",
+                            nom = "st-grégoire",
+                            typeRandonnee = 0,
                             utilisateurId = 3
                         });
                 });
@@ -557,8 +692,8 @@ namespace arsoudeServeur.Migrations
                             courriel = "user1@hotmail.com",
                             identityUserId = "11111111-1111-1111-1111-111111111112",
                             moisDeNaissance = 0,
-                            nom = "prévost",
-                            prenom = "bertrand"
+                            nom = "Hogan",
+                            prenom = "Hulk"
                         },
                         new
                         {
@@ -568,8 +703,8 @@ namespace arsoudeServeur.Migrations
                             courriel = "user2@hotmail.com",
                             identityUserId = "11111111-1111-1111-1111-111111111113",
                             moisDeNaissance = 0,
-                            nom = "audet",
-                            prenom = "michelle"
+                            nom = "Charles",
+                            prenom = "Grégory"
                         });
                 });
 
