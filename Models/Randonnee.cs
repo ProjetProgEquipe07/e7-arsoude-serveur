@@ -46,5 +46,8 @@ namespace arsoudeServeur.Models
         public virtual int utilisateurId { get; set; }
         public virtual Utilisateur utilisateur { get; set; }
 
+        [JsonIgnore]
+        public virtual List<RandonneeUtilisateur> favorisPar { get; set; }
+
     }
 }

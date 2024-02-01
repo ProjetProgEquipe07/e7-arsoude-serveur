@@ -53,7 +53,8 @@ namespace arsoudeServeur.Services
                 codePostal = register.codePostal,
                 anneeDeNaissance = (int)register.anneeDeNaissance,
                 moisDeNaissance = (int)register.moisDeNaissance,
-                adresse = register.adresse
+                adresse = register.adresse,
+                favoris = new List<RandonneeUtilisateur> { }
             });
             await _context.SaveChangesAsync();
         }

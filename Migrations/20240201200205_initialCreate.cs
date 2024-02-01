@@ -276,13 +276,39 @@ namespace arsoudeServeur.Migrations
                         principalColumn: "id");
                 });
 
+            migrationBuilder.CreateTable(
+                name: "RandonneeUtilisateur",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    utilisateurId = table.Column<int>(type: "INTEGER", nullable: false),
+                    randonneeId = table.Column<int>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RandonneeUtilisateur", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_RandonneeUtilisateur_randonnees_randonneeId",
+                        column: x => x.randonneeId,
+                        principalTable: "randonnees",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_RandonneeUtilisateur_utilisateurs_utilisateurId",
+                        column: x => x.utilisateurId,
+                        principalTable: "utilisateurs",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "4ac98948-331f-4d98-a46c-eb1d47e61b18", null, "User", "USER" },
-                    { "9b21b5c5-3202-4a0b-b0dd-6004d76a35fe", null, "Administrator", "ADMINISTRATOR" }
+                    { "6655b93d-ba93-45f2-bd8b-e810c27ce713", null, "Administrator", "ADMINISTRATOR" },
+                    { "ed788e95-1959-4d22-8c83-670e9ae59120", null, "User", "USER" }
                 });
 
             migrationBuilder.InsertData(
@@ -290,9 +316,9 @@ namespace arsoudeServeur.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "11111111-1111-1111-1111-111111111111", 0, "73b4c966-a16f-4b20-aa2b-765eddcf7091", "admin@gmail.com", true, false, null, "ADMIN@GMAIL.COM", "ADMIN@GMAIL.COM", "AQAAAAIAAYagAAAAEGtkMdyUKUY1ONiO3Ai+j4VIZSs8hLTSG5rf7r05cLCVzAAtAThJ46MTSldm5VWOWw==", null, false, "08d981ea-c805-45b4-8101-d574dccfdf1f", false, "admin@gmail.com" },
-                    { "11111111-1111-1111-1111-111111111112", 0, "41a4082c-67ba-4cf6-b773-5fcbc1183d62", "user1@hotmail.com", true, false, null, "USER1@HOTMAIL.COM", "USER1@HOTMAIL.COM", "AQAAAAIAAYagAAAAEC4F/bnp5ekbF63qEtZ9uHZDdQoWRJgEjfXtel7MBZGCAXoGWJthWFyW0sNofUdfWQ==", null, false, "c21cc559-5079-4acf-aea3-bb4dc625077f", false, "user1@hotmail.com" },
-                    { "11111111-1111-1111-1111-111111111113", 0, "ebb32323-4952-4f3c-b8db-ccce66b5d4d2", "user2@hotmail.com", true, false, null, "USER2@HOTMAIL.COM", "USER2@HOTMAIL.COM", "AQAAAAIAAYagAAAAEFHTmG4KAMKfhhqxjRC8advoVueAw4g3KOkmAci8r+Zzdyjf1N8mbuuJoORRv59hjg==", null, false, "f23fbb9a-9cb9-4021-bf52-b8bc65929d1d", false, "user2@hotmail.com" }
+                    { "11111111-1111-1111-1111-111111111111", 0, "0aed3fb1-8a77-4ce9-9d4b-838a80a6bc5a", "admin@gmail.com", true, false, null, "ADMIN@GMAIL.COM", "ADMIN@GMAIL.COM", "AQAAAAIAAYagAAAAECG07fOdLzexLqdt0SaGbuQd7fv26jmvyf/KyY8MihnDexB18MqFOW7JjtpXPwqxJw==", null, false, "14121dd0-8eb7-404d-89c3-a72458ad5a28", false, "admin@gmail.com" },
+                    { "11111111-1111-1111-1111-111111111112", 0, "b85493c5-f3c1-494c-8413-c797603a16d6", "user1@hotmail.com", true, false, null, "USER1@HOTMAIL.COM", "USER1@HOTMAIL.COM", "AQAAAAIAAYagAAAAENNmXBqqtF+BRn1pun4jE1vkmCK3u/02x0YNN+K/qQeFaVKNWAKniLU/9ApSHgR7Fg==", null, false, "967d84d3-d721-41f4-9af4-dd4caa78886e", false, "user1@hotmail.com" },
+                    { "11111111-1111-1111-1111-111111111113", 0, "afe017ee-d370-4bea-b7f6-ec9fa0d32898", "user2@hotmail.com", true, false, null, "USER2@HOTMAIL.COM", "USER2@HOTMAIL.COM", "AQAAAAIAAYagAAAAEJPIuSAPUcQV8FrRcq9dAIG24xHtqrqyaRALooQrMeiTz4YF9pxOs/LSRUkH+qRUKw==", null, false, "c3adcd82-941d-4295-88d4-8608be053930", false, "user2@hotmail.com" }
                 });
 
             migrationBuilder.InsertData(
@@ -300,9 +326,9 @@ namespace arsoudeServeur.Migrations
                 columns: new[] { "RoleId", "UserId" },
                 values: new object[,]
                 {
-                    { "9b21b5c5-3202-4a0b-b0dd-6004d76a35fe", "11111111-1111-1111-1111-111111111111" },
-                    { "4ac98948-331f-4d98-a46c-eb1d47e61b18", "11111111-1111-1111-1111-111111111112" },
-                    { "4ac98948-331f-4d98-a46c-eb1d47e61b18", "11111111-1111-1111-1111-111111111113" }
+                    { "6655b93d-ba93-45f2-bd8b-e810c27ce713", "11111111-1111-1111-1111-111111111111" },
+                    { "ed788e95-1959-4d22-8c83-670e9ae59120", "11111111-1111-1111-1111-111111111112" },
+                    { "ed788e95-1959-4d22-8c83-670e9ae59120", "11111111-1111-1111-1111-111111111113" }
                 });
 
             migrationBuilder.InsertData(
@@ -416,6 +442,16 @@ namespace arsoudeServeur.Migrations
                 column: "utilisateurId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_RandonneeUtilisateur_randonneeId",
+                table: "RandonneeUtilisateur",
+                column: "randonneeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RandonneeUtilisateur_utilisateurId",
+                table: "RandonneeUtilisateur",
+                column: "utilisateurId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_utilisateurs_identityUserId",
                 table: "utilisateurs",
                 column: "identityUserId");
@@ -447,6 +483,9 @@ namespace arsoudeServeur.Migrations
 
             migrationBuilder.DropTable(
                 name: "images");
+
+            migrationBuilder.DropTable(
+                name: "RandonneeUtilisateur");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

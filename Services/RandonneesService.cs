@@ -1,4 +1,4 @@
-﻿using arsoudeServeur.Models;
+using arsoudeServeur.Models;
 using arsoudeServeur.Models.DTOs;
 using arsoudServeur.Data;
 using Microsoft.EntityFrameworkCore;
@@ -14,14 +14,71 @@ namespace arsoudeServeur.Services
             _context = context;
         }
 
-        public async Task<List<Randonnee>> GetAllRandonneesAsync(int idMin, int idMax)
+        public async Task<List<RandonneeListDTO>> GetAllRandonneesAsync(int idMin, int idMax, Utilisateur utilisateurCourant)
         {
-            return await _context.randonnees.Where(r => r.id >= idMin && r.id <= idMax).ToListAsync();
+            List<RandonneeListDTO> randonneesEnvoye = new List<RandonneeListDTO>();
+            List<Randonnee> randonnees = await _context.randonnees.Where(r => r.id >= idMin && r.id <= idMax).ToListAsync();
+
+            foreach (Randonnee rando in randonnees) {
+                RandonneeListDTO r = new RandonneeListDTO()
+                {
+                    id = rando.id,
+                    nom = rando.nom,
+                    description = rando.description,
+                    emplacement = rando.emplacement,
+                    typeRandonnee = (int)rando.typeRandonnee,
+                    gps = rando.GPS,
+                    favoris = false
+                };
+
+                if (utilisateurCourant != null)
+                {
+                    RandonneeUtilisateur favorisUtilisateurCheck = utilisateurCourant.favoris.FirstOrDefault(randonnee => randonnee.randonneeId == rando.id);
+
+                    if (utilisateurCourant.favoris.Contains(favorisUtilisateurCheck))
+                    {
+                        r.favoris = true;
+                    }
+                }
+
+                randonneesEnvoye.Add(r);
+            }
+
+            return randonneesEnvoye;
         }
 
-        public async Task<Randonnee> GetRandonneeByIdAsync(int id)
+        public async Task<RandonneeDetailDTO> GetRandonneeByIdAsync(int id, Utilisateur utilisateurCourant)
         {
-            return await _context.randonnees.FindAsync(id);
+            Randonnee rando = await _context.randonnees.FindAsync(id);
+
+            if (rando == null)
+            {
+                return null;
+            }
+            RandonneeDetailDTO r = new RandonneeDetailDTO()
+            {
+                id = rando.id,
+                nom = rando.nom,
+                description = rando.description,
+                emplacement = rando.emplacement,
+                typeRandonnee = (int)rando.typeRandonnee,
+                gps = rando.GPS,
+                utilisateur = rando.utilisateur,
+                utilisateurId = rando.utilisateurId,
+                favoris = false
+            };
+
+            if (utilisateurCourant != null)
+            {
+                RandonneeUtilisateur favorisUtilisateurCheck = utilisateurCourant.favoris.FirstOrDefault(randonnee => randonnee.randonneeId == rando.id);
+
+                if (utilisateurCourant.favoris.Contains(favorisUtilisateurCheck))
+                {
+                    r.favoris = true;
+                }
+            }
+
+            return r;
         }
 
         public async Task<Randonnee> CreateRandonneeAsync(RandonneeDTO randonneeDTO, Utilisateur user)
@@ -46,10 +103,50 @@ namespace arsoudeServeur.Services
             return randonnee;
         }
 
-        public async Task<Randonnee> CreateRandonneeTraceAsync(Randonnee randonnee)
+        public async Task<bool?> UpdateFavoritesAsync(int randonneeId, Utilisateur utilisateurCourant)
+        {
+            bool favoris = false;
+
+            if (utilisateurCourant == null)
+            {
+                return false;
+            }
+            Randonnee rando = await _context.randonnees.FindAsync(randonneeId);
+
+            if (rando == null)
+            {
+                return null;
+            }
+
+            RandonneeUtilisateur favorisUtilisateurCheck = utilisateurCourant.favoris.FirstOrDefault(rando => rando.randonneeId == randonneeId);
+
+            if (favorisUtilisateurCheck != null)
+            {
+                utilisateurCourant.favoris.Remove(favorisUtilisateurCheck);
+                favoris = false;
+            }
+            else
+            {
+                RandonneeUtilisateur favorisUtilisateurToAdd = new RandonneeUtilisateur()
+                {
+                    id = 0,
+                    randonnee = rando,
+                    randonneeId = rando.id,
+                    utilisateur = utilisateurCourant,
+                    utilisateurId = utilisateurCourant.id
+                };
+
+                utilisateurCourant.favoris.Add(favorisUtilisateurToAdd);
+                favoris = true;
+            }
+            await _context.SaveChangesAsync();
+            return favoris;
+        }
+
+        public async Task<Randonnee> CreateRandonneeTraceAsync(TraceRandoDTO randonnee)
         {
             Randonnee r = await _context.randonnees.FirstOrDefaultAsync(x => x.id == randonnee.id);
-            foreach(GPS gps in randonnee.GPS)
+            foreach(GPS gps in randonnee.gps)
             {
                 if (!gps.Arrivee && !gps.Depart) 
                 {
@@ -61,7 +158,7 @@ namespace arsoudeServeur.Services
 
 
             await _context.SaveChangesAsync();
-            return randonnee;
+            return r;
         }
 
         public async Task<bool> UpdateRandonneeAsync(int id, Randonnee randonnee)
