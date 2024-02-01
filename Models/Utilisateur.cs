@@ -25,5 +25,8 @@ namespace arsoudeServeur.Models
         public required string identityUserId { get; set; }
         [JsonIgnore]
         public virtual IdentityUser? identityUser { get; set; }
+
+        [JsonIgnore]
+        public virtual List<RandonneeUtilisateur> favoris { get; set; }
     }
 }

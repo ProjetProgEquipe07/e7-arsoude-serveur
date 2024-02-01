@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace arsoudeServeur.Models
 {
@@ -30,9 +31,7 @@ namespace arsoudeServeur.Models
         [Required(ErrorMessage = "La propriété est obligatoire.")]
         public virtual List<GPS> GPS { get; set; } = new List<GPS>();
 
-        //public virtual int? imageId { get; set; }
-        [Required(ErrorMessage = "La propriété est obligatoire.")]
-        public virtual Image image { get; set; }
+        
 
 
         public enum Type
@@ -43,8 +42,12 @@ namespace arsoudeServeur.Models
 
 
         // Clé étrangère 
+
         public virtual int utilisateurId { get; set; }
         public virtual Utilisateur utilisateur { get; set; }
+
+        [JsonIgnore]
+        public virtual List<RandonneeUtilisateur> favorisPar { get; set; }
 
     }
 }

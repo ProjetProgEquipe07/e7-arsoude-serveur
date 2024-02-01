@@ -105,6 +105,7 @@ namespace arsoudServeur.Data
                     codePostal = "E3A4R4",
                     courriel = adminUser.UserName,
                     identityUserId = adminUser.Id,
+                    favoris = new List<RandonneeUtilisateur> {}
                 },
                 new Utilisateur
                 {
@@ -114,6 +115,7 @@ namespace arsoudServeur.Data
                     codePostal = "E3A4R4",
                     courriel = utilisateur1.UserName,
                     identityUserId = utilisateur1.Id,
+                    favoris = new List<RandonneeUtilisateur> {}
                 },
                 new Utilisateur
                 {
@@ -123,6 +125,7 @@ namespace arsoudServeur.Data
                     codePostal = "E3A4R4",
                     courriel = utilisateur2.UserName,
                     identityUserId = utilisateur2.Id,
+                    favoris = new List<RandonneeUtilisateur> {}
                 }
             };
 
