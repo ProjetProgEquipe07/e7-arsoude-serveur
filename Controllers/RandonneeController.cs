@@ -37,6 +37,13 @@ namespace arsoudeServeur.Controllers
             return randonnee;
         }
 
+        [HttpGet]
+        //[Authorize]
+        public async Task<ActionResult<IEnumerable<RandonneeListDTO>>> GetRandonneesFavoris()
+        {
+            return await _randonneeService.GetRandonneesFavorisAsync(UtilisateurCourant);
+        }
+
         [HttpPost]
         [Authorize]
         public async Task<ActionResult<Randonnee>> CreateRandonnee(RandonneeDTO randonneeDTO)
@@ -47,7 +54,8 @@ namespace arsoudeServeur.Controllers
             return CreatedAtAction(nameof(GetRandonnee), new { id = newRandonnee.id }, newRandonnee);
         }
 
-        [HttpGet("{id}")]
+        [HttpPost("{id}")]
+        //[Authorize]
         public async Task<ActionResult<bool>> UpdateFavoris(int id)
         {
             var favoris = await _randonneeService.UpdateFavoritesAsync(id, UtilisateurCourant);
