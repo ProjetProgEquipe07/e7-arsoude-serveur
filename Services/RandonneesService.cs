@@ -49,8 +49,6 @@ namespace arsoudeServeur.Services
 
         public async Task<List<RandonneeListDTO>> GetRandonneesFavorisAsync(Utilisateur utilisateurCourant)
         {
-            utilisateurCourant = await _context.utilisateurs.FirstOrDefaultAsync();
-
             List<RandonneeListDTO> randonneesEnvoye = new List<RandonneeListDTO>();
             List<Randonnee> randonnees = await _context.randonnees.ToListAsync();
 
