@@ -9,7 +9,7 @@ namespace arsoudeServeur.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
-    
+
     public class RandonneeController : BaseController
     {
         private readonly RandonneesService _randonneeService;
@@ -19,15 +19,15 @@ namespace arsoudeServeur.Controllers
         }
 
         [HttpGet("{idMin}/{idMax}")]
-        public async Task<ActionResult<IEnumerable<Randonnee>>> GetRandonnees(int idMin, int idMax)
+        public async Task<ActionResult<IEnumerable<RandonneeListDTO>>> GetRandonnees(int idMin, int idMax)
         {
-            return await _randonneeService.GetAllRandonneesAsync(idMin, idMax);
+            return await _randonneeService.GetAllRandonneesAsync(idMin, idMax, UtilisateurCourant);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Randonnee>> GetRandonnee(int id)
+        public async Task<ActionResult<RandonneeDetailDTO>> GetRandonnee(int id)
         {
-            var randonnee = await _randonneeService.GetRandonneeByIdAsync(id);
+            var randonnee = await _randonneeService.GetRandonneeByIdAsync(id, UtilisateurCourant);
 
             if (randonnee == null)
             {
@@ -45,6 +45,19 @@ namespace arsoudeServeur.Controllers
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var newRandonnee = await _randonneeService.CreateRandonneeAsync(randonneeDTO, user);
             return CreatedAtAction(nameof(GetRandonnee), new { id = newRandonnee.id }, newRandonnee);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<bool>> UpdateFavoris(int id)
+        {
+            var favoris = await _randonneeService.UpdateFavoritesAsync(id, UtilisateurCourant);
+
+            if (favoris == null)
+            {
+                return NotFound();
+            }
+
+            return favoris;
         }
 
         [HttpPut("{id}")]
