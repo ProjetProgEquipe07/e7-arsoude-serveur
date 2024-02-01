@@ -72,5 +72,14 @@ namespace arsoudeServeur.Controllers
 
             return NoContent();
         }
+        //[Authorize]
+        [HttpPost]
+        public async Task<IActionResult> CreateRandonneeTrace(Randonnee randonnee)
+        {
+            _randonneeService.CreateRandonneeTraceAsync(randonnee);
+
+            return Ok();   
+
+        }
     }
 }

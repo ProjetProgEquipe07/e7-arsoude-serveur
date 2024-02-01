@@ -46,6 +46,24 @@ namespace arsoudeServeur.Services
             return randonnee;
         }
 
+        public async Task<Randonnee> CreateRandonneeTraceAsync(Randonnee randonnee)
+        {
+            Randonnee r = await _context.randonnees.FirstOrDefaultAsync(x => x.id == randonnee.id);
+            foreach(GPS gps in randonnee.GPS)
+            {
+                if (!gps.Arrivee && !gps.Depart) 
+                {
+                    gps.randonnee = r;
+                    gps.randonneeId = r.id;
+                    _context.gps.Add(gps);
+                }
+            }
+
+
+            await _context.SaveChangesAsync();
+            return randonnee;
+        }
+
         public async Task<bool> UpdateRandonneeAsync(int id, Randonnee randonnee)
         {
             if (id != randonnee.id)
