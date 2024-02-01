@@ -170,7 +170,6 @@ namespace arsoudServeur.Data
                 utilisateurId = 1,
                 typeRandonnee = (Randonnee.Type)Enum.Parse(typeof(Randonnee.Type), "Marche"),
             };
-            builder.Entity<Randonnee>().HasData(rando1);
 
             Randonnee rando0 = new Randonnee
             {

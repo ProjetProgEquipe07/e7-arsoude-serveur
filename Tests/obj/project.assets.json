@@ -68,6 +68,19 @@
           "build/netstandard1.0/coverlet.collector.targets": {}
         }
       },
+      "GeographicLib.NET/2.1.2": {
+        "type": "package",
+        "compile": {
+          "lib/net6.0/GeographicLib.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net6.0/GeographicLib.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "Microsoft.AspNetCore.Authentication.JwtBearer/7.0.15": {
         "type": "package",
         "dependencies": {
@@ -1179,15 +1192,15 @@
           "build/net5.0/MSTest.TestFramework.targets": {}
         }
       },
-      "Newtonsoft.Json/13.0.1": {
+      "Newtonsoft.Json/13.0.3": {
         "type": "package",
         "compile": {
-          "lib/netstandard2.0/Newtonsoft.Json.dll": {
+          "lib/net6.0/Newtonsoft.Json.dll": {
             "related": ".xml"
           }
         },
         "runtime": {
-          "lib/netstandard2.0/Newtonsoft.Json.dll": {
+          "lib/net6.0/Newtonsoft.Json.dll": {
             "related": ".xml"
           }
         }
@@ -1995,6 +2008,7 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v7.0",
         "dependencies": {
+          "GeographicLib.NET": "2.1.2",
           "Microsoft.AspNetCore.Authentication.JwtBearer": "7.0.15",
           "Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore": "7.0.15",
           "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "7.0.15",
@@ -2002,7 +2016,8 @@
           "Microsoft.EntityFrameworkCore.Proxies": "7.0.15",
           "Microsoft.EntityFrameworkCore.SqlServer": "7.0.15",
           "Microsoft.EntityFrameworkCore.Sqlite": "7.0.15",
-          "Moq": "4.20.70"
+          "Moq": "4.20.70",
+          "Newtonsoft.Json": "13.0.3"
         },
         "compile": {
           "bin/placeholder/arsoudeServeur.dll": {}
@@ -2130,6 +2145,27 @@
         "coverlet-icon.png",
         "coverlet.collector.3.2.0.nupkg.sha512",
         "coverlet.collector.nuspec"
+      ]
+    },
+    "GeographicLib.NET/2.1.2": {
+      "sha512": "WLdwj+X2kYW9GyIZnJoOWa1IPSI8amiKIvWB1D6Dgq7dewgo2CKXMnHZvCh7oo3CIGwCMEmNKWc5caUirifoTw==",
+      "type": "package",
+      "path": "geographiclib.net/2.1.2",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE",
+        "README.md",
+        "geographiclib.net.2.1.2.nupkg.sha512",
+        "geographiclib.net.nuspec",
+        "lib/net5.0/GeographicLib.dll",
+        "lib/net5.0/GeographicLib.xml",
+        "lib/net6.0/GeographicLib.dll",
+        "lib/net6.0/GeographicLib.xml",
+        "lib/netstandard2.0/GeographicLib.dll",
+        "lib/netstandard2.0/GeographicLib.xml",
+        "lib/netstandard2.1/GeographicLib.dll",
+        "lib/netstandard2.1/GeographicLib.xml"
       ]
     },
     "Microsoft.AspNetCore.Authentication.JwtBearer/7.0.15": {
@@ -3918,14 +3954,15 @@
         "mstest.testframework.nuspec"
       ]
     },
-    "Newtonsoft.Json/13.0.1": {
-      "sha512": "ppPFpBcvxdsfUonNcvITKqLl3bqxWbDCZIzDWHzjpdAHRFfZe0Dw9HmA0+za13IdyrgJwpkDTDA9fHaxOrt20A==",
+    "Newtonsoft.Json/13.0.3": {
+      "sha512": "HrC5BXdl00IP9zeV+0Z848QWPAoCr9P3bDEZguI+gkLcBKAOxix/tLEAAHC+UvDNPv4a2d18lOReHMOagPa+zQ==",
       "type": "package",
-      "path": "newtonsoft.json/13.0.1",
+      "path": "newtonsoft.json/13.0.3",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "LICENSE.md",
+        "README.md",
         "lib/net20/Newtonsoft.Json.dll",
         "lib/net20/Newtonsoft.Json.xml",
         "lib/net35/Newtonsoft.Json.dll",
@@ -3934,13 +3971,15 @@
         "lib/net40/Newtonsoft.Json.xml",
         "lib/net45/Newtonsoft.Json.dll",
         "lib/net45/Newtonsoft.Json.xml",
+        "lib/net6.0/Newtonsoft.Json.dll",
+        "lib/net6.0/Newtonsoft.Json.xml",
         "lib/netstandard1.0/Newtonsoft.Json.dll",
         "lib/netstandard1.0/Newtonsoft.Json.xml",
         "lib/netstandard1.3/Newtonsoft.Json.dll",
         "lib/netstandard1.3/Newtonsoft.Json.xml",
         "lib/netstandard2.0/Newtonsoft.Json.dll",
         "lib/netstandard2.0/Newtonsoft.Json.xml",
-        "newtonsoft.json.13.0.1.nupkg.sha512",
+        "newtonsoft.json.13.0.3.nupkg.sha512",
         "newtonsoft.json.nuspec",
         "packageIcon.png"
       ]
@@ -5779,7 +5818,6 @@
   },
   "projectFileDependencyGroups": {
     "net7.0": [
-      "C:\\Users\\2151688\\Desktop\\e7-arsoude-serveur\\e7-arsoud-serveur\\arsoudeServeur.csproj",
       "MSTest.TestAdapter >= 2.2.10",
       "MSTest.TestFramework >= 2.2.10",
       "Microsoft.NET.Test.Sdk >= 17.5.0",
@@ -5815,9 +5853,6 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "projectReferences": {
-            "C:\\Users\\2151688\\Desktop\\e7-arsoude-serveur\\e7-arsoud-serveur\\arsoudeServeur.csproj": {
-              "projectPath": "C:\\Users\\2151688\\Desktop\\e7-arsoude-serveur\\e7-arsoud-serveur\\arsoudeServeur.csproj"
-            },
             "C:\\Users\\2151688\\Desktop\\e7-arsoude-serveur\\Serveur\\arsoudeServeur.csproj": {
               "projectPath": "C:\\Users\\2151688\\Desktop\\e7-arsoude-serveur\\Serveur\\arsoudeServeur.csproj"
             }
@@ -5874,16 +5909,5 @@
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.311\\RuntimeIdentifierGraph.json"
       }
     }
-  },
-  "logs": [
-    {
-      "code": "NU1104",
-      "level": "Error",
-      "message": "Projet 'C:\\Users\\2151688\\Desktop\\e7-arsoude-serveur\\e7-arsoud-serveur\\arsoudeServeur.csproj' introuvable. Vérifiez que la référence de projet est valide et que le fichier projet existe.",
-      "libraryId": "C:\\Users\\2151688\\Desktop\\e7-arsoude-serveur\\e7-arsoud-serveur\\arsoudeServeur.csproj",
-      "targetGraphs": [
-        "net7.0"
-      ]
-    }
-  ]
+  }
 }

@@ -699,3 +699,5 @@ C:\Users\2151688\Desktop\e7-arsoude-serveur - Copie\obj\Debug\net7.0\refint\arso
 C:\Users\2151688\Desktop\e7-arsoude-serveur - Copie\obj\Debug\net7.0\arsoudeServeur.pdb
 C:\Users\2151688\Desktop\e7-arsoude-serveur - Copie\obj\Debug\net7.0\arsoudeServeur.genruntimeconfig.cache
 C:\Users\2151688\Desktop\e7-arsoude-serveur - Copie\obj\Debug\net7.0\ref\arsoudeServeur.dll
+C:\Users\2151688\Desktop\e7-arsoude-serveur\Serveur\bin\Debug\net7.0\Newtonsoft.Json.dll
+C:\Users\2151688\Desktop\e7-arsoude-serveur\Serveur\bin\Debug\net7.0\GeographicLib.dll
