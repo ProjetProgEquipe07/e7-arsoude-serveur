@@ -17,13 +17,16 @@ namespace arsoudeServeur.Controllers
             _rechercheService = rechercheService;
         }
 
+
+
         [HttpGet("{recherche}/{value}")]
         public async Task<ActionResult<IEnumerable<Randonnee>>> GetNearSearch(string recherche, string value)
         {
             Utilisateur? user = UtilisateurCourant;
             try
             {
-                return await _rechercheService.GetNearSearch(recherche, user.codePostal, value);
+                var result = await _rechercheService.GetNearSearch(recherche, user.codePostal, value);
+                return Ok(result);
             } catch (NoLocationException)
             {
                 return BadRequest("NO_LOCATION_ERROR");

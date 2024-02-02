@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Primitives;
 using Newtonsoft.Json;
 using static arsoudeServeur.Models.Randonnee;
+using static arsoudeServeur.Services.RechercheService;
 
 namespace arsoudeServeur.Services
 {
@@ -14,38 +15,44 @@ namespace arsoudeServeur.Services
 
     }
 
-    public class RechercheService
+
+    public class RechercheService 
     {
 
         private readonly ApplicationDbContext _context;
         private string apikey = "AIzaSyDaUIhtFq4G-F3eONIYTEKR7hjInAKq0es";
+        private double a = 6378137.0; // Rayon équatorial en mètres
+        private double f = 1 / 298.257223563; // Aplatissement
         public RechercheService(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        internal async Task<ActionResult<IEnumerable<Randonnee>>> GetNearSearch(string recherche, string codePostal, string value)
+        public virtual async Task<Location> GetLocation(string codePostal)
         {
             var httpClient = new HttpClient();
             string url = $"https://maps.googleapis.com/maps/api/geocode/json?address={codePostal}&key={apikey}";
 
             var response = await httpClient.GetStringAsync(url);
             Root data = JsonConvert.DeserializeObject<Root>(response);
-            Location loc = data.results[0].geometry.location;
+            if (data.results.Count == 0)
+            {
+                Location loc = null;
+                return loc;
+
+            }
+
+            return data.results[0].geometry.location;
+        }
+
+        public virtual async Task<IEnumerable<Randonnee>> GetNearSearch(string recherche, string codePostal, string filtreTypeRandonne)
+        {
+            Location loc = await GetLocation(codePostal);
+           
             if(loc == null)
             {
                 throw new NoLocationException();
             }
-            string type = "";
-            if(value.Contains("0"))
-            {
-                type = "Marche";
-            }
-            else if (value.Contains("1"))
-            {
-                type = "Vélo";
-            }
-
 
             List<Randonnee> randoList = await _context.randonnees.ToListAsync();
             List<Score> scoreList = new List<Score>();
@@ -53,7 +60,7 @@ namespace arsoudeServeur.Services
 
             foreach(Randonnee randonnee in randoList)
             {
-                if(type.Contains(randonnee.typeRandonnee.ToString()) || value.Contains("undefined"))
+                if(filtreTypeRandonne.Contains(randonnee.typeRandonnee.ToString()) || filtreTypeRandonne.Contains("undefined"))
                 { 
                 Score score = new Score();
                 score.randonnee = randonnee;
@@ -66,8 +73,6 @@ namespace arsoudeServeur.Services
                     if(randonnee.nom.Contains(str))
                         score.score++;
                 }
-                double a = 6378137.0; // Rayon équatorial en mètres
-                double f = 1 / 298.257223563; // Aplatissement
                 var geod = new Geodesic(a, f);
                 GPS depart = await _context.gps.Where(s => s.randonneeId == randonnee.id && s.Depart == true).FirstOrDefaultAsync();
                 if (depart != null) { 

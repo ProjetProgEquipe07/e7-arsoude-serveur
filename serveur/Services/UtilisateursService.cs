@@ -16,7 +16,7 @@ namespace arsoudeServeur.Services
             _context = context;
         }
 
-        public Utilisateur? GetUtilisateurFromUserId(string userId)
+        public virtual Utilisateur? GetUtilisateurFromUserId(string userId)
         {
             return _context.utilisateurs.FirstOrDefault(p => p.identityUserId == userId);
         }
