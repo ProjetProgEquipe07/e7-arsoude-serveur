@@ -12235,11 +12235,16 @@
     ]
   },
   "packageFolders": {
+<<<<<<< HEAD
     "C:\\Users\\1680229\\.nuget\\packages\\": {}
+=======
+    "C:\\Users\\1935549\\.nuget\\packages\\": {}
+>>>>>>> dev
   },
   "project": {
     "version": "1.0.0",
     "restore": {
+<<<<<<< HEAD
       "projectUniqueName": "C:\\Users\\1680229\\Desktop\\e7\\e7-arsoude-serveur\\Serveur\\arsoudeServeur.csproj",
       "projectName": "arsoudeServeur",
       "projectPath": "C:\\Users\\1680229\\Desktop\\e7\\e7-arsoude-serveur\\Serveur\\arsoudeServeur.csproj",
@@ -12248,6 +12253,16 @@
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\1680229\\AppData\\Roaming\\NuGet\\NuGet.Config",
+=======
+      "projectUniqueName": "C:\\Users\\1935549\\Desktop\\e7-arsoude-serveur\\Serveur\\arsoudeServeur.csproj",
+      "projectName": "arsoudeServeur",
+      "projectPath": "C:\\Users\\1935549\\Desktop\\e7-arsoude-serveur\\Serveur\\arsoudeServeur.csproj",
+      "packagesPath": "C:\\Users\\1935549\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\1935549\\Desktop\\e7-arsoude-serveur\\Serveur\\obj\\",
+      "projectStyle": "PackageReference",
+      "configFilePaths": [
+        "C:\\Users\\1935549\\AppData\\Roaming\\NuGet\\NuGet.Config",
+>>>>>>> dev
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -12255,7 +12270,11 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+<<<<<<< HEAD
         "C:\\Program Files\\dotnet\\sdk\\7.0.310\\Sdks\\Microsoft.NET.Sdk.Web\\library-packs": {},
+=======
+        "C:\\Program Files\\dotnet\\sdk\\7.0.311\\Sdks\\Microsoft.NET.Sdk.Web\\library-packs": {},
+>>>>>>> dev
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -12344,7 +12363,11 @@
             "privateAssets": "all"
           }
         },
+<<<<<<< HEAD
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.310\\RuntimeIdentifierGraph.json"
+=======
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.311\\RuntimeIdentifierGraph.json"
+>>>>>>> dev
       }
     }
   }

@@ -12,7 +12,7 @@ namespace arsoudeServeur.Models.DTOs
         [Required(ErrorMessage = "La propriété est obligatoire.")]
         [MaxLength(40, ErrorMessage = "La longueur maximale est de 40 caractères.")]
         [MinLength(2, ErrorMessage = "La longueur minimale est de 2 caractères.")]
-        public string prénom { get; set; }
+        public string prenom { get; set; }
         [Required(ErrorMessage = "La propriété est obligatoire.")]
         public string courriel { get; set; }
         [Required(ErrorMessage = "La propriété est obligatoire.")]

@@ -13244,11 +13244,16 @@
     ]
   },
   "packageFolders": {
+<<<<<<< HEAD
     "C:\\Users\\1680229\\.nuget\\packages\\": {}
+=======
+    "C:\\Users\\1935549\\.nuget\\packages\\": {}
+>>>>>>> dev
   },
   "project": {
     "version": "1.0.0",
     "restore": {
+<<<<<<< HEAD
       "projectUniqueName": "C:\\Users\\1680229\\Desktop\\e7\\e7-arsoude-serveur\\Tests\\Tests.csproj",
       "projectName": "Tests",
       "projectPath": "C:\\Users\\1680229\\Desktop\\e7\\e7-arsoude-serveur\\Tests\\Tests.csproj",
@@ -13257,6 +13262,16 @@
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\1680229\\AppData\\Roaming\\NuGet\\NuGet.Config",
+=======
+      "projectUniqueName": "C:\\Users\\1935549\\Desktop\\e7-arsoude-serveur\\Tests\\Tests.csproj",
+      "projectName": "Tests",
+      "projectPath": "C:\\Users\\1935549\\Desktop\\e7-arsoude-serveur\\Tests\\Tests.csproj",
+      "packagesPath": "C:\\Users\\1935549\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\1935549\\Desktop\\e7-arsoude-serveur\\Tests\\obj\\",
+      "projectStyle": "PackageReference",
+      "configFilePaths": [
+        "C:\\Users\\1935549\\AppData\\Roaming\\NuGet\\NuGet.Config",
+>>>>>>> dev
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -13270,8 +13285,13 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "projectReferences": {
+<<<<<<< HEAD
             "C:\\Users\\1680229\\Desktop\\e7\\e7-arsoude-serveur\\Serveur\\arsoudeServeur.csproj": {
               "projectPath": "C:\\Users\\1680229\\Desktop\\e7\\e7-arsoude-serveur\\Serveur\\arsoudeServeur.csproj"
+=======
+            "C:\\Users\\1935549\\Desktop\\e7-arsoude-serveur\\Serveur\\arsoudeServeur.csproj": {
+              "projectPath": "C:\\Users\\1935549\\Desktop\\e7-arsoude-serveur\\Serveur\\arsoudeServeur.csproj"
+>>>>>>> dev
             }
           }
         }
