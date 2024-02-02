@@ -16,8 +16,6 @@ namespace arsoudeServeur.Services
 
         public async Task<List<RandonneeListDTO>> GetAllRandonneesAsync(int listSize, Utilisateur utilisateurCourant)
         {
-            utilisateurCourant = await _context.utilisateurs.FirstOrDefaultAsync();
-
             List<RandonneeListDTO> randonneesEnvoye = new List<RandonneeListDTO>();
             List<Randonnee> randonnees = await _context.randonnees.Take(listSize).ToListAsync();
 
@@ -51,8 +49,6 @@ namespace arsoudeServeur.Services
 
         public async Task<List<RandonneeListDTO>> GetRandonneesFavorisAsync(int listSize, Utilisateur utilisateurCourant)
         {
-            utilisateurCourant = await _context.utilisateurs.FirstOrDefaultAsync();
-
             List<RandonneeListDTO> randonneesEnvoye = new List<RandonneeListDTO>();
 
             if (utilisateurCourant != null)
@@ -82,8 +78,6 @@ namespace arsoudeServeur.Services
 
         public async Task<RandonneeDetailDTO> GetRandonneeByIdAsync(int id, Utilisateur utilisateurCourant)
         {
-            utilisateurCourant = await _context.utilisateurs.FirstOrDefaultAsync();
-
             Randonnee rando = await _context.randonnees.FindAsync(id);
 
             if (rando == null)
