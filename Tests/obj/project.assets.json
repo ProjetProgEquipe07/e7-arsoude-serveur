@@ -13244,19 +13244,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\1680229\\.nuget\\packages\\": {}
+    "C:\\Users\\2151688\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\1680229\\Desktop\\e7\\e7-arsoude-serveur\\Tests\\Tests.csproj",
+      "projectUniqueName": "C:\\Users\\2151688\\Desktop\\e7-arsoude-serveur\\Tests\\Tests.csproj",
       "projectName": "Tests",
-      "projectPath": "C:\\Users\\1680229\\Desktop\\e7\\e7-arsoude-serveur\\Tests\\Tests.csproj",
-      "packagesPath": "C:\\Users\\1680229\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\1680229\\Desktop\\e7\\e7-arsoude-serveur\\Tests\\obj\\",
+      "projectPath": "C:\\Users\\2151688\\Desktop\\e7-arsoude-serveur\\Tests\\Tests.csproj",
+      "packagesPath": "C:\\Users\\2151688\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\2151688\\Desktop\\e7-arsoude-serveur\\Tests\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\1680229\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\2151688\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -13270,8 +13270,8 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "projectReferences": {
-            "C:\\Users\\1680229\\Desktop\\e7\\e7-arsoude-serveur\\Serveur\\arsoudeServeur.csproj": {
-              "projectPath": "C:\\Users\\1680229\\Desktop\\e7\\e7-arsoude-serveur\\Serveur\\arsoudeServeur.csproj"
+            "C:\\Users\\2151688\\Desktop\\e7-arsoude-serveur\\Serveur\\arsoudeServeur.csproj": {
+              "projectPath": "C:\\Users\\2151688\\Desktop\\e7-arsoude-serveur\\Serveur\\arsoudeServeur.csproj"
             }
           }
         }
@@ -13327,7 +13327,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.310\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.311\\RuntimeIdentifierGraph.json"
       }
     }
   },
@@ -13336,7 +13336,7 @@
       "code": "Undefined",
       "level": "Warning",
       "warningLevel": 1,
-      "message": "Problème de lecture du fichier cache C:\\Users\\1680229\\Desktop\\e7\\e7-arsoude-serveur\\Tests\\obj\\project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
+      "message": "Problème de lecture du fichier cache C:\\Users\\2151688\\Desktop\\e7-arsoude-serveur\\Tests\\obj\\project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
     }
   ]
 }

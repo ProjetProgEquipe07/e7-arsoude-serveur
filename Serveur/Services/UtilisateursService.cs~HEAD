@@ -1,4 +1,4 @@
-using arsoudeServeur.Models;
+﻿using arsoudeServeur.Models;
 using arsoudeServeur.Models.DTOs;
 using arsoudeServeur.Services.Interfaces;
 using arsoudServeur.Data;
@@ -48,7 +48,7 @@ namespace arsoudeServeur.Services
             {
                 identityUserId = identityUserId,
                 courriel = register.courriel,
-                prenom = register.prenom,
+                prenom = register.prénom,
                 nom = register.nom,
                 codePostal = register.codePostal,
                 anneeDeNaissance = (int)register.anneeDeNaissance,

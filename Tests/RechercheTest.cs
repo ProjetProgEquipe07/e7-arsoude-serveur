@@ -1,3 +1,4 @@
+using arsoudeServeur.Models.DTOs;
 using arsoudServeur.Data;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -35,8 +36,11 @@ namespace Tests.Controllers
                 searchMock.Setup(service => service.GetNearSearch(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
                           .ReturnsAsync(new List<Randonnee>());
 
+                var randoMock = new Mock<RandonneesService>(dbContext);
+                randoMock.Setup(service => service.PutRandonneesFavorisAsync(It.IsAny<List<Randonnee>>(), It.IsAny<Utilisateur>()))
+                         .ReturnsAsync(new List<RandonneeListDTO>());
 
-                var searchController = new RechercheController(userMock.Object, searchMock.Object);
+                var searchController = new RechercheController(userMock.Object, searchMock.Object, randoMock.Object);
                 var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
                 {
             new Claim(ClaimTypes.NameIdentifier, "11111111-1111-1111-1111-111111111111"),
@@ -69,12 +73,18 @@ namespace Tests.Controllers
                 searchMock.Setup(service => service.GetNearSearch(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
                           .ThrowsAsync(new NoLocationException());
 
+                var randoMock = new Mock<RandonneesService>(dbContext);
+                randoMock.Setup(service => service.PutRandonneesFavorisAsync(It.IsAny<List<Randonnee>>(), It.IsAny<Utilisateur>()))
+                         .ReturnsAsync(new List<RandonneeListDTO>());
 
-                var searchController = new RechercheController(userMock.Object, searchMock.Object);
+
+                var searchController = new RechercheController(userMock.Object, searchMock.Object, randoMock.Object);
                 var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
                 {
                     new Claim(ClaimTypes.NameIdentifier, "11111111-1111-1111-1111-111111111111"),
                 }));
+
+
                 searchController.ControllerContext = new ControllerContext()
                 {
                     HttpContext = new DefaultHttpContext() { User = user }

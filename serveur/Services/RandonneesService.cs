@@ -77,6 +77,44 @@ namespace arsoudeServeur.Services
             return randonneesEnvoye;
         }
 
+        public virtual async Task<List<RandonneeListDTO>> PutRandonneesFavorisAsync(List<Randonnee> listRandonnee, Utilisateur utilisateurCourant)
+        {
+            List<RandonneeListDTO> randonneesEnvoye = new List<RandonneeListDTO>();
+            List<int> randonnees = new List<int>();
+
+            if (utilisateurCourant != null)
+            {
+                randonnees = utilisateurCourant.favoris.Select(s => s.randonneeId).ToList();
+            }
+
+                foreach (Randonnee rando in listRandonnee)
+                {
+
+                    RandonneeListDTO r = new RandonneeListDTO()
+                    {
+                        id = rando.id,
+                        nom = rando.nom,
+                        description = rando.description,
+                        emplacement = rando.emplacement,
+                        typeRandonnee = (int)rando.typeRandonnee,
+                        gps = rando.GPS,
+                        favoris = false
+                    };
+                if (utilisateurCourant != null)
+                {
+                    if (randonnees.Contains(r.id))
+                    {
+                        r.favoris = true;
+                    }
+                }
+
+                    randonneesEnvoye.Add(r);
+                }
+
+
+            return randonneesEnvoye;
+        }
+
         public async Task<RandonneeDetailDTO> GetRandonneeByIdAsync(int id, Utilisateur utilisateurCourant)
         {
             Randonnee rando = await _context.randonnees.FindAsync(id);
