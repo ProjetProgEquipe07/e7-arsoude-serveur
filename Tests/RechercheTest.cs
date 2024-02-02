@@ -1,16 +1,17 @@
-﻿using arsoudServeur.Data;
+using arsoudServeur.Data;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Moq;
 using System.Security.Claims;
+using static arsoudeServeur.Services.RechercheService;
 
 namespace Tests.Controllers
 {
     [TestClass]
     public class RechercheTest
     {
-       /* DbContextOptions<ApplicationDbContext> options;
+        DbContextOptions<ApplicationDbContext> options;
         public RechercheTest()
         {
             options = new DbContextOptionsBuilder<ApplicationDbContext>()
@@ -499,6 +500,6 @@ namespace Tests.Controllers
                 dbContext.Database.EnsureDeleted();
                 Assert.AreEqual(actionResult.Count(), 1);
             }
-        }*/
+        }
     }
 }
