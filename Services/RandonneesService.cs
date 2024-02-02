@@ -14,10 +14,12 @@ namespace arsoudeServeur.Services
             _context = context;
         }
 
-        public async Task<List<RandonneeListDTO>> GetAllRandonneesAsync(int idMin, int idMax, Utilisateur utilisateurCourant)
+        public async Task<List<RandonneeListDTO>> GetAllRandonneesAsync(int listSize, Utilisateur utilisateurCourant)
         {
+            utilisateurCourant = await _context.utilisateurs.FirstOrDefaultAsync();
+
             List<RandonneeListDTO> randonneesEnvoye = new List<RandonneeListDTO>();
-            List<Randonnee> randonnees = await _context.randonnees.Where(r => r.id >= idMin && r.id <= idMax).ToListAsync();
+            List<Randonnee> randonnees = await _context.randonnees.Take(listSize).ToListAsync();
 
             foreach (Randonnee rando in randonnees) {
                 RandonneeListDTO r = new RandonneeListDTO()
@@ -47,32 +49,31 @@ namespace arsoudeServeur.Services
             return randonneesEnvoye;
         }
 
-        public async Task<List<RandonneeListDTO>> GetRandonneesFavorisAsync(Utilisateur utilisateurCourant)
+        public async Task<List<RandonneeListDTO>> GetRandonneesFavorisAsync(int listSize, Utilisateur utilisateurCourant)
         {
+            utilisateurCourant = await _context.utilisateurs.FirstOrDefaultAsync();
+
             List<RandonneeListDTO> randonneesEnvoye = new List<RandonneeListDTO>();
-            List<Randonnee> randonnees = await _context.randonnees.ToListAsync();
 
-            foreach (Randonnee rando in randonnees)
+            if (utilisateurCourant != null)
             {
-                if (utilisateurCourant != null)
+                List<Randonnee> randonnees = utilisateurCourant.favoris.Select(s => s.randonnee).Take(listSize).ToList();
+
+                foreach (Randonnee rando in randonnees)
                 {
-                    RandonneeUtilisateur favorisUtilisateurCheck = utilisateurCourant.favoris.FirstOrDefault(randonnee => randonnee.randonneeId == rando.id);
 
-                    if (utilisateurCourant.favoris.Contains(favorisUtilisateurCheck))
+                    RandonneeListDTO r = new RandonneeListDTO()
                     {
-                        RandonneeListDTO r = new RandonneeListDTO()
-                        {
-                            id = rando.id,
-                            nom = rando.nom,
-                            description = rando.description,
-                            emplacement = rando.emplacement,
-                            typeRandonnee = (int)rando.typeRandonnee,
-                            gps = rando.GPS,
-                            favoris = true
-                        };
+                        id = rando.id,
+                        nom = rando.nom,
+                        description = rando.description,
+                        emplacement = rando.emplacement,
+                        typeRandonnee = (int)rando.typeRandonnee,
+                        gps = rando.GPS,
+                        favoris = true
+                    };
 
-                        randonneesEnvoye.Add(r);
-                    }
+                    randonneesEnvoye.Add(r);
                 }
             }
 
@@ -81,6 +82,8 @@ namespace arsoudeServeur.Services
 
         public async Task<RandonneeDetailDTO> GetRandonneeByIdAsync(int id, Utilisateur utilisateurCourant)
         {
+            utilisateurCourant = await _context.utilisateurs.FirstOrDefaultAsync();
+
             Randonnee rando = await _context.randonnees.FindAsync(id);
 
             if (rando == null)
