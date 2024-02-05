@@ -36,7 +36,7 @@ namespace arsoudeServeur.Controllers
         {
             if (register.motDePasse != register.confirmationMotDePasse)
             {
-                return BadRequest(new { Error = "Le mot de passe et la confirmation ne sont pas identique" });
+                return BadRequest(new { Error = "Le mot de passe et la confirmation ne sont pas identiques" });
             }
 
             IdentityUser user = new IdentityUser()
