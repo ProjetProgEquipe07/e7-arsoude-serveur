@@ -24,7 +24,7 @@ namespace arsoudeServeur.Models.DTOs
         public string codePostal { get; set; }
 
         //Optionnel
-        public string adresse { get; set; } = null;
+        public string? adresse { get; set; } = null;
         [YearRange(ErrorMessage = "L'année que vous avez entré n'est pas valide")]
         public int? anneeDeNaissance { get; set; }
         [Range(1, 12, ErrorMessage = "La valeur doit être comprise entre 1 et 12.")]
