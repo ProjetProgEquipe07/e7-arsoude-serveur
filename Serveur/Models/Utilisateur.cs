@@ -14,6 +14,7 @@ namespace arsoudeServeur.Models
         public string prenom { get; set; }
         public string nom { get; set; }
         public string codePostal { get; set; }
+        public string role { get; set; }
 
         // TODO : doit être valide (currentYear - 100)
         public int anneeDeNaissance { get; set; } 

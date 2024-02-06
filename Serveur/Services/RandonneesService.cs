@@ -17,7 +17,7 @@ namespace arsoudeServeur.Services
         public async Task<List<RandonneeListDTO>> GetAllRandonneesAsync(int listSize, Utilisateur utilisateurCourant)
         {
             List<RandonneeListDTO> randonneesEnvoye = new List<RandonneeListDTO>();
-            List<Randonnee> randonnees = await _context.randonnees.Take(listSize).ToListAsync();
+            List<Randonnee> randonnees = await _context.randonnees.Where(s => s.approuve != false).Take(listSize).ToListAsync();
 
             foreach (Randonnee rando in randonnees)
             {
@@ -161,6 +161,7 @@ namespace arsoudeServeur.Services
                 nom = randonneeDTO.nom,
                 description = randonneeDTO.description,
                 emplacement = randonneeDTO.emplacement,
+                approuve = false,
                 typeRandonnee = (Randonnee.Type)randonneeDTO.typeRandonnee,
                 GPS = randonneeDTO.gps,
                 utilisateur = user
