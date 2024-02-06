@@ -1,4 +1,5 @@
 ﻿using arsoudeServeur.Models;
+using arsoudeServeur.Models.DTOs;
 using arsoudeServeur.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -16,15 +17,26 @@ namespace arsoudeServeur.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<Utilisateur>> GetUtilisateurCourant()
+        public async Task<ActionResult<ProfilDTO>> GetUtilisateurCourant()
         {
             var utilisateur = UtilisateurCourant;
             if (utilisateur == null)
             {
                 return NotFound(new { Error = "L'utilisateur est introuvable" }); 
             }
-
-            return Ok(utilisateur); 
+            var userDTO = new ProfilDTO()
+            {
+                id = utilisateur.id,
+                nom = utilisateur.nom,
+                prenom = utilisateur.prenom,
+                courriel = utilisateur.courriel,
+                codePostal = utilisateur.codePostal,
+                favoris = utilisateur.favoris,
+                adresse = utilisateur.adresse,
+                moisDeNaissance = utilisateur.moisDeNaissance,
+                anneeDeNaissance = utilisateur.anneeDeNaissance,
+            };
+            return Ok(userDTO); 
         }
 
     }
