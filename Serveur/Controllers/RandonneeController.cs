@@ -44,6 +44,15 @@ namespace arsoudeServeur.Controllers
             return await _randonneeService.GetRandonneesFavorisAsync(listSize, UtilisateurCourant);
         }
 
+        [HttpGet("{id}")]
+        public async Task<ActionResult<int>> GetRandonneesUtilisateur(int id)
+        {
+            Utilisateur user = UtilisateurCourant;
+            int i = await _randonneeService.GetRandonneesUtilisateur(id, user);
+
+            return Ok(i);
+        }
+
         [HttpPost]
         [Authorize]
         public async Task<ActionResult<Randonnee>> CreateRandonnee(RandonneeDTO randonneeDTO)
@@ -97,6 +106,7 @@ namespace arsoudeServeur.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateRandonneeTrace(TraceRandoDTO randonnee)
         {
+
             await _randonneeService.CreateRandonneeTraceAsync(randonnee);
 
             return Ok();

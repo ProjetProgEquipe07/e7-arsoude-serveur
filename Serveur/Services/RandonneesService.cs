@@ -1,6 +1,7 @@
 ﻿using arsoudeServeur.Models;
 using arsoudeServeur.Models.DTOs;
 using arsoudServeur.Data;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace arsoudeServeur.Services
@@ -276,6 +277,11 @@ namespace arsoudeServeur.Services
         private bool RandonneeExists(int id)
         {
             return _context.randonnees.Any(e => e.id == id);
+        }
+
+        public async Task<int> GetRandonneesUtilisateur(int id, Utilisateur user)
+        {
+            return _context.randonnees.Where(x => x.id == id && x.utilisateurId == user.id).Count();
         }
     }
 }
