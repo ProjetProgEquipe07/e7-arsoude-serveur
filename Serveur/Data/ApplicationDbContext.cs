@@ -103,6 +103,7 @@ namespace arsoudServeur.Data
                     nom = "tangerine",
                     prenom = "robert",
                     codePostal = "E3A4R4",
+                    role = "Administrator",
                     courriel = adminUser.UserName,
                     identityUserId = adminUser.Id,
                     favoris = new List<RandonneeUtilisateur> {}
@@ -113,6 +114,7 @@ namespace arsoudServeur.Data
                     nom = "Hogan",
                     prenom = "Hulk",
                     codePostal = "E3A4R4",
+                    role = "User",
                     courriel = utilisateur1.UserName,
                     identityUserId = utilisateur1.Id,
                     favoris = new List<RandonneeUtilisateur> {}
@@ -123,6 +125,7 @@ namespace arsoudServeur.Data
                     nom = "Charles",
                     prenom = "Grégory",
                     codePostal = "E3A4R4",
+                    role = "User",
                     courriel = utilisateur2.UserName,
                     identityUserId = utilisateur2.Id,
                     favoris = new List<RandonneeUtilisateur> {}
@@ -147,6 +150,7 @@ namespace arsoudServeur.Data
                     description = "promenade cool a st-brun",
                     emplacement = "st-bruno",
                     utilisateurId = 1,
+                    approuve = true,
                     typeRandonnee = Randonnee.Type.Vélo,
                 },
                 new Randonnee
@@ -156,6 +160,7 @@ namespace arsoudServeur.Data
                     description = "promenade moyennement cool la bas",
                     emplacement = "dehors",
                     utilisateurId = 2,
+                    approuve = true,
                     typeRandonnee = Randonnee.Type.Marche,
                 },
                 new Randonnee
@@ -165,6 +170,7 @@ namespace arsoudServeur.Data
                     description = "promenade fresh a st-hilaire",
                     emplacement = "st-hilaire",
                     utilisateurId = 3,
+                    approuve = true,
                     typeRandonnee = Randonnee.Type.Vélo,
                 },
                 new Randonnee
@@ -174,6 +180,7 @@ namespace arsoudServeur.Data
                     description = "promenade au subway",
                     emplacement = "st-grégoire",
                     utilisateurId = 2,
+                    approuve = true,
                     typeRandonnee = Randonnee.Type.Marche,
                 },
                 new Randonnee
@@ -183,6 +190,7 @@ namespace arsoudServeur.Data
                     description = "ça doit être cool la bas",
                     emplacement = "quelque part",
                     utilisateurId = 2,
+                    approuve = true,
                     typeRandonnee = Randonnee.Type.Marche,
                 },
                 new Randonnee
@@ -192,6 +200,7 @@ namespace arsoudServeur.Data
                     description = "je pense qu'on a beaucoup de fun",
                     emplacement = "mont tremblant",
                     utilisateurId = 1,
+                    approuve = true,
                     typeRandonnee = Randonnee.Type.Marche,
                 },
                 new Randonnee
@@ -201,6 +210,7 @@ namespace arsoudServeur.Data
                     description = "J'ai eu beaucoup de plaisir",
                     emplacement = "st-jérome",
                     utilisateurId = 2,
+                    approuve = true,
                     typeRandonnee = Randonnee.Type.Marche,
                 },
                 new Randonnee
@@ -210,6 +220,7 @@ namespace arsoudServeur.Data
                     description = "moyennement le fun pour vrai",
                     emplacement = "ottoburn park",
                     utilisateurId = 3,
+                    approuve = false,
                     typeRandonnee = Randonnee.Type.Marche,
                 },
             };
