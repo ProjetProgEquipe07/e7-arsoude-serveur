@@ -22,12 +22,6 @@ jobs:
           dotnet-version: '7.x'
           include-prerelease: true
 
-      - name: Install Entity Framework Core CLI
-        run: dotnet tool install --global dotnet-ef --version 7.0.9
-        
-      - name: Apply EF Core Migrations
-        run: dotnet ef database update --project ./ --startup-project ./
-
       - name: Build with dotnet
         run: dotnet build --configuration Release
 
