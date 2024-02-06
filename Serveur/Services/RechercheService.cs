@@ -55,7 +55,7 @@ namespace arsoudeServeur.Services
                 throw new NoLocationException();
             }
 
-            List<Randonnee> randoList = await _context.randonnees.ToListAsync();
+            List<Randonnee> randoList = await _context.randonnees.Where(s => s.approuve != false).ToListAsync();
             List<Score> scoreList = new List<Score>();
             List<string> strList = recherche.Split(' ').ToList();
 
@@ -67,11 +67,11 @@ namespace arsoudeServeur.Services
                 score.randonnee = randonnee;
                 foreach (string str in strList)
                 {
-                    if (randonnee.description.Contains(str))
+                    if (randonnee.description.ToLower().Contains(str.ToLower()))
                         score.score++;
-                    if(randonnee.emplacement.Contains(str))
+                    if(randonnee.emplacement.ToLower().Contains(str.ToLower()))
                         score.score++;
-                    if(randonnee.nom.Contains(str))
+                    if(randonnee.nom.ToLower().Contains(str.ToLower()))
                         score.score++;
                 }
                 var geod = new Geodesic(a, f);

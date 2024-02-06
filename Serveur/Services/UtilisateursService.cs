@@ -51,6 +51,7 @@ namespace arsoudeServeur.Services
                 prenom = register.prenom,
                 nom = register.nom,
                 codePostal = register.codePostal,
+                role = "User",
                 anneeDeNaissance = (int)register.anneeDeNaissance,
                 moisDeNaissance = (int)register.moisDeNaissance,
                 adresse = register.adresse
