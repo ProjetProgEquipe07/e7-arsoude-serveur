@@ -9,164 +9,86 @@ using arsoudServeur.Data;
 using arsoudeServeur.Models;
 using Microsoft.AspNetCore.Authorization;
 using System.Data;
+using arsoudeServeur.Controllers;
+using arsoudeServeur.Services;
 
 namespace arsoudeServeur.Areas.Admin.Controllers
 {
     [Route("api/[controller]/[action]")]
     [Area("Admin")]
-    public class RandonneesController : Controller
+    public class RandonneesController : BaseController
     {
         private readonly ApplicationDbContext _context;
+        private UtilisateursService _utilisateursService;
 
-        public RandonneesController(ApplicationDbContext context)
+        public RandonneesController(ApplicationDbContext context, UtilisateursService utilisateursService) : base(utilisateursService)
         {
             _context = context;
+            _utilisateursService = utilisateursService;
         }
 
-        // GET: Admin/Randonnees
-        public async Task<IActionResult> Index()
+
+ 
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Randonnee>> ApproveRando(int id) 
         {
-            var applicationDbContext = _context.randonnees.Include(r => r.utilisateur);
-            return View(await applicationDbContext.ToListAsync());
+            Utilisateur user = UtilisateurCourant;
+            if (user.role.Contains("Administrator"))
+            {
+                Randonnee randonnee = await _context.randonnees.FindAsync(id);
+                randonnee.approuve = true;
+
+                _context.SaveChangesAsync();
+
+                return Ok(randonnee);
+            }
+            else
+            {
+                return Unauthorized("Vous n'avez pas les droits pour cette action");
+            }
         }
 
-        // GET: Admin/Randonnees/Details/5
-        public async Task<IActionResult> Details(int? id)
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Randonnee>> RefuseRando(int id)
         {
-            if (id == null || _context.randonnees == null)
-            {
-                return NotFound();
-            }
-
-            var randonnee = await _context.randonnees
-                .Include(r => r.utilisateur)
-                .FirstOrDefaultAsync(m => m.id == id);
-            if (randonnee == null)
-            {
-                return NotFound();
-            }
-
-            return View(randonnee);
-        }
-
-        // GET: Admin/Randonnees/Create
-        public IActionResult Create()
-        {
-            ViewData["utilisateurId"] = new SelectList(_context.utilisateurs, "id", "id");
-            return View();
-        }
-
-        // POST: Admin/Randonnees/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("id,nom,description,emplacement,typeRandonnee,utilisateurId")] Randonnee randonnee)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(randonnee);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["utilisateurId"] = new SelectList(_context.utilisateurs, "id", "id", randonnee.utilisateurId);
-            return View(randonnee);
-        }
-
-        // GET: Admin/Randonnees/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null || _context.randonnees == null)
-            {
-                return NotFound();
-            }
-
-            var randonnee = await _context.randonnees.FindAsync(id);
-            if (randonnee == null)
-            {
-                return NotFound();
-            }
-            ViewData["utilisateurId"] = new SelectList(_context.utilisateurs, "id", "id", randonnee.utilisateurId);
-            return View(randonnee);
-        }
-
-        // POST: Admin/Randonnees/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("id,nom,description,emplacement,typeRandonnee,utilisateurId")] Randonnee randonnee)
-        {
-            if (id != randonnee.id)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
+            Utilisateur user = UtilisateurCourant;
+            if (user.role.Contains("Administrator"))
             {
                 try
                 {
-                    _context.Update(randonnee);
-                    await _context.SaveChangesAsync();
+                    Randonnee randonnee = await _context.randonnees.FindAsync(id);
+                    _context.randonnees.Remove(randonnee);
+
+                    _context.SaveChangesAsync();
+
+                    return Ok();
                 }
-                catch (DbUpdateConcurrencyException)
+                catch (Exception e)
                 {
-                    if (!RandonneeExists(randonnee.id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    return BadRequest(e);
                 }
-                return RedirectToAction(nameof(Index));
             }
-            ViewData["utilisateurId"] = new SelectList(_context.utilisateurs, "id", "id", randonnee.utilisateurId);
-            return View(randonnee);
+            else
+            {
+                return Unauthorized("Vous n'avez pas les droits pour cette action");
+            }
         }
+      
 
-        // GET: Admin/Randonnees/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        [HttpGet("{id}")]
+        public async Task<ActionResult<IEnumerable<Randonnee>>> GetListApproveRando()
         {
-            if (id == null || _context.randonnees == null)
-            {
-                return NotFound();
-            }
+            Utilisateur user = UtilisateurCourant;
+            if(user.role.Contains("Administrator"))
+            { 
+                List<Randonnee> randonnee = await _context.randonnees.Where(x => x.approuve == false).ToListAsync();
 
-            var randonnee = await _context.randonnees
-                .Include(r => r.utilisateur)
-                .FirstOrDefaultAsync(m => m.id == id);
-            if (randonnee == null)
-            {
-                return NotFound();
+            return Ok(randonnee);
             }
-
-            return View(randonnee);
-        }
-
-        // POST: Admin/Randonnees/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            if (_context.randonnees == null)
+            else
             {
-                return Problem("Entity set 'ApplicationDbContext.randonnees'  is null.");
+                return Unauthorized("Vous n'avez pas les droits pour cette action");
             }
-            var randonnee = await _context.randonnees.FindAsync(id);
-            if (randonnee != null)
-            {
-                _context.randonnees.Remove(randonnee);
-            }
-            
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
-        private bool RandonneeExists(int id)
-        {
-          return (_context.randonnees?.Any(e => e.id == id)).GetValueOrDefault();
         }
     }
 }
