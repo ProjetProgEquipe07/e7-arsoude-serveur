@@ -159,7 +159,7 @@ namespace Tests.Controllers
                 dbContext.randonnees.AddRange(randonnees);
                 await dbContext.SaveChangesAsync();
 
-                var actionResult = await searchMock.Object.GetNearSearch("test", "12345", "Marche");
+                var actionResult = await searchMock.Object.GetNearSearch("Montagne", "12345", "Marche");
                 dbContext.Database.EnsureDeleted();
 
                 Assert.AreEqual(actionResult.Count(), 1);
@@ -214,7 +214,7 @@ namespace Tests.Controllers
                 dbContext.randonnees.AddRange(randonnees);
                 await dbContext.SaveChangesAsync();
 
-                var actionResult = await searchMock.Object.GetNearSearch("test", "12345", "Vélo");
+                var actionResult = await searchMock.Object.GetNearSearch("vélo", "12345", "Vélo");
                 dbContext.Database.EnsureDeleted();
                 Assert.AreEqual(actionResult.Count(), 1);
             }
@@ -269,7 +269,7 @@ namespace Tests.Controllers
                 dbContext.randonnees.AddRange(randonnees);
                 await dbContext.SaveChangesAsync();
 
-                var actionResult = await searchMock.Object.GetNearSearch("test", "12345", "undefined");
+                var actionResult = await searchMock.Object.GetNearSearch("randonnée", "12345", "undefined");
                 dbContext.Database.EnsureDeleted();
                 Assert.AreEqual(actionResult.Count(), 2);
             }
@@ -415,36 +415,6 @@ namespace Tests.Controllers
                         image = new Image { id= 1 , lien="", randonneeId =1},
                         utilisateurId = 1
                     },
-                    new Randonnee
-                    {
-                        id = 4,
-                        nom = "Randonnée Vélo",
-                        description = "Un parcours à vélo stimulant.",
-                        emplacement = "Bretagne",
-                        typeRandonnee = Randonnee.Type.Vélo,
-                        GPS = new List<GPS>
-                        {
-                            new GPS { id = 7, X = 60.202047, Y = -2.932644, Depart = true, Arrivee = false },
-                            new GPS { id = 8, X = 48.202047, Y = -2.933644, Depart = false, Arrivee = true },
-                        },
-                        image = new Image { id= 4 , lien="", randonneeId =4 },
-                        utilisateurId = 2
-                    },
-                    new Randonnee
-                    {
-                        id = 5,
-                        nom = "Randonnée Vélo",
-                        description = "Un parcours à vélo stimulant.",
-                        emplacement = "Bretagne",
-                        typeRandonnee = Randonnee.Type.Vélo,
-                        GPS = new List<GPS>
-                        {
-                            new GPS { id = 9, X = 10.202047, Y = -2.932644, Depart = true, Arrivee = false },
-                            new GPS { id = 10, X = 48.202047, Y = -2.933644, Depart = false, Arrivee = true },
-                        },
-                        image = new Image { id= 5 , lien="", randonneeId =5 },
-                        utilisateurId = 2
-                    }
                 };
 
                 dbContext.randonnees.AddRange(randonnees);
@@ -489,7 +459,7 @@ namespace Tests.Controllers
                     new Randonnee
                     {
                         id = 2,
-                        nom = "Randonnée Vélo",
+                        nom = "test Vélo",
                         description = "Un parcours à vélo stimulant.",
                         emplacement = "Bretagne",
                         typeRandonnee = Randonnee.Type.Vélo,

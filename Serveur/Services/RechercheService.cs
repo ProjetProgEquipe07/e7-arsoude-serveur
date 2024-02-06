@@ -67,13 +67,18 @@ namespace arsoudeServeur.Services
                 score.randonnee = randonnee;
                 foreach (string str in strList)
                 {
-                    if (randonnee.description.Contains(str))
-                        score.score++;
-                    if(randonnee.emplacement.Contains(str))
-                        score.score++;
-                    if(randonnee.nom.Contains(str))
-                        score.score++;
-                }
+                        if (randonnee.description.ToLower().Contains(str.ToLower()))
+
+                            score.score++;
+
+                        if (randonnee.emplacement.ToLower().Contains(str.ToLower()))
+
+                            score.score++;
+
+                        if (randonnee.nom.ToLower().Contains(str.ToLower()))
+
+                            score.score++;
+                    }
                 var geod = new Geodesic(a, f);
                 GPS depart = await _context.gps.Where(s => s.randonneeId == randonnee.id && s.Depart == true).FirstOrDefaultAsync();
                 if (depart != null) { 
@@ -82,8 +87,11 @@ namespace arsoudeServeur.Services
 
                 score.distance = s12;
 
+                if(score.score != 0)
+                { 
                 scoreList.Add(score);
-                }
+                        }
+                    }
                 }
             }
             randoList = scoreList.OrderByDescending(s => s.score).ThenBy(s => s.distance).Select(s => s.randonnee).ToList();

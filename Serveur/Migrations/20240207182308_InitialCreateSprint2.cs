@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace arsoudeServeur.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate0602 : Migration
+    public partial class InitialCreateSprint2 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -307,8 +307,8 @@ namespace arsoudeServeur.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "82e10d1a-9b4d-4126-b91f-903113c9ae43", null, "User", "USER" },
-                    { "c4611a83-7eac-4c33-bbbc-b763f87f20d7", null, "Administrator", "ADMINISTRATOR" }
+                    { "9d98d0bc-039d-4e62-aaf3-340a2906737e", null, "Administrator", "ADMINISTRATOR" },
+                    { "c3bc3f5e-7954-4156-8553-c0cf537d1d68", null, "User", "USER" }
                 });
 
             migrationBuilder.InsertData(
@@ -316,9 +316,9 @@ namespace arsoudeServeur.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "11111111-1111-1111-1111-111111111111", 0, "43362770-fff5-464a-a09c-f4fd8d99badf", "admin@gmail.com", true, false, null, "ADMIN@GMAIL.COM", "ADMIN@GMAIL.COM", "AQAAAAIAAYagAAAAEMA+oxNIjE6XqFjBbw45PTeYIy7UA+P8vQR+zGqr61XXUlvXuAobEZnYyaziYQWwcg==", null, false, "356be55d-eb17-4d2b-badb-c96e21528407", false, "admin@gmail.com" },
-                    { "11111111-1111-1111-1111-111111111112", 0, "d0b65ccd-195f-4794-a8b7-9211a7827a4b", "user1@hotmail.com", true, false, null, "USER1@HOTMAIL.COM", "USER1@HOTMAIL.COM", "AQAAAAIAAYagAAAAEIBACVLAcIGL+Lua+5L9tLggpRCIopzVbJmx5qdBQS3q7fsbonyez9hPND8Ciac89A==", null, false, "607f81b3-2081-4a2a-94df-1cf4119c66b3", false, "user1@hotmail.com" },
-                    { "11111111-1111-1111-1111-111111111113", 0, "1e275151-6eea-4646-b67f-7b9b417ee7f0", "user2@hotmail.com", true, false, null, "USER2@HOTMAIL.COM", "USER2@HOTMAIL.COM", "AQAAAAIAAYagAAAAECRw/UB2QgRAj4IRsVDW1smci9QoXC372IYCsUBNbIQDAT3Sv83gLIUVdjJkxqonrQ==", null, false, "c198d3e7-8b76-4f2d-9e75-4f18513df974", false, "user2@hotmail.com" }
+                    { "11111111-1111-1111-1111-111111111111", 0, "76bc608c-68be-4f46-ad04-f19c719ba252", "admin@gmail.com", true, false, null, "ADMIN@GMAIL.COM", "ADMIN@GMAIL.COM", "AQAAAAIAAYagAAAAECx9hwmttlwHLzBbcYOI2iDIfIfzI7AofnYTcx+2E2dxB5+B76lR7mc8b2KdJuuPJw==", null, false, "d8445ac4-73a5-41b9-99d7-df37df2e7fe2", false, "admin@gmail.com" },
+                    { "11111111-1111-1111-1111-111111111112", 0, "c06b0e15-24d2-4271-ba40-59f0415126c7", "user1@hotmail.com", true, false, null, "USER1@HOTMAIL.COM", "USER1@HOTMAIL.COM", "AQAAAAIAAYagAAAAEMRw0EcaqVtbLk3qU5VfT83FyYOS0KI/j9ALAKZj0AnA14DBwU37MARxGqNRpIGiRQ==", null, false, "1a5979ad-7f98-4e4f-8f7f-a83084aeded5", false, "user1@hotmail.com" },
+                    { "11111111-1111-1111-1111-111111111113", 0, "5c94771c-bc83-4408-91f1-652b78cdbf74", "user2@hotmail.com", true, false, null, "USER2@HOTMAIL.COM", "USER2@HOTMAIL.COM", "AQAAAAIAAYagAAAAEB4mrY4oyv9nL9AVk08Vu9Aqk0vTdto83DeAZZ6N/sG0y+EbEeWVJ/wJ2Fh1CV4mSw==", null, false, "359929f6-a2e3-42ed-9061-4f0934e7c3ea", false, "user2@hotmail.com" }
                 });
 
             migrationBuilder.InsertData(
@@ -326,9 +326,9 @@ namespace arsoudeServeur.Migrations
                 columns: new[] { "RoleId", "UserId" },
                 values: new object[,]
                 {
-                    { "c4611a83-7eac-4c33-bbbc-b763f87f20d7", "11111111-1111-1111-1111-111111111111" },
-                    { "82e10d1a-9b4d-4126-b91f-903113c9ae43", "11111111-1111-1111-1111-111111111112" },
-                    { "82e10d1a-9b4d-4126-b91f-903113c9ae43", "11111111-1111-1111-1111-111111111113" }
+                    { "9d98d0bc-039d-4e62-aaf3-340a2906737e", "11111111-1111-1111-1111-111111111111" },
+                    { "c3bc3f5e-7954-4156-8553-c0cf537d1d68", "11111111-1111-1111-1111-111111111112" },
+                    { "c3bc3f5e-7954-4156-8553-c0cf537d1d68", "11111111-1111-1111-1111-111111111113" }
                 });
 
             migrationBuilder.InsertData(
@@ -337,7 +337,7 @@ namespace arsoudeServeur.Migrations
                 values: new object[,]
                 {
                     { 1, null, 0, "E3A4R4", "admin@gmail.com", "11111111-1111-1111-1111-111111111111", 0, "tangerine", "robert" },
-                    { 2, null, 0, "E3A4R4", "user1@hotmail.com", "11111111-1111-1111-1111-111111111112", 0, "Hogan", "Hulk" },
+                    { 2, null, 0, "$%&&?%", "user1@hotmail.com", "11111111-1111-1111-1111-111111111112", 0, "Hogan", "Hulk" },
                     { 3, null, 0, "E3A4R4", "user2@hotmail.com", "11111111-1111-1111-1111-111111111113", 0, "Charles", "Grégory" }
                 });
 
@@ -346,14 +346,12 @@ namespace arsoudeServeur.Migrations
                 columns: new[] { "id", "description", "emplacement", "nom", "typeRandonnee", "utilisateurId" },
                 values: new object[,]
                 {
-                    { 1, "promenade cool a st-brun", "st-bruno", "St-Bruno", 1, 1 },
+                    { 1, "promenade cool a st-brun", "st-bruno", "St-Brun", 1, 1 },
                     { 2, "promenade moyennement cool la bas", "dehors", "ptite marche au subway", 0, 2 },
-                    { 3, "promenade fresh a st-hilaire", "st-hilaire", "st-hilaire", 1, 3 },
+                    { 3, "promenade fresh a bro s s a r d", "st-hilaire?", "Brossard", 1, 3 },
                     { 4, "promenade au subway", "st-grégoire", "ma randonnée pédestre", 0, 2 },
                     { 5, "ça doit être cool la bas", "quelque part", "rivière rouge", 0, 2 },
-                    { 6, "je pense qu'on a beaucoup de fun", "mont tremblant", "Ma randonnée", 0, 1 },
-                    { 7, "J'ai eu beaucoup de plaisir", "st-jérome", "ayyyyyy", 0, 2 },
-                    { 8, "moyennement le fun pour vrai", "ottoburn park", "st-grégoire", 0, 3 }
+                    { 6, "je pense qu'on a beaucoup de fun", "mont tremblant", "Ma randonnée", 0, 1 }
                 });
 
             migrationBuilder.InsertData(
@@ -372,11 +370,7 @@ namespace arsoudeServeur.Migrations
                     { 9, false, true, 45.354998999999999, -73.150238000000002, 5 },
                     { 10, true, false, 45.356924999999997, -73.150233999999998, 5 },
                     { 11, false, true, 45.354998999999999, -73.160238000000007, 6 },
-                    { 12, true, false, 45.356924999999997, -73.150233999999998, 6 },
-                    { 13, false, true, 45.364998999999997, -73.110237999999995, 7 },
-                    { 14, true, false, 45.386924999999998, -73.152234000000007, 7 },
-                    { 15, false, true, 45.364998999999997, -73.166238000000007, 8 },
-                    { 16, true, false, 45.456924999999998, -73.128234000000006, 8 }
+                    { 12, true, false, 45.356924999999997, -73.150233999999998, 6 }
                 });
 
             migrationBuilder.CreateIndex(

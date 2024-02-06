@@ -2,7 +2,6 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using arsoudServeur.Data;
 
@@ -11,11 +10,9 @@ using arsoudServeur.Data;
 namespace arsoudeServeur.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240206141511_InitialCreate0602")]
-    partial class InitialCreate0602
+    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -52,13 +49,13 @@ namespace arsoudeServeur.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "c4611a83-7eac-4c33-bbbc-b763f87f20d7",
+                            Id = "9d98d0bc-039d-4e62-aaf3-340a2906737e",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
-                            Id = "82e10d1a-9b4d-4126-b91f-903113c9ae43",
+                            Id = "c3bc3f5e-7954-4156-8553-c0cf537d1d68",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -155,15 +152,15 @@ namespace arsoudeServeur.Migrations
                         {
                             Id = "11111111-1111-1111-1111-111111111111",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "43362770-fff5-464a-a09c-f4fd8d99badf",
+                            ConcurrencyStamp = "76bc608c-68be-4f46-ad04-f19c719ba252",
                             Email = "admin@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@GMAIL.COM",
                             NormalizedUserName = "ADMIN@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEMA+oxNIjE6XqFjBbw45PTeYIy7UA+P8vQR+zGqr61XXUlvXuAobEZnYyaziYQWwcg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAECx9hwmttlwHLzBbcYOI2iDIfIfzI7AofnYTcx+2E2dxB5+B76lR7mc8b2KdJuuPJw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "356be55d-eb17-4d2b-badb-c96e21528407",
+                            SecurityStamp = "d8445ac4-73a5-41b9-99d7-df37df2e7fe2",
                             TwoFactorEnabled = false,
                             UserName = "admin@gmail.com"
                         },
@@ -171,15 +168,15 @@ namespace arsoudeServeur.Migrations
                         {
                             Id = "11111111-1111-1111-1111-111111111112",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "d0b65ccd-195f-4794-a8b7-9211a7827a4b",
+                            ConcurrencyStamp = "c06b0e15-24d2-4271-ba40-59f0415126c7",
                             Email = "user1@hotmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "USER1@HOTMAIL.COM",
                             NormalizedUserName = "USER1@HOTMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEIBACVLAcIGL+Lua+5L9tLggpRCIopzVbJmx5qdBQS3q7fsbonyez9hPND8Ciac89A==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEMRw0EcaqVtbLk3qU5VfT83FyYOS0KI/j9ALAKZj0AnA14DBwU37MARxGqNRpIGiRQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "607f81b3-2081-4a2a-94df-1cf4119c66b3",
+                            SecurityStamp = "1a5979ad-7f98-4e4f-8f7f-a83084aeded5",
                             TwoFactorEnabled = false,
                             UserName = "user1@hotmail.com"
                         },
@@ -187,15 +184,15 @@ namespace arsoudeServeur.Migrations
                         {
                             Id = "11111111-1111-1111-1111-111111111113",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "1e275151-6eea-4646-b67f-7b9b417ee7f0",
+                            ConcurrencyStamp = "5c94771c-bc83-4408-91f1-652b78cdbf74",
                             Email = "user2@hotmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "USER2@HOTMAIL.COM",
                             NormalizedUserName = "USER2@HOTMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAECRw/UB2QgRAj4IRsVDW1smci9QoXC372IYCsUBNbIQDAT3Sv83gLIUVdjJkxqonrQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEB4mrY4oyv9nL9AVk08Vu9Aqk0vTdto83DeAZZ6N/sG0y+EbEeWVJ/wJ2Fh1CV4mSw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "c198d3e7-8b76-4f2d-9e75-4f18513df974",
+                            SecurityStamp = "359929f6-a2e3-42ed-9061-4f0934e7c3ea",
                             TwoFactorEnabled = false,
                             UserName = "user2@hotmail.com"
                         });
@@ -266,17 +263,17 @@ namespace arsoudeServeur.Migrations
                         new
                         {
                             UserId = "11111111-1111-1111-1111-111111111111",
-                            RoleId = "c4611a83-7eac-4c33-bbbc-b763f87f20d7"
+                            RoleId = "9d98d0bc-039d-4e62-aaf3-340a2906737e"
                         },
                         new
                         {
                             UserId = "11111111-1111-1111-1111-111111111112",
-                            RoleId = "82e10d1a-9b4d-4126-b91f-903113c9ae43"
+                            RoleId = "c3bc3f5e-7954-4156-8553-c0cf537d1d68"
                         },
                         new
                         {
                             UserId = "11111111-1111-1111-1111-111111111113",
-                            RoleId = "82e10d1a-9b4d-4126-b91f-903113c9ae43"
+                            RoleId = "c3bc3f5e-7954-4156-8553-c0cf537d1d68"
                         });
                 });
 
@@ -464,42 +461,6 @@ namespace arsoudeServeur.Migrations
                             X = 45.356924999999997,
                             Y = -73.150233999999998,
                             randonneeId = 6
-                        },
-                        new
-                        {
-                            id = 13,
-                            Arrivee = false,
-                            Depart = true,
-                            X = 45.364998999999997,
-                            Y = -73.110237999999995,
-                            randonneeId = 7
-                        },
-                        new
-                        {
-                            id = 14,
-                            Arrivee = true,
-                            Depart = false,
-                            X = 45.386924999999998,
-                            Y = -73.152234000000007,
-                            randonneeId = 7
-                        },
-                        new
-                        {
-                            id = 15,
-                            Arrivee = false,
-                            Depart = true,
-                            X = 45.364998999999997,
-                            Y = -73.166238000000007,
-                            randonneeId = 8
-                        },
-                        new
-                        {
-                            id = 16,
-                            Arrivee = true,
-                            Depart = false,
-                            X = 45.456924999999998,
-                            Y = -73.128234000000006,
-                            randonneeId = 8
                         });
                 });
 
@@ -562,7 +523,7 @@ namespace arsoudeServeur.Migrations
                             id = 1,
                             description = "promenade cool a st-brun",
                             emplacement = "st-bruno",
-                            nom = "St-Bruno",
+                            nom = "St-Brun",
                             typeRandonnee = 1,
                             utilisateurId = 1
                         },
@@ -578,9 +539,9 @@ namespace arsoudeServeur.Migrations
                         new
                         {
                             id = 3,
-                            description = "promenade fresh a st-hilaire",
-                            emplacement = "st-hilaire",
-                            nom = "st-hilaire",
+                            description = "promenade fresh a bro s s a r d",
+                            emplacement = "st-hilaire?",
+                            nom = "Brossard",
                             typeRandonnee = 1,
                             utilisateurId = 3
                         },
@@ -610,24 +571,6 @@ namespace arsoudeServeur.Migrations
                             nom = "Ma randonnée",
                             typeRandonnee = 0,
                             utilisateurId = 1
-                        },
-                        new
-                        {
-                            id = 7,
-                            description = "J'ai eu beaucoup de plaisir",
-                            emplacement = "st-jérome",
-                            nom = "ayyyyyy",
-                            typeRandonnee = 0,
-                            utilisateurId = 2
-                        },
-                        new
-                        {
-                            id = 8,
-                            description = "moyennement le fun pour vrai",
-                            emplacement = "ottoburn park",
-                            nom = "st-grégoire",
-                            typeRandonnee = 0,
-                            utilisateurId = 3
                         });
                 });
 
@@ -709,7 +652,7 @@ namespace arsoudeServeur.Migrations
                         {
                             id = 2,
                             anneeDeNaissance = 0,
-                            codePostal = "E3A4R4",
+                            codePostal = "$%&&?%",
                             courriel = "user1@hotmail.com",
                             identityUserId = "11111111-1111-1111-1111-111111111112",
                             moisDeNaissance = 0,
