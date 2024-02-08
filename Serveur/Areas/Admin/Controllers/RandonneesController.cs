@@ -11,11 +11,13 @@ using Microsoft.AspNetCore.Authorization;
 using System.Data;
 using arsoudeServeur.Controllers;
 using arsoudeServeur.Services;
+using arsoudeServeur.Models.DTOs;
 
 namespace arsoudeServeur.Areas.Admin.Controllers
 {
-    [Route("api/[controller]/[action]")]
     [Area("Admin")]
+    [ApiController]
+    [Route("Admin/[controller]")]
     public class RandonneesController : BaseController
     {
         private readonly ApplicationDbContext _context;
@@ -27,7 +29,57 @@ namespace arsoudeServeur.Areas.Admin.Controllers
             _utilisateursService = utilisateursService;
         }
 
+        [HttpPost]
+        [Route("ApprouverRandonnee")]
+        public async Task<IActionResult> ApprouverRandonneeAsync(int randonneeId)
+        {
+            
+            if(UtilisateurCourant.role.Equals("Administrator"))
+            {
+                try
+                {
+                    var rando = await _context.randonnees.FindAsync(randonneeId);
+                    rando.etatRandonnee = Randonnee.Etat.Publique;
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    //changer l'erreur lol
+                    return BadRequest();
+                }
+                return Ok();
+            }
+            else
+            {
+                return Unauthorized();
+            }
+        }
 
-       
+        [HttpPost]
+        [Route("RefuserRandonnee")]
+        public async Task<IActionResult> RefuserRandonneeAsync(int randonneeId)
+        {
+            if (UtilisateurCourant.role.Equals("Administrator"))
+            {
+                try
+                {
+                    var rando = await _context.randonnees.FindAsync(randonneeId);
+                    rando.etatRandonnee = Randonnee.Etat.Refusée;
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    //changer l'erreur lol
+                    return BadRequest();
+                }
+                return Ok();
+            }
+            else
+            {
+                return Unauthorized();
+            }
+        }
+
+
     }
 }
