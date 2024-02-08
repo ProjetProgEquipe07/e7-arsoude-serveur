@@ -11,9 +11,10 @@ namespace arsoudeServeur.Controllers
     [Authorize]
     public class ProfilController : BaseController
     {
-        public ProfilController(UtilisateursService utilisateursService) : base(utilisateursService)
+        private readonly UtilisateursService _utilisateurService;
+        public ProfilController(UtilisateursService utilisateursService, UtilisateursService utilisateurService) : base(utilisateursService)
         {
-
+            _utilisateurService = utilisateurService;
         }
 
         [HttpGet]
@@ -37,6 +38,19 @@ namespace arsoudeServeur.Controllers
                 anneeDeNaissance = utilisateur.anneeDeNaissance,
             };
             return Ok(userDTO); 
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Edit(EditProfilDTO profil)
+        {
+            var utilisateur = UtilisateurCourant;
+            if (utilisateur == null)
+            {
+                return NotFound(new { Error = "L'utilisateur est introuvable" });
+            }
+            await _utilisateurService.EditProfil(utilisateur, profil);
+
+            return Ok();
         }
 
     }
