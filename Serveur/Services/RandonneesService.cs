@@ -1,4 +1,4 @@
-﻿using arsoudeServeur.Models;
+using arsoudeServeur.Models;
 using arsoudeServeur.Models.DTOs;
 using arsoudServeur.Data;
 using Microsoft.AspNetCore.Mvc;
@@ -15,10 +15,38 @@ namespace arsoudeServeur.Services
             _context = context;
         }
 
-        public async Task<List<RandonneeListDTO>> GetAllRandonneesAsync(int listSize, Utilisateur utilisateurCourant)
+        public async Task<List<RandonneeListeAdminDTO>> GetAllRandonneesAsync()
+        {
+            List<RandonneeListeAdminDTO> randonneesEnvoye = new List<RandonneeListeAdminDTO>();
+            List<Randonnee> randonnees = await _context.randonnees.ToListAsync();
+
+            foreach (Randonnee rando in randonnees)
+            {
+                RandonneeListeAdminDTO r = new RandonneeListeAdminDTO()
+                {
+                    id = rando.id,
+                    nom = rando.nom,
+                    description = rando.description,
+                    emplacement = rando.emplacement,
+                    typeRandonnee = (int)rando.typeRandonnee,
+                    etatRandonnee = (int)rando.etatRandonnee,
+                    gps = rando.GPS,
+      
+                };
+                randonneesEnvoye.Add(r);
+            }
+
+            return randonneesEnvoye;
+        }
+
+        //Méthode pour les randonnées à faire (publique, et privée mais uniquement de l'utilisateur courant)
+        public async Task<List<RandonneeListDTO>> GetRandonneesAFaireAsync(int listSize, Utilisateur utilisateurCourant)
         {
             List<RandonneeListDTO> randonneesEnvoye = new List<RandonneeListDTO>();
-            List<Randonnee> randonnees = await _context.randonnees.Where(s => s.etatRandonnee == Randonnee.Etat.Publique).Take(listSize).ToListAsync();
+            List<Randonnee> randonnees = await _context.randonnees.Where(
+                s => s.etatRandonnee == Randonnee.Etat.Publique && //Publique
+                (s.etatRandonnee == Randonnee.Etat.Privée && s.utilisateurId == utilisateurCourant.id) //Privée et uniquement à l'utilisateur courant
+                ).Take(listSize).ToListAsync();
 
             foreach (Randonnee rando in randonnees)
             {
@@ -48,7 +76,32 @@ namespace arsoudeServeur.Services
 
             return randonneesEnvoye;
         }
+        public async Task<List<RandonneeListDTO>> GetRandonneesAFaireAsync(int listSize)
+        {
+            List<RandonneeListDTO> randonneesEnvoye = new List<RandonneeListDTO>();
+            List<Randonnee> randonnees = await _context.randonnees.Where(
+                s => s.etatRandonnee == Randonnee.Etat.Publique).Take(listSize).ToListAsync();
 
+            foreach (Randonnee rando in randonnees)
+            {
+                RandonneeListDTO r = new RandonneeListDTO()
+                {
+                    id = rando.id,
+                    nom = rando.nom,
+                    description = rando.description,
+                    emplacement = rando.emplacement,
+                    typeRandonnee = (int)rando.typeRandonnee,
+                    gps = rando.GPS,
+                    favoris = false
+                };
+
+
+
+                randonneesEnvoye.Add(r);
+            }
+
+            return randonneesEnvoye;
+        }
         public async Task<List<RandonneeListDTO>> GetRandonneesFavorisAsync(int listSize, Utilisateur utilisateurCourant)
         {
             List<RandonneeListDTO> randonneesEnvoye = new List<RandonneeListDTO>();

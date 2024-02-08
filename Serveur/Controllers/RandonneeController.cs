@@ -21,7 +21,10 @@ namespace arsoudeServeur.Controllers
         [HttpGet("{listSize}")]
         public async Task<ActionResult<IEnumerable<RandonneeListDTO>>> GetRandonnees(int listSize)
         {
-            return await _randonneeService.GetAllRandonneesAsync(listSize, UtilisateurCourant);
+            if (UtilisateurCourant !=null)
+                return await _randonneeService.GetRandonneesAFaireAsync(listSize, UtilisateurCourant);
+            else
+                return await _randonneeService.GetRandonneesAFaireAsync(listSize);
         }
 
         [HttpGet("{id}")]
