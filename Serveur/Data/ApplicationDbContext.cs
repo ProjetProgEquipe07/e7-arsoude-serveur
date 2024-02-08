@@ -146,7 +146,7 @@ namespace arsoudServeur.Data
                 new Randonnee
                 {
                     id = 1,
-                    nom = "St-Bruno",
+                    nom = "St-Brun",
                     description = "promenade cool a st-brun",
                     emplacement = "st-bruno",
                     utilisateurId = 1,
@@ -166,9 +166,9 @@ namespace arsoudServeur.Data
                 new Randonnee
                 {
                     id = 3,
-                    nom = "st-hilaire",
-                    description = "promenade fresh a st-hilaire",
-                    emplacement = "st-hilaire",
+                    nom = "Brossard",
+                    description = "promenade fresh a bro s s a r d",
+                    emplacement = "st-hilaire?",
                     utilisateurId = 3,
                     approuve = true,
                     typeRandonnee = Randonnee.Type.Vélo,
@@ -328,39 +328,6 @@ namespace arsoudServeur.Data
                     Arrivee = true,
                     randonneeId = 6,
                 },
-                new GPS
-                {
-                    id = 13,
-                    X = 45.364999,
-                    Y = -73.110238,
-                    Depart = true,
-                    randonneeId = 7,
-                },
-                new GPS
-                {
-                    id = 14,
-                    X = 45.386925,
-                    Y = -73.152234,
-                    Arrivee = true,
-                    randonneeId = 7,
-                },
-                new GPS
-                {
-                    id = 15,
-                    X = 45.364999,
-                    Y = -73.166238,
-                    Depart = true,
-                    randonneeId = 8,
-                },
-                new GPS
-                {
-                    id = 16,
-                    X = 45.456925,
-                    Y = -73.128234,
-                    Arrivee = true,
-                    randonneeId = 8,
-                }
-
             };
 
             builder.Entity<GPS>().HasData(gpsData);

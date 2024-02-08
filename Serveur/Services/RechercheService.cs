@@ -1,4 +1,4 @@
-﻿using arsoudeServeur.Models;
+using arsoudeServeur.Models;
 using arsoudeServeur.Models.DTOs;
 using arsoudServeur.Data;
 using GeographicLib;
@@ -82,8 +82,11 @@ namespace arsoudeServeur.Services
 
                 score.distance = s12;
 
+                if(score.score != 0)
+                { 
                 scoreList.Add(score);
-                }
+                        }
+                    }
                 }
             }
             randoList = scoreList.OrderByDescending(s => s.score).ThenBy(s => s.distance).Select(s => s.randonnee).ToList();
