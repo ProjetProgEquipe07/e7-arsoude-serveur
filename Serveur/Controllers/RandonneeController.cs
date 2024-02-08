@@ -87,7 +87,7 @@ namespace arsoudeServeur.Controllers
                 return NotFound();
             }
 
-            return NoContent();
+            return Ok();
         }
 
         [HttpDelete("{id}")]
@@ -100,17 +100,20 @@ namespace arsoudeServeur.Controllers
                 return NotFound();
             }
 
-            return NoContent();
+            return Ok();
         }
         //[Authorize]
         [HttpPost]
         public async Task<IActionResult> CreateRandonneeTrace(TraceRandoDTO randonnee)
         {
+            var rando = await _randonneeService.CreateRandonneeTraceAsync(randonnee);
 
-            await _randonneeService.CreateRandonneeTraceAsync(randonnee);
+            if (rando == null)
+            {
+                return NotFound();
+            }
 
             return Ok();
-
         }
     }
 }

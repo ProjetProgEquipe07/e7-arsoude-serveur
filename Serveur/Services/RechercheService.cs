@@ -55,7 +55,7 @@ namespace arsoudeServeur.Services
                 throw new NoLocationException();
             }
 
-            List<Randonnee> randoList = await _context.randonnees.Where(s => s.approuve != false).ToListAsync();
+            List<Randonnee> randoList = await _context.randonnees.Where(s => s.etatRandonnee == Randonnee.Etat.Publique).ToListAsync();
             List<Score> scoreList = new List<Score>();
             List<string> strList = recherche.Split(' ').ToList();
 
