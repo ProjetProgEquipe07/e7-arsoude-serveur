@@ -2,11 +2,8 @@ using arsoudeServeur.Models;
 using arsoudeServeur.Models.DTOs;
 using arsoudeServeur.Services.Interfaces;
 using arsoudServeur.Data;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Win32;
-using System.Numerics;
 
 namespace arsoudeServeur.Services
 {
@@ -14,9 +11,12 @@ namespace arsoudeServeur.Services
     {
         private ApplicationDbContext _context;
 
-        public UtilisateursService(ApplicationDbContext context)
+        UserManager<IdentityUser> userManager;
+
+        public UtilisateursService(ApplicationDbContext context, UserManager<IdentityUser> userManager)
         {
             _context = context;
+            this.userManager = userManager;
         }
 
         public virtual Utilisateur? GetUtilisateurFromUserId(string userId)
@@ -98,6 +98,25 @@ namespace arsoudeServeur.Services
             user.codePostal = profil.codePostal;
             user.anneeDeNaissance = (int)profil.anneeDeNaissance;
             user.moisDeNaissance = (int)profil.moisDeNaissance;
+
+            await _context.SaveChangesAsync();
+
+            return;
+        }
+
+        public async Task EditPassword(Utilisateur utilisateur, string currentPassword, string newPassword)
+        {
+            if (utilisateur == null)
+            {
+                return;
+            }
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == utilisateur.identityUserId);
+            if (user == null)
+            {
+                return;
+            }
+
+            await userManager.ChangePasswordAsync(user, currentPassword, newPassword);
 
             await _context.SaveChangesAsync();
 

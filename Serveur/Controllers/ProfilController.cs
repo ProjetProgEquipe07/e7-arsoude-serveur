@@ -12,9 +12,9 @@ namespace arsoudeServeur.Controllers
     public class ProfilController : BaseController
     {
         private readonly UtilisateursService _utilisateurService;
-        public ProfilController(UtilisateursService utilisateursService, UtilisateursService utilisateurService) : base(utilisateursService)
+        public ProfilController(UtilisateursService utilisateursService) : base(utilisateursService)
         {
-            _utilisateurService = utilisateurService;
+            _utilisateurService = utilisateursService;
         }
 
         [HttpGet]
@@ -49,6 +49,19 @@ namespace arsoudeServeur.Controllers
                 return NotFound(new { Error = "L'utilisateur est introuvable" });
             }
             await _utilisateurService.EditProfil(utilisateur, profil);
+
+            return Ok();
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> EditPassword(EditPasswordDTO editPassword)
+        {
+            var utilisateur = UtilisateurCourant;
+            if (utilisateur == null)
+            {
+                return NotFound(new { Error = "L'utilisateur est introuvable" });
+            }
+            await _utilisateurService.EditPassword(utilisateur, editPassword.currentPassword, editPassword.newPassword);
 
             return Ok();
         }
