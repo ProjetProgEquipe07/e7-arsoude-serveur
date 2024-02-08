@@ -12,9 +12,10 @@ namespace arsoudeServeur.Models
         public bool Depart { get; set; } = false;
         public bool Arrivee { get; set; } = false;
 
-        // Clé étrangère
+        // Clés étrangères
         public virtual int? randonneeId { get; set; }
         [JsonIgnore]
         public virtual Randonnee? randonnee { get; set; } 
+
     }
 }

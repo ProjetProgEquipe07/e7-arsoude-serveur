@@ -74,26 +74,6 @@ namespace arsoudServeur.Data
 
             builder.Entity<IdentityUser>().HasData(adminUser, utilisateur1, utilisateur2);
 
-            // Lien user <-> role
-
-            builder.Entity<IdentityUserRole<string>>().HasData(
-                new IdentityUserRole<string>
-                {
-                    RoleId = adminRole.Id,
-                    UserId = adminUser.Id
-                },
-                new IdentityUserRole<string>
-                {
-                    RoleId = userRole.Id,
-                    UserId = utilisateur1.Id
-                },
-                new IdentityUserRole<string>
-                {
-                    RoleId = userRole.Id,
-                    UserId = utilisateur2.Id
-                }
-            );
-
             // Seed utilisateurs
 
             List<Utilisateur> utilisateurs = new List<Utilisateur>() {
@@ -106,7 +86,6 @@ namespace arsoudServeur.Data
                     role = "Administrator",
                     courriel = adminUser.UserName,
                     identityUserId = adminUser.Id,
-                    favoris = new List<RandonneeUtilisateur> {}
                 },
                 new Utilisateur
                 {
@@ -117,7 +96,6 @@ namespace arsoudServeur.Data
                     role = "User",
                     courriel = utilisateur1.UserName,
                     identityUserId = utilisateur1.Id,
-                    favoris = new List<RandonneeUtilisateur> {}
                 },
                 new Utilisateur
                 {
@@ -128,7 +106,6 @@ namespace arsoudServeur.Data
                     role = "User",
                     courriel = utilisateur2.UserName,
                     identityUserId = utilisateur2.Id,
-                    favoris = new List<RandonneeUtilisateur> {}
                 }
             };
 
@@ -150,7 +127,6 @@ namespace arsoudServeur.Data
                     description = "promenade cool a st-brun",
                     emplacement = "st-bruno",
                     utilisateurId = 1,
-                    approuve = true,
                     typeRandonnee = Randonnee.Type.Vélo,
                 },
                 new Randonnee
@@ -160,7 +136,6 @@ namespace arsoudServeur.Data
                     description = "promenade moyennement cool la bas",
                     emplacement = "dehors",
                     utilisateurId = 2,
-                    approuve = true,
                     typeRandonnee = Randonnee.Type.Marche,
                 },
                 new Randonnee
@@ -170,7 +145,6 @@ namespace arsoudServeur.Data
                     description = "promenade fresh a bro s s a r d",
                     emplacement = "st-hilaire?",
                     utilisateurId = 3,
-                    approuve = true,
                     typeRandonnee = Randonnee.Type.Vélo,
                 },
                 new Randonnee
@@ -180,7 +154,6 @@ namespace arsoudServeur.Data
                     description = "promenade au subway",
                     emplacement = "st-grégoire",
                     utilisateurId = 2,
-                    approuve = true,
                     typeRandonnee = Randonnee.Type.Marche,
                 },
                 new Randonnee
@@ -190,7 +163,6 @@ namespace arsoudServeur.Data
                     description = "ça doit être cool la bas",
                     emplacement = "quelque part",
                     utilisateurId = 2,
-                    approuve = true,
                     typeRandonnee = Randonnee.Type.Marche,
                 },
                 new Randonnee
@@ -200,29 +172,8 @@ namespace arsoudServeur.Data
                     description = "je pense qu'on a beaucoup de fun",
                     emplacement = "mont tremblant",
                     utilisateurId = 1,
-                    approuve = true,
                     typeRandonnee = Randonnee.Type.Marche,
-                },
-                new Randonnee
-                {
-                    id = 7,
-                    nom = "ayyyyyy",
-                    description = "J'ai eu beaucoup de plaisir",
-                    emplacement = "st-jérome",
-                    utilisateurId = 2,
-                    approuve = true,
-                    typeRandonnee = Randonnee.Type.Marche,
-                },
-                new Randonnee
-                {
-                    id = 8,
-                    nom = "st-grégoire",
-                    description = "moyennement le fun pour vrai",
-                    emplacement = "ottoburn park",
-                    utilisateurId = 3,
-                    approuve = false,
-                    typeRandonnee = Randonnee.Type.Marche,
-                },
+                }
             };
 
             builder.Entity<Randonnee>().HasData(randonnees);
@@ -255,6 +206,7 @@ namespace arsoudServeur.Data
                     Y = -73.150238,
                     Depart = true,
                     randonneeId = 2,
+
                 },
                 new GPS
                 {

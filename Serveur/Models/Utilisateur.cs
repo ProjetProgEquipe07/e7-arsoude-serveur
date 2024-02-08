@@ -28,6 +28,9 @@ namespace arsoudeServeur.Models
         public virtual IdentityUser? identityUser { get; set; }
 
         [JsonIgnore]
-        public virtual List<RandonneeUtilisateur> favoris { get; set; }
+        public virtual List<RandonneeUtilisateur> favoris { get; set; } = new List<RandonneeUtilisateur>();
+
+        [JsonIgnore]
+        public virtual List<RandonneeUtilisateurTrace> traces { get; set; } = new List<RandonneeUtilisateurTrace>();
     }
 }
