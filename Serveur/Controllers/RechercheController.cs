@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace arsoudeServeur.Controllers
 {
-    [Authorize]
     [Route("api/[controller]/[action]")]
     [ApiController]
     public class RechercheController : BaseController
@@ -22,20 +21,27 @@ namespace arsoudeServeur.Controllers
 
 
 
-        [HttpGet("{recherche}/{value}")]
-        public async Task<ActionResult<IEnumerable<RandonneeListDTO>>> GetNearSearch(string recherche, string value)
+        [HttpGet()]
+        public async Task<ActionResult<IEnumerable<RandonneeListDTO>>> GetNearSearch([FromBody] SearchDTO searchDTO)
         {
             Utilisateur? user = UtilisateurCourant;
-            try
+            if (user !=null)
             {
-                var result = await _rechercheService.GetNearSearch(recherche, user.codePostal, value);
-                var resultDTO = await _randonneeService.PutRandonneesFavorisAsync(result.ToList(), user);
+
+                 var result = await _rechercheService.GetNearSearch(searchDTO.recherche, user, searchDTO.value, searchDTO.rando);
+                 var resultDTO = await _randonneeService.PutRandonneesFavorisAsync(result.ToList(), user);
+
+                    return Ok(resultDTO);
                 
-                return Ok(resultDTO);
-            } catch (NoLocationException)
-            {
-                return BadRequest("NO_LOCATION_ERROR");
             }
+            else
+            { 
+                var result = await _rechercheService.GetNearSearch(searchDTO.recherche, searchDTO.value);
+                var resultDTO = await _randonneeService.PutRandonneesFavorisAsync(result.ToList(), user);
+
+                return Ok(resultDTO);
+            }
+
         }
     }
     
