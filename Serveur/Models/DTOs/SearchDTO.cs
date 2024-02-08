@@ -4,6 +4,6 @@
     {
         public string recherche { get; set; }
         public string value { get; set; }
-        public bool rando { get; set; }
+        public bool owned { get; set; }
     }
 }

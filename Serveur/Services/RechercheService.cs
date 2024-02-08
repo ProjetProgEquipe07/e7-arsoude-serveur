@@ -61,9 +61,10 @@ namespace arsoudeServeur.Services
 
             List<Score> scoreList = new List<Score>();
             List<string> strList = recherche.Split(' ').ToList();
-
-            foreach (Randonnee randonnee in randoList)
+            if (!recherche.Equals(""))
             {
+                foreach (Randonnee randonnee in randoList)
+                {
                 if (filtreTypeRandonne.Contains(randonnee.typeRandonnee.ToString()) || filtreTypeRandonne.Contains("undefined"))
                 {
                     Score score = new Score();
@@ -84,7 +85,7 @@ namespace arsoudeServeur.Services
                 }
             }
             randoList = scoreList.OrderByDescending(s => s.score).Select(s => s.randonnee).ToList();
-
+ }
             return randoList;
 
         }
