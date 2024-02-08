@@ -133,8 +133,8 @@ namespace Tests.Controllers
                         typeRandonnee = Randonnee.Type.Marche,
                         GPS = new List<GPS>
                         {
-                            new GPS { id = 1, X = 45.832619, Y = 6.864719, Depart = true, Arrivee = false },
-                            new GPS { id = 2, X = 45.832619, Y = 6.865719, Depart = false, Arrivee = true },
+                            new GPS { id = 1, x = 45.832619, y = 6.864719, depart = true, arrivee = false },
+                            new GPS { id = 2, x = 45.832619, y = 6.865719, depart = false, arrivee = true },
                         },
                         image = new Image { id= 1 , lien="", randonneeId =1},
                         utilisateurId = 1 // Supposons que l'utilisateur 1 est le créateur
@@ -148,8 +148,8 @@ namespace Tests.Controllers
                         typeRandonnee = Randonnee.Type.Vélo,
                         GPS = new List<GPS>
                         {
-                            new GPS { id = 3, X = 48.202047, Y = -2.932644, Depart = true, Arrivee = false },
-                            new GPS { id = 4, X = 48.202047, Y = -2.933644, Depart = false, Arrivee = true },
+                            new GPS { id = 3, x = 48.202047, y = -2.932644, depart = true, arrivee = false },
+                            new GPS { id = 4, x = 48.202047, y = -2.933644, depart = false, arrivee = true },
                         },
                         image = new Image { id= 2 , lien="", randonneeId =2 },
                         utilisateurId = 2 
@@ -188,8 +188,8 @@ namespace Tests.Controllers
                         typeRandonnee = Randonnee.Type.Marche,
                         GPS = new List<GPS>
                         {
-                            new GPS { id = 1, X = 45.832619, Y = 6.864719, Depart = true, Arrivee = false },
-                            new GPS { id = 2, X = 45.832619, Y = 6.865719, Depart = false, Arrivee = true },
+                            new GPS { id = 1, x = 45.832619, y = 6.864719, depart = true, arrivee = false },
+                            new GPS { id = 2, x = 45.832619, y = 6.865719, depart = false, arrivee = true },
                         },
                         image = new Image { id= 1 , lien="", randonneeId =1},
                         utilisateurId = 1 // Supposons que l'utilisateur 1 est le créateur
@@ -203,8 +203,8 @@ namespace Tests.Controllers
                         typeRandonnee = Randonnee.Type.Vélo,
                         GPS = new List<GPS>
                         {
-                            new GPS { id = 3, X = 48.202047, Y = -2.932644, Depart = true, Arrivee = false },
-                            new GPS { id = 4, X = 48.202047, Y = -2.933644, Depart = false, Arrivee = true },
+                            new GPS { id = 3, x = 48.202047, y = -2.932644, depart = true, arrivee = false },
+                            new GPS { id = 4, x = 48.202047, y = -2.933644, depart = false, arrivee = true },
                         },
                         image = new Image { id= 2 , lien="", randonneeId =2 },
                         utilisateurId = 2
@@ -243,8 +243,8 @@ namespace Tests.Controllers
                         typeRandonnee = Randonnee.Type.Marche,
                         GPS = new List<GPS>
                         {
-                            new GPS { id = 1, X = 45.832619, Y = 6.864719, Depart = true, Arrivee = false },
-                            new GPS { id = 2, X = 45.832619, Y = 6.865719, Depart = false, Arrivee = true },
+                            new GPS { id = 1, x = 45.832619, y = 6.864719, depart = true, arrivee = false },
+                            new GPS { id = 2, x = 45.832619, y = 6.865719, depart = false, arrivee = true },
                         },
                         image = new Image { id= 1 , lien="", randonneeId =1},
                         utilisateurId = 1 // Supposons que l'utilisateur 1 est le créateur
@@ -258,8 +258,8 @@ namespace Tests.Controllers
                         typeRandonnee = Randonnee.Type.Vélo,
                         GPS = new List<GPS>
                         {
-                            new GPS { id = 3, X = 48.202047, Y = -2.932644, Depart = true, Arrivee = false },
-                            new GPS { id = 4, X = 48.202047, Y = -2.933644, Depart = false, Arrivee = true },
+                            new GPS { id = 3, x = 48.202047, y = -2.932644, depart = true, arrivee = false },
+                            new GPS { id = 4, x = 48.202047, y = -2.933644, depart = false, arrivee = true },
                         },
                         image = new Image { id= 2 , lien="", randonneeId =2 },
                         utilisateurId = 2
@@ -298,8 +298,8 @@ namespace Tests.Controllers
                         typeRandonnee = Randonnee.Type.Marche,
                         GPS = new List<GPS>
                         {
-                            new GPS { id = 1, X = 45.832619, Y = 6.864719, Depart = true, Arrivee = false },
-                            new GPS { id = 2, X = 45.832619, Y = 6.865719, Depart = false, Arrivee = true },
+                            new GPS { id = 1, x = 45.832619, y = 6.864719, depart = true, arrivee = false },
+                            new GPS { id = 2, x = 45.832619, y = 6.865719, depart = false, arrivee = true },
                         },
                         image = new Image { id= 1 , lien="", randonneeId =1},
                         utilisateurId = 1 
@@ -313,8 +313,8 @@ namespace Tests.Controllers
                         typeRandonnee = Randonnee.Type.Vélo,
                         GPS = new List<GPS>
                         {
-                            new GPS { id = 3, X = 48.202047, Y = -2.932644, Depart = true, Arrivee = false },
-                            new GPS { id = 4, X = 48.202047, Y = -2.933644, Depart = false, Arrivee = true },
+                            new GPS { id = 3, x = 48.202047, y = -2.932644, depart = true, arrivee = false },
+                            new GPS { id = 4, x = 48.202047, y = -2.933644, depart = false, arrivee = true },
                         },
                         image = new Image { id= 2 , lien="", randonneeId =2 },
                         utilisateurId = 2
@@ -328,8 +328,8 @@ namespace Tests.Controllers
                         typeRandonnee = Randonnee.Type.Vélo,
                         GPS = new List<GPS>
                         {
-                            new GPS { id = 5, X = 50.202047, Y = -4.932644, Depart = true, Arrivee = false },
-                            new GPS { id = 6, X = 48.202047, Y = -2.933644, Depart = false, Arrivee = true },
+                            new GPS { id = 5, x = 50.202047, y = -4.932644, depart = true, arrivee = false },
+                            new GPS { id = 6, x = 48.202047, y = -2.933644, depart = false, arrivee = true },
                         },
                         image = new Image { id= 3 , lien="", randonneeId =3 },
                         utilisateurId = 2
@@ -343,8 +343,8 @@ namespace Tests.Controllers
                         typeRandonnee = Randonnee.Type.Vélo,
                         GPS = new List<GPS>
                         {
-                            new GPS { id = 7, X = 60.202047, Y = -2.932644, Depart = true, Arrivee = false },
-                            new GPS { id = 8, X = 48.202047, Y = -2.933644, Depart = false, Arrivee = true },
+                            new GPS { id = 7, x = 60.202047, y = -2.932644, depart = true, arrivee = false },
+                            new GPS { id = 8, x = 48.202047, y = -2.933644, depart = false, arrivee = true },
                         },
                         image = new Image { id= 4 , lien="", randonneeId =4 },
                         utilisateurId = 2
@@ -358,8 +358,8 @@ namespace Tests.Controllers
                         typeRandonnee = Randonnee.Type.Vélo,
                         GPS = new List<GPS>
                         {
-                            new GPS { id = 9, X = 10.202047, Y = -2.932644, Depart = true, Arrivee = false },
-                            new GPS { id = 10, X = 48.202047, Y = -2.933644, Depart = false, Arrivee = true },
+                            new GPS { id = 9, x = 10.202047, y = -2.932644, depart = true, arrivee = false },
+                            new GPS { id = 10, x = 48.202047, y = -2.933644, depart = false, arrivee = true },
                         },
                         image = new Image { id= 5 , lien="", randonneeId =5 },
                         utilisateurId = 2
@@ -379,8 +379,8 @@ namespace Tests.Controllers
                         typeRandonnee = Randonnee.Type.Vélo,
                         GPS = new List<GPS>
                         {
-                            new GPS { id = 3, X = 48.202047, Y = -2.932644, Depart = true, Arrivee = false },
-                            new GPS { id = 4, X = 48.202047, Y = -2.933644, Depart = false, Arrivee = true },
+                            new GPS { id = 3, x = 48.202047, y = -2.932644, depart = true, arrivee = false },
+                            new GPS { id = 4, x = 48.202047, y = -2.933644, depart = false, arrivee = true },
                         },
                         image = new Image { id= 2 , lien="", randonneeId =2 },
                         utilisateurId = 2
@@ -394,8 +394,8 @@ namespace Tests.Controllers
                         typeRandonnee = Randonnee.Type.Vélo,
                         GPS = new List<GPS>
                         {
-                            new GPS { id = 5, X = 50.202047, Y = -4.932644, Depart = true, Arrivee = false },
-                            new GPS { id = 6, X = 48.202047, Y = -2.933644, Depart = false, Arrivee = true },
+                            new GPS { id = 5, x = 50.202047, y = -4.932644, depart = true, arrivee = false },
+                            new GPS { id = 6, x = 48.202047, y = -2.933644, depart = false, arrivee = true },
                         },
                         image = new Image { id= 3 , lien="", randonneeId =3 },
                         utilisateurId = 2
@@ -409,8 +409,8 @@ namespace Tests.Controllers
                         typeRandonnee = Randonnee.Type.Marche,
                         GPS = new List<GPS>
                         {
-                            new GPS { id = 1, X = 45.832619, Y = 6.864719, Depart = true, Arrivee = false },
-                            new GPS { id = 2, X = 45.832619, Y = 6.865719, Depart = false, Arrivee = true },
+                            new GPS { id = 1, x = 45.832619, y = 6.864719, depart = true, arrivee = false },
+                            new GPS { id = 2, x = 45.832619, y = 6.865719, depart = false, arrivee = true },
                         },
                         image = new Image { id= 1 , lien="", randonneeId =1},
                         utilisateurId = 1
@@ -450,8 +450,8 @@ namespace Tests.Controllers
                         typeRandonnee = Randonnee.Type.Marche,
                         GPS = new List<GPS>
                         {
-                            new GPS { id = 1, X = 45.832619, Y = 6.864719, Depart = false, Arrivee = false },
-                            new GPS { id = 2, X = 45.832619, Y = 6.865719, Depart = false, Arrivee = true },
+                            new GPS { id = 1, x = 45.832619, y = 6.864719, depart = false, arrivee = false },
+                            new GPS { id = 2, x = 45.832619, y = 6.865719, depart = false, arrivee = true },
                         },
                         image = new Image { id= 1 , lien="", randonneeId =1},
                         utilisateurId = 1 // Supposons que l'utilisateur 1 est le créateur
@@ -465,8 +465,8 @@ namespace Tests.Controllers
                         typeRandonnee = Randonnee.Type.Vélo,
                         GPS = new List<GPS>
                         {
-                            new GPS { id = 3, X = 48.202047, Y = -2.932644, Depart = true, Arrivee = false },
-                            new GPS { id = 4, X = 48.202047, Y = -2.933644, Depart = false, Arrivee = true },
+                            new GPS { id = 3, x = 48.202047, y = -2.932644, depart = true, arrivee = false },
+                            new GPS { id = 4, x = 48.202047, y = -2.933644, depart = false, arrivee = true },
                         },
                         image = new Image { id= 2 , lien="", randonneeId =2 },
                         utilisateurId = 2

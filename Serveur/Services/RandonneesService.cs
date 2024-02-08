@@ -303,7 +303,7 @@ namespace arsoudeServeur.Services
             }
             foreach (GPS gps in traceRandoDTO.gps)
             {
-                if (!gps.Arrivee && !gps.Depart)
+                if (!gps.arrivee && !gps.depart)
                 {
                     gps.randonnee = randonneeContext;
                     gps.randonneeId = randonneeContext.id;

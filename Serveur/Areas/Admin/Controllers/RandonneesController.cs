@@ -54,7 +54,6 @@ namespace arsoudeServeur.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> ApprouverRandonneeAsync(int randonneeId)
         {
-            
             if(UtilisateurCourant.role.Equals("Administrator"))
             {
                 try

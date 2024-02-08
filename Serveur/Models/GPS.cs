@@ -6,11 +6,11 @@ namespace arsoudeServeur.Models
     public class GPS
     {
         public int id { get; set; }
-        public double X { get; set; }
-        public double Y { get; set; }
+        public double x { get; set; }
+        public double y { get; set; }
 
-        public bool Depart { get; set; } = false;
-        public bool Arrivee { get; set; } = false;
+        public bool depart { get; set; } = false;
+        public bool arrivee { get; set; } = false;
 
         // Clés étrangères
         public virtual int? randonneeId { get; set; }

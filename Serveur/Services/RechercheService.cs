@@ -75,10 +75,10 @@ namespace arsoudeServeur.Services
                         score.score++;
                 }
                 var geod = new Geodesic(a, f);
-                GPS depart = await _context.gps.Where(s => s.randonneeId == randonnee.id && s.Depart == true).FirstOrDefaultAsync();
+                GPS depart = await _context.gps.Where(s => s.randonneeId == randonnee.id && s.depart == true).FirstOrDefaultAsync();
                 if (depart != null) { 
                 double s12;
-                geod.Inverse(loc.lat, loc.lng, depart.X, depart.Y, out s12);
+                geod.Inverse(loc.lat, loc.lng, depart.x, depart.y, out s12);
 
                 score.distance = s12;
 

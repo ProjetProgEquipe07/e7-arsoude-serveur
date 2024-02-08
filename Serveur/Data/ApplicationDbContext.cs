@@ -186,98 +186,98 @@ namespace arsoudServeur.Data
                 new GPS
                 {
                     id = 1,
-                    X = 45.53665313486474,
-                    Y = -73.49497434095912,
-                    Depart = true,
+                    x = 45.53665313486474,
+                    y = -73.49497434095912,
+                    depart = true,
                     randonneeId = 1,
                 },
                 new GPS
                 {
                     id = 2,
-                    X = 45.63665313486474,
-                    Y = -73.59497434095912,
-                    Arrivee = true,
+                    x = 45.63665313486474,
+                    y = -73.59497434095912,
+                    arrivee = true,
                     randonneeId = 1,
                 },
                 new GPS
                 {
                     id = 3,
-                    X = 45.354999,
-                    Y = -73.150238,
-                    Depart = true,
+                    x = 45.354999,
+                    y = -73.150238,
+                    depart = true,
                     randonneeId = 2,
 
                 },
                 new GPS
                 {
                     id = 4,
-                    X = 45.356925,
-                    Y = -73.150234,
-                    Arrivee = true,
+                    x = 45.356925,
+                    y = -73.150234,
+                    arrivee = true,
                     randonneeId = 2,
                 },
                 new GPS
                 {
                     id = 5,
-                    X = 45.538015,
-                    Y = -73.156983,
-                    Depart = true,
+                    x = 45.538015,
+                    y = -73.156983,
+                    depart = true,
                     randonneeId = 3,
                 },
                 new GPS
                 {
                     id = 6,
-                    X = 45.63665313486474,
-                    Y = -73.59497434095912,
-                    Arrivee = true,
+                    x = 45.63665313486474,
+                    y = -73.59497434095912,
+                    arrivee = true,
                     randonneeId = 3,
                 },
                 new GPS
                 {
                     id = 7,
-                    X = 45.354999,
-                    Y = -73.150238,
-                    Depart = true,
+                    x = 45.354999,
+                    y = -73.150238,
+                    depart = true,
                     randonneeId = 4,
                 },
                 new GPS
                 {
                     id = 8,
-                    X = 45.356925,
-                    Y = -73.150234,
-                    Arrivee = true,
+                    x = 45.356925,
+                    y = -73.150234,
+                    arrivee = true,
                     randonneeId = 4,
                 },
                 new GPS
                 {
                     id = 9,
-                    X = 45.354999,
-                    Y = -73.150238,
-                    Depart = true,
+                    x = 45.354999,
+                    y = -73.150238,
+                    depart = true,
                     randonneeId = 5,
                 },
                 new GPS
                 {
                     id = 10,
-                    X = 45.356925,
-                    Y = -73.150234,
-                    Arrivee = true,
+                    x = 45.356925,
+                    y = -73.150234,
+                    arrivee = true,
                     randonneeId = 5,
                 },
                 new GPS
                 {
                     id = 11,
-                    X = 45.354999,
-                    Y = -73.160238,
-                    Depart = true,
+                    x = 45.354999,
+                    y = -73.160238,
+                    depart = true,
                     randonneeId = 6,
                 },
                 new GPS
                 {
                     id = 12,
-                    X = 45.356925,
-                    Y = -73.150234,
-                    Arrivee = true,
+                    x = 45.356925,
+                    y = -73.150234,
+                    arrivee = true,
                     randonneeId = 6,
                 },
             };
