@@ -65,7 +65,7 @@ namespace arsoudeServeur.Services
             {
                 foreach (Randonnee randonnee in randoList)
                 {
-                if (filtreTypeRandonne.Contains(randonnee.typeRandonnee.ToString()) || filtreTypeRandonne.Contains("undefined"))
+                if (filtreTypeRandonne.Contains(randonnee.typeRandonnee.ToString()) || filtreTypeRandonne.Contains("undefined") || filtreTypeRandonne.Contains("Tous"))
                 {
                     Score score = new Score();
                     score.randonnee = randonnee;
@@ -120,7 +120,7 @@ namespace arsoudeServeur.Services
             {
                 foreach (Randonnee randonnee in randoList)
                 {
-                    if (filtreTypeRandonne.Contains(randonnee.typeRandonnee.ToString()) || filtreTypeRandonne.Contains("undefined"))
+                    if (filtreTypeRandonne.Contains(randonnee.typeRandonnee.ToString()) || filtreTypeRandonne.Contains("undefined") || filtreTypeRandonne.Contains("Tous"))
                     {
                         Score score = new Score();
                         score.randonnee = randonnee;

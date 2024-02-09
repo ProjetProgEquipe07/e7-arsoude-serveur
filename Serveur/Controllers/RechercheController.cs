@@ -21,7 +21,7 @@ namespace arsoudeServeur.Controllers
 
 
 
-        [HttpGet()]
+        [HttpPost]
         public async Task<ActionResult<IEnumerable<RandonneeListDTO>>> GetNearSearch([FromBody] SearchDTO searchDTO)
         {
             Utilisateur? user = UtilisateurCourant;
