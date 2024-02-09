@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace arsoudeServeur.Models
 {
@@ -43,5 +44,8 @@ namespace arsoudeServeur.Models
         // Clé étrangère : Créateur de la randonnée
         public virtual int utilisateurId { get; set; }
         public virtual Utilisateur utilisateur { get; set; }
+
+        [JsonIgnore]
+        public virtual List<RandonneeUtilisateurTrace> traces { get; set; } = new List<RandonneeUtilisateurTrace>();
     }
 }
