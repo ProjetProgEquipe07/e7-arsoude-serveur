@@ -44,8 +44,8 @@ namespace arsoudeServeur.Services
         {
             List<RandonneeListDTO> randonneesEnvoye = new List<RandonneeListDTO>();
             List<Randonnee> randonnees = await _context.randonnees.Where(
-                s => s.etatRandonnee == Randonnee.Etat.Publique && //Publique
-                (s.etatRandonnee == Randonnee.Etat.Privée && s.utilisateurId == utilisateurCourant.id) //Privée et uniquement à l'utilisateur courant
+                s => s.etatRandonnee == Randonnee.Etat.Privée// && s.etatRandonnee == Randonnee.Etat.Publique//Publique
+                //(s.etatRandonnee == Randonnee.Etat.Privée && s.utilisateurId == utilisateurCourant.id) //Privée et uniquement à l'utilisateur courant
                 ).Take(listSize).ToListAsync();
 
             foreach (Randonnee rando in randonnees)
@@ -80,7 +80,7 @@ namespace arsoudeServeur.Services
         {
             List<RandonneeListDTO> randonneesEnvoye = new List<RandonneeListDTO>();
             List<Randonnee> randonnees = await _context.randonnees.Where(
-                s => s.etatRandonnee == Randonnee.Etat.Publique).Take(listSize).ToListAsync();
+                s => s.etatRandonnee == Randonnee.Etat.Privée).Take(listSize).ToListAsync();
 
             foreach (Randonnee rando in randonnees)
             {
@@ -177,6 +177,29 @@ namespace arsoudeServeur.Services
             {
                 return null;
             }
+
+            RandonneeUtilisateurTrace gps = new RandonneeUtilisateurTrace();
+            List<GPS> listgps = new List<GPS>();
+
+            if (rando.GPS.Count == 2)
+            {
+                gps.gpsListe = rando.GPS;
+            }
+            else
+            {
+                listgps.Add(rando.GPS[0]);
+                listgps.Add(rando.GPS[1]);
+
+                gps = await _context.utilisateursTrace.Where(x => x.utilisateurId == rando.utilisateurId && x.randonneeId == rando.id).FirstOrDefaultAsync();
+
+                foreach (GPS gps2 in gps.gpsListe) {
+                    listgps.Add(gps2);
+                }
+
+                gps.gpsListe = listgps;
+
+            }
+
             RandonneeDetailDTO r = new RandonneeDetailDTO()
             {
                 id = rando.id,
@@ -184,7 +207,7 @@ namespace arsoudeServeur.Services
                 description = rando.description,
                 emplacement = rando.emplacement,
                 typeRandonnee = (int)rando.typeRandonnee,
-                gps = rando.GPS,
+                gps = gps.gpsListe,
                 utilisateur = rando.utilisateur,
                 utilisateurId = rando.utilisateurId,
                 favoris = false
@@ -301,21 +324,55 @@ namespace arsoudeServeur.Services
                 //t'es un invité bro tu peux pas faire de tracé
                 return null;
             }
+
+            List<GPS> newgps = new List<GPS>();
+
             foreach (GPS gps in traceRandoDTO.gps)
             {
-                if (!gps.arrivee && !gps.depart)
-                {
-                    gps.randonnee = randonneeContext;
-                    gps.randonneeId = randonneeContext.id;
-                    _context.gps.Add(gps);
-                }
+                    if (!gps.arrivee && !gps.depart)
+                    {
+                        gps.randonnee = randonneeContext;
+                        gps.randonneeId = randonneeContext.id;
+                        newgps.Add(gps);
+                        _context.gps.Add(gps);
+                    }
             }
+
+            RandonneeUtilisateurTrace gpstemp = new RandonneeUtilisateurTrace()
+            {
+                randonnee = randonneeContext,
+                randonneeId = randonneeContext.id,
+                utilisateur = utilisateurContext,
+                utilisateurId = utilisateurContext.id,
+                gpsListe = newgps,
+            };
+
+            utilisateurContext.traces.Add(gpstemp);
+
+            await _context.utilisateursTrace.AddAsync(gpstemp);
+            await _context.SaveChangesAsync();
+            return randonneeContext;
+
+            /*
             //Si la randonnée n'est pas publique et que c'est la rando du user
             if (randonneeContext.etatRandonnee != Randonnee.Etat.Publique && randonneeContext.utilisateurId == traceRandoDTO.utilisateurId)
             {
+                RandonneeUtilisateurTrace gps = new RandonneeUtilisateurTrace()
+                {
+                    id = 0,
+                    randonnee = randonneeContext,
+                    randonneeId = randonneeContext.id,
+                    utilisateur = utilisateurContext,
+                    utilisateurId = utilisateurContext.id,
+                    gpsListe = traceRandoDTO.gps,
+                };
+                utilisateurContext.traces.Add(gps);
+
+                await _context.utilisateursTrace.AddAsync(gps);
                 await _context.SaveChangesAsync();
                 return randonneeContext;
             }
+            
             //Si la randonnée est publique
             else
             {
@@ -331,7 +388,7 @@ namespace arsoudeServeur.Services
                 utilisateurContext.traces.Add(randonneeUtilisateurTrace);
                 await _context.SaveChangesAsync();
                 return randonneeContext;
-            }
+            }*/
         }
 
         public async Task<bool> DeleteRandonneeAsync(int id)
