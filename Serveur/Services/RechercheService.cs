@@ -11,13 +11,13 @@ using static arsoudeServeur.Services.RechercheService;
 
 namespace arsoudeServeur.Services
 {
-    public class NoLocationException: Exception
+    public class NoLocationException : Exception
     {
 
     }
 
 
-    public class RechercheService 
+    public class RechercheService
     {
 
         private readonly ApplicationDbContext _context;
@@ -46,76 +46,147 @@ namespace arsoudeServeur.Services
             return data.results[0].geometry.location;
         }
 
-        public virtual async Task<IEnumerable<Randonnee>> GetNearSearch(string recherche, string codePostal, string filtreTypeRandonne)
-        {
-            Location loc = await GetLocation(codePostal);
-           
-            if(loc == null)
-            {
-                throw new NoLocationException();
-            }
 
-            List<Randonnee> randoList = await _context.randonnees.Where(s => s.etatRandonnee == Randonnee.Etat.Publique).ToListAsync();
+        /// <summary>
+        /// Fonction de recherche de randonnée pour les personnes non authentifier
+        /// </summary>
+        /// <param name="recherche"></param>
+        /// <param name="filtreTypeRandonne"></param>
+        /// <returns></returns>
+        public virtual async Task<IEnumerable<Randonnee>> GetNearSearch(string recherche, string filtreTypeRandonne)
+        {
+            List<Randonnee> randoList = new List<Randonnee>();
+
+            randoList = await _context.randonnees.Where(s => s.etatRandonnee == Randonnee.Etat.Publique).ToListAsync();
+
             List<Score> scoreList = new List<Score>();
             List<string> strList = recherche.Split(' ').ToList();
-
-            foreach(Randonnee randonnee in randoList)
+            if (!recherche.Equals(""))
             {
-                if(filtreTypeRandonne.Contains(randonnee.typeRandonnee.ToString()) || filtreTypeRandonne.Contains("undefined"))
-                { 
-                Score score = new Score();
-                score.randonnee = randonnee;
-                foreach (string str in strList)
+                foreach (Randonnee randonnee in randoList)
                 {
-                    if (randonnee.description.ToLower().Contains(str.ToLower()))
-                        score.score++;
-                    if(randonnee.emplacement.ToLower().Contains(str.ToLower()))
-                        score.score++;
-                    if(randonnee.nom.ToLower().Contains(str.ToLower()))
-                        score.score++;
-                }
-                var geod = new Geodesic(a, f);
-                GPS depart = await _context.gps.Where(s => s.randonneeId == randonnee.id && s.depart == true).FirstOrDefaultAsync();
-                if (depart != null) { 
-                double s12;
-                geod.Inverse(loc.lat, loc.lng, depart.x, depart.y, out s12);
-
-                score.distance = s12;
-
-                if(score.score != 0)
-                { 
-                scoreList.Add(score);
-                        }
+                if (filtreTypeRandonne.Contains(randonnee.typeRandonnee.ToString()) || filtreTypeRandonne.Contains("undefined") || filtreTypeRandonne.Contains("Tous"))
+                {
+                    Score score = new Score();
+                    score.randonnee = randonnee;
+                    foreach (string str in strList)
+                    {
+                        if (randonnee.description.ToLower().Contains(str.ToLower()))
+                            score.score++;
+                        if (randonnee.emplacement.ToLower().Contains(str.ToLower()))
+                            score.score++;
+                        if (randonnee.nom.ToLower().Contains(str.ToLower()))
+                            score.score++;
+                    }
+                    if (score.score != 0)
+                    {
+                        scoreList.Add(score);
                     }
                 }
             }
-            randoList = scoreList.OrderByDescending(s => s.score).ThenBy(s => s.distance).Select(s => s.randonnee).ToList();
-
+            randoList = scoreList.OrderByDescending(s => s.score).Select(s => s.randonnee).ToList();
+ }
             return randoList;
 
         }
 
-        public class Score
+
+        /// <summary>
+        /// Fonction de Recherche de randonnée pour les personnes authentifier seulement!
+        /// </summary>
+        /// <param name="recherche"></param>
+        /// <param name="user"></param>
+        /// <param name="filtreTypeRandonne"></param>
+        /// <param name="myrando"></param>
+        /// <returns></returns>
+        public virtual async Task<IEnumerable<Randonnee>> GetNearSearch(string recherche, Utilisateur user, string filtreTypeRandonne, bool myrando)
+        {
+            Location loc = await GetLocation(user.codePostal);
+            List<Randonnee> randoList = new List<Randonnee>();
+
+            if (myrando)
+            {
+
+                randoList = await _context.randonnees.Where(s => s.etatRandonnee == Randonnee.Etat.Publique && s.utilisateurId == user.id).ToListAsync();
+            }
+            else
+            {
+                randoList = await _context.randonnees.Where(s => s.etatRandonnee == Randonnee.Etat.Publique).ToListAsync();
+            }
+            List<Score> scoreList = new List<Score>();
+            List<string> strList = recherche.Split(' ').ToList();
+
+            if (!recherche.Equals(""))
+            {
+                foreach (Randonnee randonnee in randoList)
+                {
+                    if (filtreTypeRandonne.Contains(randonnee.typeRandonnee.ToString()) || filtreTypeRandonne.Contains("undefined") || filtreTypeRandonne.Contains("Tous"))
+                    {
+                        Score score = new Score();
+                        score.randonnee = randonnee;
+                        foreach (string str in strList)
+                        {
+                            if (randonnee.description.ToLower().Contains(str.ToLower()))
+                                score.score++;
+                            if (randonnee.emplacement.ToLower().Contains(str.ToLower()))
+                                score.score++;
+                            if (randonnee.nom.ToLower().Contains(str.ToLower()))
+                                score.score++;
+                        }
+                        if (loc != null)
+                        {
+                            var geod = new Geodesic(a, f);
+                            GPS depart = await _context.gps.Where(s => s.randonneeId == randonnee.id && s.depart == true).FirstOrDefaultAsync();
+                            if (depart != null)
+                            {
+                                double s12;
+                                geod.Inverse(loc.lat, loc.lng, depart.x, depart.y, out s12);
+
+                                score.distance = s12;
+
+                                if (score.score != 0)
+                                {
+                                    scoreList.Add(score);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            if (score.score != 0)
+                            {
+                                score.distance = 0;
+                                scoreList.Add(score);
+                            }
+                        }
+                    }
+                }
+                randoList = scoreList.OrderByDescending(s => s.score).ThenBy(s => s.distance).Select(s => s.randonnee).ToList();
+            }
+            return randoList;
+
+        }
+
+        private class Score
         {
             public int score { get; set; }
             public double distance { get; set; }
             public Randonnee randonnee { get; set; }
         }
 
-        public class AddressComponent
+        private class AddressComponent
         {
             public string long_name { get; set; }
             public string short_name { get; set; }
             public List<string> types { get; set; }
         }
 
-        public class Bounds
+        private class Bounds
         {
             public Northeast northeast { get; set; }
             public Southwest southwest { get; set; }
         }
 
-        public class Geometry
+        private class Geometry
         {
             public Bounds bounds { get; set; }
             public Location location { get; set; }
@@ -129,13 +200,13 @@ namespace arsoudeServeur.Services
             public double lng { get; set; }
         }
 
-        public class Northeast
+        private class Northeast
         {
             public double lat { get; set; }
             public double lng { get; set; }
         }
 
-        public class Result
+        private class Result
         {
             public List<AddressComponent> address_components { get; set; }
             public string formatted_address { get; set; }
@@ -144,38 +215,24 @@ namespace arsoudeServeur.Services
             public List<string> types { get; set; }
         }
 
-        public class Root
+        private class Root
         {
             public List<Result> results { get; set; }
             public string status { get; set; }
         }
 
-        public class Southwest
+        private class Southwest
         {
             public double lat { get; set; }
             public double lng { get; set; }
         }
 
-        public class Viewport
+        private class Viewport
         {
             public Northeast northeast { get; set; }
             public Southwest southwest { get; set; }
         }
 
 
-        /*if (rando.GPS[1].X <= data.results[0].geometry.bounds.northeast.lat &&
-            rando.GPS[1].X >= data.results[0].geometry.bounds.southwest.lat &&
-            rando.GPS[1].Y <= data.results[0].geometry.bounds.northeast.lng &&
-            rando.GPS[1].Y >= data.results[0].geometry.bounds.southwest.lng)
-            {
-                int test = 0;
-            }
-
-            List<Randonnee> list = await _context.randonnees.Where(s => s.GPS.Any(g =>
-            g.X <= data.results[0].geometry.bounds.northeast.lat && 
-            g.X >= data.results[0].geometry.bounds.southwest.lat &&
-            g.Y <= data.results[0].geometry.bounds.northeast.lng &&
-            g.Y >= data.results[0].geometry.bounds.southwest.lng 
-            )).ToListAsync();*/
     }
 }
