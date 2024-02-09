@@ -32,6 +32,7 @@ namespace arsoudeServeur.Controllers
         {
             var randonnee = await _randonneeService.GetRandonneeByIdAsync(id, UtilisateurCourant);
 
+
             if (randonnee == null)
             {
                 return NotFound();
