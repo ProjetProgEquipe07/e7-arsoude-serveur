@@ -21,7 +21,10 @@ namespace arsoudeServeur.Controllers
         [HttpGet("{listSize}")]
         public async Task<ActionResult<IEnumerable<RandonneeListDTO>>> GetRandonnees(int listSize)
         {
-            return await _randonneeService.GetAllRandonneesAsync(listSize, UtilisateurCourant);
+            if (UtilisateurCourant !=null)
+                return await _randonneeService.GetRandonneesAFaireAsync(listSize, UtilisateurCourant);
+            else
+                return await _randonneeService.GetRandonneesAFaireAsync(listSize);
         }
 
         [HttpGet("{id}")]
@@ -87,7 +90,7 @@ namespace arsoudeServeur.Controllers
                 return NotFound();
             }
 
-            return NoContent();
+            return Ok();
         }
 
         [HttpDelete("{id}")]
@@ -100,17 +103,20 @@ namespace arsoudeServeur.Controllers
                 return NotFound();
             }
 
-            return NoContent();
+            return Ok();
         }
         //[Authorize]
         [HttpPost]
         public async Task<IActionResult> CreateRandonneeTrace(TraceRandoDTO randonnee)
         {
+            var rando = await _randonneeService.CreateRandonneeTraceAsync(randonnee);
 
-            await _randonneeService.CreateRandonneeTraceAsync(randonnee);
+            if (rando == null)
+            {
+                return NotFound();
+            }
 
             return Ok();
-
         }
     }
 }

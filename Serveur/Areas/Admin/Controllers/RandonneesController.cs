@@ -9,164 +9,96 @@ using arsoudServeur.Data;
 using arsoudeServeur.Models;
 using Microsoft.AspNetCore.Authorization;
 using System.Data;
+using arsoudeServeur.Controllers;
+using arsoudeServeur.Services;
+using arsoudeServeur.Models.DTOs;
 
 namespace arsoudeServeur.Areas.Admin.Controllers
 {
-    [Route("api/[controller]/[action]")]
     [Area("Admin")]
-    public class RandonneesController : Controller
+    [ApiController]
+    [Route("Admin/[controller]/[action]")]
+    public class RandonneesController : BaseController
     {
         private readonly ApplicationDbContext _context;
+        private UtilisateursService _utilisateursService;
+        private RandonneesService _randonneesService;
 
-        public RandonneesController(ApplicationDbContext context)
+        public RandonneesController(ApplicationDbContext context, UtilisateursService utilisateursService, RandonneesService randonneesService) : base(utilisateursService)
         {
             _context = context;
+            _utilisateursService = utilisateursService;
+            _randonneesService = randonneesService;
         }
 
-        // GET: Admin/Randonnees
-        public async Task<IActionResult> Index()
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<RandonneeListDTO>>> GetRandonnees()
         {
-            var applicationDbContext = _context.randonnees.Include(r => r.utilisateur);
-            return View(await applicationDbContext.ToListAsync());
-        }
-
-        // GET: Admin/Randonnees/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null || _context.randonnees == null)
-            {
-                return NotFound();
-            }
-
-            var randonnee = await _context.randonnees
-                .Include(r => r.utilisateur)
-                .FirstOrDefaultAsync(m => m.id == id);
-            if (randonnee == null)
-            {
-                return NotFound();
-            }
-
-            return View(randonnee);
-        }
-
-        // GET: Admin/Randonnees/Create
-        public IActionResult Create()
-        {
-            ViewData["utilisateurId"] = new SelectList(_context.utilisateurs, "id", "id");
-            return View();
-        }
-
-        // POST: Admin/Randonnees/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("id,nom,description,emplacement,typeRandonnee,utilisateurId")] Randonnee randonnee)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(randonnee);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["utilisateurId"] = new SelectList(_context.utilisateurs, "id", "id", randonnee.utilisateurId);
-            return View(randonnee);
-        }
-
-        // GET: Admin/Randonnees/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null || _context.randonnees == null)
-            {
-                return NotFound();
-            }
-
-            var randonnee = await _context.randonnees.FindAsync(id);
-            if (randonnee == null)
-            {
-                return NotFound();
-            }
-            ViewData["utilisateurId"] = new SelectList(_context.utilisateurs, "id", "id", randonnee.utilisateurId);
-            return View(randonnee);
-        }
-
-        // POST: Admin/Randonnees/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("id,nom,description,emplacement,typeRandonnee,utilisateurId")] Randonnee randonnee)
-        {
-            if (id != randonnee.id)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
+            if (UtilisateurCourant.role.Equals("Administrator"))
             {
                 try
                 {
-                    _context.Update(randonnee);
+                    var rando = await _randonneesService.GetAllRandonneesAsync();
+                    return Ok(rando);
+                }
+                catch (Exception)
+                {
+                    throw new Exception();
+                }
+            }
+            else
+            {
+                return Unauthorized();
+            }
+        }
+        [HttpPost]
+        public async Task<IActionResult> ApprouverRandonneeAsync(int randonneeId)
+        {
+            if(UtilisateurCourant.role.Equals("Administrator"))
+            {
+                try
+                {
+                    var rando = await _context.randonnees.FindAsync(randonneeId);
+                    rando.etatRandonnee = Randonnee.Etat.Publique;
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!RandonneeExists(randonnee.id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    //changer l'erreur lol
+                    return BadRequest();
                 }
-                return RedirectToAction(nameof(Index));
+                return Ok();
             }
-            ViewData["utilisateurId"] = new SelectList(_context.utilisateurs, "id", "id", randonnee.utilisateurId);
-            return View(randonnee);
+            else
+            {
+                return Unauthorized();
+            }
         }
 
-        // GET: Admin/Randonnees/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        [HttpPost]
+        public async Task<IActionResult> RefuserRandonneeAsync(int randonneeId)
         {
-            if (id == null || _context.randonnees == null)
+            if (UtilisateurCourant.role.Equals("Administrator"))
             {
-                return NotFound();
+                try
+                {
+                    var rando = await _context.randonnees.FindAsync(randonneeId);
+                    rando.etatRandonnee = Randonnee.Etat.Refusée;
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    //changer l'erreur lol
+                    return BadRequest();
+                }
+                return Ok();
             }
-
-            var randonnee = await _context.randonnees
-                .Include(r => r.utilisateur)
-                .FirstOrDefaultAsync(m => m.id == id);
-            if (randonnee == null)
+            else
             {
-                return NotFound();
+                return Unauthorized();
             }
-
-            return View(randonnee);
         }
 
-        // POST: Admin/Randonnees/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            if (_context.randonnees == null)
-            {
-                return Problem("Entity set 'ApplicationDbContext.randonnees'  is null.");
-            }
-            var randonnee = await _context.randonnees.FindAsync(id);
-            if (randonnee != null)
-            {
-                _context.randonnees.Remove(randonnee);
-            }
-            
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
 
-        private bool RandonneeExists(int id)
-        {
-          return (_context.randonnees?.Any(e => e.id == id)).GetValueOrDefault();
-        }
     }
 }

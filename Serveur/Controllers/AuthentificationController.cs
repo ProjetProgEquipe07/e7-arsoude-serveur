@@ -92,23 +92,5 @@ namespace arsoudeServeur.Controllers
             return BadRequest(new { Error = "L'utilisateur est introuvable ou le mot de passe de concorde pas" });
         }
 
-        /* [HttpPost]
-         public async Task<ActionResult> Login(LoginDTO login)
-         {
-             var result = await signInManager.PasswordSignInAsync(login.pseudo, login.motDePasse, true, lockoutOnFailure: false);
-             if (result.Succeeded)
-             {
-                 return Ok();
-             }
-
-             return NotFound(new { Error = "L'utilisateur est introuvable ou le mot de passe de concorde pas" });
-         }*/
-
-        /*[HttpGet]
-        public async Task<ActionResult> Logout()
-        {
-            await signInManager.SignOutAsync();
-            return Ok();
-        }*/
     }
 }

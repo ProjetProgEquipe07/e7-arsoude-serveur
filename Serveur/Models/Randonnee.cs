@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace arsoudeServeur.Models
 {
@@ -18,16 +19,14 @@ namespace arsoudeServeur.Models
         [Required(ErrorMessage = "La propriété est obligatoire.")]
         public string emplacement { get; set; }
         public Type typeRandonnee { get; set; }
+        public Etat etatRandonnee { get; set; } = Etat.Privée;
 
-        public bool approuve { get; set; } = false;
-
-        /*public virtual int? pointDépartId { get; set; }
-        [Required(ErrorMessage = "La propriété est obligatoire.")]
-        public virtual GPS pointDépart { get; set; }
-
-        public virtual int? pointArrivéeId { get; set; }
-        [Required(ErrorMessage = "La propriété est obligatoire.")]
-        public virtual GPS pointArrivée { get; set; }*/
+        public enum Etat
+        {
+            Privée,
+            Publique,
+            Refusée
+        }
 
         [Required(ErrorMessage = "La propriété est obligatoire.")]
         public virtual List<GPS> GPS { get; set; } = new List<GPS>();
@@ -36,19 +35,17 @@ namespace arsoudeServeur.Models
         [Required(ErrorMessage = "La propriété est obligatoire.")]
         public virtual Image image { get; set; }
 
-
-
-
         public enum Type
         {
             Marche,
             Vélo
         }
 
-
-        // Clé étrangère 
+        // Clé étrangère : Créateur de la randonnée
         public virtual int utilisateurId { get; set; }
         public virtual Utilisateur utilisateur { get; set; }
 
+        [JsonIgnore]
+        public virtual List<RandonneeUtilisateurTrace> traces { get; set; } = new List<RandonneeUtilisateurTrace>();
     }
 }
