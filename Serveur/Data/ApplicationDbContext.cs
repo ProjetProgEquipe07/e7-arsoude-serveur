@@ -225,7 +225,100 @@ namespace arsoudServeur.Data
                 },
             };
 
+            var randonneesAnglais = new List<RandonneeAnglais>
+            {
+                new RandonneeAnglais
+                {
+                    id = 1,
+                    nom = "St-Bruno",
+                    description = "Cool walk in St-Bruno",
+                    emplacement = "St-Bruno",
+                    utilisateurId = 1,
+                    approuve = true,
+                    typeRandonnee = RandonneeAnglais.Type.Vélo,
+                    randonneeId = 1,
+                },
+                new RandonneeAnglais
+                {
+                    id = 2,
+                    nom = "Little Walk to Subway",
+                    description = "Moderately cool walk there",
+                    emplacement = "Outside",
+                    utilisateurId = 2,
+                    approuve = true,
+                    typeRandonnee = RandonneeAnglais.Type.Marche,
+                    randonneeId = 2,
+                },
+                new RandonneeAnglais
+                {
+                    id = 3,
+                    nom = "St-Hilaire",
+                    description = "Fresh walk in St-Hilaire",
+                    emplacement = "St-Hilaire",
+                    utilisateurId = 3,
+                    approuve = true,
+                    typeRandonnee = RandonneeAnglais.Type.Vélo,
+                    randonneeId = 3,
+                },
+                new RandonneeAnglais
+                {
+                    id = 4,
+                    nom = "My Hiking Trip",
+                    description = "Walk to Subway",
+                    emplacement = "St-Grégoire",
+                    utilisateurId = 2,
+                    approuve = true,
+                    typeRandonnee = RandonneeAnglais.Type.Marche,
+                    randonneeId = 4,
+                },
+                new RandonneeAnglais
+                {
+                    id = 5,
+                    nom = "Red River",
+                    description = "It must be cool there",
+                    emplacement = "Somewhere",
+                    utilisateurId = 2,
+                    approuve = true,
+                    typeRandonnee = RandonneeAnglais.Type.Marche,
+                    randonneeId = 5,
+                },
+                new RandonneeAnglais
+                {
+                    id = 6,
+                    nom = "My Trek",
+                    description = "I think it's a lot of fun",
+                    emplacement = "Mont Tremblant",
+                    utilisateurId = 1,
+                    approuve = true,
+                    typeRandonnee = RandonneeAnglais.Type.Marche,
+                    randonneeId = 6,
+                },
+                new RandonneeAnglais
+                {
+                    id = 7,
+                    nom = "ayyyyyy",
+                    description = "Had a lot of fun",
+                    emplacement = "St-Jerome",
+                    utilisateurId = 2,
+                    approuve = true,
+                    typeRandonnee = RandonneeAnglais.Type.Marche,
+                    randonneeId = 7,
+                },
+                new RandonneeAnglais
+                {
+                    id = 8,
+                    nom = "St-Grégoire",
+                    description = "Moderately fun to be honest",
+                    emplacement = "Ottoburn Park",
+                    utilisateurId = 3,
+                    approuve = false,
+                    typeRandonnee = RandonneeAnglais.Type.Marche,
+                    randonneeId = 8,
+                },
+            };
+
             builder.Entity<Randonnee>().HasData(randonnees);
+            builder.Entity<RandonneeAnglais>().HasData(randonnees);
         }
 
         private void SeedGPSData(ModelBuilder builder)
@@ -239,6 +332,7 @@ namespace arsoudServeur.Data
                     Y = -73.49497434095912,
                     Depart = true,
                     randonneeId = 1,
+                    randonneAnglaisId = 1,
                 },
                 new GPS
                 {
@@ -247,6 +341,7 @@ namespace arsoudServeur.Data
                     Y = -73.59497434095912,
                     Arrivee = true,
                     randonneeId = 1,
+                    randonneAnglaisId = 1,
                 },
                 new GPS
                 {
@@ -255,6 +350,7 @@ namespace arsoudServeur.Data
                     Y = -73.150238,
                     Depart = true,
                     randonneeId = 2,
+                    randonneAnglaisId = 2,
                 },
                 new GPS
                 {
@@ -263,6 +359,7 @@ namespace arsoudServeur.Data
                     Y = -73.150234,
                     Arrivee = true,
                     randonneeId = 2,
+                    randonneAnglaisId = 2,
                 },
                 new GPS
                 {
@@ -271,6 +368,7 @@ namespace arsoudServeur.Data
                     Y = -73.156983,
                     Depart = true,
                     randonneeId = 3,
+                    randonneAnglaisId = 3,
                 },
                 new GPS
                 {
@@ -279,6 +377,7 @@ namespace arsoudServeur.Data
                     Y = -73.59497434095912,
                     Arrivee = true,
                     randonneeId = 3,
+                    randonneAnglaisId = 3,
                 },
                 new GPS
                 {
@@ -287,6 +386,7 @@ namespace arsoudServeur.Data
                     Y = -73.150238,
                     Depart = true,
                     randonneeId = 4,
+                    randonneAnglaisId = 4,
                 },
                 new GPS
                 {
@@ -295,6 +395,7 @@ namespace arsoudServeur.Data
                     Y = -73.150234,
                     Arrivee = true,
                     randonneeId = 4,
+                    randonneAnglaisId = 4,
                 },
                 new GPS
                 {
@@ -303,6 +404,7 @@ namespace arsoudServeur.Data
                     Y = -73.150238,
                     Depart = true,
                     randonneeId = 5,
+                    randonneAnglaisId = 5,
                 },
                 new GPS
                 {
@@ -311,6 +413,7 @@ namespace arsoudServeur.Data
                     Y = -73.150234,
                     Arrivee = true,
                     randonneeId = 5,
+                    randonneAnglaisId = 5,
                 },
                 new GPS
                 {
@@ -319,6 +422,7 @@ namespace arsoudServeur.Data
                     Y = -73.160238,
                     Depart = true,
                     randonneeId = 6,
+                    randonneAnglaisId = 6,
                 },
                 new GPS
                 {
@@ -327,6 +431,7 @@ namespace arsoudServeur.Data
                     Y = -73.150234,
                     Arrivee = true,
                     randonneeId = 6,
+                    randonneAnglaisId = 6,
                 },
                 new GPS
                 {
@@ -335,6 +440,7 @@ namespace arsoudServeur.Data
                     Y = -73.110238,
                     Depart = true,
                     randonneeId = 7,
+                    randonneAnglaisId = 7,
                 },
                 new GPS
                 {
@@ -343,6 +449,7 @@ namespace arsoudServeur.Data
                     Y = -73.152234,
                     Arrivee = true,
                     randonneeId = 7,
+                    randonneAnglaisId = 7,
                 },
                 new GPS
                 {
@@ -351,6 +458,7 @@ namespace arsoudServeur.Data
                     Y = -73.166238,
                     Depart = true,
                     randonneeId = 8,
+                    randonneAnglaisId = 8,
                 },
                 new GPS
                 {
@@ -359,6 +467,7 @@ namespace arsoudServeur.Data
                     Y = -73.128234,
                     Arrivee = true,
                     randonneeId = 8,
+                    randonneAnglaisId = 8,
                 }
 
             };
@@ -371,5 +480,6 @@ namespace arsoudServeur.Data
         public DbSet<Image> images { get; set; } = default!;
         public DbSet<GPS> gps { get; set; } = default!;
         public DbSet<Commentaire> commentaires { get; set; } = default!;
+        public DbSet<RandonneeAnglais> randonneeAnglais { get; set; } = default!;
     }
 }

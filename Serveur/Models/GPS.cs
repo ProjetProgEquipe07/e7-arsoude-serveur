@@ -14,6 +14,7 @@ namespace arsoudeServeur.Models
 
         // Clé étrangère
         public virtual int? randonneeId { get; set; }
+        public virtual int? randonneAnglaisId { get; set; }
         [JsonIgnore]
         public virtual Randonnee? randonnee { get; set; } 
     }
