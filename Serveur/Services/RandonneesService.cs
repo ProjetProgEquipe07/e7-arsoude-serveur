@@ -185,13 +185,14 @@ namespace arsoudeServeur.Services
 
             if (avertissements.Count > 0)
             {
-                for (int i = avertissements.Count(); i >= 0; i--)
+                for (int i = avertissements.Count() - 1; i >= 0; i--)
                 {
-                    if (DateTime.Compare(avertissements[i].DateSuppresion,DateTime.Now) < 0)
+                    if (DateTime.Compare(avertissements[i].DateSuppresion, DateTime.Now) < 0)
                     {
                         await _avertissementService.DeleteAvertissementAsync(avertissements[i].id);
                     }
                 }
+                
             }
 
             RandonneeUtilisateurTrace gps = new RandonneeUtilisateurTrace();

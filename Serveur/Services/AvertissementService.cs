@@ -15,9 +15,9 @@ namespace arsoudeServeur.Services
             _context = context;
         }
 
-        public async Task<Avertissement> CreateAvertissementAsync(int id, int avertissementId, GPS gps)
+        public async Task<Avertissement> CreateAvertissementAsync(AvertissementDTO avertissementDTO)
         {
-            Randonnee rando = await _context.randonnees.FirstOrDefaultAsync(x => x.id == id);
+            Randonnee rando = await _context.randonnees.FirstOrDefaultAsync(x => x.id == avertissementDTO.randonneeId);
 
             if (rando == null) 
             {
@@ -25,13 +25,13 @@ namespace arsoudeServeur.Services
                 return null;
             }
 
-            if (avertissementId < 0 || avertissementId > 3)
+            if (avertissementDTO.typeAvertissement < 0 || avertissementDTO.typeAvertissement > 3)
             {
                 //avertissement pas existant
                 return null;
             }
 
-            if (gps == null)
+            if (avertissementDTO.gps == null)
             {
                 return null;
             }
@@ -40,9 +40,10 @@ namespace arsoudeServeur.Services
             {
                 DateSuppresion = DateTime.Now + TimeSpan.FromDays(7),
                 randonneeId = rando.id,
-                typeAvertissement = (Avertissement.TypeAvertissement)avertissementId,
-                x = gps.x,
-                y = gps.y,
+                description = avertissementDTO.description,
+                typeAvertissement = (Avertissement.TypeAvertissement)avertissementDTO.typeAvertissement,
+                x = avertissementDTO.gps.x,
+                y = avertissementDTO.gps.y,
             };
 
             _context.avertissements.Add(avertissement);

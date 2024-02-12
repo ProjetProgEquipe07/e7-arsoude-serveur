@@ -1,4 +1,6 @@
-﻿namespace arsoudeServeur.Models
+﻿using System.Text.Json.Serialization;
+
+namespace arsoudeServeur.Models
 {
     public class Avertissement
     {
@@ -20,6 +22,7 @@
 
         public int randonneeId { get; set; }
 
+        [JsonIgnore]
         public virtual Randonnee randonnee { get; set; }
         
         public double x { get; set; }

@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace arsoudeServeur.Controllers
 {
     [Route("api/[controller]/[action]")]
+    //[Authorize]
     [ApiController]
     public class AvertissementController : BaseController
     {
@@ -17,12 +18,11 @@ namespace arsoudeServeur.Controllers
             _avertissementService = avertissementService;
         }
 
-        [HttpPost("{id}/{avertissementId}")]
-        [Authorize]
-        public async Task<ActionResult<Avertissement>> CreateAvertissement(int id, int avertissementId,[FromBody] GPS gps)
+        [HttpPost]
+        public async Task<ActionResult<Avertissement>> CreateAvertissement(AvertissementDTO avertissementdto)
         {
 
-            var avertissement = await _avertissementService.CreateAvertissementAsync(id, avertissementId,gps);
+            var avertissement = await _avertissementService.CreateAvertissementAsync(avertissementdto);
 
 
             if (avertissement == null)
