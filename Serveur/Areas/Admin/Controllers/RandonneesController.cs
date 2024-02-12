@@ -72,7 +72,8 @@ namespace arsoudeServeur.Areas.Admin.Controllers
                 try
                 {
                     var rando = await _randonneesService.GetAllRandonneesAsync();
-                    return Ok(rando);
+                        var sortedRando = rando.OrderBy(r => r.etatRandonnee);
+                        return Ok(sortedRando);
                 }
                 catch (Exception)
                 {
