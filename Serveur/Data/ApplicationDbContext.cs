@@ -82,9 +82,10 @@ namespace arsoudServeur.Data
                     id = 1,
                     nom = "tangerine",
                     prenom = "robert",
-                    codePostal = "E3A4R4",
+                    codePostal = "E3A 4R4",
                     role = "Administrator",
                     courriel = adminUser.UserName,
+                    adresse = "",
                     identityUserId = adminUser.Id,
                 },
                 new Utilisateur
@@ -92,9 +93,10 @@ namespace arsoudServeur.Data
                     id = 2,
                     nom = "Hogan",
                     prenom = "Hulk",
-                    codePostal = "E3A4R4",
+                    codePostal = "E3A 4R4",
                     role = "User",
                     courriel = utilisateur1.UserName,
+                    adresse = "",
                     identityUserId = utilisateur1.Id,
                 },
                 new Utilisateur
@@ -102,9 +104,10 @@ namespace arsoudServeur.Data
                     id = 3,
                     nom = "Charles",
                     prenom = "Grégory",
-                    codePostal = "E3A4R4",
+                    codePostal = "E3A 4R4",
                     role = "User",
                     courriel = utilisateur2.UserName,
+                    adresse = "1260, rue Mill, suite 100",
                     identityUserId = utilisateur2.Id,
                 }
             };

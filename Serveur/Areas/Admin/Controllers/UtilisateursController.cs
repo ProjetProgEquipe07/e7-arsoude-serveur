@@ -29,6 +29,11 @@ namespace arsoudeServeur.Areas.Admin.Controllers
         [HttpGet]
         public async Task<ActionResult<Boolean>> EstAdmin()
         {
+            if (UtilisateurCourant == null)
+            {
+                return false;
+            }
+
             if (UtilisateurCourant.role.Equals("Administrator"))
             {
                 return true;

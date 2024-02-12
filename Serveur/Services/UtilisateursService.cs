@@ -2,8 +2,8 @@ using arsoudeServeur.Models;
 using arsoudeServeur.Models.DTOs;
 using arsoudeServeur.Services.Interfaces;
 using arsoudServeur.Data;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using System.Numerics;
 
 namespace arsoudeServeur.Services
 {
@@ -11,9 +11,12 @@ namespace arsoudeServeur.Services
     {
         private ApplicationDbContext _context;
 
-        public UtilisateursService(ApplicationDbContext context)
+        UserManager<IdentityUser> userManager;
+
+        public UtilisateursService(ApplicationDbContext context, UserManager<IdentityUser> userManager)
         {
             _context = context;
+            this.userManager = userManager;
         }
 
         public virtual Utilisateur? GetUtilisateurFromUserId(string userId)
@@ -62,6 +65,62 @@ namespace arsoudeServeur.Services
         public Task PostUtilisateurFromIdentityUserId(string identityUserId)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task EditProfil(Utilisateur utilisateur, EditProfilDTO profil)
+        {
+            if (utilisateur == null)
+            {
+                return;
+            }
+            var user = await _context.utilisateurs.FirstOrDefaultAsync(u => u.id == utilisateur.id);
+            if (user == null)
+            {
+                return;
+            }
+
+            if (profil.moisDeNaissance == null)
+            {
+                profil.moisDeNaissance = 0;
+            }
+            if (profil.anneeDeNaissance == null)
+            {
+                profil.anneeDeNaissance = 0;
+            }
+            if (profil.adresse == null)
+            {
+                profil.adresse = "";
+            }
+
+            user.prenom = profil.prenom;
+            user.nom = profil.nom;
+            user.adresse = profil.adresse;
+            user.codePostal = profil.codePostal;
+            user.anneeDeNaissance = (int)profil.anneeDeNaissance;
+            user.moisDeNaissance = (int)profil.moisDeNaissance;
+
+            await _context.SaveChangesAsync();
+
+            return;
+        }
+
+        public async Task EditPassword(Utilisateur utilisateur, string currentPassword, string newPassword)
+        {
+            if (utilisateur == null)
+            {
+                return;
+            }
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == utilisateur.identityUserId);
+            if (user == null)
+            {
+                return;
+            }
+
+            await userManager.ChangePasswordAsync(user, currentPassword, newPassword);
+
+            await _context.SaveChangesAsync();
+
+            return;
         }
     }
 }
