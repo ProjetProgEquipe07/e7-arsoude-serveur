@@ -294,5 +294,6 @@ namespace arsoudServeur.Data
         public DbSet<GPS> gps { get; set; } = default!;
         public DbSet<Commentaire> commentaires { get; set; } = default!;
         public DbSet<RandonneeUtilisateurTrace> utilisateursTrace { get; set; } = default!;
+        public DbSet<Avertissement> avertissements { get; set; } = default!;
     }
 }

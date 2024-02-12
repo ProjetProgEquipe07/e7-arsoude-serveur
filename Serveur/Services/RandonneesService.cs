@@ -9,10 +9,12 @@ namespace arsoudeServeur.Services
     public class RandonneesService
     {
         private readonly ApplicationDbContext _context;
+        private readonly AvertissementService _avertissementService;
 
-        public RandonneesService(ApplicationDbContext context)
+        public RandonneesService(ApplicationDbContext context, AvertissementService avertissementService)
         {
             _context = context;
+            _avertissementService = avertissementService;
         }
 
         public async Task<List<RandonneeListeAdminDTO>> GetAllRandonneesAsync()
@@ -178,6 +180,21 @@ namespace arsoudeServeur.Services
                 return null;
             }
 
+            List<Avertissement> avertissements = new List<Avertissement>();
+            avertissements = await _context.avertissements.Where(x => x.randonneeId == rando.id).ToListAsync();
+
+            if (avertissements.Count > 0)
+            {
+                for (int i = avertissements.Count() - 1; i >= 0; i--)
+                {
+                    if (DateTime.Compare(avertissements[i].DateSuppresion, DateTime.Now) < 0)
+                    {
+                        await _avertissementService.DeleteAvertissementAsync(avertissements[i].id);
+                    }
+                }
+                
+            }
+
             RandonneeUtilisateurTrace gps = new RandonneeUtilisateurTrace();
             List<GPS> listgps = new List<GPS>();
 
@@ -210,7 +227,8 @@ namespace arsoudeServeur.Services
                 gps = gps.gpsListe,
                 utilisateur = rando.utilisateur,
                 utilisateurId = rando.utilisateurId,
-                favoris = false
+                favoris = false,
+                avertissements = avertissements
             };
 
             if (utilisateurCourant != null)
