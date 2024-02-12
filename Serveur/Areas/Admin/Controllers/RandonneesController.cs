@@ -15,9 +15,8 @@ using arsoudeServeur.Models.DTOs;
 
 namespace arsoudeServeur.Areas.Admin.Controllers
 {
-    [Area("Admin")]
+    [Route("admin/[controller]/[action]")]
     [ApiController]
-    [Route("Admin/[controller]/[action]")]
     public class RandonneesController : BaseController
     {
         private readonly ApplicationDbContext _context;
@@ -31,9 +30,43 @@ namespace arsoudeServeur.Areas.Admin.Controllers
             _randonneesService = randonneesService;
         }
 
+        [HttpGet("{randonneeId}")]
+        public async Task<ActionResult<IEnumerable<RandonneeListDTO>>> ApproveAsync(int randonneeId)
+        {
+            try
+            {
+                if (UtilisateurCourant.role.Equals("Administrator"))
+                {
+                    try
+                    {
+                        var rando = await _context.randonnees.FindAsync(randonneeId);
+                        rando.etatRandonnee = Randonnee.Etat.Publique;
+                        await _context.SaveChangesAsync();
+                        return Ok(rando);
+                    }
+                    catch (DbUpdateConcurrencyException)
+                    {
+                        return BadRequest();
+                    }
+
+                }
+                else
+                {
+                    return Unauthorized();
+                }
+
+            }
+            catch (Exception)
+            {
+                return Unauthorized();
+            }
+        }
+
         [HttpGet]
         public async Task<ActionResult<IEnumerable<RandonneeListDTO>>> GetRandonnees()
         {
+            try
+            { 
             if (UtilisateurCourant.role.Equals("Administrator"))
             {
                 try
@@ -50,16 +83,56 @@ namespace arsoudeServeur.Areas.Admin.Controllers
             {
                 return Unauthorized();
             }
+            }
+            catch (Exception)
+            {
+                return Unauthorized();
+            }
         }
-        [HttpPost]
-        public async Task<IActionResult> ApprouverRandonneeAsync(int randonneeId)
+
+        
+
+        [HttpGet("{randonneeId}")]
+        public async Task<ActionResult<IEnumerable<RandonneeListDTO>>> RefuserAsync(int randonneeId)
         {
-            if(UtilisateurCourant.role.Equals("Administrator"))
+            try
+            {
+                if (UtilisateurCourant.role.Equals("Administrator"))
+                {
+                    try
+                    {
+                        var rando = await _context.randonnees.FindAsync(randonneeId);
+                        rando.etatRandonnee = Randonnee.Etat.Refusée;
+                        await _context.SaveChangesAsync();
+                    }
+                    catch (DbUpdateConcurrencyException)
+                    {
+                        //changer l'erreur lol
+                        return BadRequest();
+                    }
+                    return Ok();
+                }
+                else
+                {
+                    return Unauthorized();
+                }
+            }
+            catch (Exception)
+            {
+                return Unauthorized();
+            }
+        }
+
+        [HttpGet("{randonneeId}")]
+        public async Task<ActionResult<IEnumerable<RandonneeListDTO>>> AapproveAsync(int randonneeId)
+        {
+            try { 
+            if (UtilisateurCourant.role.Equals("Administrator"))
             {
                 try
                 {
                     var rando = await _context.randonnees.FindAsync(randonneeId);
-                    rando.etatRandonnee = Randonnee.Etat.Publique;
+                    rando.etatRandonnee = Randonnee.Etat.Privée;
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -74,26 +147,7 @@ namespace arsoudeServeur.Areas.Admin.Controllers
                 return Unauthorized();
             }
         }
-
-        [HttpPost]
-        public async Task<IActionResult> RefuserRandonneeAsync(int randonneeId)
-        {
-            if (UtilisateurCourant.role.Equals("Administrator"))
-            {
-                try
-                {
-                    var rando = await _context.randonnees.FindAsync(randonneeId);
-                    rando.etatRandonnee = Randonnee.Etat.Refusée;
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    //changer l'erreur lol
-                    return BadRequest();
-                }
-                return Ok();
-            }
-            else
+            catch (Exception)
             {
                 return Unauthorized();
             }
