@@ -27,9 +27,9 @@ namespace arsoudeServeur.Services
             return list;
         }
 
-        public void CreateCommentaire(int id,CommentaireDTO commentaire, Utilisateur utilisateurCourant)
+        public void CreateCommentaire(CommentaireDTO commentaire, Utilisateur utilisateurCourant)
         {
-            var rando = _context.randonnees.Where(r => r.id == id).FirstOrDefault();
+            var rando = _context.randonnees.Where(r => r.id == commentaire.randoId).FirstOrDefault();
 
             _context.commentaires.Add(new Commentaire()
             {
@@ -48,7 +48,7 @@ namespace arsoudeServeur.Services
 
         public void PutCommentaire(int id, CommentaireDTO commentaire, Utilisateur utilisateurCourant)
         {
-            var rando = _context.randonnees.Where(r => r.id == id).FirstOrDefault();    
+            var rando = _context.randonnees.Where(r => r.id == commentaire.randoId).FirstOrDefault();    
 
             _context.commentaires.Update(new Commentaire()
             {
