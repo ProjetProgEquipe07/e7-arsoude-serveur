@@ -21,5 +21,9 @@
         public int randonneeId { get; set; }
 
         public virtual Randonnee randonnee { get; set; }
+        
+        public double x { get; set; }
+
+        public double y { get; set; }
     }
 }

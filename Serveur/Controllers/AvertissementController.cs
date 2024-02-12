@@ -17,12 +17,12 @@ namespace arsoudeServeur.Controllers
             _avertissementService = avertissementService;
         }
 
-        [HttpGet("{id}/{avertissementId}")]
+        [HttpPost("{id}/{avertissementId}")]
         [Authorize]
-        public async Task<ActionResult<Avertissement>> CreateAvertissement(int id, int avertissementId)
+        public async Task<ActionResult<Avertissement>> CreateAvertissement(int id, int avertissementId,[FromBody] GPS gps)
         {
 
-            var avertissement = await _avertissementService.CreateAvertissementAsync(id, avertissementId);
+            var avertissement = await _avertissementService.CreateAvertissementAsync(id, avertissementId,gps);
 
 
             if (avertissement == null)
