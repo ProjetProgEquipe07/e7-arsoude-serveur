@@ -63,6 +63,7 @@ builder.Services.AddAuthentication(options =>
 builder.Services.AddScoped<RandonneesService>();
 builder.Services.AddScoped<UtilisateursService>();
 builder.Services.AddScoped<RechercheService>();
+builder.Services.AddScoped<AvertissementService>();
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)

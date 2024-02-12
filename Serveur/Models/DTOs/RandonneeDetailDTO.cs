@@ -16,6 +16,7 @@ namespace arsoudeServeur.Models.DTOs
             public int utilisateurId { get; set; }
             public Utilisateur utilisateur { get; set; }
             public bool favoris { get; set; }
+            public List<Avertissement> avertissements { get; set; }
         }
 
     
