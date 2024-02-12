@@ -31,6 +31,8 @@ namespace arsoudeServeur.Models
         [Required(ErrorMessage = "La propriété est obligatoire.")]
         public virtual List<GPS> GPS { get; set; } = new List<GPS>();
 
+        public virtual List<Commentaire> commentaires { get; set; } = new List<Commentaire>();
+
         //public virtual int? imageId { get; set; }
         [Required(ErrorMessage = "La propriété est obligatoire.")]
         public virtual Image image { get; set; }
