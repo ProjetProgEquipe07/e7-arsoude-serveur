@@ -132,7 +132,7 @@ namespace arsoudServeur.Data
                     emplacement = "st-bruno",
                     utilisateurId = 1,
                     typeRandonnee = Randonnee.Type.Vélo,
-                    etatRandonnee = Randonnee.Etat.Publique
+                    etatRandonnee = Randonnee.Etat.Privée
                 },
                 new Randonnee
                 {
@@ -142,7 +142,7 @@ namespace arsoudServeur.Data
                     emplacement = "dehors",
                     utilisateurId = 2,
                     typeRandonnee = Randonnee.Type.Marche,
-                    etatRandonnee = Randonnee.Etat.Publique
+                    etatRandonnee = Randonnee.Etat.Privée
                 },
                 new Randonnee
                 {
@@ -152,7 +152,7 @@ namespace arsoudServeur.Data
                     emplacement = "st-hilaire?",
                     utilisateurId = 3,
                     typeRandonnee = Randonnee.Type.Vélo,
-                    etatRandonnee = Randonnee.Etat.Publique
+                    etatRandonnee = Randonnee.Etat.Privée
                 },
                 new Randonnee
                 {
@@ -172,7 +172,7 @@ namespace arsoudServeur.Data
                     emplacement = "quelque part",
                     utilisateurId = 2,
                     typeRandonnee = Randonnee.Type.Marche,
-                    etatRandonnee = Randonnee.Etat.Refusée
+                    etatRandonnee = Randonnee.Etat.Privée
                 },
                 new Randonnee
                 {
@@ -182,7 +182,7 @@ namespace arsoudServeur.Data
                     emplacement = "mont tremblant",
                     utilisateurId = 1,
                     typeRandonnee = Randonnee.Type.Marche,
-                    etatRandonnee = Randonnee.Etat.Publique
+                    etatRandonnee = Randonnee.Etat.Privée
                 }
             };
 
