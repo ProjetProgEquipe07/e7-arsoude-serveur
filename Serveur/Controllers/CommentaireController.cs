@@ -27,7 +27,7 @@ namespace arsoudeServeur.Controllers
         {
             Utilisateur user = UtilisateurCourant;
 
-            _commentaireService.CreateCommentaire(id,commentaire, user);
+            _commentaireService.CreateCommentaire(commentaire, user);
             return Ok();
         }
 

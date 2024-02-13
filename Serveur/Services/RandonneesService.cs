@@ -46,8 +46,8 @@ namespace arsoudeServeur.Services
         {
             List<RandonneeListDTO> randonneesEnvoye = new List<RandonneeListDTO>();
             List<Randonnee> randonnees = await _context.randonnees.Where(
-                s => s.etatRandonnee == Randonnee.Etat.Privée// && s.etatRandonnee == Randonnee.Etat.Publique//Publique
-                //(s.etatRandonnee == Randonnee.Etat.Privée && s.utilisateurId == utilisateurCourant.id) //Privée et uniquement à l'utilisateur courant
+                s => s.etatRandonnee == Randonnee.Etat.Publique || //Publique
+                (s.etatRandonnee == Randonnee.Etat.Privée && s.utilisateurId == utilisateurCourant.id) //Privée et uniquement à l'utilisateur courant
                 ).Take(listSize).ToListAsync();
 
             foreach (Randonnee rando in randonnees)
