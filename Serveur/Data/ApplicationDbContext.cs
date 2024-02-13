@@ -74,26 +74,6 @@ namespace arsoudServeur.Data
 
             builder.Entity<IdentityUser>().HasData(adminUser, utilisateur1, utilisateur2);
 
-            // Lien user <-> role
-
-            builder.Entity<IdentityUserRole<string>>().HasData(
-                new IdentityUserRole<string>
-                {
-                    RoleId = adminRole.Id,
-                    UserId = adminUser.Id
-                },
-                new IdentityUserRole<string>
-                {
-                    RoleId = userRole.Id,
-                    UserId = utilisateur1.Id
-                },
-                new IdentityUserRole<string>
-                {
-                    RoleId = userRole.Id,
-                    UserId = utilisateur2.Id
-                }
-            );
-
             // Seed utilisateurs
 
             List<Utilisateur> utilisateurs = new List<Utilisateur>() {
@@ -102,33 +82,33 @@ namespace arsoudServeur.Data
                     id = 1,
                     nom = "tangerine",
                     prenom = "robert",
-                    codePostal = "E3A4R4",
+                    codePostal = "E3A 4R4",
                     role = "Administrator",
                     courriel = adminUser.UserName,
+                    adresse = "",
                     identityUserId = adminUser.Id,
-                    favoris = new List<RandonneeUtilisateur> {}
                 },
                 new Utilisateur
                 {
                     id = 2,
                     nom = "Hogan",
                     prenom = "Hulk",
-                    codePostal = "E3A4R4",
+                    codePostal = "E3A 4R4",
                     role = "User",
                     courriel = utilisateur1.UserName,
+                    adresse = "",
                     identityUserId = utilisateur1.Id,
-                    favoris = new List<RandonneeUtilisateur> {}
                 },
                 new Utilisateur
                 {
                     id = 3,
                     nom = "Charles",
                     prenom = "Grégory",
-                    codePostal = "E3A4R4",
+                    codePostal = "E3A 4R4",
                     role = "User",
                     courriel = utilisateur2.UserName,
+                    adresse = "1260, rue Mill, suite 100",
                     identityUserId = utilisateur2.Id,
-                    favoris = new List<RandonneeUtilisateur> {}
                 }
             };
 
@@ -146,11 +126,10 @@ namespace arsoudServeur.Data
                 new Randonnee
                 {
                     id = 1,
-                    nom = "St-Bruno",
+                    nom = "St-Brun",
                     description = "promenade cool a st-brun",
                     emplacement = "st-bruno",
                     utilisateurId = 1,
-                    approuve = true,
                     typeRandonnee = Randonnee.Type.Vélo,
                 },
                 new Randonnee
@@ -160,17 +139,15 @@ namespace arsoudServeur.Data
                     description = "promenade moyennement cool la bas",
                     emplacement = "dehors",
                     utilisateurId = 2,
-                    approuve = true,
                     typeRandonnee = Randonnee.Type.Marche,
                 },
                 new Randonnee
                 {
                     id = 3,
-                    nom = "st-hilaire",
-                    description = "promenade fresh a st-hilaire",
-                    emplacement = "st-hilaire",
+                    nom = "Brossard",
+                    description = "promenade fresh a bro s s a r d",
+                    emplacement = "st-hilaire?",
                     utilisateurId = 3,
-                    approuve = true,
                     typeRandonnee = Randonnee.Type.Vélo,
                 },
                 new Randonnee
@@ -180,7 +157,6 @@ namespace arsoudServeur.Data
                     description = "promenade au subway",
                     emplacement = "st-grégoire",
                     utilisateurId = 2,
-                    approuve = true,
                     typeRandonnee = Randonnee.Type.Marche,
                 },
                 new Randonnee
@@ -190,7 +166,6 @@ namespace arsoudServeur.Data
                     description = "ça doit être cool la bas",
                     emplacement = "quelque part",
                     utilisateurId = 2,
-                    approuve = true,
                     typeRandonnee = Randonnee.Type.Marche,
                 },
                 new Randonnee
@@ -200,29 +175,8 @@ namespace arsoudServeur.Data
                     description = "je pense qu'on a beaucoup de fun",
                     emplacement = "mont tremblant",
                     utilisateurId = 1,
-                    approuve = true,
                     typeRandonnee = Randonnee.Type.Marche,
-                },
-                new Randonnee
-                {
-                    id = 7,
-                    nom = "ayyyyyy",
-                    description = "J'ai eu beaucoup de plaisir",
-                    emplacement = "st-jérome",
-                    utilisateurId = 2,
-                    approuve = true,
-                    typeRandonnee = Randonnee.Type.Marche,
-                },
-                new Randonnee
-                {
-                    id = 8,
-                    nom = "st-grégoire",
-                    description = "moyennement le fun pour vrai",
-                    emplacement = "ottoburn park",
-                    utilisateurId = 3,
-                    approuve = false,
-                    typeRandonnee = Randonnee.Type.Marche,
-                },
+                }
             };
 
             var randonneesAnglais = new List<RandonneeAnglais>
@@ -234,7 +188,6 @@ namespace arsoudServeur.Data
                     description = "Cool walk in St-Bruno",
                     emplacement = "St-Bruno",
                     utilisateurId = 1,
-                    approuve = true,
                     typeRandonnee = RandonneeAnglais.Type.Vélo,
                     randonneeId = 1,
                 },
@@ -245,7 +198,6 @@ namespace arsoudServeur.Data
                     description = "Moderately cool walk there",
                     emplacement = "Outside",
                     utilisateurId = 2,
-                    approuve = true,
                     typeRandonnee = RandonneeAnglais.Type.Marche,
                     randonneeId = 2,
                 },
@@ -256,7 +208,6 @@ namespace arsoudServeur.Data
                     description = "Fresh walk in St-Hilaire",
                     emplacement = "St-Hilaire",
                     utilisateurId = 3,
-                    approuve = true,
                     typeRandonnee = RandonneeAnglais.Type.Vélo,
                     randonneeId = 3,
                 },
@@ -267,7 +218,6 @@ namespace arsoudServeur.Data
                     description = "Walk to Subway",
                     emplacement = "St-Grégoire",
                     utilisateurId = 2,
-                    approuve = true,
                     typeRandonnee = RandonneeAnglais.Type.Marche,
                     randonneeId = 4,
                 },
@@ -278,7 +228,6 @@ namespace arsoudServeur.Data
                     description = "It must be cool there",
                     emplacement = "Somewhere",
                     utilisateurId = 2,
-                    approuve = true,
                     typeRandonnee = RandonneeAnglais.Type.Marche,
                     randonneeId = 5,
                 },
@@ -289,36 +238,13 @@ namespace arsoudServeur.Data
                     description = "I think it's a lot of fun",
                     emplacement = "Mont Tremblant",
                     utilisateurId = 1,
-                    approuve = true,
                     typeRandonnee = RandonneeAnglais.Type.Marche,
                     randonneeId = 6,
-                },
-                new RandonneeAnglais
-                {
-                    id = 7,
-                    nom = "ayyyyyy",
-                    description = "Had a lot of fun",
-                    emplacement = "St-Jerome",
-                    utilisateurId = 2,
-                    approuve = true,
-                    typeRandonnee = RandonneeAnglais.Type.Marche,
-                    randonneeId = 7,
-                },
-                new RandonneeAnglais
-                {
-                    id = 8,
-                    nom = "St-Grégoire",
-                    description = "Moderately fun to be honest",
-                    emplacement = "Ottoburn Park",
-                    utilisateurId = 3,
-                    approuve = false,
-                    typeRandonnee = RandonneeAnglais.Type.Marche,
-                    randonneeId = 8,
                 },
             };
 
             builder.Entity<Randonnee>().HasData(randonnees);
-            builder.Entity<RandonneeAnglais>().HasData(randonnees);
+            builder.Entity<RandonneeAnglais>().HasData(randonneesAnglais);
         }
 
         private void SeedGPSData(ModelBuilder builder)
@@ -328,146 +254,110 @@ namespace arsoudServeur.Data
                 new GPS
                 {
                     id = 1,
-                    X = 45.53665313486474,
-                    Y = -73.49497434095912,
-                    Depart = true,
+                    x = 45.53665313486474,
+                    y = -73.49497434095912,
+                    depart = true,
                     randonneeId = 1,
                     randonneAnglaisId = 1,
                 },
                 new GPS
                 {
                     id = 2,
-                    X = 45.63665313486474,
-                    Y = -73.59497434095912,
-                    Arrivee = true,
+                    x = 45.63665313486474,
+                    y = -73.59497434095912,
+                    arrivee = true,
                     randonneeId = 1,
                     randonneAnglaisId = 1,
                 },
                 new GPS
                 {
                     id = 3,
-                    X = 45.354999,
-                    Y = -73.150238,
-                    Depart = true,
+                    x = 45.354999,
+                    y = -73.150238,
+                    depart = true,
                     randonneeId = 2,
                     randonneAnglaisId = 2,
                 },
                 new GPS
                 {
                     id = 4,
-                    X = 45.356925,
-                    Y = -73.150234,
-                    Arrivee = true,
+                    x = 45.356925,
+                    y = -73.150234,
+                    arrivee = true,
                     randonneeId = 2,
                     randonneAnglaisId = 2,
                 },
                 new GPS
                 {
                     id = 5,
-                    X = 45.538015,
-                    Y = -73.156983,
-                    Depart = true,
+                    x = 45.538015,
+                    y = -73.156983,
+                    depart = true,
                     randonneeId = 3,
                     randonneAnglaisId = 3,
                 },
                 new GPS
                 {
                     id = 6,
-                    X = 45.63665313486474,
-                    Y = -73.59497434095912,
-                    Arrivee = true,
+                    x = 45.63665313486474,
+                    y = -73.59497434095912,
+                    arrivee = true,
                     randonneeId = 3,
                     randonneAnglaisId = 3,
                 },
                 new GPS
                 {
                     id = 7,
-                    X = 45.354999,
-                    Y = -73.150238,
-                    Depart = true,
+                    x = 45.354999,
+                    y = -73.150238,
+                    depart = true,
                     randonneeId = 4,
                     randonneAnglaisId = 4,
                 },
                 new GPS
                 {
                     id = 8,
-                    X = 45.356925,
-                    Y = -73.150234,
-                    Arrivee = true,
+                    x = 45.356925,
+                    y = -73.150234,
+                    arrivee = true,
                     randonneeId = 4,
                     randonneAnglaisId = 4,
                 },
                 new GPS
                 {
                     id = 9,
-                    X = 45.354999,
-                    Y = -73.150238,
-                    Depart = true,
+                    x = 45.354999,
+                    y = -73.150238,
+                    depart = true,
                     randonneeId = 5,
                     randonneAnglaisId = 5,
                 },
                 new GPS
                 {
                     id = 10,
-                    X = 45.356925,
-                    Y = -73.150234,
-                    Arrivee = true,
+                    x = 45.356925,
+                    y = -73.150234,
+                    arrivee = true,
                     randonneeId = 5,
                     randonneAnglaisId = 5,
                 },
                 new GPS
                 {
                     id = 11,
-                    X = 45.354999,
-                    Y = -73.160238,
-                    Depart = true,
+                    x = 45.354999,
+                    y = -73.160238,
+                    depart = true,
                     randonneeId = 6,
                     randonneAnglaisId = 6,
                 },
                 new GPS
                 {
                     id = 12,
-                    X = 45.356925,
-                    Y = -73.150234,
-                    Arrivee = true,
+                    x = 45.356925,
+                    y = -73.150234,
+                    arrivee = true,
                     randonneeId = 6,
                     randonneAnglaisId = 6,
-                },
-                new GPS
-                {
-                    id = 13,
-                    X = 45.364999,
-                    Y = -73.110238,
-                    Depart = true,
-                    randonneeId = 7,
-                    randonneAnglaisId = 7,
-                },
-                new GPS
-                {
-                    id = 14,
-                    X = 45.386925,
-                    Y = -73.152234,
-                    Arrivee = true,
-                    randonneeId = 7,
-                    randonneAnglaisId = 7,
-                },
-                new GPS
-                {
-                    id = 15,
-                    X = 45.364999,
-                    Y = -73.166238,
-                    Depart = true,
-                    randonneeId = 8,
-                    randonneAnglaisId = 8,
-                },
-                new GPS
-                {
-                    id = 16,
-                    X = 45.456925,
-                    Y = -73.128234,
-                    Arrivee = true,
-                    randonneeId = 8,
-                    randonneAnglaisId = 8,
                 }
 
             };
@@ -480,6 +370,8 @@ namespace arsoudServeur.Data
         public DbSet<Image> images { get; set; } = default!;
         public DbSet<GPS> gps { get; set; } = default!;
         public DbSet<Commentaire> commentaires { get; set; } = default!;
+        public DbSet<RandonneeUtilisateurTrace> utilisateursTrace { get; set; } = default!;
+        public DbSet<Avertissement> avertissements { get; set; } = default!;
         public DbSet<RandonneeAnglais> randonneeAnglais { get; set; } = default!;
     }
 }

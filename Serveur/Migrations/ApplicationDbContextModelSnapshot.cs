@@ -49,13 +49,13 @@ namespace arsoudeServeur.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "940ffc3b-7499-4437-a885-c759c0eec7cc",
+                            Id = "dda35078-d6c7-42e4-a026-b2fd855a92ec",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
-                            Id = "03d17823-69f2-4a43-92da-1068f3cc751f",
+                            Id = "7223cd62-c9c8-4778-86bc-7b340ea07174",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -152,15 +152,15 @@ namespace arsoudeServeur.Migrations
                         {
                             Id = "11111111-1111-1111-1111-111111111111",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "2d241b9a-4103-4958-9f94-0a5b5017247c",
+                            ConcurrencyStamp = "8ec94ed3-9047-41f0-a876-8433ce3c9009",
                             Email = "admin@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@GMAIL.COM",
                             NormalizedUserName = "ADMIN@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEOroTfwK856qKyfXcD/yQJg8SfJfVytIqaI0RjewNpvFrfoPYy7J71kfXZcED7Z65g==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEP3Qt62UPHd/j2o81Rth6iEIfbjWhBKiVliAVHqIwNNNRouCXdk1ih8phxV4dfIG5g==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "5d16e47f-fec4-4a43-b4f6-88bd58bafcfd",
+                            SecurityStamp = "637f2a79-d612-44d2-a80b-fc684029e7af",
                             TwoFactorEnabled = false,
                             UserName = "admin@gmail.com"
                         },
@@ -168,15 +168,15 @@ namespace arsoudeServeur.Migrations
                         {
                             Id = "11111111-1111-1111-1111-111111111112",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "485d5006-f4e7-4ffd-acfa-18a305791b9e",
+                            ConcurrencyStamp = "213552df-a8af-405f-9bb3-b00669edc7db",
                             Email = "user1@hotmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "USER1@HOTMAIL.COM",
                             NormalizedUserName = "USER1@HOTMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEPrE/MljWgqUj10vm+jZx3nf2vxSHA1Gvmqgx53BWc6DNofQzFamUVkrrEV7kPHZrA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEFYMXQ5SdivbaZYYREQheynRZjNIVFlMIWX4f4JbONcIhmceMdqroMWH90Jr4PBbNA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "9a05f127-8640-4af3-a769-4684aa66b75b",
+                            SecurityStamp = "8d47f3c6-f509-4e9f-adbe-bbcbe55a64e4",
                             TwoFactorEnabled = false,
                             UserName = "user1@hotmail.com"
                         },
@@ -184,15 +184,15 @@ namespace arsoudeServeur.Migrations
                         {
                             Id = "11111111-1111-1111-1111-111111111113",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "891e7614-0faa-49a5-95ae-752e19152d82",
+                            ConcurrencyStamp = "a3242350-3405-49e5-877a-2bbd79ae6cfa",
                             Email = "user2@hotmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "USER2@HOTMAIL.COM",
                             NormalizedUserName = "USER2@HOTMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEGFEyDtsTh2vIvVtmhhViQOu+svS56s1Exm9c65grImoWZaeZHTR6UDlVLtzzpEx0g==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEOQlHF+g2n/rnrVxkknbWL29PvKwK0oocbwEP0eNPzmQ9/UvoCT/R1ZhdGiyVwUWpQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "3dc29cda-cb92-4580-991b-fcd44ce60d13",
+                            SecurityStamp = "fabdcf35-27b3-4829-84de-4fbdfa3560a5",
                             TwoFactorEnabled = false,
                             UserName = "user2@hotmail.com"
                         });
@@ -258,23 +258,6 @@ namespace arsoudeServeur.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            UserId = "11111111-1111-1111-1111-111111111111",
-                            RoleId = "940ffc3b-7499-4437-a885-c759c0eec7cc"
-                        },
-                        new
-                        {
-                            UserId = "11111111-1111-1111-1111-111111111112",
-                            RoleId = "03d17823-69f2-4a43-92da-1068f3cc751f"
-                        },
-                        new
-                        {
-                            UserId = "11111111-1111-1111-1111-111111111113",
-                            RoleId = "03d17823-69f2-4a43-92da-1068f3cc751f"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -298,20 +281,54 @@ namespace arsoudeServeur.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("arsoudeServeur.Models.Avertissement", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("DateSuppresion")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("description")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("randonneeId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("typeAvertissement")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<double>("x")
+                        .HasColumnType("REAL");
+
+                    b.Property<double>("y")
+                        .HasColumnType("REAL");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("randonneeId");
+
+                    b.ToTable("avertissements");
+                });
+
             modelBuilder.Entity("arsoudeServeur.Models.Commentaire", b =>
                 {
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("randonneeid")
+                    b.Property<int?>("RandonneeAnglaisid")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("randonnéeId")
+                    b.Property<int>("randonneeId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("review")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("texte")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<int>("utilisateurId")
@@ -319,7 +336,9 @@ namespace arsoudeServeur.Migrations
 
                     b.HasKey("id");
 
-                    b.HasIndex("randonneeid");
+                    b.HasIndex("RandonneeAnglaisid");
+
+                    b.HasIndex("randonneeId");
 
                     b.HasIndex("utilisateurId");
 
@@ -332,22 +351,35 @@ namespace arsoudeServeur.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<bool>("Arrivee")
+                    b.Property<int?>("RandonneeAnglaisid")
                         .HasColumnType("INTEGER");
 
-                    b.Property<bool>("Depart")
+                    b.Property<int?>("RandonneeUtilisateurTraceid")
                         .HasColumnType("INTEGER");
 
-                    b.Property<double>("X")
-                        .HasColumnType("REAL");
+                    b.Property<bool>("arrivee")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<double>("Y")
-                        .HasColumnType("REAL");
+                    b.Property<bool>("depart")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("randonneAnglaisId")
+                        .HasColumnType("INTEGER");
 
                     b.Property<int?>("randonneeId")
                         .HasColumnType("INTEGER");
 
+                    b.Property<double>("x")
+                        .HasColumnType("REAL");
+
+                    b.Property<double>("y")
+                        .HasColumnType("REAL");
+
                     b.HasKey("id");
+
+                    b.HasIndex("RandonneeAnglaisid");
+
+                    b.HasIndex("RandonneeUtilisateurTraceid");
 
                     b.HasIndex("randonneeId");
 
@@ -357,146 +389,122 @@ namespace arsoudeServeur.Migrations
                         new
                         {
                             id = 1,
-                            Arrivee = false,
-                            Depart = true,
-                            X = 45.536653134864743,
-                            Y = -73.494974340959118,
-                            randonneeId = 1
+                            arrivee = false,
+                            depart = true,
+                            randonneAnglaisId = 1,
+                            randonneeId = 1,
+                            x = 45.536653134864743,
+                            y = -73.494974340959118
                         },
                         new
                         {
                             id = 2,
-                            Arrivee = true,
-                            Depart = false,
-                            X = 45.636653134864737,
-                            Y = -73.594974340959126,
-                            randonneeId = 1
+                            arrivee = true,
+                            depart = false,
+                            randonneAnglaisId = 1,
+                            randonneeId = 1,
+                            x = 45.636653134864737,
+                            y = -73.594974340959126
                         },
                         new
                         {
                             id = 3,
-                            Arrivee = false,
-                            Depart = true,
-                            X = 45.354998999999999,
-                            Y = -73.150238000000002,
-                            randonneeId = 2
+                            arrivee = false,
+                            depart = true,
+                            randonneAnglaisId = 2,
+                            randonneeId = 2,
+                            x = 45.354998999999999,
+                            y = -73.150238000000002
                         },
                         new
                         {
                             id = 4,
-                            Arrivee = true,
-                            Depart = false,
-                            X = 45.356924999999997,
-                            Y = -73.150233999999998,
-                            randonneeId = 2
+                            arrivee = true,
+                            depart = false,
+                            randonneAnglaisId = 2,
+                            randonneeId = 2,
+                            x = 45.356924999999997,
+                            y = -73.150233999999998
                         },
                         new
                         {
                             id = 5,
-                            Arrivee = false,
-                            Depart = true,
-                            X = 45.538015000000001,
-                            Y = -73.156982999999997,
-                            randonneeId = 3
+                            arrivee = false,
+                            depart = true,
+                            randonneAnglaisId = 3,
+                            randonneeId = 3,
+                            x = 45.538015000000001,
+                            y = -73.156982999999997
                         },
                         new
                         {
                             id = 6,
-                            Arrivee = true,
-                            Depart = false,
-                            X = 45.636653134864737,
-                            Y = -73.594974340959126,
-                            randonneeId = 3
+                            arrivee = true,
+                            depart = false,
+                            randonneAnglaisId = 3,
+                            randonneeId = 3,
+                            x = 45.636653134864737,
+                            y = -73.594974340959126
                         },
                         new
                         {
                             id = 7,
-                            Arrivee = false,
-                            Depart = true,
-                            X = 45.354998999999999,
-                            Y = -73.150238000000002,
-                            randonneeId = 4
+                            arrivee = false,
+                            depart = true,
+                            randonneAnglaisId = 4,
+                            randonneeId = 4,
+                            x = 45.354998999999999,
+                            y = -73.150238000000002
                         },
                         new
                         {
                             id = 8,
-                            Arrivee = true,
-                            Depart = false,
-                            X = 45.356924999999997,
-                            Y = -73.150233999999998,
-                            randonneeId = 4
+                            arrivee = true,
+                            depart = false,
+                            randonneAnglaisId = 4,
+                            randonneeId = 4,
+                            x = 45.356924999999997,
+                            y = -73.150233999999998
                         },
                         new
                         {
                             id = 9,
-                            Arrivee = false,
-                            Depart = true,
-                            X = 45.354998999999999,
-                            Y = -73.150238000000002,
-                            randonneeId = 5
+                            arrivee = false,
+                            depart = true,
+                            randonneAnglaisId = 5,
+                            randonneeId = 5,
+                            x = 45.354998999999999,
+                            y = -73.150238000000002
                         },
                         new
                         {
                             id = 10,
-                            Arrivee = true,
-                            Depart = false,
-                            X = 45.356924999999997,
-                            Y = -73.150233999999998,
-                            randonneeId = 5
+                            arrivee = true,
+                            depart = false,
+                            randonneAnglaisId = 5,
+                            randonneeId = 5,
+                            x = 45.356924999999997,
+                            y = -73.150233999999998
                         },
                         new
                         {
                             id = 11,
-                            Arrivee = false,
-                            Depart = true,
-                            X = 45.354998999999999,
-                            Y = -73.160238000000007,
-                            randonneeId = 6
+                            arrivee = false,
+                            depart = true,
+                            randonneAnglaisId = 6,
+                            randonneeId = 6,
+                            x = 45.354998999999999,
+                            y = -73.160238000000007
                         },
                         new
                         {
                             id = 12,
-                            Arrivee = true,
-                            Depart = false,
-                            X = 45.356924999999997,
-                            Y = -73.150233999999998,
-                            randonneeId = 6
-                        },
-                        new
-                        {
-                            id = 13,
-                            Arrivee = false,
-                            Depart = true,
-                            X = 45.364998999999997,
-                            Y = -73.110237999999995,
-                            randonneeId = 7
-                        },
-                        new
-                        {
-                            id = 14,
-                            Arrivee = true,
-                            Depart = false,
-                            X = 45.386924999999998,
-                            Y = -73.152234000000007,
-                            randonneeId = 7
-                        },
-                        new
-                        {
-                            id = 15,
-                            Arrivee = false,
-                            Depart = true,
-                            X = 45.364998999999997,
-                            Y = -73.166238000000007,
-                            randonneeId = 8
-                        },
-                        new
-                        {
-                            id = 16,
-                            Arrivee = true,
-                            Depart = false,
-                            X = 45.456924999999998,
-                            Y = -73.128234000000006,
-                            randonneeId = 8
+                            arrivee = true,
+                            depart = false,
+                            randonneAnglaisId = 6,
+                            randonneeId = 6,
+                            x = 45.356924999999997,
+                            y = -73.150233999999998
                         });
                 });
 
@@ -527,9 +535,6 @@ namespace arsoudeServeur.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<bool>("approuve")
-                        .HasColumnType("INTEGER");
-
                     b.Property<string>("description")
                         .IsRequired()
                         .HasMaxLength(255)
@@ -538,6 +543,9 @@ namespace arsoudeServeur.Migrations
                     b.Property<string>("emplacement")
                         .IsRequired()
                         .HasColumnType("TEXT");
+
+                    b.Property<int>("etatRandonnee")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("nom")
                         .IsRequired()
@@ -560,19 +568,19 @@ namespace arsoudeServeur.Migrations
                         new
                         {
                             id = 1,
-                            approuve = true,
                             description = "promenade cool a st-brun",
                             emplacement = "st-bruno",
-                            nom = "St-Bruno",
+                            etatRandonnee = 0,
+                            nom = "St-Brun",
                             typeRandonnee = 1,
                             utilisateurId = 1
                         },
                         new
                         {
                             id = 2,
-                            approuve = true,
                             description = "promenade moyennement cool la bas",
                             emplacement = "dehors",
+                            etatRandonnee = 0,
                             nom = "ptite marche au subway",
                             typeRandonnee = 0,
                             utilisateurId = 2
@@ -580,19 +588,19 @@ namespace arsoudeServeur.Migrations
                         new
                         {
                             id = 3,
-                            approuve = true,
-                            description = "promenade fresh a st-hilaire",
-                            emplacement = "st-hilaire",
-                            nom = "st-hilaire",
+                            description = "promenade fresh a bro s s a r d",
+                            emplacement = "st-hilaire?",
+                            etatRandonnee = 0,
+                            nom = "Brossard",
                             typeRandonnee = 1,
                             utilisateurId = 3
                         },
                         new
                         {
                             id = 4,
-                            approuve = true,
                             description = "promenade au subway",
                             emplacement = "st-grégoire",
+                            etatRandonnee = 0,
                             nom = "ma randonnée pédestre",
                             typeRandonnee = 0,
                             utilisateurId = 2
@@ -600,9 +608,9 @@ namespace arsoudeServeur.Migrations
                         new
                         {
                             id = 5,
-                            approuve = true,
                             description = "ça doit être cool la bas",
                             emplacement = "quelque part",
+                            etatRandonnee = 0,
                             nom = "rivière rouge",
                             typeRandonnee = 0,
                             utilisateurId = 2
@@ -610,32 +618,119 @@ namespace arsoudeServeur.Migrations
                         new
                         {
                             id = 6,
-                            approuve = true,
                             description = "je pense qu'on a beaucoup de fun",
                             emplacement = "mont tremblant",
+                            etatRandonnee = 0,
                             nom = "Ma randonnée",
                             typeRandonnee = 0,
+                            utilisateurId = 1
+                        });
+                });
+
+            modelBuilder.Entity("arsoudeServeur.Models.RandonneeAnglais", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("description")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("emplacement")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("etatRandonnee")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("nom")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("randonneeId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("typeRandonnee")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("utilisateurId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("randonneeId");
+
+                    b.HasIndex("utilisateurId");
+
+                    b.ToTable("randonneeAnglais");
+
+                    b.HasData(
+                        new
+                        {
+                            id = 1,
+                            description = "Cool walk in St-Bruno",
+                            emplacement = "St-Bruno",
+                            etatRandonnee = 0,
+                            nom = "St-Bruno",
+                            randonneeId = 1,
+                            typeRandonnee = 1,
                             utilisateurId = 1
                         },
                         new
                         {
-                            id = 7,
-                            approuve = true,
-                            description = "J'ai eu beaucoup de plaisir",
-                            emplacement = "st-jérome",
-                            nom = "ayyyyyy",
+                            id = 2,
+                            description = "Moderately cool walk there",
+                            emplacement = "Outside",
+                            etatRandonnee = 0,
+                            nom = "Little Walk to Subway",
+                            randonneeId = 2,
                             typeRandonnee = 0,
                             utilisateurId = 2
                         },
                         new
                         {
-                            id = 8,
-                            approuve = false,
-                            description = "moyennement le fun pour vrai",
-                            emplacement = "ottoburn park",
-                            nom = "st-grégoire",
-                            typeRandonnee = 0,
+                            id = 3,
+                            description = "Fresh walk in St-Hilaire",
+                            emplacement = "St-Hilaire",
+                            etatRandonnee = 0,
+                            nom = "St-Hilaire",
+                            randonneeId = 3,
+                            typeRandonnee = 1,
                             utilisateurId = 3
+                        },
+                        new
+                        {
+                            id = 4,
+                            description = "Walk to Subway",
+                            emplacement = "St-Grégoire",
+                            etatRandonnee = 0,
+                            nom = "My Hiking Trip",
+                            randonneeId = 4,
+                            typeRandonnee = 0,
+                            utilisateurId = 2
+                        },
+                        new
+                        {
+                            id = 5,
+                            description = "It must be cool there",
+                            emplacement = "Somewhere",
+                            etatRandonnee = 0,
+                            nom = "Red River",
+                            randonneeId = 5,
+                            typeRandonnee = 0,
+                            utilisateurId = 2
+                        },
+                        new
+                        {
+                            id = 6,
+                            description = "I think it's a lot of fun",
+                            emplacement = "Mont Tremblant",
+                            etatRandonnee = 0,
+                            nom = "My Trek",
+                            randonneeId = 6,
+                            typeRandonnee = 0,
+                            utilisateurId = 1
                         });
                 });
 
@@ -658,6 +753,27 @@ namespace arsoudeServeur.Migrations
                     b.HasIndex("utilisateurId");
 
                     b.ToTable("RandonneeUtilisateur");
+                });
+
+            modelBuilder.Entity("arsoudeServeur.Models.RandonneeUtilisateurTrace", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("randonneeId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("utilisateurId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("randonneeId");
+
+                    b.HasIndex("utilisateurId");
+
+                    b.ToTable("utilisateursTrace");
                 });
 
             modelBuilder.Entity("arsoudeServeur.Models.Utilisateur", b =>
@@ -709,8 +825,9 @@ namespace arsoudeServeur.Migrations
                         new
                         {
                             id = 1,
+                            adresse = "",
                             anneeDeNaissance = 0,
-                            codePostal = "E3A4R4",
+                            codePostal = "E3A 4R4",
                             courriel = "admin@gmail.com",
                             identityUserId = "11111111-1111-1111-1111-111111111111",
                             moisDeNaissance = 0,
@@ -721,8 +838,9 @@ namespace arsoudeServeur.Migrations
                         new
                         {
                             id = 2,
+                            adresse = "",
                             anneeDeNaissance = 0,
-                            codePostal = "E3A4R4",
+                            codePostal = "E3A 4R4",
                             courriel = "user1@hotmail.com",
                             identityUserId = "11111111-1111-1111-1111-111111111112",
                             moisDeNaissance = 0,
@@ -733,8 +851,9 @@ namespace arsoudeServeur.Migrations
                         new
                         {
                             id = 3,
+                            adresse = "1260, rue Mill, suite 100",
                             anneeDeNaissance = 0,
-                            codePostal = "E3A4R4",
+                            codePostal = "E3A 4R4",
                             courriel = "user2@hotmail.com",
                             identityUserId = "11111111-1111-1111-1111-111111111113",
                             moisDeNaissance = 0,
@@ -795,11 +914,26 @@ namespace arsoudeServeur.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("arsoudeServeur.Models.Commentaire", b =>
+            modelBuilder.Entity("arsoudeServeur.Models.Avertissement", b =>
                 {
                     b.HasOne("arsoudeServeur.Models.Randonnee", "randonnee")
                         .WithMany()
-                        .HasForeignKey("randonneeid")
+                        .HasForeignKey("randonneeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("randonnee");
+                });
+
+            modelBuilder.Entity("arsoudeServeur.Models.Commentaire", b =>
+                {
+                    b.HasOne("arsoudeServeur.Models.RandonneeAnglais", null)
+                        .WithMany("commentaires")
+                        .HasForeignKey("RandonneeAnglaisid");
+
+                    b.HasOne("arsoudeServeur.Models.Randonnee", "randonnee")
+                        .WithMany("commentaires")
+                        .HasForeignKey("randonneeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -816,6 +950,14 @@ namespace arsoudeServeur.Migrations
 
             modelBuilder.Entity("arsoudeServeur.Models.GPS", b =>
                 {
+                    b.HasOne("arsoudeServeur.Models.RandonneeAnglais", null)
+                        .WithMany("GPS")
+                        .HasForeignKey("RandonneeAnglaisid");
+
+                    b.HasOne("arsoudeServeur.Models.RandonneeUtilisateurTrace", null)
+                        .WithMany("gpsListe")
+                        .HasForeignKey("RandonneeUtilisateurTraceid");
+
                     b.HasOne("arsoudeServeur.Models.Randonnee", "randonnee")
                         .WithMany("GPS")
                         .HasForeignKey("randonneeId");
@@ -843,6 +985,25 @@ namespace arsoudeServeur.Migrations
                     b.Navigation("utilisateur");
                 });
 
+            modelBuilder.Entity("arsoudeServeur.Models.RandonneeAnglais", b =>
+                {
+                    b.HasOne("arsoudeServeur.Models.Randonnee", "randonnee")
+                        .WithMany()
+                        .HasForeignKey("randonneeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("arsoudeServeur.Models.Utilisateur", "utilisateur")
+                        .WithMany()
+                        .HasForeignKey("utilisateurId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("randonnee");
+
+                    b.Navigation("utilisateur");
+                });
+
             modelBuilder.Entity("arsoudeServeur.Models.RandonneeUtilisateur", b =>
                 {
                     b.HasOne("arsoudeServeur.Models.Randonnee", "randonnee")
@@ -853,6 +1014,25 @@ namespace arsoudeServeur.Migrations
 
                     b.HasOne("arsoudeServeur.Models.Utilisateur", "utilisateur")
                         .WithMany("favoris")
+                        .HasForeignKey("utilisateurId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("randonnee");
+
+                    b.Navigation("utilisateur");
+                });
+
+            modelBuilder.Entity("arsoudeServeur.Models.RandonneeUtilisateurTrace", b =>
+                {
+                    b.HasOne("arsoudeServeur.Models.Randonnee", "randonnee")
+                        .WithMany()
+                        .HasForeignKey("randonneeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("arsoudeServeur.Models.Utilisateur", "utilisateur")
+                        .WithMany("traces")
                         .HasForeignKey("utilisateurId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -877,13 +1057,29 @@ namespace arsoudeServeur.Migrations
                 {
                     b.Navigation("GPS");
 
+                    b.Navigation("commentaires");
+
                     b.Navigation("image")
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("arsoudeServeur.Models.RandonneeAnglais", b =>
+                {
+                    b.Navigation("GPS");
+
+                    b.Navigation("commentaires");
+                });
+
+            modelBuilder.Entity("arsoudeServeur.Models.RandonneeUtilisateurTrace", b =>
+                {
+                    b.Navigation("gpsListe");
                 });
 
             modelBuilder.Entity("arsoudeServeur.Models.Utilisateur", b =>
                 {
                     b.Navigation("favoris");
+
+                    b.Navigation("traces");
                 });
 #pragma warning restore 612, 618
         }

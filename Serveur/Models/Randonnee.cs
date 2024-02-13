@@ -19,25 +19,23 @@ namespace arsoudeServeur.Models
         public string emplacement { get; set; }
         public Type typeRandonnee { get; set; }
 
-        public bool approuve { get; set; } = false;
-
-        /*public virtual int? pointDépartId { get; set; }
-        [Required(ErrorMessage = "La propriété est obligatoire.")]
-        public virtual GPS pointDépart { get; set; }
-
-        public virtual int? pointArrivéeId { get; set; }
-        [Required(ErrorMessage = "La propriété est obligatoire.")]
-        public virtual GPS pointArrivée { get; set; }*/
-
         [Required(ErrorMessage = "La propriété est obligatoire.")]
         public virtual List<GPS> GPS { get; set; } = new List<GPS>();
+
+        public virtual List<Commentaire> commentaires { get; set; } = new List<Commentaire>();
 
         //public virtual int? imageId { get; set; }
         [Required(ErrorMessage = "La propriété est obligatoire.")]
         public virtual Image image { get; set; }
 
-
-
+        public Etat etatRandonnee { get; set; } = Etat.Privée;
+        
+        public enum Etat
+        {
+            Privée,
+            Publique,
+            Refusée
+        }
 
         public enum Type
         {

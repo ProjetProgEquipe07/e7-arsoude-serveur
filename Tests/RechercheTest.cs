@@ -33,7 +33,7 @@ namespace Tests.Controllers
 
                 
                 var searchMock = new Mock<RechercheService>(dbContext);
-                searchMock.Setup(service => service.GetNearSearch(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
+                searchMock.Setup(service => service.GetNearSearch(It.IsAny<string>(), It.IsAny<Utilisateur>(), It.IsAny<string>(), It.IsAny<bool>()))
                           .ReturnsAsync(new List<Randonnee>());
 
                 var randoMock = new Mock<RandonneesService>(dbContext);
@@ -51,14 +51,16 @@ namespace Tests.Controllers
                 };
 
                 // Appel de la méthode dans le contrôleur et vérification du résultat
-                var actionResult = await searchController.GetNearSearch("test", "test");
+                SearchDTO searchDTO = new SearchDTO { recherche = "test", value = "test" };
+
+                var actionResult = await searchController.GetNearSearch(searchDTO);
 
                 Assert.IsInstanceOfType(actionResult.Result, typeof(OkObjectResult));
             }
         }
 
         [TestMethod]
-        public async Task GetNearSearch_ExceptionLoc()
+        public async Task GetNearSearch_NoAuth()
         {
 
             using (var dbContext = new ApplicationDbContext(options))
@@ -70,8 +72,8 @@ namespace Tests.Controllers
 
 
                 var searchMock = new Mock<RechercheService>(dbContext);
-                searchMock.Setup(service => service.GetNearSearch(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
-                          .ThrowsAsync(new NoLocationException());
+                searchMock.Setup(service => service.GetNearSearch(It.IsAny<string>(), It.IsAny<string>()))
+                          .ReturnsAsync(new List<Randonnee>());
 
                 var randoMock = new Mock<RandonneesService>(dbContext);
                 randoMock.Setup(service => service.PutRandonneesFavorisAsync(It.IsAny<List<Randonnee>>(), It.IsAny<Utilisateur>()))
@@ -90,9 +92,11 @@ namespace Tests.Controllers
                     HttpContext = new DefaultHttpContext() { User = user }
                 };
 
-                var actionResult = await searchController.GetNearSearch("test", "test");
+                SearchDTO searchDTO = new SearchDTO { recherche = "test", value = "test" };
 
-                Assert.IsInstanceOfType(actionResult.Result, typeof(BadRequestObjectResult));
+                var actionResult = await searchController.GetNearSearch(searchDTO);
+
+                Assert.IsInstanceOfType(actionResult.Result, typeof(OkObjectResult));
             }
         }
 
@@ -131,10 +135,11 @@ namespace Tests.Controllers
                         description = "Une belle randonnée en montagne.",
                         emplacement = "Alpes",
                         typeRandonnee = Randonnee.Type.Marche,
+                        etatRandonnee = Randonnee.Etat.Publique,
                         GPS = new List<GPS>
                         {
-                            new GPS { id = 1, X = 45.832619, Y = 6.864719, Depart = true, Arrivee = false },
-                            new GPS { id = 2, X = 45.832619, Y = 6.865719, Depart = false, Arrivee = true },
+                            new GPS { id = 1, x = 45.832619, y = 6.864719, depart = true, arrivee = false },
+                            new GPS { id = 2, x = 45.832619, y = 6.865719, depart = false, arrivee = true },
                         },
                         image = new Image { id= 1 , lien="", randonneeId =1},
                         utilisateurId = 1 // Supposons que l'utilisateur 1 est le créateur
@@ -145,11 +150,12 @@ namespace Tests.Controllers
                         nom = "Randonnée Vélo",
                         description = "Un parcours à vélo stimulant.",
                         emplacement = "Bretagne",
+                        etatRandonnee = Randonnee.Etat.Publique,
                         typeRandonnee = Randonnee.Type.Vélo,
                         GPS = new List<GPS>
                         {
-                            new GPS { id = 3, X = 48.202047, Y = -2.932644, Depart = true, Arrivee = false },
-                            new GPS { id = 4, X = 48.202047, Y = -2.933644, Depart = false, Arrivee = true },
+                            new GPS { id = 3, x = 48.202047, y = -2.932644, depart = true, arrivee = false },
+                            new GPS { id = 4, x = 48.202047, y = -2.933644, depart = false, arrivee = true },
                         },
                         image = new Image { id= 2 , lien="", randonneeId =2 },
                         utilisateurId = 2 
@@ -159,7 +165,9 @@ namespace Tests.Controllers
                 dbContext.randonnees.AddRange(randonnees);
                 await dbContext.SaveChangesAsync();
 
-                var actionResult = await searchMock.Object.GetNearSearch("test", "12345", "Marche");
+                Utilisateur utilisateur = new Utilisateur { identityUserId = "11111111-1111-1111-1111-111111111111" ,codePostal = "12345" };
+
+                var actionResult = await searchMock.Object.GetNearSearch("Montagne", utilisateur, "Marche", false);
                 dbContext.Database.EnsureDeleted();
 
                 Assert.AreEqual(actionResult.Count(), 1);
@@ -186,10 +194,11 @@ namespace Tests.Controllers
                         description = "Une belle randonnée en montagne.",
                         emplacement = "Alpes",
                         typeRandonnee = Randonnee.Type.Marche,
+                        etatRandonnee = Randonnee.Etat.Publique,
                         GPS = new List<GPS>
                         {
-                            new GPS { id = 1, X = 45.832619, Y = 6.864719, Depart = true, Arrivee = false },
-                            new GPS { id = 2, X = 45.832619, Y = 6.865719, Depart = false, Arrivee = true },
+                            new GPS { id = 1, x = 45.832619, y = 6.864719, depart = true, arrivee = false },
+                            new GPS { id = 2, x = 45.832619, y = 6.865719, depart = false, arrivee = true },
                         },
                         image = new Image { id= 1 , lien="", randonneeId =1},
                         utilisateurId = 1 // Supposons que l'utilisateur 1 est le créateur
@@ -200,11 +209,12 @@ namespace Tests.Controllers
                         nom = "Randonnée Vélo",
                         description = "Un parcours à vélo stimulant.",
                         emplacement = "Bretagne",
+                        etatRandonnee = Randonnee.Etat.Publique,
                         typeRandonnee = Randonnee.Type.Vélo,
                         GPS = new List<GPS>
                         {
-                            new GPS { id = 3, X = 48.202047, Y = -2.932644, Depart = true, Arrivee = false },
-                            new GPS { id = 4, X = 48.202047, Y = -2.933644, Depart = false, Arrivee = true },
+                            new GPS { id = 3, x = 48.202047, y = -2.932644, depart = true, arrivee = false },
+                            new GPS { id = 4, x = 48.202047, y = -2.933644, depart = false, arrivee = true },
                         },
                         image = new Image { id= 2 , lien="", randonneeId =2 },
                         utilisateurId = 2
@@ -214,7 +224,9 @@ namespace Tests.Controllers
                 dbContext.randonnees.AddRange(randonnees);
                 await dbContext.SaveChangesAsync();
 
-                var actionResult = await searchMock.Object.GetNearSearch("test", "12345", "Vélo");
+                Utilisateur utilisateur = new Utilisateur { identityUserId = "11111111-1111-1111-1111-111111111111", codePostal = "12345" };
+
+                var actionResult = await searchMock.Object.GetNearSearch("vélo", utilisateur, "Vélo", false);
                 dbContext.Database.EnsureDeleted();
                 Assert.AreEqual(actionResult.Count(), 1);
             }
@@ -240,11 +252,12 @@ namespace Tests.Controllers
                         nom = "Randonnée Montagne",
                         description = "Une belle randonnée en montagne.",
                         emplacement = "Alpes",
+                        etatRandonnee = Randonnee.Etat.Publique,
                         typeRandonnee = Randonnee.Type.Marche,
                         GPS = new List<GPS>
                         {
-                            new GPS { id = 1, X = 45.832619, Y = 6.864719, Depart = true, Arrivee = false },
-                            new GPS { id = 2, X = 45.832619, Y = 6.865719, Depart = false, Arrivee = true },
+                            new GPS { id = 1, x = 45.832619, y = 6.864719, depart = true, arrivee = false },
+                            new GPS { id = 2, x = 45.832619, y = 6.865719, depart = false, arrivee = true },
                         },
                         image = new Image { id= 1 , lien="", randonneeId =1},
                         utilisateurId = 1 // Supposons que l'utilisateur 1 est le créateur
@@ -255,11 +268,12 @@ namespace Tests.Controllers
                         nom = "Randonnée Vélo",
                         description = "Un parcours à vélo stimulant.",
                         emplacement = "Bretagne",
+                        etatRandonnee = Randonnee.Etat.Publique,
                         typeRandonnee = Randonnee.Type.Vélo,
                         GPS = new List<GPS>
                         {
-                            new GPS { id = 3, X = 48.202047, Y = -2.932644, Depart = true, Arrivee = false },
-                            new GPS { id = 4, X = 48.202047, Y = -2.933644, Depart = false, Arrivee = true },
+                            new GPS { id = 3, x = 48.202047, y = -2.932644, depart = true, arrivee = false },
+                            new GPS { id = 4, x = 48.202047, y = -2.933644, depart = false, arrivee = true },
                         },
                         image = new Image { id= 2 , lien="", randonneeId =2 },
                         utilisateurId = 2
@@ -269,7 +283,9 @@ namespace Tests.Controllers
                 dbContext.randonnees.AddRange(randonnees);
                 await dbContext.SaveChangesAsync();
 
-                var actionResult = await searchMock.Object.GetNearSearch("test", "12345", "undefined");
+                Utilisateur utilisateur = new Utilisateur { identityUserId = "11111111-1111-1111-1111-111111111111", codePostal = "12345" };
+
+                var actionResult = await searchMock.Object.GetNearSearch("randonnée", utilisateur, "undefined", false);
                 dbContext.Database.EnsureDeleted();
                 Assert.AreEqual(actionResult.Count(), 2);
             }
@@ -295,11 +311,12 @@ namespace Tests.Controllers
                         nom = "test Montagne",
                         description = "Une belle randonnée en montagne.",
                         emplacement = "Alpes",
+                        etatRandonnee = Randonnee.Etat.Publique,
                         typeRandonnee = Randonnee.Type.Marche,
                         GPS = new List<GPS>
                         {
-                            new GPS { id = 1, X = 45.832619, Y = 6.864719, Depart = true, Arrivee = false },
-                            new GPS { id = 2, X = 45.832619, Y = 6.865719, Depart = false, Arrivee = true },
+                            new GPS { id = 1, x = 45.832619, y = 6.864719, depart = true, arrivee = false },
+                            new GPS { id = 2, x = 45.832619, y = 6.865719, depart = false, arrivee = true },
                         },
                         image = new Image { id= 1 , lien="", randonneeId =1},
                         utilisateurId = 1 
@@ -310,11 +327,12 @@ namespace Tests.Controllers
                         nom = "test Vélo",
                         description = "Un test à vélo stimulant.",
                         emplacement = "test",
+                        etatRandonnee = Randonnee.Etat.Publique,
                         typeRandonnee = Randonnee.Type.Vélo,
                         GPS = new List<GPS>
                         {
-                            new GPS { id = 3, X = 48.202047, Y = -2.932644, Depart = true, Arrivee = false },
-                            new GPS { id = 4, X = 48.202047, Y = -2.933644, Depart = false, Arrivee = true },
+                            new GPS { id = 3, x = 48.202047, y = -2.932644, depart = true, arrivee = false },
+                            new GPS { id = 4, x = 48.202047, y = -2.933644, depart = false, arrivee = true },
                         },
                         image = new Image { id= 2 , lien="", randonneeId =2 },
                         utilisateurId = 2
@@ -325,11 +343,12 @@ namespace Tests.Controllers
                         nom = "test Vélo",
                         description = "Un test à vélo stimulant.",
                         emplacement = "test",
+                        etatRandonnee = Randonnee.Etat.Publique,
                         typeRandonnee = Randonnee.Type.Vélo,
                         GPS = new List<GPS>
                         {
-                            new GPS { id = 5, X = 50.202047, Y = -4.932644, Depart = true, Arrivee = false },
-                            new GPS { id = 6, X = 48.202047, Y = -2.933644, Depart = false, Arrivee = true },
+                            new GPS { id = 5, x = 50.202047, y = -4.932644, depart = true, arrivee = false },
+                            new GPS { id = 6, x = 48.202047, y = -2.933644, depart = false, arrivee = true },
                         },
                         image = new Image { id= 3 , lien="", randonneeId =3 },
                         utilisateurId = 2
@@ -340,11 +359,12 @@ namespace Tests.Controllers
                         nom = "Randonnée Vélo",
                         description = "Un parcours à vélo stimulant.",
                         emplacement = "Bretagne",
+                        etatRandonnee = Randonnee.Etat.Publique,
                         typeRandonnee = Randonnee.Type.Vélo,
                         GPS = new List<GPS>
                         {
-                            new GPS { id = 7, X = 60.202047, Y = -2.932644, Depart = true, Arrivee = false },
-                            new GPS { id = 8, X = 48.202047, Y = -2.933644, Depart = false, Arrivee = true },
+                            new GPS { id = 7, x = 60.202047, y = -2.932644, depart = true, arrivee = false },
+                            new GPS { id = 8, x = 48.202047, y = -2.933644, depart = false, arrivee = true },
                         },
                         image = new Image { id= 4 , lien="", randonneeId =4 },
                         utilisateurId = 2
@@ -355,11 +375,12 @@ namespace Tests.Controllers
                         nom = "Randonnée Vélo",
                         description = "Un parcours à vélo stimulant.",
                         emplacement = "Bretagne",
+                        etatRandonnee = Randonnee.Etat.Publique,
                         typeRandonnee = Randonnee.Type.Vélo,
                         GPS = new List<GPS>
                         {
-                            new GPS { id = 9, X = 10.202047, Y = -2.932644, Depart = true, Arrivee = false },
-                            new GPS { id = 10, X = 48.202047, Y = -2.933644, Depart = false, Arrivee = true },
+                            new GPS { id = 9, x = 10.202047, y = -2.932644, depart = true, arrivee = false },
+                            new GPS { id = 10, x = 48.202047, y = -2.933644, depart = false, arrivee = true },
                         },
                         image = new Image { id= 5 , lien="", randonneeId =5 },
                         utilisateurId = 2
@@ -376,11 +397,12 @@ namespace Tests.Controllers
                         nom = "test Vélo",
                         description = "Un test à vélo stimulant.",
                         emplacement = "test",
+                        etatRandonnee = Randonnee.Etat.Publique,
                         typeRandonnee = Randonnee.Type.Vélo,
                         GPS = new List<GPS>
                         {
-                            new GPS { id = 3, X = 48.202047, Y = -2.932644, Depart = true, Arrivee = false },
-                            new GPS { id = 4, X = 48.202047, Y = -2.933644, Depart = false, Arrivee = true },
+                            new GPS { id = 3, x = 48.202047, y = -2.932644, depart = true, arrivee = false },
+                            new GPS { id = 4, x = 48.202047, y = -2.933644, depart = false, arrivee = true },
                         },
                         image = new Image { id= 2 , lien="", randonneeId =2 },
                         utilisateurId = 2
@@ -391,11 +413,12 @@ namespace Tests.Controllers
                         nom = "test Vélo",
                         description = "Un test à vélo stimulant.",
                         emplacement = "test",
+                        etatRandonnee = Randonnee.Etat.Publique,
                         typeRandonnee = Randonnee.Type.Vélo,
                         GPS = new List<GPS>
                         {
-                            new GPS { id = 5, X = 50.202047, Y = -4.932644, Depart = true, Arrivee = false },
-                            new GPS { id = 6, X = 48.202047, Y = -2.933644, Depart = false, Arrivee = true },
+                            new GPS { id = 5, x = 50.202047, y = -4.932644, depart = true, arrivee = false },
+                            new GPS { id = 6, x = 48.202047, y = -2.933644, depart = false, arrivee = true },
                         },
                         image = new Image { id= 3 , lien="", randonneeId =3 },
                         utilisateurId = 2
@@ -406,14 +429,92 @@ namespace Tests.Controllers
                         nom = "test Montagne",
                         description = "Une belle randonnée en montagne.",
                         emplacement = "Alpes",
+                        etatRandonnee = Randonnee.Etat.Publique,
                         typeRandonnee = Randonnee.Type.Marche,
                         GPS = new List<GPS>
                         {
-                            new GPS { id = 1, X = 45.832619, Y = 6.864719, Depart = true, Arrivee = false },
-                            new GPS { id = 2, X = 45.832619, Y = 6.865719, Depart = false, Arrivee = true },
+                            new GPS { id = 1, x = 45.832619, y = 6.864719, depart = true, arrivee = false },
+                            new GPS { id = 2, x = 45.832619, y = 6.865719, depart = false, arrivee = true },
                         },
                         image = new Image { id= 1 , lien="", randonneeId =1},
                         utilisateurId = 1
+                    },
+                };
+
+                dbContext.randonnees.AddRange(randonnees);
+                await dbContext.SaveChangesAsync();
+
+                Utilisateur utilisateur = new Utilisateur { identityUserId = "11111111-1111-1111-1111-111111111111", codePostal = "12345" };
+
+                var actionResult = await searchMock.Object.GetNearSearch("test", utilisateur, "undefined", false);
+                dbContext.Database.EnsureDeleted();
+
+
+                CollectionAssert.AreEqual(actionResult.Select(s => s.id).ToList(), randonneesResult.Select(s => s.id).ToList());
+            }
+        }
+
+
+        [TestMethod]
+        public async Task GetNearSearch_TestAll()
+        {
+
+            using (var dbContext = new ApplicationDbContext(options))
+            {
+
+                var searchMock = new Mock<RechercheService>(dbContext) { CallBase = true };
+                searchMock.Setup(service => service.GetLocation(It.IsAny<string>()))
+                          .ReturnsAsync(new Location() { lat = 45.5943, lng = 73.5867 });
+
+                var randonnees = new List<Randonnee>
+                {
+                    new Randonnee
+                    {
+                        id = 1,
+                        nom = "test Montagne",
+                        description = "Une belle randonnée en montagne.",
+                        emplacement = "Alpes",
+                        etatRandonnee = Randonnee.Etat.Publique,
+                        typeRandonnee = Randonnee.Type.Marche,
+                        GPS = new List<GPS>
+                        {
+                            new GPS { id = 1, x = 45.832619, y = 6.864719, depart = true, arrivee = false },
+                            new GPS { id = 2, x = 45.832619, y = 6.865719, depart = false, arrivee = true },
+                        },
+                        image = new Image { id= 1 , lien="", randonneeId =1},
+                        utilisateurId = 1
+                    },
+                    new Randonnee
+                    {
+                        id = 2,
+                        nom = "test Vélo",
+                        description = "Un test à vélo stimulant.",
+                        emplacement = "test",
+                        etatRandonnee = Randonnee.Etat.Publique,
+                        typeRandonnee = Randonnee.Type.Vélo,
+                        GPS = new List<GPS>
+                        {
+                            new GPS { id = 3, x = 48.202047, y = -2.932644, depart = true, arrivee = false },
+                            new GPS { id = 4, x = 48.202047, y = -2.933644, depart = false, arrivee = true },
+                        },
+                        image = new Image { id= 2 , lien="", randonneeId =2 },
+                        utilisateurId = 2
+                    },
+                    new Randonnee
+                    {
+                        id = 3,
+                        nom = "test Vélo",
+                        description = "Un test à vélo stimulant.",
+                        emplacement = "test",
+                        etatRandonnee = Randonnee.Etat.Publique,
+                        typeRandonnee = Randonnee.Type.Vélo,
+                        GPS = new List<GPS>
+                        {
+                            new GPS { id = 5, x = 50.202047, y = -4.932644, depart = true, arrivee = false },
+                            new GPS { id = 6, x = 48.202047, y = -2.933644, depart = false, arrivee = true },
+                        },
+                        image = new Image { id= 3 , lien="", randonneeId =3 },
+                        utilisateurId = 2
                     },
                     new Randonnee
                     {
@@ -421,11 +522,12 @@ namespace Tests.Controllers
                         nom = "Randonnée Vélo",
                         description = "Un parcours à vélo stimulant.",
                         emplacement = "Bretagne",
+                        etatRandonnee = Randonnee.Etat.Publique,
                         typeRandonnee = Randonnee.Type.Vélo,
                         GPS = new List<GPS>
                         {
-                            new GPS { id = 7, X = 60.202047, Y = -2.932644, Depart = true, Arrivee = false },
-                            new GPS { id = 8, X = 48.202047, Y = -2.933644, Depart = false, Arrivee = true },
+                            new GPS { id = 7, x = 60.202047, y = -2.932644, depart = true, arrivee = false },
+                            new GPS { id = 8, x = 48.202047, y = -2.933644, depart = false, arrivee = true },
                         },
                         image = new Image { id= 4 , lien="", randonneeId =4 },
                         utilisateurId = 2
@@ -436,27 +538,163 @@ namespace Tests.Controllers
                         nom = "Randonnée Vélo",
                         description = "Un parcours à vélo stimulant.",
                         emplacement = "Bretagne",
+                        etatRandonnee = Randonnee.Etat.Publique,
                         typeRandonnee = Randonnee.Type.Vélo,
                         GPS = new List<GPS>
                         {
-                            new GPS { id = 9, X = 10.202047, Y = -2.932644, Depart = true, Arrivee = false },
-                            new GPS { id = 10, X = 48.202047, Y = -2.933644, Depart = false, Arrivee = true },
+                            new GPS { id = 9, x = 10.202047, y = -2.932644, depart = true, arrivee = false },
+                            new GPS { id = 10, x = 48.202047, y = -2.933644, depart = false, arrivee = true },
                         },
                         image = new Image { id= 5 , lien="", randonneeId =5 },
                         utilisateurId = 2
                     }
                 };
 
+
                 dbContext.randonnees.AddRange(randonnees);
                 await dbContext.SaveChangesAsync();
 
-                var actionResult = await searchMock.Object.GetNearSearch("test", "12345", "undefined");
+                Utilisateur utilisateur = new Utilisateur { identityUserId = "11111111-1111-1111-1111-111111111111", codePostal = "12345" };
+
+                var actionResult = await searchMock.Object.GetNearSearch("", utilisateur, "undefined", false);
+                dbContext.Database.EnsureDeleted();
+
+
+                CollectionAssert.AreEqual(actionResult.Select(s => s.id).ToList(), actionResult.Select(s => s.id).ToList());
+            }
+        }
+
+
+        [TestMethod]
+        public async Task GetNearSearch_TestOnlyMyRando()
+        {
+
+            using (var dbContext = new ApplicationDbContext(options))
+            {
+
+                var searchMock = new Mock<RechercheService>(dbContext) { CallBase = true };
+                searchMock.Setup(service => service.GetLocation(It.IsAny<string>()))
+                          .ReturnsAsync(new Location() { lat = 45.5943, lng = 73.5867 });
+
+                var randonnees = new List<Randonnee>
+                {
+                    new Randonnee
+                    {
+                        id = 1,
+                        nom = "test Montagne",
+                        description = "Une belle randonnée en montagne.",
+                        emplacement = "Alpes",
+                        etatRandonnee = Randonnee.Etat.Publique,
+                        typeRandonnee = Randonnee.Type.Marche,
+                        GPS = new List<GPS>
+                        {
+                            new GPS { id = 1, x = 45.832619, y = 6.864719, depart = true, arrivee = false },
+                            new GPS { id = 2, x = 45.832619, y = 6.865719, depart = false, arrivee = true },
+                        },
+                        image = new Image { id= 1 , lien="", randonneeId =1},
+                        utilisateurId = 1
+                    },
+                    new Randonnee
+                    {
+                        id = 2,
+                        nom = "test Vélo",
+                        description = "Un test à vélo stimulant.",
+                        emplacement = "test",
+                        etatRandonnee = Randonnee.Etat.Publique,
+                        typeRandonnee = Randonnee.Type.Vélo,
+                        GPS = new List<GPS>
+                        {
+                            new GPS { id = 3, x = 48.202047, y = -2.932644, depart = true, arrivee = false },
+                            new GPS { id = 4, x = 48.202047, y = -2.933644, depart = false, arrivee = true },
+                        },
+                        image = new Image { id= 2 , lien="", randonneeId =2 },
+                        utilisateurId = 2
+                    },
+                    new Randonnee
+                    {
+                        id = 3,
+                        nom = "test Vélo",
+                        description = "Un test à vélo stimulant.",
+                        emplacement = "test",
+                        etatRandonnee = Randonnee.Etat.Publique,
+                        typeRandonnee = Randonnee.Type.Vélo,
+                        GPS = new List<GPS>
+                        {
+                            new GPS { id = 5, x = 50.202047, y = -4.932644, depart = true, arrivee = false },
+                            new GPS { id = 6, x = 48.202047, y = -2.933644, depart = false, arrivee = true },
+                        },
+                        image = new Image { id= 3 , lien="", randonneeId =3 },
+                        utilisateurId = 2
+                    },
+                    new Randonnee
+                    {
+                        id = 4,
+                        nom = "Randonnée Vélo",
+                        description = "Un parcours à vélo stimulant.",
+                        emplacement = "Bretagne",
+                        etatRandonnee = Randonnee.Etat.Publique,
+                        typeRandonnee = Randonnee.Type.Vélo,
+                        GPS = new List<GPS>
+                        {
+                            new GPS { id = 7, x = 60.202047, y = -2.932644, depart = true, arrivee = false },
+                            new GPS { id = 8, x = 48.202047, y = -2.933644, depart = false, arrivee = true },
+                        },
+                        image = new Image { id= 4 , lien="", randonneeId =4 },
+                        utilisateurId = 2
+                    },
+                    new Randonnee
+                    {
+                        id = 5,
+                        nom = "Randonnée Vélo",
+                        description = "Un parcours à vélo stimulant.",
+                        emplacement = "Bretagne",
+                        etatRandonnee = Randonnee.Etat.Publique,
+                        typeRandonnee = Randonnee.Type.Vélo,
+                        GPS = new List<GPS>
+                        {
+                            new GPS { id = 9, x = 10.202047, y = -2.932644, depart = true, arrivee = false },
+                            new GPS { id = 10, x = 48.202047, y = -2.933644, depart = false, arrivee = true },
+                        },
+                        image = new Image { id= 5 , lien="", randonneeId =5 },
+                        utilisateurId = 2
+                    }
+                };
+
+
+                var randonneesResult = new List<Randonnee>
+                {
+                    new Randonnee
+                    {
+                        id = 1,
+                        nom = "test Montagne",
+                        description = "Une belle randonnée en montagne.",
+                        emplacement = "Alpes",
+                        etatRandonnee = Randonnee.Etat.Publique,
+                        typeRandonnee = Randonnee.Type.Marche,
+                        GPS = new List<GPS>
+                        {
+                            new GPS { id = 1, x = 45.832619, y = 6.864719, depart = true, arrivee = false },
+                            new GPS { id = 2, x = 45.832619, y = 6.865719, depart = false, arrivee = true },
+                        },
+                        image = new Image { id= 1 , lien="", randonneeId =1},
+                        utilisateurId = 1
+                    },
+                };
+
+                dbContext.randonnees.AddRange(randonnees);
+                await dbContext.SaveChangesAsync();
+
+                Utilisateur utilisateur = new Utilisateur { identityUserId = "11111111-1111-1111-1111-111111111111", codePostal = "12345", id = 1 };
+
+                var actionResult = await searchMock.Object.GetNearSearch("test", utilisateur, "undefined", true);
                 dbContext.Database.EnsureDeleted();
 
 
                 CollectionAssert.AreEqual(actionResult.Select(s => s.id).ToList(), randonneesResult.Select(s => s.id).ToList());
             }
         }
+
+
 
         [TestMethod]
         public async Task GetNearSearch_WithoutStartGPS()
@@ -477,11 +715,12 @@ namespace Tests.Controllers
                         nom = "Randonnée Montagne",
                         description = "Une belle randonnée en montagne.",
                         emplacement = "Alpes",
+                        etatRandonnee = Randonnee.Etat.Publique,
                         typeRandonnee = Randonnee.Type.Marche,
                         GPS = new List<GPS>
                         {
-                            new GPS { id = 1, X = 45.832619, Y = 6.864719, Depart = false, Arrivee = false },
-                            new GPS { id = 2, X = 45.832619, Y = 6.865719, Depart = false, Arrivee = true },
+                            new GPS { id = 1, x = 45.832619, y = 6.864719, depart = false, arrivee = false },
+                            new GPS { id = 2, x = 45.832619, y = 6.865719, depart = false, arrivee = true },
                         },
                         image = new Image { id= 1 , lien="", randonneeId =1},
                         utilisateurId = 1 // Supposons que l'utilisateur 1 est le créateur
@@ -489,14 +728,15 @@ namespace Tests.Controllers
                     new Randonnee
                     {
                         id = 2,
-                        nom = "Randonnée Vélo",
+                        nom = "test Vélo",
                         description = "Un parcours à vélo stimulant.",
                         emplacement = "Bretagne",
+                        etatRandonnee = Randonnee.Etat.Publique,
                         typeRandonnee = Randonnee.Type.Vélo,
                         GPS = new List<GPS>
                         {
-                            new GPS { id = 3, X = 48.202047, Y = -2.932644, Depart = true, Arrivee = false },
-                            new GPS { id = 4, X = 48.202047, Y = -2.933644, Depart = false, Arrivee = true },
+                            new GPS { id = 3, x = 48.202047, y = -2.932644, depart = true, arrivee = false },
+                            new GPS { id = 4, x = 48.202047, y = -2.933644, depart = false, arrivee = true },
                         },
                         image = new Image { id= 2 , lien="", randonneeId =2 },
                         utilisateurId = 2
@@ -506,7 +746,9 @@ namespace Tests.Controllers
                 dbContext.randonnees.AddRange(randonnees);
                 await dbContext.SaveChangesAsync();
 
-                var actionResult = await searchMock.Object.GetNearSearch("test", "12345", "undefined");
+                Utilisateur utilisateur = new Utilisateur { identityUserId = "11111111-1111-1111-1111-111111111111", codePostal = "12345" };
+
+                var actionResult = await searchMock.Object.GetNearSearch("test", utilisateur, "undefined", false);
                 dbContext.Database.EnsureDeleted();
                 Assert.AreEqual(actionResult.Count(), 1);
             }

@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using static arsoudeServeur.Models.Randonnee;
 
 namespace arsoudeServeur.Models
 {
@@ -14,16 +15,12 @@ namespace arsoudeServeur.Models
 
         public Type typeRandonnee { get; set; }
 
-        public bool approuve { get; set; } = false;
+        public Etat etatRandonnee { get; set; } = Etat.Privée;
 
         [Required(ErrorMessage = "La propriété est obligatoire.")]
         public virtual List<GPS> GPS { get; set; } = new List<GPS>();
 
-        //public virtual int? imageId { get; set; }
-        [Required(ErrorMessage = "La propriété est obligatoire.")]
-        public virtual Image image { get; set; }
-
-
+        public virtual List<Commentaire> commentaires { get; set; } = new List<Commentaire>();
 
 
         public enum Type

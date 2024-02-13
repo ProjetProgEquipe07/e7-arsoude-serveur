@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,84 +11,149 @@ using Microsoft.AspNetCore.Authorization;
 using System.Data;
 using arsoudeServeur.Controllers;
 using arsoudeServeur.Services;
+using arsoudeServeur.Models.DTOs;
 
 namespace arsoudeServeur.Areas.Admin.Controllers
 {
-    [Route("api/[controller]/[action]")]
-    [Area("Admin")]
+    [Route("admin/[controller]/[action]")]
+    [ApiController]
     public class RandonneesController : BaseController
     {
         private readonly ApplicationDbContext _context;
         private UtilisateursService _utilisateursService;
+        private RandonneesService _randonneesService;
 
-        public RandonneesController(ApplicationDbContext context, UtilisateursService utilisateursService) : base(utilisateursService)
+        public RandonneesController(ApplicationDbContext context, UtilisateursService utilisateursService, RandonneesService randonneesService) : base(utilisateursService)
         {
             _context = context;
             _utilisateursService = utilisateursService;
+            _randonneesService = randonneesService;
         }
 
-
- 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Randonnee>> ApproveRando(int id) 
+        [HttpGet("{randonneeId}")]
+        public async Task<ActionResult<IEnumerable<RandonneeListDTO>>> ApproveAsync(int randonneeId)
         {
-            Utilisateur user = UtilisateurCourant;
-            if (user.role.Contains("Administrator"))
+            try
             {
-                Randonnee randonnee = await _context.randonnees.FindAsync(id);
-                randonnee.approuve = true;
+                if (UtilisateurCourant.role.Equals("Administrator"))
+                {
+                    try
+                    {
+                        var rando = await _context.randonnees.FindAsync(randonneeId);
+                        rando.etatRandonnee = Randonnee.Etat.Publique;
+                        await _context.SaveChangesAsync();
+                        return Ok(rando);
+                    }
+                    catch (DbUpdateConcurrencyException)
+                    {
+                        return BadRequest();
+                    }
 
-                _context.SaveChangesAsync();
+                }
+                else
+                {
+                    return Unauthorized();
+                }
 
-                return Ok(randonnee);
             }
-            else
+            catch (Exception)
             {
-                return Unauthorized("Vous n'avez pas les droits pour cette action");
+                return Unauthorized();
             }
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Randonnee>> RefuseRando(int id)
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<RandonneeListDTO>>> GetRandonnees()
         {
-            Utilisateur user = UtilisateurCourant;
-            if (user.role.Contains("Administrator"))
+            try
+            { 
+            if (UtilisateurCourant.role.Equals("Administrator"))
             {
                 try
                 {
-                    Randonnee randonnee = await _context.randonnees.FindAsync(id);
-                    _context.randonnees.Remove(randonnee);
+                    var rando = await _randonneesService.GetAllRandonneesAsync();
+                        var sortedRando = rando.OrderBy(r => r.etatRandonnee);
+                        return Ok(sortedRando);
+                }
+                catch (Exception)
+                {
+                    throw new Exception();
+                }
+            }
+            else
+            {
+                return Unauthorized();
+            }
+            }
+            catch (Exception)
+            {
+                return Unauthorized();
+            }
+        }
 
-                    _context.SaveChangesAsync();
+        
 
+        [HttpGet("{randonneeId}")]
+        public async Task<ActionResult<IEnumerable<RandonneeListDTO>>> RefuserAsync(int randonneeId)
+        {
+            try
+            {
+                if (UtilisateurCourant.role.Equals("Administrator"))
+                {
+                    try
+                    {
+                        var rando = await _context.randonnees.FindAsync(randonneeId);
+                        rando.etatRandonnee = Randonnee.Etat.Refusée;
+                        await _context.SaveChangesAsync();
+                    }
+                    catch (DbUpdateConcurrencyException)
+                    {
+                        //changer l'erreur lol
+                        return BadRequest();
+                    }
                     return Ok();
                 }
-                catch (Exception e)
+                else
                 {
-                    return BadRequest(e);
+                    return Unauthorized();
                 }
             }
-            else
+            catch (Exception)
             {
-                return Unauthorized("Vous n'avez pas les droits pour cette action");
+                return Unauthorized();
             }
         }
-      
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<IEnumerable<Randonnee>>> GetListApproveRando()
+        [HttpGet("{randonneeId}")]
+        public async Task<ActionResult<IEnumerable<RandonneeListDTO>>> AapproveAsync(int randonneeId)
         {
-            Utilisateur user = UtilisateurCourant;
-            if(user.role.Contains("Administrator"))
-            { 
-                List<Randonnee> randonnee = await _context.randonnees.Where(x => x.approuve == false).ToListAsync();
-
-            return Ok(randonnee);
+            try { 
+            if (UtilisateurCourant.role.Equals("Administrator"))
+            {
+                try
+                {
+                    var rando = await _context.randonnees.FindAsync(randonneeId);
+                    rando.etatRandonnee = Randonnee.Etat.Privée;
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    //changer l'erreur lol
+                    return BadRequest();
+                }
+                return Ok();
             }
             else
             {
-                return Unauthorized("Vous n'avez pas les droits pour cette action");
+                return Unauthorized();
             }
         }
+            catch (Exception)
+            {
+                return Unauthorized();
+            }
+        }
+
+
     }
 }

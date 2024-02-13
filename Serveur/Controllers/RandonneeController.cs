@@ -21,13 +21,31 @@ namespace arsoudeServeur.Controllers
         [HttpGet("{listSize}")]
         public async Task<ActionResult<IEnumerable<RandonneeListDTO>>> GetRandonnees(int listSize)
         {
-            return await _randonneeService.GetAllRandonneesAsync(listSize, UtilisateurCourant);
+
+            var languageHeader = HttpContext.Request.Headers["Accept-Language"].ToString();
+
+            if(languageHeader == "fr")
+            {
+                if (UtilisateurCourant != null)
+                    return await _randonneeService.GetRandonneesAFaireAsync(listSize, UtilisateurCourant);
+                else
+                    return await _randonneeService.GetRandonneesAFaireAsync(listSize);
+            }
+            else
+            {
+                if (UtilisateurCourant != null)
+                    return await _randonneeService.GetRandonneesAFaireAnglaisAsync(listSize, UtilisateurCourant);
+                else
+                    return await _randonneeService.GetRandonneesAFaireAnglaisAsync(listSize);
+            }
+           
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<RandonneeDetailDTO>> GetRandonnee(int id)
         {
             var randonnee = await _randonneeService.GetRandonneeByIdAsync(id, UtilisateurCourant);
+
 
             if (randonnee == null)
             {
@@ -87,7 +105,7 @@ namespace arsoudeServeur.Controllers
                 return NotFound();
             }
 
-            return NoContent();
+            return Ok();
         }
 
         [HttpDelete("{id}")]
@@ -100,17 +118,20 @@ namespace arsoudeServeur.Controllers
                 return NotFound();
             }
 
-            return NoContent();
+            return Ok();
         }
         //[Authorize]
         [HttpPost]
         public async Task<IActionResult> CreateRandonneeTrace(TraceRandoDTO randonnee)
         {
+            var rando = await _randonneeService.CreateRandonneeTraceAsync(randonnee);
 
-            await _randonneeService.CreateRandonneeTraceAsync(randonnee);
+            if (rando == null)
+            {
+                return NotFound();
+            }
 
             return Ok();
-
         }
     }
 }

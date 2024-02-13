@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace arsoudeServeur.Migrations
 {
     /// <inheritdoc />
-    public partial class IntialCreate : Migration
+    public partial class IN182 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -195,7 +195,7 @@ namespace arsoudeServeur.Migrations
                     description = table.Column<string>(type: "TEXT", maxLength: 255, nullable: false),
                     emplacement = table.Column<string>(type: "TEXT", nullable: false),
                     typeRandonnee = table.Column<int>(type: "INTEGER", nullable: false),
-                    approuve = table.Column<bool>(type: "INTEGER", nullable: false),
+                    etatRandonnee = table.Column<int>(type: "INTEGER", nullable: false),
                     utilisateurId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
@@ -210,53 +210,27 @@ namespace arsoudeServeur.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "commentaires",
+                name: "avertissements",
                 columns: table => new
                 {
                     id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    texte = table.Column<string>(type: "TEXT", nullable: false),
-                    randonnéeId = table.Column<int>(type: "INTEGER", nullable: false),
-                    randonneeid = table.Column<int>(type: "INTEGER", nullable: false),
-                    utilisateurId = table.Column<int>(type: "INTEGER", nullable: false)
+                    description = table.Column<string>(type: "TEXT", nullable: false),
+                    typeAvertissement = table.Column<int>(type: "INTEGER", nullable: false),
+                    DateSuppresion = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    randonneeId = table.Column<int>(type: "INTEGER", nullable: false),
+                    x = table.Column<double>(type: "REAL", nullable: false),
+                    y = table.Column<double>(type: "REAL", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_commentaires", x => x.id);
+                    table.PrimaryKey("PK_avertissements", x => x.id);
                     table.ForeignKey(
-                        name: "FK_commentaires_randonnees_randonneeid",
-                        column: x => x.randonneeid,
-                        principalTable: "randonnees",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_commentaires_utilisateurs_utilisateurId",
-                        column: x => x.utilisateurId,
-                        principalTable: "utilisateurs",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "gps",
-                columns: table => new
-                {
-                    id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    X = table.Column<double>(type: "REAL", nullable: false),
-                    Y = table.Column<double>(type: "REAL", nullable: false),
-                    Depart = table.Column<bool>(type: "INTEGER", nullable: false),
-                    Arrivee = table.Column<bool>(type: "INTEGER", nullable: false),
-                    randonneeId = table.Column<int>(type: "INTEGER", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_gps", x => x.id);
-                    table.ForeignKey(
-                        name: "FK_gps_randonnees_randonneeId",
+                        name: "FK_avertissements_randonnees_randonneeId",
                         column: x => x.randonneeId,
                         principalTable: "randonnees",
-                        principalColumn: "id");
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -276,6 +250,37 @@ namespace arsoudeServeur.Migrations
                         column: x => x.randonneeId,
                         principalTable: "randonnees",
                         principalColumn: "id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "randonneeAnglais",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    nom = table.Column<string>(type: "TEXT", nullable: false),
+                    description = table.Column<string>(type: "TEXT", nullable: false),
+                    emplacement = table.Column<string>(type: "TEXT", nullable: false),
+                    typeRandonnee = table.Column<int>(type: "INTEGER", nullable: false),
+                    etatRandonnee = table.Column<int>(type: "INTEGER", nullable: false),
+                    randonneeId = table.Column<int>(type: "INTEGER", nullable: false),
+                    utilisateurId = table.Column<int>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_randonneeAnglais", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_randonneeAnglais_randonnees_randonneeId",
+                        column: x => x.randonneeId,
+                        principalTable: "randonnees",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_randonneeAnglais_utilisateurs_utilisateurId",
+                        column: x => x.utilisateurId,
+                        principalTable: "utilisateurs",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -304,13 +309,108 @@ namespace arsoudeServeur.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "utilisateursTrace",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    utilisateurId = table.Column<int>(type: "INTEGER", nullable: false),
+                    randonneeId = table.Column<int>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_utilisateursTrace", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_utilisateursTrace_randonnees_randonneeId",
+                        column: x => x.randonneeId,
+                        principalTable: "randonnees",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_utilisateursTrace_utilisateurs_utilisateurId",
+                        column: x => x.utilisateurId,
+                        principalTable: "utilisateurs",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "commentaires",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    texte = table.Column<string>(type: "TEXT", nullable: true),
+                    review = table.Column<int>(type: "INTEGER", nullable: false),
+                    randonneeId = table.Column<int>(type: "INTEGER", nullable: false),
+                    utilisateurId = table.Column<int>(type: "INTEGER", nullable: false),
+                    RandonneeAnglaisid = table.Column<int>(type: "INTEGER", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_commentaires", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_commentaires_randonneeAnglais_RandonneeAnglaisid",
+                        column: x => x.RandonneeAnglaisid,
+                        principalTable: "randonneeAnglais",
+                        principalColumn: "id");
+                    table.ForeignKey(
+                        name: "FK_commentaires_randonnees_randonneeId",
+                        column: x => x.randonneeId,
+                        principalTable: "randonnees",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_commentaires_utilisateurs_utilisateurId",
+                        column: x => x.utilisateurId,
+                        principalTable: "utilisateurs",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "gps",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    x = table.Column<double>(type: "REAL", nullable: false),
+                    y = table.Column<double>(type: "REAL", nullable: false),
+                    depart = table.Column<bool>(type: "INTEGER", nullable: false),
+                    arrivee = table.Column<bool>(type: "INTEGER", nullable: false),
+                    randonneeId = table.Column<int>(type: "INTEGER", nullable: true),
+                    randonneAnglaisId = table.Column<int>(type: "INTEGER", nullable: true),
+                    RandonneeAnglaisid = table.Column<int>(type: "INTEGER", nullable: true),
+                    RandonneeUtilisateurTraceid = table.Column<int>(type: "INTEGER", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_gps", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_gps_randonneeAnglais_RandonneeAnglaisid",
+                        column: x => x.RandonneeAnglaisid,
+                        principalTable: "randonneeAnglais",
+                        principalColumn: "id");
+                    table.ForeignKey(
+                        name: "FK_gps_randonnees_randonneeId",
+                        column: x => x.randonneeId,
+                        principalTable: "randonnees",
+                        principalColumn: "id");
+                    table.ForeignKey(
+                        name: "FK_gps_utilisateursTrace_RandonneeUtilisateurTraceid",
+                        column: x => x.RandonneeUtilisateurTraceid,
+                        principalTable: "utilisateursTrace",
+                        principalColumn: "id");
+                });
+
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "03d17823-69f2-4a43-92da-1068f3cc751f", null, "User", "USER" },
-                    { "940ffc3b-7499-4437-a885-c759c0eec7cc", null, "Administrator", "ADMINISTRATOR" }
+                    { "7223cd62-c9c8-4778-86bc-7b340ea07174", null, "User", "USER" },
+                    { "dda35078-d6c7-42e4-a026-b2fd855a92ec", null, "Administrator", "ADMINISTRATOR" }
                 });
 
             migrationBuilder.InsertData(
@@ -318,19 +418,9 @@ namespace arsoudeServeur.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "11111111-1111-1111-1111-111111111111", 0, "2d241b9a-4103-4958-9f94-0a5b5017247c", "admin@gmail.com", true, false, null, "ADMIN@GMAIL.COM", "ADMIN@GMAIL.COM", "AQAAAAIAAYagAAAAEOroTfwK856qKyfXcD/yQJg8SfJfVytIqaI0RjewNpvFrfoPYy7J71kfXZcED7Z65g==", null, false, "5d16e47f-fec4-4a43-b4f6-88bd58bafcfd", false, "admin@gmail.com" },
-                    { "11111111-1111-1111-1111-111111111112", 0, "485d5006-f4e7-4ffd-acfa-18a305791b9e", "user1@hotmail.com", true, false, null, "USER1@HOTMAIL.COM", "USER1@HOTMAIL.COM", "AQAAAAIAAYagAAAAEPrE/MljWgqUj10vm+jZx3nf2vxSHA1Gvmqgx53BWc6DNofQzFamUVkrrEV7kPHZrA==", null, false, "9a05f127-8640-4af3-a769-4684aa66b75b", false, "user1@hotmail.com" },
-                    { "11111111-1111-1111-1111-111111111113", 0, "891e7614-0faa-49a5-95ae-752e19152d82", "user2@hotmail.com", true, false, null, "USER2@HOTMAIL.COM", "USER2@HOTMAIL.COM", "AQAAAAIAAYagAAAAEGFEyDtsTh2vIvVtmhhViQOu+svS56s1Exm9c65grImoWZaeZHTR6UDlVLtzzpEx0g==", null, false, "3dc29cda-cb92-4580-991b-fcd44ce60d13", false, "user2@hotmail.com" }
-                });
-
-            migrationBuilder.InsertData(
-                table: "AspNetUserRoles",
-                columns: new[] { "RoleId", "UserId" },
-                values: new object[,]
-                {
-                    { "940ffc3b-7499-4437-a885-c759c0eec7cc", "11111111-1111-1111-1111-111111111111" },
-                    { "03d17823-69f2-4a43-92da-1068f3cc751f", "11111111-1111-1111-1111-111111111112" },
-                    { "03d17823-69f2-4a43-92da-1068f3cc751f", "11111111-1111-1111-1111-111111111113" }
+                    { "11111111-1111-1111-1111-111111111111", 0, "8ec94ed3-9047-41f0-a876-8433ce3c9009", "admin@gmail.com", true, false, null, "ADMIN@GMAIL.COM", "ADMIN@GMAIL.COM", "AQAAAAIAAYagAAAAEP3Qt62UPHd/j2o81Rth6iEIfbjWhBKiVliAVHqIwNNNRouCXdk1ih8phxV4dfIG5g==", null, false, "637f2a79-d612-44d2-a80b-fc684029e7af", false, "admin@gmail.com" },
+                    { "11111111-1111-1111-1111-111111111112", 0, "213552df-a8af-405f-9bb3-b00669edc7db", "user1@hotmail.com", true, false, null, "USER1@HOTMAIL.COM", "USER1@HOTMAIL.COM", "AQAAAAIAAYagAAAAEFYMXQ5SdivbaZYYREQheynRZjNIVFlMIWX4f4JbONcIhmceMdqroMWH90Jr4PBbNA==", null, false, "8d47f3c6-f509-4e9f-adbe-bbcbe55a64e4", false, "user1@hotmail.com" },
+                    { "11111111-1111-1111-1111-111111111113", 0, "a3242350-3405-49e5-877a-2bbd79ae6cfa", "user2@hotmail.com", true, false, null, "USER2@HOTMAIL.COM", "USER2@HOTMAIL.COM", "AQAAAAIAAYagAAAAEOQlHF+g2n/rnrVxkknbWL29PvKwK0oocbwEP0eNPzmQ9/UvoCT/R1ZhdGiyVwUWpQ==", null, false, "fabdcf35-27b3-4829-84de-4fbdfa3560a5", false, "user2@hotmail.com" }
                 });
 
             migrationBuilder.InsertData(
@@ -338,47 +428,54 @@ namespace arsoudeServeur.Migrations
                 columns: new[] { "id", "adresse", "anneeDeNaissance", "codePostal", "courriel", "identityUserId", "moisDeNaissance", "nom", "prenom", "role" },
                 values: new object[,]
                 {
-                    { 1, null, 0, "E3A4R4", "admin@gmail.com", "11111111-1111-1111-1111-111111111111", 0, "tangerine", "robert", "Administrator" },
-                    { 2, null, 0, "E3A4R4", "user1@hotmail.com", "11111111-1111-1111-1111-111111111112", 0, "Hogan", "Hulk", "User" },
-                    { 3, null, 0, "E3A4R4", "user2@hotmail.com", "11111111-1111-1111-1111-111111111113", 0, "Charles", "Grégory", "User" }
+                    { 1, "", 0, "E3A 4R4", "admin@gmail.com", "11111111-1111-1111-1111-111111111111", 0, "tangerine", "robert", "Administrator" },
+                    { 2, "", 0, "E3A 4R4", "user1@hotmail.com", "11111111-1111-1111-1111-111111111112", 0, "Hogan", "Hulk", "User" },
+                    { 3, "1260, rue Mill, suite 100", 0, "E3A 4R4", "user2@hotmail.com", "11111111-1111-1111-1111-111111111113", 0, "Charles", "Grégory", "User" }
                 });
 
             migrationBuilder.InsertData(
                 table: "randonnees",
-                columns: new[] { "id", "approuve", "description", "emplacement", "nom", "typeRandonnee", "utilisateurId" },
+                columns: new[] { "id", "description", "emplacement", "etatRandonnee", "nom", "typeRandonnee", "utilisateurId" },
                 values: new object[,]
                 {
-                    { 1, true, "promenade cool a st-brun", "st-bruno", "St-Bruno", 1, 1 },
-                    { 2, true, "promenade moyennement cool la bas", "dehors", "ptite marche au subway", 0, 2 },
-                    { 3, true, "promenade fresh a st-hilaire", "st-hilaire", "st-hilaire", 1, 3 },
-                    { 4, true, "promenade au subway", "st-grégoire", "ma randonnée pédestre", 0, 2 },
-                    { 5, true, "ça doit être cool la bas", "quelque part", "rivière rouge", 0, 2 },
-                    { 6, true, "je pense qu'on a beaucoup de fun", "mont tremblant", "Ma randonnée", 0, 1 },
-                    { 7, true, "J'ai eu beaucoup de plaisir", "st-jérome", "ayyyyyy", 0, 2 },
-                    { 8, false, "moyennement le fun pour vrai", "ottoburn park", "st-grégoire", 0, 3 }
+                    { 1, "promenade cool a st-brun", "st-bruno", 0, "St-Brun", 1, 1 },
+                    { 2, "promenade moyennement cool la bas", "dehors", 0, "ptite marche au subway", 0, 2 },
+                    { 3, "promenade fresh a bro s s a r d", "st-hilaire?", 0, "Brossard", 1, 3 },
+                    { 4, "promenade au subway", "st-grégoire", 0, "ma randonnée pédestre", 0, 2 },
+                    { 5, "ça doit être cool la bas", "quelque part", 0, "rivière rouge", 0, 2 },
+                    { 6, "je pense qu'on a beaucoup de fun", "mont tremblant", 0, "Ma randonnée", 0, 1 }
                 });
 
             migrationBuilder.InsertData(
                 table: "gps",
-                columns: new[] { "id", "Arrivee", "Depart", "X", "Y", "randonneeId" },
+                columns: new[] { "id", "RandonneeAnglaisid", "RandonneeUtilisateurTraceid", "arrivee", "depart", "randonneAnglaisId", "randonneeId", "x", "y" },
                 values: new object[,]
                 {
-                    { 1, false, true, 45.536653134864743, -73.494974340959118, 1 },
-                    { 2, true, false, 45.636653134864737, -73.594974340959126, 1 },
-                    { 3, false, true, 45.354998999999999, -73.150238000000002, 2 },
-                    { 4, true, false, 45.356924999999997, -73.150233999999998, 2 },
-                    { 5, false, true, 45.538015000000001, -73.156982999999997, 3 },
-                    { 6, true, false, 45.636653134864737, -73.594974340959126, 3 },
-                    { 7, false, true, 45.354998999999999, -73.150238000000002, 4 },
-                    { 8, true, false, 45.356924999999997, -73.150233999999998, 4 },
-                    { 9, false, true, 45.354998999999999, -73.150238000000002, 5 },
-                    { 10, true, false, 45.356924999999997, -73.150233999999998, 5 },
-                    { 11, false, true, 45.354998999999999, -73.160238000000007, 6 },
-                    { 12, true, false, 45.356924999999997, -73.150233999999998, 6 },
-                    { 13, false, true, 45.364998999999997, -73.110237999999995, 7 },
-                    { 14, true, false, 45.386924999999998, -73.152234000000007, 7 },
-                    { 15, false, true, 45.364998999999997, -73.166238000000007, 8 },
-                    { 16, true, false, 45.456924999999998, -73.128234000000006, 8 }
+                    { 1, null, null, false, true, 1, 1, 45.536653134864743, -73.494974340959118 },
+                    { 2, null, null, true, false, 1, 1, 45.636653134864737, -73.594974340959126 },
+                    { 3, null, null, false, true, 2, 2, 45.354998999999999, -73.150238000000002 },
+                    { 4, null, null, true, false, 2, 2, 45.356924999999997, -73.150233999999998 },
+                    { 5, null, null, false, true, 3, 3, 45.538015000000001, -73.156982999999997 },
+                    { 6, null, null, true, false, 3, 3, 45.636653134864737, -73.594974340959126 },
+                    { 7, null, null, false, true, 4, 4, 45.354998999999999, -73.150238000000002 },
+                    { 8, null, null, true, false, 4, 4, 45.356924999999997, -73.150233999999998 },
+                    { 9, null, null, false, true, 5, 5, 45.354998999999999, -73.150238000000002 },
+                    { 10, null, null, true, false, 5, 5, 45.356924999999997, -73.150233999999998 },
+                    { 11, null, null, false, true, 6, 6, 45.354998999999999, -73.160238000000007 },
+                    { 12, null, null, true, false, 6, 6, 45.356924999999997, -73.150233999999998 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "randonneeAnglais",
+                columns: new[] { "id", "description", "emplacement", "etatRandonnee", "nom", "randonneeId", "typeRandonnee", "utilisateurId" },
+                values: new object[,]
+                {
+                    { 1, "Cool walk in St-Bruno", "St-Bruno", 0, "St-Bruno", 1, 1, 1 },
+                    { 2, "Moderately cool walk there", "Outside", 0, "Little Walk to Subway", 2, 0, 2 },
+                    { 3, "Fresh walk in St-Hilaire", "St-Hilaire", 0, "St-Hilaire", 3, 1, 3 },
+                    { 4, "Walk to Subway", "St-Grégoire", 0, "My Hiking Trip", 4, 0, 2 },
+                    { 5, "It must be cool there", "Somewhere", 0, "Red River", 5, 0, 2 },
+                    { 6, "I think it's a lot of fun", "Mont Tremblant", 0, "My Trek", 6, 0, 1 }
                 });
 
             migrationBuilder.CreateIndex(
@@ -419,9 +516,19 @@ namespace arsoudeServeur.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_commentaires_randonneeid",
+                name: "IX_avertissements_randonneeId",
+                table: "avertissements",
+                column: "randonneeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_commentaires_RandonneeAnglaisid",
                 table: "commentaires",
-                column: "randonneeid");
+                column: "RandonneeAnglaisid");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_commentaires_randonneeId",
+                table: "commentaires",
+                column: "randonneeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_commentaires_utilisateurId",
@@ -429,15 +536,35 @@ namespace arsoudeServeur.Migrations
                 column: "utilisateurId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_gps_RandonneeAnglaisid",
+                table: "gps",
+                column: "RandonneeAnglaisid");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_gps_randonneeId",
                 table: "gps",
                 column: "randonneeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_gps_RandonneeUtilisateurTraceid",
+                table: "gps",
+                column: "RandonneeUtilisateurTraceid");
 
             migrationBuilder.CreateIndex(
                 name: "IX_images_randonneeId",
                 table: "images",
                 column: "randonneeId",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_randonneeAnglais_randonneeId",
+                table: "randonneeAnglais",
+                column: "randonneeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_randonneeAnglais_utilisateurId",
+                table: "randonneeAnglais",
+                column: "utilisateurId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_randonnees_utilisateurId",
@@ -458,6 +585,16 @@ namespace arsoudeServeur.Migrations
                 name: "IX_utilisateurs_identityUserId",
                 table: "utilisateurs",
                 column: "identityUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_utilisateursTrace_randonneeId",
+                table: "utilisateursTrace",
+                column: "randonneeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_utilisateursTrace_utilisateurId",
+                table: "utilisateursTrace",
+                column: "utilisateurId");
         }
 
         /// <inheritdoc />
@@ -479,6 +616,9 @@ namespace arsoudeServeur.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "avertissements");
+
+            migrationBuilder.DropTable(
                 name: "commentaires");
 
             migrationBuilder.DropTable(
@@ -492,6 +632,12 @@ namespace arsoudeServeur.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "randonneeAnglais");
+
+            migrationBuilder.DropTable(
+                name: "utilisateursTrace");
 
             migrationBuilder.DropTable(
                 name: "randonnees");

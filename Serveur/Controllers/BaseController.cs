@@ -14,9 +14,9 @@ namespace arsoudeServeur.Controllers
             this.utilisateursService = utilisateursService;
         }
 
-        private Utilisateur? utilisateur = null;
+        protected Utilisateur? utilisateur = null;
 
-        public virtual Utilisateur UtilisateurCourant
+        protected virtual Utilisateur UtilisateurCourant
         {
             get
             {
@@ -28,7 +28,7 @@ namespace arsoudeServeur.Controllers
             }
         }
 
-        public string UserId
+        protected string UserId
         {
             get
             {
