@@ -1,4 +1,6 @@
-﻿namespace arsoudeServeur.Models
+﻿using System.Text.Json.Serialization;
+
+namespace arsoudeServeur.Models
 {
     public class Commentaire
     {
@@ -8,10 +10,12 @@
 
         // Clé étrangère 
         public int randonneeId { get; set; }
+        [JsonIgnore]
         public virtual Randonnee randonnee { get; set; }
 
         // Clé étrangère 
         public int utilisateurId { get; set; }
+        [JsonIgnore]
         public virtual Utilisateur utilisateur { get; set; }
     }
 }

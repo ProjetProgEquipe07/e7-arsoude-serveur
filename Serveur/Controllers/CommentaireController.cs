@@ -22,12 +22,12 @@ namespace arsoudeServeur.Controllers
            return list;
         }
 
-        [HttpPost("{id}")]
-        public async Task<ActionResult> CreateCommentaire(int id, [FromBody] CommentaireDTO commentaire)
+        [HttpPost]
+        public async Task<ActionResult> CreateCommentaire([FromBody] CommentaireDTO commentaire)
         {
             Utilisateur user = UtilisateurCourant;
 
-            _commentaireService.CreateCommentaire(id,commentaire, user);
+            _commentaireService.CreateCommentaire(commentaire, user);
             return Ok();
         }
 
@@ -40,7 +40,7 @@ namespace arsoudeServeur.Controllers
         }
 
         [HttpPost("{id}")]
-        public async Task<IActionResult> EditCommentaire(int id,[FromBody] CommentaireDTO commentaire)
+        public async Task<IActionResult> EditCommentaire(int id, [FromBody] CommentaireDTO commentaire)
         {
             Utilisateur user = UtilisateurCourant;
              _commentaireService.PutCommentaire(id, commentaire, user);

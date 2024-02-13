@@ -49,13 +49,13 @@ namespace arsoudeServeur.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "13c14df8-0c8a-4e75-b064-f4bd56a97b28",
+                            Id = "664b588a-399f-4509-8e5b-5eabbf47612c",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
-                            Id = "fb47f981-c00f-4d7e-96cc-23bbedc414dc",
+                            Id = "a7465334-d9c5-420f-a04b-981bbeef25a2",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -152,15 +152,15 @@ namespace arsoudeServeur.Migrations
                         {
                             Id = "11111111-1111-1111-1111-111111111111",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "b0675886-f66c-4768-9dcd-f9619542d3d8",
+                            ConcurrencyStamp = "529ee0e3-bd4b-4c6e-b873-e6c04353909f",
                             Email = "admin@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@GMAIL.COM",
                             NormalizedUserName = "ADMIN@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEG30aXKgMvDIKxWLaQQhNJClJBL3JaakvSz3DspUeLkugTDyFmp63Op3Vms9XEIAuw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAENRZImkcK8pQ3i7C7AQGxnkgQ1uHlWF1jc7bEaop+vxMHpwy2fPepTqA7+nCuBuFyQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "35e010b6-0471-4c2e-bb50-057e02912176",
+                            SecurityStamp = "3bc9ce4e-5e80-48a6-9498-9a82d6ceedb8",
                             TwoFactorEnabled = false,
                             UserName = "admin@gmail.com"
                         },
@@ -168,15 +168,15 @@ namespace arsoudeServeur.Migrations
                         {
                             Id = "11111111-1111-1111-1111-111111111112",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "e2916e75-434c-4683-b9ec-c7b78507ca1a",
+                            ConcurrencyStamp = "660289db-bf2e-4478-9b69-2432d2f75f91",
                             Email = "user1@hotmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "USER1@HOTMAIL.COM",
                             NormalizedUserName = "USER1@HOTMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEIa4K6hxYmKNuHlC9091Gms5cQ+o+QpFxkYaKgyoWap/jH/2HxBhGpTGlSUNFX2HQA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAED/NVun3qmu5+xcfB9Sn7RnUlZ3vUXQhBwqn6HnkuK2qWGZhPhxSPopdzUse2Cr4ZA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "265a8c32-a32b-40fe-8f6e-2c999b5a5f4f",
+                            SecurityStamp = "c8552cf6-2525-4cbe-9682-d3c94bb792cd",
                             TwoFactorEnabled = false,
                             UserName = "user1@hotmail.com"
                         },
@@ -184,15 +184,15 @@ namespace arsoudeServeur.Migrations
                         {
                             Id = "11111111-1111-1111-1111-111111111113",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "9ba7b8d0-caa2-458e-9a4c-ce64c735ccd4",
+                            ConcurrencyStamp = "90f947bf-cf57-4a8d-bc2a-78d026547fea",
                             Email = "user2@hotmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "USER2@HOTMAIL.COM",
                             NormalizedUserName = "USER2@HOTMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEAdD8P0RiUA5Uue6ZkUm2I4xN79JLnlbVpkbr1EPzy4P02ejBA7q6FgkYo7RFynZzA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAED2L1sEQTWgrT5qQJs6eDbabj30PmKxhvK+3xzpBkZl4mh8EV4t+aypWn5EfJbljXA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "a67f588c-3f50-40ac-8619-b65f625efbd1",
+                            SecurityStamp = "0abce4d6-e625-4189-96d8-f503f50c121e",
                             TwoFactorEnabled = false,
                             UserName = "user2@hotmail.com"
                         });
@@ -338,6 +338,48 @@ namespace arsoudeServeur.Migrations
                     b.HasIndex("utilisateurId");
 
                     b.ToTable("commentaires");
+
+                    b.HasData(
+                        new
+                        {
+                            id = 1,
+                            randonneeId = 1,
+                            review = 3,
+                            texte = "You are a worthless bitch ass nigga\r\nYour life literally is as valuable as a summer ant. I'm just gonna stomp you.\r\nYou're gonna keep coming back. I'm gonna seal up all my cracks, youre gonna keep coming back\r\n \r\nWhy? Cause you keep smelling the syrup, you worthless bitch ass nigga. Your gonna stay on my dick until you die.\r\nYou serve no purpose in life. Your purpose in life is to be on my stream sucking on my dick daily.\r\n \r\nYour purpose in life is to be in that chat, blowing a dick daily.\r\nYour life is nothing!\r\nYou serve zero purpose. You should kill yourself NOW.\r\nAnd give somebody else a piece of that oxygen, an ozone layer thats covered up so we can breathe inside this blue trapped  bubble, cause what are you here for? To worship me? Kill yourself. I mean that not a 100% but a thousand percent.\r\n \r\nImagine if a nigga like that has kids. Like imagine somebody like that has kids",
+                            utilisateurId = 2
+                        },
+                        new
+                        {
+                            id = 2,
+                            randonneeId = 2,
+                            review = 3,
+                            texte = "Imagine if a nigga like that has kids. Like imagine. Imagine if somebody like that has kids. I will feel so sorry for his children cause the nigga literally serves no purpose. Imagine a father, now we got a lot of niggas with wife and kids and shit like that who keeps sucking on my dick daily on the internet but imagine if this nigga actually had children. This niggas devoting the time he could be spending with his kids checking out a black man on stream cucking him relentlessly. That's crazy! I've never seen somebody so relentless to be seen. Somebody so worthless that they'll come into this stream and keep coming in this bitch over and over and over and over and over again when we keep banning you\r\nNigga let me.. let me.. let's do you a favor",
+                            utilisateurId = 1
+                        },
+                        new
+                        {
+                            id = 3,
+                            randonneeId = 4,
+                            review = 3,
+                            texte = "Lets go to the 99 cents store and lets pick out a rope together. Imma give you an assisted suicide. Lets pick out a rope together right? And we're gonna take all the greatest trolls clips, put a tv screen right in front of you.\r\nI'm gonna hang that rope at the top of the motherfucking garage.\r\nWe're gonna forcefully pry your eyes open, we probably don't even need to do that cause your on my dick daily. We're gonna pry your eyes open until you consistently watch clips over and over and over and over again to the point where you're gonna be like 'Wait a minute, this is a little bit too much'\r\nYou're just gonna start going crazy.\r\nYou're gonna start going crazy.\r\nJust, your eyes are gonna bleed your retinas are just gonna start pouring out, pouring out blood and just getting\r\ncracks and veins in your retinas are gonna start engaging and bulging. Then I'm gonna grab that rope for you and say 'Are you ready?' You're gonna say 'Yeah' I'm gonna take it and PULL IT\r\nwhile you beg me, beg me and I mean beg me to kill you and choke you, choke the worthless life out of your sorry ass until you're fucking dead, croaked with a blue face nigga. Cause you don't deserve your soul.\r\nI've never seen somebody so fucking worthless and relentless that keep coming in a niggas chat over and over and over again. Somebody like that needs to die.\r\nThere is really no reason for him to be alive. We lost prominent niggas on earth, that served a purpose that had... so this nigga could be on earth trolling a stream daily, like come on my nigga. Like, your life is just worthless, just please kill yourself.\r\nGo outside, throw some steaks in a fucking alley and hope a bunch of stray dogs jump on you starts chewing your fucking dick your dick off, biting pieces and shit off of you like that cause you literally just gotta go. Like this nigga off of earth. Please",
+                            utilisateurId = 2
+                        },
+                        new
+                        {
+                            id = 4,
+                            randonneeId = 2,
+                            review = 1,
+                            texte = "Lets go to the 99 cents store and lets pick out a rope together. Imma give you an assisted suicide. Lets pick out a rope together right? And we're gonna take all the greatest trolls clips, put a tv screen right in front of you.\r\nI'm gonna hang that rope at the top of the motherfucking garage.\r\nWe're gonna forcefully pry your eyes open, we probably don't even need to do that cause your on my dick daily. We're gonna pry your eyes open until you consistently watch clips over and over and over and over again to the point where you're gonna be like 'Wait a minute, this is a little bit too much'\r\nYou're just gonna start going crazy.\r\nYou're gonna start going crazy.\r\nJust, your eyes are gonna bleed your retinas are just gonna start pouring out, pouring out blood and just getting\r\ncracks and veins in your retinas are gonna start engaging and bulging. Then I'm gonna grab that rope for you and say 'Are you ready?' You're gonna say 'Yeah' I'm gonna take it and PULL IT\r\nwhile you beg me, beg me and I mean beg me to kill you and choke you, choke the worthless life out of your sorry ass until you're fucking dead, croaked with a blue face nigga. Cause you don't deserve your soul.\r\nI've never seen somebody so fucking worthless and relentless that keep coming in a niggas chat over and over and over again. Somebody like that needs to die.\r\nThere is really no reason for him to be alive. We lost prominent niggas on earth, that served a purpose that had... so this nigga could be on earth trolling a stream daily, like come on my nigga. Like, your life is just worthless, just please kill yourself.\r\nGo outside, throw some steaks in a fucking alley and hope a bunch of stray dogs jump on you starts chewing your fucking dick your dick off, biting pieces and shit off of you like that cause you literally just gotta go. Like this nigga off of earth. Please",
+                            utilisateurId = 3
+                        },
+                        new
+                        {
+                            id = 5,
+                            randonneeId = 6,
+                            review = 5,
+                            texte = "Lets go to the 99 cents store and lets pick out a rope together. Imma give you an assisted suicide. Lets pick out a rope together right? And we're gonna take all the greatest trolls clips, put a tv screen right in front of you.\r\nI'm gonna hang that rope at the top of the motherfucking garage.\r\nWe're gonna forcefully pry your eyes open, we probably don't even need to do that cause your on my dick daily. We're gonna pry your eyes open until you consistently watch clips over and over and over and over again to the point where you're gonna be like 'Wait a minute, this is a little bit too much'\r\nYou're just gonna start going crazy.\r\nYou're gonna start going crazy.\r\nJust, your eyes are gonna bleed your retinas are just gonna start pouring out, pouring out blood and just getting\r\ncracks and veins in your retinas are gonna start engaging and bulging. Then I'm gonna grab that rope for you and say 'Are you ready?' You're gonna say 'Yeah' I'm gonna take it and PULL IT\r\nwhile you beg me, beg me and I mean beg me to kill you and choke you, choke the worthless life out of your sorry ass until you're fucking dead, croaked with a blue face nigga. Cause you don't deserve your soul.\r\nI've never seen somebody so fucking worthless and relentless that keep coming in a niggas chat over and over and over again. Somebody like that needs to die.\r\nThere is really no reason for him to be alive. We lost prominent niggas on earth, that served a purpose that had... so this nigga could be on earth trolling a stream daily, like come on my nigga. Like, your life is just worthless, just please kill yourself.\r\nGo outside, throw some steaks in a fucking alley and hope a bunch of stray dogs jump on you starts chewing your fucking dick your dick off, biting pieces and shit off of you like that cause you literally just gotta go. Like this nigga off of earth. Please",
+                            utilisateurId = 3
+                        });
                 });
 
             modelBuilder.Entity("arsoudeServeur.Models.GPS", b =>
@@ -545,7 +587,7 @@ namespace arsoudeServeur.Migrations
                             id = 1,
                             description = "promenade cool a st-brun",
                             emplacement = "st-bruno",
-                            etatRandonnee = 0,
+                            etatRandonnee = 1,
                             nom = "St-Brun",
                             typeRandonnee = 1,
                             utilisateurId = 1
@@ -555,7 +597,7 @@ namespace arsoudeServeur.Migrations
                             id = 2,
                             description = "promenade moyennement cool la bas",
                             emplacement = "dehors",
-                            etatRandonnee = 0,
+                            etatRandonnee = 1,
                             nom = "ptite marche au subway",
                             typeRandonnee = 0,
                             utilisateurId = 2
@@ -565,7 +607,7 @@ namespace arsoudeServeur.Migrations
                             id = 3,
                             description = "promenade fresh a bro s s a r d",
                             emplacement = "st-hilaire?",
-                            etatRandonnee = 0,
+                            etatRandonnee = 1,
                             nom = "Brossard",
                             typeRandonnee = 1,
                             utilisateurId = 3
@@ -585,7 +627,7 @@ namespace arsoudeServeur.Migrations
                             id = 5,
                             description = "ça doit être cool la bas",
                             emplacement = "quelque part",
-                            etatRandonnee = 0,
+                            etatRandonnee = 2,
                             nom = "rivière rouge",
                             typeRandonnee = 0,
                             utilisateurId = 2
@@ -595,7 +637,7 @@ namespace arsoudeServeur.Migrations
                             id = 6,
                             description = "je pense qu'on a beaucoup de fun",
                             emplacement = "mont tremblant",
-                            etatRandonnee = 0,
+                            etatRandonnee = 1,
                             nom = "Ma randonnée",
                             typeRandonnee = 0,
                             utilisateurId = 1
