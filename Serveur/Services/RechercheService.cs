@@ -29,6 +29,8 @@ namespace arsoudeServeur.Services
             _context = context;
         }
 
+        
+
         public virtual async Task<Location> GetLocation(string codePostal)
         {
             var httpClient = new HttpClient();
@@ -53,7 +55,7 @@ namespace arsoudeServeur.Services
         /// <param name="recherche"></param>
         /// <param name="filtreTypeRandonne"></param>
         /// <returns></returns>
-        public virtual async Task<IEnumerable<Randonnee>> GetNearSearch(string recherche, string filtreTypeRandonne)
+        public virtual async Task<IEnumerable<Randonnee>> GetNearSearchNoAuth(string recherche, string filtreTypeRandonne)
         {
             List<Randonnee> randoList = new List<Randonnee>();
 
@@ -67,17 +69,7 @@ namespace arsoudeServeur.Services
                 {
                 if (filtreTypeRandonne.Contains(randonnee.typeRandonnee.ToString()) || filtreTypeRandonne.Contains("undefined") || filtreTypeRandonne.Contains("Tous"))
                 {
-                    Score score = new Score();
-                    score.randonnee = randonnee;
-                    foreach (string str in strList)
-                    {
-                        if (randonnee.description.ToLower().Contains(str.ToLower()))
-                            score.score++;
-                        if (randonnee.emplacement.ToLower().Contains(str.ToLower()))
-                            score.score++;
-                        if (randonnee.nom.ToLower().Contains(str.ToLower()))
-                            score.score++;
-                    }
+                    Score score = ScoreCalcul(strList, randonnee); 
                     if (score.score != 0)
                     {
                         scoreList.Add(score);
@@ -90,6 +82,23 @@ namespace arsoudeServeur.Services
 
         }
 
+        public Score ScoreCalcul(List<string> strList, Randonnee randonnee)
+        {
+            Score score = new Score();
+            score.randonnee = randonnee;
+            foreach (string str in strList)
+            {
+                if (randonnee.description.ToLower().Contains(str.ToLower()))
+                    score.score++;
+                if (randonnee.emplacement.ToLower().Contains(str.ToLower()))
+                    score.score++;
+                if (randonnee.nom.ToLower().Contains(str.ToLower()))
+                    score.score++;
+            }
+
+            return score;
+        }
+
 
         /// <summary>
         /// Fonction de Recherche de randonnée pour les personnes authentifier seulement!
@@ -99,7 +108,7 @@ namespace arsoudeServeur.Services
         /// <param name="filtreTypeRandonne"></param>
         /// <param name="myrando"></param>
         /// <returns></returns>
-        public virtual async Task<IEnumerable<Randonnee>> GetNearSearch(string recherche, Utilisateur user, string filtreTypeRandonne, bool myrando)
+        public virtual async Task<IEnumerable<Randonnee>> GetNearSearchWithAuth(string recherche, Utilisateur user, string filtreTypeRandonne, bool myrando)
         {
             Location loc = await GetLocation(user.codePostal);
             List<Randonnee> randoList = new List<Randonnee>();
@@ -122,17 +131,7 @@ namespace arsoudeServeur.Services
                 {
                     if (filtreTypeRandonne.Contains(randonnee.typeRandonnee.ToString()) || filtreTypeRandonne.Contains("undefined") || filtreTypeRandonne.Contains("Tous"))
                     {
-                        Score score = new Score();
-                        score.randonnee = randonnee;
-                        foreach (string str in strList)
-                        {
-                            if (randonnee.description.ToLower().Contains(str.ToLower()))
-                                score.score++;
-                            if (randonnee.emplacement.ToLower().Contains(str.ToLower()))
-                                score.score++;
-                            if (randonnee.nom.ToLower().Contains(str.ToLower()))
-                                score.score++;
-                        }
+                        Score score = ScoreCalcul(strList, randonnee);
                         if (loc != null)
                         {
                             var geod = new Geodesic(a, f);
@@ -166,7 +165,7 @@ namespace arsoudeServeur.Services
 
         }
 
-        private class Score
+        public class Score
         {
             public int score { get; set; }
             public double distance { get; set; }

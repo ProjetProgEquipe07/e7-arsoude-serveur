@@ -20,11 +20,18 @@ namespace arsoudeServeur.Controllers
         {
             get
             {
-                if(utilisateur == null)
-                {
-                    utilisateur = utilisateursService.GetUtilisateurFromUserId(UserId);
+                if(UserId != "")
+                { 
+                    if(utilisateur == null)
+                    {
+                        utilisateur = utilisateursService.GetUtilisateurFromUserId(UserId);
+                    }
+                    return utilisateur;
                 }
-                return utilisateur;
+                else
+                {
+                    return null;
+                }
             }
         }
 
@@ -32,7 +39,13 @@ namespace arsoudeServeur.Controllers
         {
             get
             {
+                try { 
                 return User.FindFirstValue(ClaimTypes.NameIdentifier)!; ;
+                }
+                catch
+                {
+                    return "";
+                }
             }
         }
     }

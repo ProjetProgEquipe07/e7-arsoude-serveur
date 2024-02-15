@@ -24,23 +24,20 @@ namespace arsoudeServeur.Controllers
         [HttpPost]
         public async Task<ActionResult<IEnumerable<RandonneeListDTO>>> GetNearSearch([FromBody] SearchDTO searchDTO)
         {
-            Utilisateur? user = UtilisateurCourant;
-            if (user !=null)
-            {
 
-                 var result = await _rechercheService.GetNearSearch(searchDTO.recherche, user, searchDTO.value, searchDTO.owned);
-                 var resultDTO = await _randonneeService.PutRandonneesFavorisAsync(result.ToList(), user);
+                IEnumerable<Randonnee> result;
+                if (UtilisateurCourant != null)
+                { 
+                 result = await _rechercheService.GetNearSearchWithAuth(searchDTO.recherche, UtilisateurCourant, searchDTO.value, searchDTO.owned);
+                }
+                else
+                {
+                result = await _rechercheService.GetNearSearchNoAuth(searchDTO.recherche, searchDTO.value);
 
-                    return Ok(resultDTO);
-                
-            }
-            else
-            { 
-                var result = await _rechercheService.GetNearSearch(searchDTO.recherche, searchDTO.value);
-                var resultDTO = await _randonneeService.PutRandonneesFavorisAsync(result.ToList(), user);
+                }
+                 var resultDTO = await _randonneeService.PutRandonneesFavorisAsync(result.ToList(), UtilisateurCourant);
 
-                return Ok(resultDTO);
-            }
+            return Ok(resultDTO);
 
         }
     }
