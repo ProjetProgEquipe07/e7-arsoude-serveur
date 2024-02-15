@@ -131,7 +131,7 @@ namespace arsoudeServeur.Services
 
                 foreach (var error in changePasswordResult.Errors)
                 {
-                    errorList += "\n" + error.Description;
+                    errorList += error.Description;
                 }
 
                 return errorList;

@@ -551,7 +551,7 @@ namespace Tests.Controllers
                 var result = await utilisateursServiceMock.Object.EditPassword(userTest, "Pass0rd!", "Pass0!");
                 dbContext.SaveChanges();
 
-                Assert.AreEqual("\nPasswordMismatch", result);
+                Assert.AreEqual("PasswordMismatch", result);
 
                 dbContext.Database.EnsureDeleted();
             }
