@@ -3,6 +3,7 @@ using arsoudeServeur.Models.DTOs;
 using arsoudeServeur.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace arsoudeServeur.Controllers
@@ -21,42 +22,46 @@ namespace arsoudeServeur.Controllers
         [HttpPost]
         public async Task<ActionResult<Avertissement>> CreateAvertissement(AvertissementDTO avertissementdto)
         {
-
-            var avertissement = await _avertissementService.CreateAvertissementAsync(avertissementdto);
-
-
-            if (avertissement == null)
+            try 
             {
-                return NotFound();
-            }
+                var avertissement = await _avertissementService.CreateAvertissementAsync(avertissementdto);
 
-            return avertissement;
+                return Ok(avertissement);
+            }
+            catch (Exception e) 
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         [HttpGet("{avertissementId}")]
         public async Task<IActionResult> AddTime(int avertissementId)
         {
-            var success = await _avertissementService.AddTimeAvertissementAsync(avertissementId);
-
-            if (!success)
+            try
             {
-                return NotFound();
-            }
+                var success = await _avertissementService.AddTimeAvertissementAsync(avertissementId);
 
-            return Ok();
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         [HttpGet("{avertissementId}")]
         public async Task<IActionResult> DeleteAvertissement(int avertissementId)
-        {
-            var success = await _avertissementService.DeleteAvertissementAsync(avertissementId);
-
-            if (!success)
+        {            
+            try
             {
-                return NotFound();
+                var success = await _avertissementService.DeleteAvertissementAsync(avertissementId);
+                
+                return Ok();
             }
-
-            return Ok();
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
     }
 }
