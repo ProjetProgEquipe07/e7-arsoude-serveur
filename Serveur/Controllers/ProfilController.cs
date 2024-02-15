@@ -41,29 +41,49 @@ namespace arsoudeServeur.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Edit(EditProfilDTO profil)
+        public async Task<ActionResult<Utilisateur>> Edit(EditProfilDTO profil)
         {
+            if(UtilisateurCourant == null)
+            {
+                return Unauthorized(new { Error = "Le token reçu n'est pas valide" });
+            }
+
             var utilisateur = UtilisateurCourant;
-            if (utilisateur == null)
+            if (utilisateur == null || utilisateur.id == 0)
             {
                 return NotFound(new { Error = "L'utilisateur est introuvable" });
             }
-            await _utilisateurService.EditProfil(utilisateur, profil);
 
-            return Ok();
+
+            var user = await _utilisateurService.EditProfil(utilisateur, profil);
+
+            return Ok(user);
         }
 
         [HttpPost]
-        public async Task<ActionResult> EditPassword(EditPasswordDTO editPassword)
+        public async Task<ActionResult<string>> EditPassword(EditPasswordDTO editPassword)
         {
+            if (UtilisateurCourant == null)
+            {
+                return Unauthorized(new { Error = "Le token reçu n'est pas valide" });
+            }
+
             var utilisateur = UtilisateurCourant;
-            if (utilisateur == null)
+            if (utilisateur == null || utilisateur.id == 0)
             {
                 return NotFound(new { Error = "L'utilisateur est introuvable" });
             }
-            await _utilisateurService.EditPassword(utilisateur, editPassword.currentPassword, editPassword.newPassword);
 
-            return Ok();
+            var message = await _utilisateurService.EditPassword(utilisateur, editPassword.currentPassword, editPassword.newPassword);
+
+            if (message == "Password change success")
+            {
+                return Ok(message);
+            }
+            else
+            {
+                return BadRequest(message);
+            }
         }
 
     }
