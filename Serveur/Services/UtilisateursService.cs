@@ -116,7 +116,14 @@ namespace arsoudeServeur.Services
                 return;
             }
 
-            await userManager.ChangePasswordAsync(user, currentPassword, newPassword);
+            try
+            {
+                await userManager.ChangePasswordAsync(user, currentPassword, newPassword);
+            }
+            catch (Exception error)
+            {
+                return;
+            }
 
             await _context.SaveChangesAsync();
 
