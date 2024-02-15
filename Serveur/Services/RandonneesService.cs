@@ -1,6 +1,7 @@
 using arsoudeServeur.Models;
 using arsoudeServeur.Models.DTOs;
 using arsoudServeur.Data;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,6 +11,18 @@ namespace arsoudeServeur.Services
     {
         private readonly ApplicationDbContext _context;
         private readonly AvertissementService _avertissementService;
+
+        public class NotFoundException : Exception
+        {
+            public NotFoundException(string message) : base(message)
+            {
+            }
+        }
+
+        public RandonneesService(ApplicationDbContext context)
+        {
+            _context = context;
+        }
 
         public RandonneesService(ApplicationDbContext context, AvertissementService avertissementService)
         {
@@ -42,7 +55,7 @@ namespace arsoudeServeur.Services
         }
 
         //Méthode pour les randonnées à faire (publique, et privée mais uniquement de l'utilisateur courant)
-        public async Task<List<RandonneeListDTO>> GetRandonneesAFaireAsync(int listSize, Utilisateur utilisateurCourant)
+        public virtual async Task<List<RandonneeListDTO>> GetRandonneesAFaireAsync(int listSize, Utilisateur utilisateurCourant)
         {
             List<RandonneeListDTO> randonneesEnvoye = new List<RandonneeListDTO>();
             List<Randonnee> randonnees = await _context.randonnees.Where(
@@ -78,11 +91,11 @@ namespace arsoudeServeur.Services
 
             return randonneesEnvoye;
         }
-        public async Task<List<RandonneeListDTO>> GetRandonneesAFaireAsync(int listSize)
+        public virtual async Task<List<RandonneeListDTO>> GetRandonneesAFaireAsync(int listSize)
         {
             List<RandonneeListDTO> randonneesEnvoye = new List<RandonneeListDTO>();
             List<Randonnee> randonnees = await _context.randonnees.Where(
-                s => s.etatRandonnee == Randonnee.Etat.Privée).Take(listSize).ToListAsync();
+                s => s.etatRandonnee == Randonnee.Etat.Publique).Take(listSize).ToListAsync();
 
             foreach (Randonnee rando in randonnees)
             {
@@ -171,15 +184,9 @@ namespace arsoudeServeur.Services
             return randonneesEnvoye;
         }
 
-        public async Task<RandonneeDetailDTO> GetRandonneeByIdAsync(int id, Utilisateur utilisateurCourant)
+        public virtual async Task<RandonneeDetailDTO> GetRandonneeByIdAsync(int id, Utilisateur utilisateurCourant)
         {
-            Randonnee rando = await _context.randonnees.FindAsync(id);
-
-            if (rando == null)
-            {
-                return null;
-            }
-
+            Randonnee rando = await _context.randonnees.FindAsync(id) ?? throw new NotFoundException($"La randonnée avec l'ID {id} n'a pas été trouvée.");
             List<Avertissement> avertissements = new List<Avertissement>();
             avertissements = await _context.avertissements.Where(x => x.randonneeId == rando.id).ToListAsync();
 
@@ -244,9 +251,13 @@ namespace arsoudeServeur.Services
             return r;
         }
 
-        public async Task<Randonnee> CreateRandonneeAsync(RandonneeDTO randonneeDTO, Utilisateur user)
+        public virtual async Task<Randonnee> CreateRandonneeAsync(RandonneeDTO randonneeDTO, Utilisateur user)
         {
             // Trouver le currentUser et l'associer à la randonnée 
+            if(user == null)
+            {
+                throw new NotFoundException($"L'utilisateur est introuvable");
+            }
             Randonnee randonnee = new Randonnee
             {
                 id = 0,
@@ -304,7 +315,7 @@ namespace arsoudeServeur.Services
         }
 
 
-        public async Task<bool> UpdateRandonneeAsync(int id, Randonnee randonnee)
+        public virtual async Task<bool> UpdateRandonneeAsync(int id, Randonnee randonnee)
         {
             if (id != randonnee.id)
             {
@@ -409,20 +420,6 @@ namespace arsoudeServeur.Services
             }*/
         }
 
-        public async Task<bool> DeleteRandonneeAsync(int id)
-        {
-            var randonnee = await _context.randonnees.FindAsync(id);
-            if (randonnee == null)
-            {
-                return false;
-            }
-
-            _context.randonnees.Remove(randonnee);
-            await _context.SaveChangesAsync();
-
-            return true;
-        }
-
         private bool RandonneeExists(int id)
         {
             return _context.randonnees.Any(e => e.id == id);
@@ -430,7 +427,9 @@ namespace arsoudeServeur.Services
 
         public async Task<int> GetRandonneesUtilisateur(int id, Utilisateur user)
         {
-            return _context.randonnees.Where(x => x.id == id && x.utilisateurId == user.id).Count();
+            return _context.randonnees.Where(x => x.id == id && x.utilisateurId == user.id).Count(); 
         }
     }
+
+    public class GpsException : Exception { }
 }

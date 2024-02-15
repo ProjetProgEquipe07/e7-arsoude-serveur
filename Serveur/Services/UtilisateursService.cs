@@ -13,6 +13,13 @@ namespace arsoudeServeur.Services
 
         UserManager<IdentityUser> userManager;
 
+        public UtilisateursService(ApplicationDbContext context)
+        {
+            _context = context;
+            this.userManager = userManager;
+        }
+
+
         public UtilisateursService(ApplicationDbContext context, UserManager<IdentityUser> userManager)
         {
             _context = context;

@@ -30,15 +30,15 @@ namespace arsoudeServeur.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<RandonneeDetailDTO>> GetRandonnee(int id)
         {
-            var randonnee = await _randonneeService.GetRandonneeByIdAsync(id, UtilisateurCourant);
-
-
-            if (randonnee == null)
+            try
             {
-                return NotFound();
+                var randonnee = await _randonneeService.GetRandonneeByIdAsync(id, UtilisateurCourant);
+                return randonnee;
             }
-
-            return randonnee;
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
 
         [HttpGet("{listSize}")]
@@ -51,20 +51,30 @@ namespace arsoudeServeur.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<int>> GetRandonneesUtilisateur(int id)
         {
-            Utilisateur user = UtilisateurCourant;
-            int i = await _randonneeService.GetRandonneesUtilisateur(id, user);
-
-            return Ok(i);
+            try 
+            { 
+                int i = await _randonneeService.GetRandonneesUtilisateur(id, UtilisateurCourant);
+                return Ok(i);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
 
         [HttpPost]
         [Authorize]
         public async Task<ActionResult<Randonnee>> CreateRandonnee(RandonneeDTO randonneeDTO)
         {
-            Utilisateur? user = UtilisateurCourant;
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var newRandonnee = await _randonneeService.CreateRandonneeAsync(randonneeDTO, user);
-            return CreatedAtAction(nameof(GetRandonnee), new { id = newRandonnee.id }, newRandonnee);
+            try
+            {
+                var newRandonnee = await _randonneeService.CreateRandonneeAsync(randonneeDTO, UtilisateurCourant);
+                return Ok(CreatedAtAction(nameof(GetRandonnee), new { newRandonnee.id }, newRandonnee));
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
 
         [HttpPost("{id}")]
@@ -81,31 +91,6 @@ namespace arsoudeServeur.Controllers
             return favoris;
         }
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> EditRandonnee(int id, Randonnee randonnee)
-        {
-            var success = await _randonneeService.UpdateRandonneeAsync(id, randonnee);
-
-            if (!success)
-            {
-                return NotFound();
-            }
-
-            return Ok();
-        }
-
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteRandonnee(int id)
-        {
-            var success = await _randonneeService.DeleteRandonneeAsync(id);
-
-            if (!success)
-            {
-                return NotFound();
-            }
-
-            return Ok();
-        }
         //[Authorize]
         [HttpPost]
         public async Task<IActionResult> CreateRandonneeTrace(TraceRandoDTO randonnee)

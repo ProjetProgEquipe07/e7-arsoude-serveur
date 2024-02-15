@@ -33,10 +33,6 @@ namespace arsoudeServeur.Models
 
         public virtual List<Commentaire> commentaires { get; set; } = new List<Commentaire>();
 
-        //public virtual int? imageId { get; set; }
-        [Required(ErrorMessage = "La propriété est obligatoire.")]
-        public virtual Image image { get; set; }
-
         public enum Type
         {
             Marche,
