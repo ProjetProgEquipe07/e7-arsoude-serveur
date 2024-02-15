@@ -3,6 +3,7 @@ using arsoudeServeur.Models.DTOs;
 using arsoudeServeur.Services.Interfaces;
 using arsoudServeur.Data;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace arsoudeServeur.Services
@@ -12,6 +13,14 @@ namespace arsoudeServeur.Services
         private ApplicationDbContext _context;
 
         UserManager<IdentityUser> userManager;
+
+        public class UserNotFoundException : Exception{}
+
+        public UtilisateursService(ApplicationDbContext context)
+        {
+            _context = context;
+
+        }
 
         public UtilisateursService(ApplicationDbContext context, UserManager<IdentityUser> userManager)
         {
@@ -67,16 +76,12 @@ namespace arsoudeServeur.Services
             throw new NotImplementedException();
         }
 
-        public async Task EditProfil(Utilisateur utilisateur, EditProfilDTO profil)
+        public virtual async Task<Utilisateur> EditProfil(Utilisateur utilisateur, EditProfilDTO profil)
         {
-            if (utilisateur == null)
-            {
-                return;
-            }
             var user = await _context.utilisateurs.FirstOrDefaultAsync(u => u.id == utilisateur.id);
             if (user == null)
             {
-                return;
+                throw new UserNotFoundException();
             }
 
             if (profil.moisDeNaissance == null)
@@ -101,33 +106,36 @@ namespace arsoudeServeur.Services
 
             await _context.SaveChangesAsync();
 
-            return;
+            return user;
         }
 
-        public async Task EditPassword(Utilisateur utilisateur, string currentPassword, string newPassword)
+        public virtual async Task<string> EditPassword(Utilisateur utilisateur, string currentPassword, string newPassword)
         {
-            if (utilisateur == null)
-            {
-                return;
-            }
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == utilisateur.identityUserId);
             if (user == null)
             {
-                return;
+                throw new UserNotFoundException();
             }
 
-            try
+            IdentityResult changePasswordResult = await userManager.ChangePasswordAsync(user, currentPassword, newPassword);
+
+            if (changePasswordResult.Succeeded)
             {
-                await userManager.ChangePasswordAsync(user, currentPassword, newPassword);
+                await _context.SaveChangesAsync();
+
+                return "Password change success";
             }
-            catch (Exception error)
+            else
             {
-                return;
+                string errorList = "";
+
+                foreach (var error in changePasswordResult.Errors)
+                {
+                    errorList += "\n" + error.Description;
+                }
+
+                return errorList;
             }
-
-            await _context.SaveChangesAsync();
-
-            return;
         }
     }
 }

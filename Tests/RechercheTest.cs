@@ -54,6 +54,7 @@ namespace Tests.Controllers
                 SearchDTO searchDTO = new SearchDTO { recherche = "test", value = "test" };
 
                 var actionResult = await searchController.GetNearSearch(searchDTO);
+               
 
                 Assert.IsInstanceOfType(actionResult.Result, typeof(OkObjectResult));
             }

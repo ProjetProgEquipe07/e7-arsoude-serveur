@@ -11,6 +11,11 @@ namespace arsoudeServeur.Services
         private readonly ApplicationDbContext _context;
         private readonly AvertissementService _avertissementService;
 
+        public RandonneesService(ApplicationDbContext context)
+        {
+            _context = context;
+        }
+
         public RandonneesService(ApplicationDbContext context, AvertissementService avertissementService)
         {
             _context = context;
