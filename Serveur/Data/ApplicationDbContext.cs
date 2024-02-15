@@ -82,9 +82,10 @@ namespace arsoudServeur.Data
                     id = 1,
                     nom = "tangerine",
                     prenom = "robert",
-                    codePostal = "E3A4R4",
+                    codePostal = "E3A 4R4",
                     role = "Administrator",
                     courriel = adminUser.UserName,
+                    adresse = "",
                     identityUserId = adminUser.Id,
                 },
                 new Utilisateur
@@ -92,9 +93,10 @@ namespace arsoudServeur.Data
                     id = 2,
                     nom = "Hogan",
                     prenom = "Hulk",
-                    codePostal = "E3A4R4",
+                    codePostal = "E3A 4R4",
                     role = "User",
                     courriel = utilisateur1.UserName,
+                    adresse = "",
                     identityUserId = utilisateur1.Id,
                 },
                 new Utilisateur
@@ -102,9 +104,10 @@ namespace arsoudServeur.Data
                     id = 3,
                     nom = "Charles",
                     prenom = "Grégory",
-                    codePostal = "E3A4R4",
+                    codePostal = "E3A 4R4",
                     role = "User",
                     courriel = utilisateur2.UserName,
+                    adresse = "1260, rue Mill, suite 100",
                     identityUserId = utilisateur2.Id,
                 }
             };
@@ -112,6 +115,7 @@ namespace arsoudServeur.Data
             builder.Entity<Utilisateur>().HasData(utilisateurs);
             SeedRandonnees(builder);
             SeedGPSData(builder);
+            SeedCommentaires(builder);
         }
 
 
@@ -128,6 +132,7 @@ namespace arsoudServeur.Data
                     emplacement = "st-bruno",
                     utilisateurId = 1,
                     typeRandonnee = Randonnee.Type.Vélo,
+                    etatRandonnee = Randonnee.Etat.Privée
                 },
                 new Randonnee
                 {
@@ -137,6 +142,7 @@ namespace arsoudServeur.Data
                     emplacement = "dehors",
                     utilisateurId = 2,
                     typeRandonnee = Randonnee.Type.Marche,
+                    etatRandonnee = Randonnee.Etat.Privée
                 },
                 new Randonnee
                 {
@@ -146,6 +152,7 @@ namespace arsoudServeur.Data
                     emplacement = "st-hilaire?",
                     utilisateurId = 3,
                     typeRandonnee = Randonnee.Type.Vélo,
+                    etatRandonnee = Randonnee.Etat.Privée
                 },
                 new Randonnee
                 {
@@ -155,6 +162,7 @@ namespace arsoudServeur.Data
                     emplacement = "st-grégoire",
                     utilisateurId = 2,
                     typeRandonnee = Randonnee.Type.Marche,
+                    etatRandonnee = Randonnee.Etat.Privée
                 },
                 new Randonnee
                 {
@@ -164,6 +172,7 @@ namespace arsoudServeur.Data
                     emplacement = "quelque part",
                     utilisateurId = 2,
                     typeRandonnee = Randonnee.Type.Marche,
+                    etatRandonnee = Randonnee.Etat.Privée
                 },
                 new Randonnee
                 {
@@ -173,6 +182,7 @@ namespace arsoudServeur.Data
                     emplacement = "mont tremblant",
                     utilisateurId = 1,
                     typeRandonnee = Randonnee.Type.Marche,
+                    etatRandonnee = Randonnee.Etat.Privée
                 }
             };
 
@@ -283,6 +293,53 @@ namespace arsoudServeur.Data
             };
 
             builder.Entity<GPS>().HasData(gpsData);
+        }
+        private void SeedCommentaires(ModelBuilder builder)
+        {
+            var commentaireData = new List<Commentaire>
+            {
+                new Commentaire
+                {
+                    id = 1,
+                    texte = "You are a worthless bitch ass nigga\r\nYour life literally is as valuable as a summer ant. I'm just gonna stomp you.\r\nYou're gonna keep coming back. I'm gonna seal up all my cracks, youre gonna keep coming back\r\n \r\nWhy? Cause you keep smelling the syrup, you worthless bitch ass nigga. Your gonna stay on my dick until you die.\r\nYou serve no purpose in life. Your purpose in life is to be on my stream sucking on my dick daily.\r\n \r\nYour purpose in life is to be in that chat, blowing a dick daily.\r\nYour life is nothing!\r\nYou serve zero purpose. You should kill yourself NOW.\r\nAnd give somebody else a piece of that oxygen, an ozone layer thats covered up so we can breathe inside this blue trapped  bubble, cause what are you here for? To worship me? Kill yourself. I mean that not a 100% but a thousand percent.\r\n \r\nImagine if a nigga like that has kids. Like imagine somebody like that has kids",
+                    randonneeId = 1,
+                    utilisateurId = 2,
+                    review = 3,
+                },
+                new Commentaire
+                {
+                    id = 2,
+                    texte = "Imagine if a nigga like that has kids. Like imagine. Imagine if somebody like that has kids. I will feel so sorry for his children cause the nigga literally serves no purpose. Imagine a father, now we got a lot of niggas with wife and kids and shit like that who keeps sucking on my dick daily on the internet but imagine if this nigga actually had children. This niggas devoting the time he could be spending with his kids checking out a black man on stream cucking him relentlessly. That's crazy! I've never seen somebody so relentless to be seen. Somebody so worthless that they'll come into this stream and keep coming in this bitch over and over and over and over and over again when we keep banning you\r\nNigga let me.. let me.. let's do you a favor",
+                    randonneeId = 2,
+                    utilisateurId = 1,
+                    review = 3,
+                },
+                new Commentaire
+                {
+                    id = 3,
+                    texte = "Lets go to the 99 cents store and lets pick out a rope together. Imma give you an assisted suicide. Lets pick out a rope together right? And we're gonna take all the greatest trolls clips, put a tv screen right in front of you.\r\nI'm gonna hang that rope at the top of the motherfucking garage.\r\nWe're gonna forcefully pry your eyes open, we probably don't even need to do that cause your on my dick daily. We're gonna pry your eyes open until you consistently watch clips over and over and over and over again to the point where you're gonna be like 'Wait a minute, this is a little bit too much'\r\nYou're just gonna start going crazy.\r\nYou're gonna start going crazy.\r\nJust, your eyes are gonna bleed your retinas are just gonna start pouring out, pouring out blood and just getting\r\ncracks and veins in your retinas are gonna start engaging and bulging. Then I'm gonna grab that rope for you and say 'Are you ready?' You're gonna say 'Yeah' I'm gonna take it and PULL IT\r\nwhile you beg me, beg me and I mean beg me to kill you and choke you, choke the worthless life out of your sorry ass until you're fucking dead, croaked with a blue face nigga. Cause you don't deserve your soul.\r\nI've never seen somebody so fucking worthless and relentless that keep coming in a niggas chat over and over and over again. Somebody like that needs to die.\r\nThere is really no reason for him to be alive. We lost prominent niggas on earth, that served a purpose that had... so this nigga could be on earth trolling a stream daily, like come on my nigga. Like, your life is just worthless, just please kill yourself.\r\nGo outside, throw some steaks in a fucking alley and hope a bunch of stray dogs jump on you starts chewing your fucking dick your dick off, biting pieces and shit off of you like that cause you literally just gotta go. Like this nigga off of earth. Please",
+                    randonneeId = 4,
+                    utilisateurId = 2,
+                    review = 3,
+                },
+                new Commentaire
+                {
+                    id = 4,
+                    texte = "Lets go to the 99 cents store and lets pick out a rope together. Imma give you an assisted suicide. Lets pick out a rope together right? And we're gonna take all the greatest trolls clips, put a tv screen right in front of you.\r\nI'm gonna hang that rope at the top of the motherfucking garage.\r\nWe're gonna forcefully pry your eyes open, we probably don't even need to do that cause your on my dick daily. We're gonna pry your eyes open until you consistently watch clips over and over and over and over again to the point where you're gonna be like 'Wait a minute, this is a little bit too much'\r\nYou're just gonna start going crazy.\r\nYou're gonna start going crazy.\r\nJust, your eyes are gonna bleed your retinas are just gonna start pouring out, pouring out blood and just getting\r\ncracks and veins in your retinas are gonna start engaging and bulging. Then I'm gonna grab that rope for you and say 'Are you ready?' You're gonna say 'Yeah' I'm gonna take it and PULL IT\r\nwhile you beg me, beg me and I mean beg me to kill you and choke you, choke the worthless life out of your sorry ass until you're fucking dead, croaked with a blue face nigga. Cause you don't deserve your soul.\r\nI've never seen somebody so fucking worthless and relentless that keep coming in a niggas chat over and over and over again. Somebody like that needs to die.\r\nThere is really no reason for him to be alive. We lost prominent niggas on earth, that served a purpose that had... so this nigga could be on earth trolling a stream daily, like come on my nigga. Like, your life is just worthless, just please kill yourself.\r\nGo outside, throw some steaks in a fucking alley and hope a bunch of stray dogs jump on you starts chewing your fucking dick your dick off, biting pieces and shit off of you like that cause you literally just gotta go. Like this nigga off of earth. Please",
+                    randonneeId = 2,
+                    utilisateurId = 3,
+                    review = 1,
+                },
+                new Commentaire
+                {
+                    id = 5,
+                    texte = "Lets go to the 99 cents store and lets pick out a rope together. Imma give you an assisted suicide. Lets pick out a rope together right? And we're gonna take all the greatest trolls clips, put a tv screen right in front of you.\r\nI'm gonna hang that rope at the top of the motherfucking garage.\r\nWe're gonna forcefully pry your eyes open, we probably don't even need to do that cause your on my dick daily. We're gonna pry your eyes open until you consistently watch clips over and over and over and over again to the point where you're gonna be like 'Wait a minute, this is a little bit too much'\r\nYou're just gonna start going crazy.\r\nYou're gonna start going crazy.\r\nJust, your eyes are gonna bleed your retinas are just gonna start pouring out, pouring out blood and just getting\r\ncracks and veins in your retinas are gonna start engaging and bulging. Then I'm gonna grab that rope for you and say 'Are you ready?' You're gonna say 'Yeah' I'm gonna take it and PULL IT\r\nwhile you beg me, beg me and I mean beg me to kill you and choke you, choke the worthless life out of your sorry ass until you're fucking dead, croaked with a blue face nigga. Cause you don't deserve your soul.\r\nI've never seen somebody so fucking worthless and relentless that keep coming in a niggas chat over and over and over again. Somebody like that needs to die.\r\nThere is really no reason for him to be alive. We lost prominent niggas on earth, that served a purpose that had... so this nigga could be on earth trolling a stream daily, like come on my nigga. Like, your life is just worthless, just please kill yourself.\r\nGo outside, throw some steaks in a fucking alley and hope a bunch of stray dogs jump on you starts chewing your fucking dick your dick off, biting pieces and shit off of you like that cause you literally just gotta go. Like this nigga off of earth. Please",
+                    randonneeId = 6,
+                    utilisateurId = 3,
+                    review = 5,
+                },
+            };
+            builder.Entity<Commentaire>().HasData(commentaireData);
         }
         
         public DbSet<Utilisateur> utilisateurs { get; set; } = default!;

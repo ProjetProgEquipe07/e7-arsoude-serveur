@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace arsoudeServeur.Controllers
 {
     [Route("api/[controller]/[action]")]
-    //[Authorize]
+    [Authorize]
     [ApiController]
     public class AvertissementController : BaseController
     {

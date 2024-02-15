@@ -11,8 +11,8 @@ using arsoudServeur.Data;
 namespace arsoudeServeur.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240209155832_AjoutDbSetRandoUtilisateurTrace2")]
-    partial class AjoutDbSetRandoUtilisateurTrace2
+    [Migration("20240213205010_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -52,13 +52,13 @@ namespace arsoudeServeur.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "3ac95bc6-b558-47d0-9ffe-0282310f3939",
+                            Id = "664b588a-399f-4509-8e5b-5eabbf47612c",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
-                            Id = "5f66af6b-3703-4958-bb74-c794a7471b09",
+                            Id = "a7465334-d9c5-420f-a04b-981bbeef25a2",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -155,15 +155,15 @@ namespace arsoudeServeur.Migrations
                         {
                             Id = "11111111-1111-1111-1111-111111111111",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "d36916a8-7d6a-4b03-bb4a-ed0256ba83b5",
+                            ConcurrencyStamp = "529ee0e3-bd4b-4c6e-b873-e6c04353909f",
                             Email = "admin@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@GMAIL.COM",
                             NormalizedUserName = "ADMIN@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEEKBbG9OrhnWZU+QvMqm+o82dhw2TTFEol1o08hI4pYQSuUqGrv1S7aZEMgQ+t6ATA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAENRZImkcK8pQ3i7C7AQGxnkgQ1uHlWF1jc7bEaop+vxMHpwy2fPepTqA7+nCuBuFyQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "ede51cc6-64d1-41d1-9868-3050bab36475",
+                            SecurityStamp = "3bc9ce4e-5e80-48a6-9498-9a82d6ceedb8",
                             TwoFactorEnabled = false,
                             UserName = "admin@gmail.com"
                         },
@@ -171,15 +171,15 @@ namespace arsoudeServeur.Migrations
                         {
                             Id = "11111111-1111-1111-1111-111111111112",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "f6edd2f6-473a-497e-8c4e-0c608c74f340",
+                            ConcurrencyStamp = "660289db-bf2e-4478-9b69-2432d2f75f91",
                             Email = "user1@hotmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "USER1@HOTMAIL.COM",
                             NormalizedUserName = "USER1@HOTMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEGHeN4y8U4wAEiBvl7iOdFcq48vJQlLrj4sF8QUNH9ZL+84kfQp++1LDYTH0T9hTvA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAED/NVun3qmu5+xcfB9Sn7RnUlZ3vUXQhBwqn6HnkuK2qWGZhPhxSPopdzUse2Cr4ZA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "18d1aab1-b581-448c-967c-7598d3f84170",
+                            SecurityStamp = "c8552cf6-2525-4cbe-9682-d3c94bb792cd",
                             TwoFactorEnabled = false,
                             UserName = "user1@hotmail.com"
                         },
@@ -187,15 +187,15 @@ namespace arsoudeServeur.Migrations
                         {
                             Id = "11111111-1111-1111-1111-111111111113",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "7d9415cb-86e8-4660-b97e-6726643e8762",
+                            ConcurrencyStamp = "90f947bf-cf57-4a8d-bc2a-78d026547fea",
                             Email = "user2@hotmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "USER2@HOTMAIL.COM",
                             NormalizedUserName = "USER2@HOTMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEGR11NNAVg7RPz6nMl5bzNMREr3HGMbjMI5ql6H6QxHSZpVSEXErDQnOMe0X+njt5A==",
+                            PasswordHash = "AQAAAAIAAYagAAAAED2L1sEQTWgrT5qQJs6eDbabj30PmKxhvK+3xzpBkZl4mh8EV4t+aypWn5EfJbljXA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "d04ad418-0e06-4592-a915-c5481ceb0a23",
+                            SecurityStamp = "0abce4d6-e625-4189-96d8-f503f50c121e",
                             TwoFactorEnabled = false,
                             UserName = "user2@hotmail.com"
                         });
@@ -284,20 +284,51 @@ namespace arsoudeServeur.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("arsoudeServeur.Models.Avertissement", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("DateSuppresion")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("description")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("randonneeId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("typeAvertissement")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<double>("x")
+                        .HasColumnType("REAL");
+
+                    b.Property<double>("y")
+                        .HasColumnType("REAL");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("randonneeId");
+
+                    b.ToTable("avertissements");
+                });
+
             modelBuilder.Entity("arsoudeServeur.Models.Commentaire", b =>
                 {
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("randonneeid")
+                    b.Property<int>("randonneeId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("randonnéeId")
+                    b.Property<int>("review")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("texte")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<int>("utilisateurId")
@@ -305,11 +336,53 @@ namespace arsoudeServeur.Migrations
 
                     b.HasKey("id");
 
-                    b.HasIndex("randonneeid");
+                    b.HasIndex("randonneeId");
 
                     b.HasIndex("utilisateurId");
 
                     b.ToTable("commentaires");
+
+                    b.HasData(
+                        new
+                        {
+                            id = 1,
+                            randonneeId = 1,
+                            review = 3,
+                            texte = "You are a worthless bitch ass nigga\r\nYour life literally is as valuable as a summer ant. I'm just gonna stomp you.\r\nYou're gonna keep coming back. I'm gonna seal up all my cracks, youre gonna keep coming back\r\n \r\nWhy? Cause you keep smelling the syrup, you worthless bitch ass nigga. Your gonna stay on my dick until you die.\r\nYou serve no purpose in life. Your purpose in life is to be on my stream sucking on my dick daily.\r\n \r\nYour purpose in life is to be in that chat, blowing a dick daily.\r\nYour life is nothing!\r\nYou serve zero purpose. You should kill yourself NOW.\r\nAnd give somebody else a piece of that oxygen, an ozone layer thats covered up so we can breathe inside this blue trapped  bubble, cause what are you here for? To worship me? Kill yourself. I mean that not a 100% but a thousand percent.\r\n \r\nImagine if a nigga like that has kids. Like imagine somebody like that has kids",
+                            utilisateurId = 2
+                        },
+                        new
+                        {
+                            id = 2,
+                            randonneeId = 2,
+                            review = 3,
+                            texte = "Imagine if a nigga like that has kids. Like imagine. Imagine if somebody like that has kids. I will feel so sorry for his children cause the nigga literally serves no purpose. Imagine a father, now we got a lot of niggas with wife and kids and shit like that who keeps sucking on my dick daily on the internet but imagine if this nigga actually had children. This niggas devoting the time he could be spending with his kids checking out a black man on stream cucking him relentlessly. That's crazy! I've never seen somebody so relentless to be seen. Somebody so worthless that they'll come into this stream and keep coming in this bitch over and over and over and over and over again when we keep banning you\r\nNigga let me.. let me.. let's do you a favor",
+                            utilisateurId = 1
+                        },
+                        new
+                        {
+                            id = 3,
+                            randonneeId = 4,
+                            review = 3,
+                            texte = "Lets go to the 99 cents store and lets pick out a rope together. Imma give you an assisted suicide. Lets pick out a rope together right? And we're gonna take all the greatest trolls clips, put a tv screen right in front of you.\r\nI'm gonna hang that rope at the top of the motherfucking garage.\r\nWe're gonna forcefully pry your eyes open, we probably don't even need to do that cause your on my dick daily. We're gonna pry your eyes open until you consistently watch clips over and over and over and over again to the point where you're gonna be like 'Wait a minute, this is a little bit too much'\r\nYou're just gonna start going crazy.\r\nYou're gonna start going crazy.\r\nJust, your eyes are gonna bleed your retinas are just gonna start pouring out, pouring out blood and just getting\r\ncracks and veins in your retinas are gonna start engaging and bulging. Then I'm gonna grab that rope for you and say 'Are you ready?' You're gonna say 'Yeah' I'm gonna take it and PULL IT\r\nwhile you beg me, beg me and I mean beg me to kill you and choke you, choke the worthless life out of your sorry ass until you're fucking dead, croaked with a blue face nigga. Cause you don't deserve your soul.\r\nI've never seen somebody so fucking worthless and relentless that keep coming in a niggas chat over and over and over again. Somebody like that needs to die.\r\nThere is really no reason for him to be alive. We lost prominent niggas on earth, that served a purpose that had... so this nigga could be on earth trolling a stream daily, like come on my nigga. Like, your life is just worthless, just please kill yourself.\r\nGo outside, throw some steaks in a fucking alley and hope a bunch of stray dogs jump on you starts chewing your fucking dick your dick off, biting pieces and shit off of you like that cause you literally just gotta go. Like this nigga off of earth. Please",
+                            utilisateurId = 2
+                        },
+                        new
+                        {
+                            id = 4,
+                            randonneeId = 2,
+                            review = 1,
+                            texte = "Lets go to the 99 cents store and lets pick out a rope together. Imma give you an assisted suicide. Lets pick out a rope together right? And we're gonna take all the greatest trolls clips, put a tv screen right in front of you.\r\nI'm gonna hang that rope at the top of the motherfucking garage.\r\nWe're gonna forcefully pry your eyes open, we probably don't even need to do that cause your on my dick daily. We're gonna pry your eyes open until you consistently watch clips over and over and over and over again to the point where you're gonna be like 'Wait a minute, this is a little bit too much'\r\nYou're just gonna start going crazy.\r\nYou're gonna start going crazy.\r\nJust, your eyes are gonna bleed your retinas are just gonna start pouring out, pouring out blood and just getting\r\ncracks and veins in your retinas are gonna start engaging and bulging. Then I'm gonna grab that rope for you and say 'Are you ready?' You're gonna say 'Yeah' I'm gonna take it and PULL IT\r\nwhile you beg me, beg me and I mean beg me to kill you and choke you, choke the worthless life out of your sorry ass until you're fucking dead, croaked with a blue face nigga. Cause you don't deserve your soul.\r\nI've never seen somebody so fucking worthless and relentless that keep coming in a niggas chat over and over and over again. Somebody like that needs to die.\r\nThere is really no reason for him to be alive. We lost prominent niggas on earth, that served a purpose that had... so this nigga could be on earth trolling a stream daily, like come on my nigga. Like, your life is just worthless, just please kill yourself.\r\nGo outside, throw some steaks in a fucking alley and hope a bunch of stray dogs jump on you starts chewing your fucking dick your dick off, biting pieces and shit off of you like that cause you literally just gotta go. Like this nigga off of earth. Please",
+                            utilisateurId = 3
+                        },
+                        new
+                        {
+                            id = 5,
+                            randonneeId = 6,
+                            review = 5,
+                            texte = "Lets go to the 99 cents store and lets pick out a rope together. Imma give you an assisted suicide. Lets pick out a rope together right? And we're gonna take all the greatest trolls clips, put a tv screen right in front of you.\r\nI'm gonna hang that rope at the top of the motherfucking garage.\r\nWe're gonna forcefully pry your eyes open, we probably don't even need to do that cause your on my dick daily. We're gonna pry your eyes open until you consistently watch clips over and over and over and over again to the point where you're gonna be like 'Wait a minute, this is a little bit too much'\r\nYou're just gonna start going crazy.\r\nYou're gonna start going crazy.\r\nJust, your eyes are gonna bleed your retinas are just gonna start pouring out, pouring out blood and just getting\r\ncracks and veins in your retinas are gonna start engaging and bulging. Then I'm gonna grab that rope for you and say 'Are you ready?' You're gonna say 'Yeah' I'm gonna take it and PULL IT\r\nwhile you beg me, beg me and I mean beg me to kill you and choke you, choke the worthless life out of your sorry ass until you're fucking dead, croaked with a blue face nigga. Cause you don't deserve your soul.\r\nI've never seen somebody so fucking worthless and relentless that keep coming in a niggas chat over and over and over again. Somebody like that needs to die.\r\nThere is really no reason for him to be alive. We lost prominent niggas on earth, that served a purpose that had... so this nigga could be on earth trolling a stream daily, like come on my nigga. Like, your life is just worthless, just please kill yourself.\r\nGo outside, throw some steaks in a fucking alley and hope a bunch of stray dogs jump on you starts chewing your fucking dick your dick off, biting pieces and shit off of you like that cause you literally just gotta go. Like this nigga off of earth. Please",
+                            utilisateurId = 3
+                        });
                 });
 
             modelBuilder.Entity("arsoudeServeur.Models.GPS", b =>
@@ -517,7 +590,7 @@ namespace arsoudeServeur.Migrations
                             id = 1,
                             description = "promenade cool a st-brun",
                             emplacement = "st-bruno",
-                            etatRandonnee = 0,
+                            etatRandonnee = 1,
                             nom = "St-Brun",
                             typeRandonnee = 1,
                             utilisateurId = 1
@@ -527,7 +600,7 @@ namespace arsoudeServeur.Migrations
                             id = 2,
                             description = "promenade moyennement cool la bas",
                             emplacement = "dehors",
-                            etatRandonnee = 0,
+                            etatRandonnee = 1,
                             nom = "ptite marche au subway",
                             typeRandonnee = 0,
                             utilisateurId = 2
@@ -537,7 +610,7 @@ namespace arsoudeServeur.Migrations
                             id = 3,
                             description = "promenade fresh a bro s s a r d",
                             emplacement = "st-hilaire?",
-                            etatRandonnee = 0,
+                            etatRandonnee = 1,
                             nom = "Brossard",
                             typeRandonnee = 1,
                             utilisateurId = 3
@@ -557,7 +630,7 @@ namespace arsoudeServeur.Migrations
                             id = 5,
                             description = "ça doit être cool la bas",
                             emplacement = "quelque part",
-                            etatRandonnee = 0,
+                            etatRandonnee = 2,
                             nom = "rivière rouge",
                             typeRandonnee = 0,
                             utilisateurId = 2
@@ -567,7 +640,7 @@ namespace arsoudeServeur.Migrations
                             id = 6,
                             description = "je pense qu'on a beaucoup de fun",
                             emplacement = "mont tremblant",
-                            etatRandonnee = 0,
+                            etatRandonnee = 1,
                             nom = "Ma randonnée",
                             typeRandonnee = 0,
                             utilisateurId = 1
@@ -665,8 +738,9 @@ namespace arsoudeServeur.Migrations
                         new
                         {
                             id = 1,
+                            adresse = "",
                             anneeDeNaissance = 0,
-                            codePostal = "E3A4R4",
+                            codePostal = "E3A 4R4",
                             courriel = "admin@gmail.com",
                             identityUserId = "11111111-1111-1111-1111-111111111111",
                             moisDeNaissance = 0,
@@ -677,8 +751,9 @@ namespace arsoudeServeur.Migrations
                         new
                         {
                             id = 2,
+                            adresse = "",
                             anneeDeNaissance = 0,
-                            codePostal = "E3A4R4",
+                            codePostal = "E3A 4R4",
                             courriel = "user1@hotmail.com",
                             identityUserId = "11111111-1111-1111-1111-111111111112",
                             moisDeNaissance = 0,
@@ -689,8 +764,9 @@ namespace arsoudeServeur.Migrations
                         new
                         {
                             id = 3,
+                            adresse = "1260, rue Mill, suite 100",
                             anneeDeNaissance = 0,
-                            codePostal = "E3A4R4",
+                            codePostal = "E3A 4R4",
                             courriel = "user2@hotmail.com",
                             identityUserId = "11111111-1111-1111-1111-111111111113",
                             moisDeNaissance = 0,
@@ -751,11 +827,22 @@ namespace arsoudeServeur.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("arsoudeServeur.Models.Avertissement", b =>
+                {
+                    b.HasOne("arsoudeServeur.Models.Randonnee", "randonnee")
+                        .WithMany("avertissements")
+                        .HasForeignKey("randonneeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("randonnee");
+                });
+
             modelBuilder.Entity("arsoudeServeur.Models.Commentaire", b =>
                 {
                     b.HasOne("arsoudeServeur.Models.Randonnee", "randonnee")
-                        .WithMany()
-                        .HasForeignKey("randonneeid")
+                        .WithMany("commentaires")
+                        .HasForeignKey("randonneeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -825,7 +912,7 @@ namespace arsoudeServeur.Migrations
             modelBuilder.Entity("arsoudeServeur.Models.RandonneeUtilisateurTrace", b =>
                 {
                     b.HasOne("arsoudeServeur.Models.Randonnee", "randonnee")
-                        .WithMany()
+                        .WithMany("traces")
                         .HasForeignKey("randonneeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -856,8 +943,14 @@ namespace arsoudeServeur.Migrations
                 {
                     b.Navigation("GPS");
 
+                    b.Navigation("avertissements");
+
+                    b.Navigation("commentaires");
+
                     b.Navigation("image")
                         .IsRequired();
+
+                    b.Navigation("traces");
                 });
 
             modelBuilder.Entity("arsoudeServeur.Models.RandonneeUtilisateurTrace", b =>

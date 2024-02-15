@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace arsoudeServeur.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreateSprint3 : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -195,7 +195,7 @@ namespace arsoudeServeur.Migrations
                     description = table.Column<string>(type: "TEXT", maxLength: 255, nullable: false),
                     emplacement = table.Column<string>(type: "TEXT", nullable: false),
                     typeRandonnee = table.Column<int>(type: "INTEGER", nullable: false),
-                    approuve = table.Column<bool>(type: "INTEGER", nullable: false),
+                    etatRandonnee = table.Column<int>(type: "INTEGER", nullable: false),
                     utilisateurId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
@@ -210,22 +210,46 @@ namespace arsoudeServeur.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "avertissements",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    description = table.Column<string>(type: "TEXT", nullable: false),
+                    typeAvertissement = table.Column<int>(type: "INTEGER", nullable: false),
+                    DateSuppresion = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    randonneeId = table.Column<int>(type: "INTEGER", nullable: false),
+                    x = table.Column<double>(type: "REAL", nullable: false),
+                    y = table.Column<double>(type: "REAL", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_avertissements", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_avertissements_randonnees_randonneeId",
+                        column: x => x.randonneeId,
+                        principalTable: "randonnees",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "commentaires",
                 columns: table => new
                 {
                     id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    texte = table.Column<string>(type: "TEXT", nullable: false),
-                    randonnéeId = table.Column<int>(type: "INTEGER", nullable: false),
-                    randonneeid = table.Column<int>(type: "INTEGER", nullable: false),
+                    texte = table.Column<string>(type: "TEXT", nullable: true),
+                    review = table.Column<int>(type: "INTEGER", nullable: false),
+                    randonneeId = table.Column<int>(type: "INTEGER", nullable: false),
                     utilisateurId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_commentaires", x => x.id);
                     table.ForeignKey(
-                        name: "FK_commentaires_randonnees_randonneeid",
-                        column: x => x.randonneeid,
+                        name: "FK_commentaires_randonnees_randonneeId",
+                        column: x => x.randonneeId,
                         principalTable: "randonnees",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
@@ -283,7 +307,7 @@ namespace arsoudeServeur.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "RandonneeUtilisateurTrace",
+                name: "utilisateursTrace",
                 columns: table => new
                 {
                     id = table.Column<int>(type: "INTEGER", nullable: false)
@@ -293,15 +317,15 @@ namespace arsoudeServeur.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_RandonneeUtilisateurTrace", x => x.id);
+                    table.PrimaryKey("PK_utilisateursTrace", x => x.id);
                     table.ForeignKey(
-                        name: "FK_RandonneeUtilisateurTrace_randonnees_randonneeId",
+                        name: "FK_utilisateursTrace_randonnees_randonneeId",
                         column: x => x.randonneeId,
                         principalTable: "randonnees",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_RandonneeUtilisateurTrace_utilisateurs_utilisateurId",
+                        name: "FK_utilisateursTrace_utilisateurs_utilisateurId",
                         column: x => x.utilisateurId,
                         principalTable: "utilisateurs",
                         principalColumn: "id",
@@ -314,10 +338,10 @@ namespace arsoudeServeur.Migrations
                 {
                     id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    X = table.Column<double>(type: "REAL", nullable: false),
-                    Y = table.Column<double>(type: "REAL", nullable: false),
-                    Depart = table.Column<bool>(type: "INTEGER", nullable: false),
-                    Arrivee = table.Column<bool>(type: "INTEGER", nullable: false),
+                    x = table.Column<double>(type: "REAL", nullable: false),
+                    y = table.Column<double>(type: "REAL", nullable: false),
+                    depart = table.Column<bool>(type: "INTEGER", nullable: false),
+                    arrivee = table.Column<bool>(type: "INTEGER", nullable: false),
                     randonneeId = table.Column<int>(type: "INTEGER", nullable: true),
                     RandonneeUtilisateurTraceid = table.Column<int>(type: "INTEGER", nullable: true)
                 },
@@ -325,14 +349,14 @@ namespace arsoudeServeur.Migrations
                 {
                     table.PrimaryKey("PK_gps", x => x.id);
                     table.ForeignKey(
-                        name: "FK_gps_RandonneeUtilisateurTrace_RandonneeUtilisateurTraceid",
-                        column: x => x.RandonneeUtilisateurTraceid,
-                        principalTable: "RandonneeUtilisateurTrace",
-                        principalColumn: "id");
-                    table.ForeignKey(
                         name: "FK_gps_randonnees_randonneeId",
                         column: x => x.randonneeId,
                         principalTable: "randonnees",
+                        principalColumn: "id");
+                    table.ForeignKey(
+                        name: "FK_gps_utilisateursTrace_RandonneeUtilisateurTraceid",
+                        column: x => x.RandonneeUtilisateurTraceid,
+                        principalTable: "utilisateursTrace",
                         principalColumn: "id");
                 });
 
@@ -341,8 +365,8 @@ namespace arsoudeServeur.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "0a30f7b8-ee18-4ddc-8ddd-0b37c19e4d8d", null, "Administrator", "ADMINISTRATOR" },
-                    { "e852b2c8-7912-4510-b953-88c30e833acc", null, "User", "USER" }
+                    { "664b588a-399f-4509-8e5b-5eabbf47612c", null, "Administrator", "ADMINISTRATOR" },
+                    { "a7465334-d9c5-420f-a04b-981bbeef25a2", null, "User", "USER" }
                 });
 
             migrationBuilder.InsertData(
@@ -350,19 +374,9 @@ namespace arsoudeServeur.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "11111111-1111-1111-1111-111111111111", 0, "a41ad730-63fa-4525-bee6-8fb33c211804", "admin@gmail.com", true, false, null, "ADMIN@GMAIL.COM", "ADMIN@GMAIL.COM", "AQAAAAIAAYagAAAAEMNSKp0M7rZ0Rfhv/hv3qfuRenW7JLsbBtVy7F2xP37tR/eRqBx1NwERye5aicbAZQ==", null, false, "439a71b0-8832-4270-bccd-f9628eb408f5", false, "admin@gmail.com" },
-                    { "11111111-1111-1111-1111-111111111112", 0, "0da94790-9f11-4330-b78b-01f17d9bdd20", "user1@hotmail.com", true, false, null, "USER1@HOTMAIL.COM", "USER1@HOTMAIL.COM", "AQAAAAIAAYagAAAAEOwr0nS7SEdYRrZSEUWSFcEzm55n5HQgrNFfV0gjDFJ43b20YwMjjNJgDTukNkP8xw==", null, false, "4d356de9-029f-416c-b162-9895eadafd76", false, "user1@hotmail.com" },
-                    { "11111111-1111-1111-1111-111111111113", 0, "88d3296f-a34f-46c5-823f-e73fa562fcc8", "user2@hotmail.com", true, false, null, "USER2@HOTMAIL.COM", "USER2@HOTMAIL.COM", "AQAAAAIAAYagAAAAEIKedTZO15KhCA+MQUMCxz0+eiDNkxBszGmvvbpwDUSzCO2slaETKagQH5UN+5yGMA==", null, false, "511da26c-c524-400c-b305-1268a5a5d497", false, "user2@hotmail.com" }
-                });
-
-            migrationBuilder.InsertData(
-                table: "AspNetUserRoles",
-                columns: new[] { "RoleId", "UserId" },
-                values: new object[,]
-                {
-                    { "0a30f7b8-ee18-4ddc-8ddd-0b37c19e4d8d", "11111111-1111-1111-1111-111111111111" },
-                    { "e852b2c8-7912-4510-b953-88c30e833acc", "11111111-1111-1111-1111-111111111112" },
-                    { "e852b2c8-7912-4510-b953-88c30e833acc", "11111111-1111-1111-1111-111111111113" }
+                    { "11111111-1111-1111-1111-111111111111", 0, "529ee0e3-bd4b-4c6e-b873-e6c04353909f", "admin@gmail.com", true, false, null, "ADMIN@GMAIL.COM", "ADMIN@GMAIL.COM", "AQAAAAIAAYagAAAAENRZImkcK8pQ3i7C7AQGxnkgQ1uHlWF1jc7bEaop+vxMHpwy2fPepTqA7+nCuBuFyQ==", null, false, "3bc9ce4e-5e80-48a6-9498-9a82d6ceedb8", false, "admin@gmail.com" },
+                    { "11111111-1111-1111-1111-111111111112", 0, "660289db-bf2e-4478-9b69-2432d2f75f91", "user1@hotmail.com", true, false, null, "USER1@HOTMAIL.COM", "USER1@HOTMAIL.COM", "AQAAAAIAAYagAAAAED/NVun3qmu5+xcfB9Sn7RnUlZ3vUXQhBwqn6HnkuK2qWGZhPhxSPopdzUse2Cr4ZA==", null, false, "c8552cf6-2525-4cbe-9682-d3c94bb792cd", false, "user1@hotmail.com" },
+                    { "11111111-1111-1111-1111-111111111113", 0, "90f947bf-cf57-4a8d-bc2a-78d026547fea", "user2@hotmail.com", true, false, null, "USER2@HOTMAIL.COM", "USER2@HOTMAIL.COM", "AQAAAAIAAYagAAAAED2L1sEQTWgrT5qQJs6eDbabj30PmKxhvK+3xzpBkZl4mh8EV4t+aypWn5EfJbljXA==", null, false, "0abce4d6-e625-4189-96d8-f503f50c121e", false, "user2@hotmail.com" }
                 });
 
             migrationBuilder.InsertData(
@@ -370,41 +384,53 @@ namespace arsoudeServeur.Migrations
                 columns: new[] { "id", "adresse", "anneeDeNaissance", "codePostal", "courriel", "identityUserId", "moisDeNaissance", "nom", "prenom", "role" },
                 values: new object[,]
                 {
-                    { 1, null, 0, "E3A4R4", "admin@gmail.com", "11111111-1111-1111-1111-111111111111", 0, "tangerine", "robert", "Administrator" },
-                    { 2, null, 0, "E3A4R4", "user1@hotmail.com", "11111111-1111-1111-1111-111111111112", 0, "Hogan", "Hulk", "User" },
-                    { 3, null, 0, "E3A4R4", "user2@hotmail.com", "11111111-1111-1111-1111-111111111113", 0, "Charles", "Grégory", "User" }
+                    { 1, "", 0, "E3A 4R4", "admin@gmail.com", "11111111-1111-1111-1111-111111111111", 0, "tangerine", "robert", "Administrator" },
+                    { 2, "", 0, "E3A 4R4", "user1@hotmail.com", "11111111-1111-1111-1111-111111111112", 0, "Hogan", "Hulk", "User" },
+                    { 3, "1260, rue Mill, suite 100", 0, "E3A 4R4", "user2@hotmail.com", "11111111-1111-1111-1111-111111111113", 0, "Charles", "Grégory", "User" }
                 });
 
             migrationBuilder.InsertData(
                 table: "randonnees",
-                columns: new[] { "id", "approuve", "description", "emplacement", "nom", "typeRandonnee", "utilisateurId" },
+                columns: new[] { "id", "description", "emplacement", "etatRandonnee", "nom", "typeRandonnee", "utilisateurId" },
                 values: new object[,]
                 {
-                    { 1, true, "promenade cool a st-brun", "st-bruno", "St-Brun", 1, 1 },
-                    { 2, true, "promenade moyennement cool la bas", "dehors", "ptite marche au subway", 0, 2 },
-                    { 3, true, "promenade fresh a bro s s a r d", "st-hilaire?", "Brossard", 1, 3 },
-                    { 4, true, "promenade au subway", "st-grégoire", "ma randonnée pédestre", 0, 2 },
-                    { 5, true, "ça doit être cool la bas", "quelque part", "rivière rouge", 0, 2 },
-                    { 6, true, "je pense qu'on a beaucoup de fun", "mont tremblant", "Ma randonnée", 0, 1 }
+                    { 1, "promenade cool a st-brun", "st-bruno", 1, "St-Brun", 1, 1 },
+                    { 2, "promenade moyennement cool la bas", "dehors", 1, "ptite marche au subway", 0, 2 },
+                    { 3, "promenade fresh a bro s s a r d", "st-hilaire?", 1, "Brossard", 1, 3 },
+                    { 4, "promenade au subway", "st-grégoire", 0, "ma randonnée pédestre", 0, 2 },
+                    { 5, "ça doit être cool la bas", "quelque part", 2, "rivière rouge", 0, 2 },
+                    { 6, "je pense qu'on a beaucoup de fun", "mont tremblant", 1, "Ma randonnée", 0, 1 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "commentaires",
+                columns: new[] { "id", "randonneeId", "review", "texte", "utilisateurId" },
+                values: new object[,]
+                {
+                    { 1, 1, 3, "You are a worthless bitch ass nigga\r\nYour life literally is as valuable as a summer ant. I'm just gonna stomp you.\r\nYou're gonna keep coming back. I'm gonna seal up all my cracks, youre gonna keep coming back\r\n \r\nWhy? Cause you keep smelling the syrup, you worthless bitch ass nigga. Your gonna stay on my dick until you die.\r\nYou serve no purpose in life. Your purpose in life is to be on my stream sucking on my dick daily.\r\n \r\nYour purpose in life is to be in that chat, blowing a dick daily.\r\nYour life is nothing!\r\nYou serve zero purpose. You should kill yourself NOW.\r\nAnd give somebody else a piece of that oxygen, an ozone layer thats covered up so we can breathe inside this blue trapped  bubble, cause what are you here for? To worship me? Kill yourself. I mean that not a 100% but a thousand percent.\r\n \r\nImagine if a nigga like that has kids. Like imagine somebody like that has kids", 2 },
+                    { 2, 2, 3, "Imagine if a nigga like that has kids. Like imagine. Imagine if somebody like that has kids. I will feel so sorry for his children cause the nigga literally serves no purpose. Imagine a father, now we got a lot of niggas with wife and kids and shit like that who keeps sucking on my dick daily on the internet but imagine if this nigga actually had children. This niggas devoting the time he could be spending with his kids checking out a black man on stream cucking him relentlessly. That's crazy! I've never seen somebody so relentless to be seen. Somebody so worthless that they'll come into this stream and keep coming in this bitch over and over and over and over and over again when we keep banning you\r\nNigga let me.. let me.. let's do you a favor", 1 },
+                    { 3, 4, 3, "Lets go to the 99 cents store and lets pick out a rope together. Imma give you an assisted suicide. Lets pick out a rope together right? And we're gonna take all the greatest trolls clips, put a tv screen right in front of you.\r\nI'm gonna hang that rope at the top of the motherfucking garage.\r\nWe're gonna forcefully pry your eyes open, we probably don't even need to do that cause your on my dick daily. We're gonna pry your eyes open until you consistently watch clips over and over and over and over again to the point where you're gonna be like 'Wait a minute, this is a little bit too much'\r\nYou're just gonna start going crazy.\r\nYou're gonna start going crazy.\r\nJust, your eyes are gonna bleed your retinas are just gonna start pouring out, pouring out blood and just getting\r\ncracks and veins in your retinas are gonna start engaging and bulging. Then I'm gonna grab that rope for you and say 'Are you ready?' You're gonna say 'Yeah' I'm gonna take it and PULL IT\r\nwhile you beg me, beg me and I mean beg me to kill you and choke you, choke the worthless life out of your sorry ass until you're fucking dead, croaked with a blue face nigga. Cause you don't deserve your soul.\r\nI've never seen somebody so fucking worthless and relentless that keep coming in a niggas chat over and over and over again. Somebody like that needs to die.\r\nThere is really no reason for him to be alive. We lost prominent niggas on earth, that served a purpose that had... so this nigga could be on earth trolling a stream daily, like come on my nigga. Like, your life is just worthless, just please kill yourself.\r\nGo outside, throw some steaks in a fucking alley and hope a bunch of stray dogs jump on you starts chewing your fucking dick your dick off, biting pieces and shit off of you like that cause you literally just gotta go. Like this nigga off of earth. Please", 2 },
+                    { 4, 2, 1, "Lets go to the 99 cents store and lets pick out a rope together. Imma give you an assisted suicide. Lets pick out a rope together right? And we're gonna take all the greatest trolls clips, put a tv screen right in front of you.\r\nI'm gonna hang that rope at the top of the motherfucking garage.\r\nWe're gonna forcefully pry your eyes open, we probably don't even need to do that cause your on my dick daily. We're gonna pry your eyes open until you consistently watch clips over and over and over and over again to the point where you're gonna be like 'Wait a minute, this is a little bit too much'\r\nYou're just gonna start going crazy.\r\nYou're gonna start going crazy.\r\nJust, your eyes are gonna bleed your retinas are just gonna start pouring out, pouring out blood and just getting\r\ncracks and veins in your retinas are gonna start engaging and bulging. Then I'm gonna grab that rope for you and say 'Are you ready?' You're gonna say 'Yeah' I'm gonna take it and PULL IT\r\nwhile you beg me, beg me and I mean beg me to kill you and choke you, choke the worthless life out of your sorry ass until you're fucking dead, croaked with a blue face nigga. Cause you don't deserve your soul.\r\nI've never seen somebody so fucking worthless and relentless that keep coming in a niggas chat over and over and over again. Somebody like that needs to die.\r\nThere is really no reason for him to be alive. We lost prominent niggas on earth, that served a purpose that had... so this nigga could be on earth trolling a stream daily, like come on my nigga. Like, your life is just worthless, just please kill yourself.\r\nGo outside, throw some steaks in a fucking alley and hope a bunch of stray dogs jump on you starts chewing your fucking dick your dick off, biting pieces and shit off of you like that cause you literally just gotta go. Like this nigga off of earth. Please", 3 },
+                    { 5, 6, 5, "Lets go to the 99 cents store and lets pick out a rope together. Imma give you an assisted suicide. Lets pick out a rope together right? And we're gonna take all the greatest trolls clips, put a tv screen right in front of you.\r\nI'm gonna hang that rope at the top of the motherfucking garage.\r\nWe're gonna forcefully pry your eyes open, we probably don't even need to do that cause your on my dick daily. We're gonna pry your eyes open until you consistently watch clips over and over and over and over again to the point where you're gonna be like 'Wait a minute, this is a little bit too much'\r\nYou're just gonna start going crazy.\r\nYou're gonna start going crazy.\r\nJust, your eyes are gonna bleed your retinas are just gonna start pouring out, pouring out blood and just getting\r\ncracks and veins in your retinas are gonna start engaging and bulging. Then I'm gonna grab that rope for you and say 'Are you ready?' You're gonna say 'Yeah' I'm gonna take it and PULL IT\r\nwhile you beg me, beg me and I mean beg me to kill you and choke you, choke the worthless life out of your sorry ass until you're fucking dead, croaked with a blue face nigga. Cause you don't deserve your soul.\r\nI've never seen somebody so fucking worthless and relentless that keep coming in a niggas chat over and over and over again. Somebody like that needs to die.\r\nThere is really no reason for him to be alive. We lost prominent niggas on earth, that served a purpose that had... so this nigga could be on earth trolling a stream daily, like come on my nigga. Like, your life is just worthless, just please kill yourself.\r\nGo outside, throw some steaks in a fucking alley and hope a bunch of stray dogs jump on you starts chewing your fucking dick your dick off, biting pieces and shit off of you like that cause you literally just gotta go. Like this nigga off of earth. Please", 3 }
                 });
 
             migrationBuilder.InsertData(
                 table: "gps",
-                columns: new[] { "id", "Arrivee", "Depart", "RandonneeUtilisateurTraceid", "X", "Y", "randonneeId" },
+                columns: new[] { "id", "RandonneeUtilisateurTraceid", "arrivee", "depart", "randonneeId", "x", "y" },
                 values: new object[,]
                 {
-                    { 1, false, true, null, 45.536653134864743, -73.494974340959118, 1 },
-                    { 2, true, false, null, 45.636653134864737, -73.594974340959126, 1 },
-                    { 3, false, true, null, 45.354998999999999, -73.150238000000002, 2 },
-                    { 4, true, false, null, 45.356924999999997, -73.150233999999998, 2 },
-                    { 5, false, true, null, 45.538015000000001, -73.156982999999997, 3 },
-                    { 6, true, false, null, 45.636653134864737, -73.594974340959126, 3 },
-                    { 7, false, true, null, 45.354998999999999, -73.150238000000002, 4 },
-                    { 8, true, false, null, 45.356924999999997, -73.150233999999998, 4 },
-                    { 9, false, true, null, 45.354998999999999, -73.150238000000002, 5 },
-                    { 10, true, false, null, 45.356924999999997, -73.150233999999998, 5 },
-                    { 11, false, true, null, 45.354998999999999, -73.160238000000007, 6 },
-                    { 12, true, false, null, 45.356924999999997, -73.150233999999998, 6 }
+                    { 1, null, false, true, 1, 45.536653134864743, -73.494974340959118 },
+                    { 2, null, true, false, 1, 45.636653134864737, -73.594974340959126 },
+                    { 3, null, false, true, 2, 45.354998999999999, -73.150238000000002 },
+                    { 4, null, true, false, 2, 45.356924999999997, -73.150233999999998 },
+                    { 5, null, false, true, 3, 45.538015000000001, -73.156982999999997 },
+                    { 6, null, true, false, 3, 45.636653134864737, -73.594974340959126 },
+                    { 7, null, false, true, 4, 45.354998999999999, -73.150238000000002 },
+                    { 8, null, true, false, 4, 45.356924999999997, -73.150233999999998 },
+                    { 9, null, false, true, 5, 45.354998999999999, -73.150238000000002 },
+                    { 10, null, true, false, 5, 45.356924999999997, -73.150233999999998 },
+                    { 11, null, false, true, 6, 45.354998999999999, -73.160238000000007 },
+                    { 12, null, true, false, 6, 45.356924999999997, -73.150233999999998 }
                 });
 
             migrationBuilder.CreateIndex(
@@ -445,9 +471,14 @@ namespace arsoudeServeur.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_commentaires_randonneeid",
+                name: "IX_avertissements_randonneeId",
+                table: "avertissements",
+                column: "randonneeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_commentaires_randonneeId",
                 table: "commentaires",
-                column: "randonneeid");
+                column: "randonneeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_commentaires_utilisateurId",
@@ -486,19 +517,19 @@ namespace arsoudeServeur.Migrations
                 column: "utilisateurId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_RandonneeUtilisateurTrace_randonneeId",
-                table: "RandonneeUtilisateurTrace",
-                column: "randonneeId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_RandonneeUtilisateurTrace_utilisateurId",
-                table: "RandonneeUtilisateurTrace",
-                column: "utilisateurId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_utilisateurs_identityUserId",
                 table: "utilisateurs",
                 column: "identityUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_utilisateursTrace_randonneeId",
+                table: "utilisateursTrace",
+                column: "randonneeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_utilisateursTrace_utilisateurId",
+                table: "utilisateursTrace",
+                column: "utilisateurId");
         }
 
         /// <inheritdoc />
@@ -520,6 +551,9 @@ namespace arsoudeServeur.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "avertissements");
+
+            migrationBuilder.DropTable(
                 name: "commentaires");
 
             migrationBuilder.DropTable(
@@ -535,7 +569,7 @@ namespace arsoudeServeur.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "RandonneeUtilisateurTrace");
+                name: "utilisateursTrace");
 
             migrationBuilder.DropTable(
                 name: "randonnees");
