@@ -349,5 +349,6 @@ namespace arsoudServeur.Data
         public DbSet<Commentaire> commentaires { get; set; } = default!;
         public DbSet<RandonneeUtilisateurTrace> utilisateursTrace { get; set; } = default!;
         public DbSet<Avertissement> avertissements { get; set; } = default!;
+        public DbSet<Publication> publication { get; set; } = default!;
     }
 }
