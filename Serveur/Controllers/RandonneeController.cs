@@ -106,7 +106,7 @@ namespace arsoudeServeur.Controllers
 
             return Ok();
         }
-        //[Authorize]
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> CreateRandonneeTrace(TraceRandoDTO randonnee)
         {
