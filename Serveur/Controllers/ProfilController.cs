@@ -3,6 +3,7 @@ using arsoudeServeur.Models.DTOs;
 using arsoudeServeur.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using static arsoudeServeur.Services.UtilisateursService;
 
 namespace arsoudeServeur.Controllers
 {
@@ -43,46 +44,34 @@ namespace arsoudeServeur.Controllers
         [HttpPost]
         public async Task<ActionResult<Utilisateur>> Edit(EditProfilDTO profil)
         {
-            if(UtilisateurCourant == null)
+            var utilisateurCourant = UtilisateurCourant;
+            if (utilisateurCourant == null || utilisateurCourant.id == 0)
             {
-                return Unauthorized(new { Error = "Le token reçu n'est pas valide" });
+                return NotFound(new { Error = "NotFound" });
             }
 
-            var utilisateur = UtilisateurCourant;
-            if (utilisateur == null || utilisateur.id == 0)
-            {
-                return NotFound(new { Error = "L'utilisateur est introuvable" });
-            }
+            var utilisateurModifie = await _utilisateurService.EditProfil(utilisateurCourant, profil);
 
-
-            var user = await _utilisateurService.EditProfil(utilisateur, profil);
-
-            return Ok(user);
+            return Ok(utilisateurModifie);
         }
 
         [HttpPost]
-        public async Task<ActionResult<string>> EditPassword(EditPasswordDTO editPassword)
+        public async Task<ActionResult> EditPassword(EditPasswordDTO editPassword)
         {
-            if (UtilisateurCourant == null)
+            var utilisateurCourant = UtilisateurCourant;
+            if (utilisateurCourant == null || utilisateurCourant.id == 0)
             {
-                return Unauthorized(new { Error = "Le token reçu n'est pas valide" });
+                return NotFound(new { Error = "NotFound" });
             }
 
-            var utilisateur = UtilisateurCourant;
-            if (utilisateur == null || utilisateur.id == 0)
+            try
             {
-                return NotFound(new { Error = "L'utilisateur est introuvable" });
+                var result = await _utilisateurService.EditPassword(utilisateurCourant, editPassword.currentPassword, editPassword.newPassword);
+                return Ok();
             }
-
-            var message = await _utilisateurService.EditPassword(utilisateur, editPassword.currentPassword, editPassword.newPassword);
-
-            if (message == "Password change success")
+            catch(BadPasswordException error)
             {
-                return Ok(message);
-            }
-            else
-            {
-                return BadRequest(message);
+                return BadRequest(new { Error = error.Message });
             }
         }
 

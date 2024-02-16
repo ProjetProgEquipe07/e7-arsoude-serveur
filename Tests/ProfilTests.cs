@@ -68,14 +68,14 @@ namespace Tests.Controllers
         }
 
         [TestMethod]
-        public async Task EditProfil_Controller_UtilisateurCourantNull()
+        public async Task EditProfil_Controller_UtilisateurNull()
         {
 
             using (var dbContext = new ApplicationDbContext(options))
             {
-                var userTest = new Utilisateur { identityUserId = "11111111-1111-1111-1111-111111111111", id =  1};
-
                 var userMock = new Mock<UtilisateursService>(dbContext) { CallBase = true };
+                userMock.Setup(service => service.GetUtilisateurFromUserId(It.IsAny<string>()))
+                        .Returns((Utilisateur)null);
 
                 var profilController = new ProfilController(userMock.Object);
                 var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
@@ -93,7 +93,7 @@ namespace Tests.Controllers
 
                 var actionResult = await profilController.Edit(editDTO);
 
-                var result = actionResult.Result as UnauthorizedObjectResult;
+                var result = actionResult.Result as NotFoundObjectResult;
 
 
                 Assert.IsNotNull(result);
@@ -102,7 +102,7 @@ namespace Tests.Controllers
         }
 
         [TestMethod]
-        public async Task EditProfil_Controller_UserNull()
+        public async Task EditProfil_Controller_UtilisateurId0()
         {
 
             using (var dbContext = new ApplicationDbContext(options))
@@ -151,7 +151,7 @@ namespace Tests.Controllers
                         .Returns(userTest);
 
                 userMock.Setup(service => service.EditPassword(It.IsAny<Utilisateur>(), It.IsAny<string>(), It.IsAny<string>()))
-                          .ReturnsAsync("Password change success");
+                          .ReturnsAsync(true);
 
                 var profilController = new ProfilController(userMock.Object);
                 var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
@@ -167,9 +167,9 @@ namespace Tests.Controllers
                 // Appel de la méthode dans le contrôleur et vérification du résultat
                 EditPasswordDTO editDTO = new EditPasswordDTO { currentPassword = "Passw0rd!", newPassword = "Pass0!"};
 
-                var actionResult = await profilController.EditPassword(editDTO);
+                IActionResult actionResult = await profilController.EditPassword(editDTO);
 
-                var result = actionResult.Result as OkObjectResult;
+                var result = actionResult as OkResult;
 
 
                 Assert.IsNotNull(result);
@@ -178,7 +178,7 @@ namespace Tests.Controllers
         }
 
         [TestMethod]
-        public async Task EditPassword_Controller_IdentityError()
+        public async Task EditPassword_Controller_ErreurService()
         {
 
             using (var dbContext = new ApplicationDbContext(options))
@@ -190,7 +190,7 @@ namespace Tests.Controllers
                         .Returns(userTest);
 
                 userMock.Setup(service => service.EditPassword(It.IsAny<Utilisateur>(), It.IsAny<string>(), It.IsAny<string>()))
-                          .ReturnsAsync("Error");
+                          .ThrowsAsync(new BadPasswordException("PasswordMismatch"));
 
                 var profilController = new ProfilController(userMock.Object);
                 var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
@@ -206,9 +206,9 @@ namespace Tests.Controllers
                 // Appel de la méthode dans le contrôleur et vérification du résultat
                 EditPasswordDTO editDTO = new EditPasswordDTO { currentPassword = "Passw0rd!", newPassword = "Pass0!" };
 
-                var actionResult = await profilController.EditPassword(editDTO);
+                IActionResult actionResult = await profilController.EditPassword(editDTO);
 
-                var result = actionResult.Result as BadRequestObjectResult;
+                var result = actionResult as BadRequestObjectResult;
 
 
                 Assert.IsNotNull(result);
@@ -217,14 +217,14 @@ namespace Tests.Controllers
         }
 
         [TestMethod]
-        public async Task EditPassword_Controller_UtilisateurCourantNull()
+        public async Task EditPassword_Controller_UtilisateurNull()
         {
 
             using (var dbContext = new ApplicationDbContext(options))
             {
-                var userTest = new Utilisateur { identityUserId = "11111111-1111-1111-1111-111111111111", id = 1 };
-
                 var userMock = new Mock<UtilisateursService>(dbContext) { CallBase = true };
+                userMock.Setup(service => service.GetUtilisateurFromUserId(It.IsAny<string>()))
+                        .Returns((Utilisateur)null);
 
                 var profilController = new ProfilController(userMock.Object);
                 var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
@@ -240,9 +240,9 @@ namespace Tests.Controllers
                 // Appel de la méthode dans le contrôleur et vérification du résultat
                 EditPasswordDTO editDTO = new EditPasswordDTO { currentPassword = "Passw0rd!", newPassword = "Pass0!" };
 
-                var actionResult = await profilController.EditPassword(editDTO);
+                IActionResult actionResult = await profilController.EditPassword(editDTO);
 
-                var result = actionResult.Result as UnauthorizedObjectResult;
+                var result = actionResult as NotFoundObjectResult;
 
 
                 Assert.IsNotNull(result);
@@ -251,7 +251,7 @@ namespace Tests.Controllers
         }
 
         [TestMethod]
-        public async Task EditPassword_Controller_UserNull()
+        public async Task EditPassword_Controller_UtilisateurId0()
         {
 
             using (var dbContext = new ApplicationDbContext(options))
@@ -276,9 +276,9 @@ namespace Tests.Controllers
                 // Appel de la méthode dans le contrôleur et vérification du résultat
                 EditPasswordDTO editDTO = new EditPasswordDTO { currentPassword = "Passw0rd!", newPassword = "Pass0!" };
 
-                var actionResult = await profilController.EditPassword(editDTO);
+                IActionResult actionResult = await profilController.EditPassword(editDTO);
 
-                var result = actionResult.Result as NotFoundObjectResult;
+                var result = actionResult as NotFoundObjectResult;
 
 
                 Assert.IsNotNull(result);
@@ -364,35 +364,6 @@ namespace Tests.Controllers
             }
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(UserNotFoundException))]
-        public async Task EditProfil_Service_UserNotFound()
-        {
-            using (var dbContext = new ApplicationDbContext(options))
-            {
-                var userTest = new Utilisateur
-                {
-                    nom = "George",
-                    prenom = "robert",
-                    codePostal = "E3A 4R4",
-                    role = "User",
-                    courriel = "test@gmail.com",
-                    adresse = "",
-                    identityUserId = "11111111-1111-1111-1111-111111111122",
-                    id = 40000000
-                };
-
-                var utilisateursServiceMock = new Mock<UtilisateursService>(dbContext) { CallBase = true };
-
-                //appel de la méthode
-                EditProfilDTO editDTO = new EditProfilDTO { nom = "Georgy", prenom = "Lasalle", adresse = "200 twisted lane", codePostal = "Y6T 3R6", anneeDeNaissance = 1999, moisDeNaissance = 1 };
-
-                await utilisateursServiceMock.Object.EditProfil(userTest, editDTO);
-
-                dbContext.Database.EnsureDeleted();
-            }
-        }
-
             //EditPassword
         [TestMethod]
         public async Task EditPassword_Service_Good()
@@ -450,43 +421,14 @@ namespace Tests.Controllers
                 var result = await utilisateursServiceMock.Object.EditPassword(userTest, "Passw0rd!", "Pass0!");
                 dbContext.SaveChanges();
 
-                Assert.AreEqual("Password change success", result);
+                Assert.AreEqual(true, result);
 
                 dbContext.Database.EnsureDeleted();
             }
         }
 
         [TestMethod]
-        [ExpectedException(typeof(UserNotFoundException))]
-        public async Task EditPassword_Service_UserNull()
-        {
-            using (var dbContext = new ApplicationDbContext(options))
-            {
-                var userTest = new Utilisateur
-                {
-                    id = 40000,
-                    nom = "George",
-                    prenom = "robert",
-                    codePostal = "E3A 4R4",
-                    role = "User",
-                    courriel = "testCase@gmail.com",
-                    adresse = "",
-                    identityUserId = "11111111-1111-1111-1111-11111111114",
-                };
-                dbContext.utilisateurs.Add(userTest);
-                dbContext.SaveChanges();
-
-                var utilisateursServiceMock = new Mock<UtilisateursService>(dbContext) { CallBase = true };
-
-                //appel de la méthode
-                await utilisateursServiceMock.Object.EditPassword(userTest, "Passw0rd!", "Pass0!");
-                dbContext.SaveChanges();
-
-                dbContext.Database.EnsureDeleted();
-            }
-        }
-
-        [TestMethod]
+        [ExpectedException(typeof(BadPasswordException))]
         public async Task EditPassword_Service_MauvaisPassword()
         {
             using (var dbContext = new ApplicationDbContext(options))
@@ -548,10 +490,8 @@ namespace Tests.Controllers
                 var utilisateursServiceMock = new Mock<UtilisateursService>(dbContext, userManagerMock.Object) { CallBase = true };
 
                 //appel de la méthode
-                var result = await utilisateursServiceMock.Object.EditPassword(userTest, "Pass0rd!", "Pass0!");
+                await utilisateursServiceMock.Object.EditPassword(userTest, "Pass0rd!", "Pass0!");
                 dbContext.SaveChanges();
-
-                Assert.AreEqual("PasswordMismatch", result);
 
                 dbContext.Database.EnsureDeleted();
             }
