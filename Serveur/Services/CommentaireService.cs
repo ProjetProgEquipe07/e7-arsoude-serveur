@@ -1,7 +1,10 @@
 ﻿using arsoudeServeur.Models;
 using arsoudeServeur.Models.DTOs;
 using arsoudServeur.Data;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace arsoudeServeur.Services
 {
@@ -13,21 +16,6 @@ namespace arsoudeServeur.Services
             _context = context;
         }
 
-
-        public void DeleteCommentaire(int id, Utilisateur utilisateurCourant)
-        {
-            var commentaire = _context.commentaires.Where(c => c.id == id).FirstOrDefault();
-            if (utilisateurCourant.id == commentaire.utilisateurId || utilisateurCourant.role == "Administrator")
-            {
-                _context.commentaires.Remove(_context.commentaires.Find(id));
-                _context.SaveChangesAsync();
-            }
-            else
-            {
-                //Vous n'êtes pas l'auteur du commentaire ou vous n'êtes pas un admin
-            }
-        }
-
         public IEnumerable<Commentaire> GetCommentaires(int id)
         {
             var list = _context.randonnees.Where(r => r.id == id).FirstOrDefault().commentaires;
@@ -37,12 +25,18 @@ namespace arsoudeServeur.Services
 
         public void CreateCommentaire(CommentaireDTO commentaire, Utilisateur utilisateurCourant)
         {
-            var rando = _context.randonnees.Where(r => r.id == commentaire.randoId).FirstOrDefault();
+            //var utilisateurTrace = _context.utilisateursTrace.Where(r => r.utilisateurId == utilisateurCourant.id).FirstOrDefault();
 
+            //if (utilisateurTrace != null)
+            //{
+
+            //}
+
+            var rando = _context.randonnees.Where(r => r.id == commentaire.randoId).FirstOrDefault() ?? throw new Exception("Randonnée non trouvée");
             _context.commentaires.Add(new Commentaire()
             {
-                texte = commentaire.texte,
-                review = commentaire.review,
+                message = commentaire.message,
+                note = commentaire.note,
                 randonnee = rando,
                 randonneeId = rando.id,
                 utilisateur = utilisateurCourant,
@@ -56,14 +50,14 @@ namespace arsoudeServeur.Services
         {
             var rando = _context.randonnees.Where(r => r.id == commentaireDTO.randoId).FirstOrDefault();
             var commentaire = _context.commentaires.Where(c => c.id == id).FirstOrDefault();
-            if (utilisateurCourant.id == commentaire.utilisateurId || utilisateurCourant.role == "Administrator")
+            if (utilisateurCourant.id == commentaire.utilisateurId /*|| utilisateurCourant.role == "Administrator"*/)
             {
                 _context.commentaires.Update(new Commentaire()
                 {
                     id = id,
-                    texte = commentaire.texte,
+                    message = commentaire.message,
                     utilisateur = utilisateurCourant,
-                    review = commentaire.review,
+                    note = commentaire.note,
                     randonnee = rando,
                     randonneeId = rando.id,
                     utilisateurId = utilisateurCourant.id
@@ -76,6 +70,33 @@ namespace arsoudeServeur.Services
                 //Unauthorized ?
             }
 
+        }
+
+        public void DeleteCommentaire(int id, Utilisateur utilisateurCourant)
+        {
+            var commentaire = _context.commentaires.Where(c => c.id == id).FirstOrDefault() ?? throw new Exception("Commentaire non trouvé");
+
+            //Empêche l'utilisateur d'effacer les commentaires des autres, à part si il est Administrateur
+            //TODO: Tester si la condition est correct si || marche ou si il faut &&
+            if (utilisateurCourant.id != commentaire.utilisateurId || utilisateurCourant.role != "Administrator")
+            {
+                throw new UnauthorizedAccessException("Vous n'êtes pas autorisé à supprimer ce commentaire");
+            }
+
+            Commentaire deletedCommentaire = new Commentaire() { note = 0 };
+            if (utilisateurCourant.role != "Administrator")
+            {
+                deletedCommentaire.message = $"Ce commentaire a été effacé par {utilisateurCourant.prenom} {utilisateurCourant.nom}";
+            }
+
+            if (utilisateurCourant.role == "Administrator")
+            {
+                deletedCommentaire.message = "Ce commentaire a été effacé par un Administrateur";
+            }
+
+            _context.commentaires.Update(commentaire).State = EntityState.Modified;
+
+            _context.SaveChangesAsync();
         }
     }
 }

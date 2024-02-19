@@ -1,12 +1,14 @@
 ﻿using arsoudeServeur.Models;
 using arsoudeServeur.Models.DTOs;
 using arsoudeServeur.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace arsoudeServeur.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
+    [Authorize()]
     public class CommentaireController : BaseController
     {
         private CommentaireService _commentaireService;
@@ -14,6 +16,10 @@ namespace arsoudeServeur.Controllers
         { 
             _commentaireService = commentaire;
         }
+
+        //LikeCommentaire
+
+        //UnlikeCommentaire
 
         [HttpGet("{id}")]
         public async Task<IEnumerable<Commentaire>> GetCommentaire(int id)
@@ -25,29 +31,22 @@ namespace arsoudeServeur.Controllers
         [HttpPost]
         public async Task<ActionResult> CreateCommentaire([FromBody] CommentaireDTO commentaire)
         {
-            Utilisateur user = UtilisateurCourant;
-
-            _commentaireService.CreateCommentaire(commentaire, user);
+            _commentaireService.CreateCommentaire(commentaire, UtilisateurCourant);
             return Ok();
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult> DeleteCommentaire(int id)
-        {
-            Utilisateur user = UtilisateurCourant;
-            _commentaireService.DeleteCommentaire(id, user);
-            return Ok();
-        }
-
-        [HttpPost("{id}")]
+        [HttpPut("{id}")]
         public async Task<IActionResult> EditCommentaire(int id, [FromBody] CommentaireDTO commentaire)
         {
-            Utilisateur user = UtilisateurCourant;
-             _commentaireService.PutCommentaire(id, commentaire, user);
+             _commentaireService.PutCommentaire(id, commentaire, UtilisateurCourant);
             return Ok();
         }
 
-
-        
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeleteCommentaire(int id)
+        {
+            _commentaireService.DeleteCommentaire(id, UtilisateurCourant);
+            return Ok();
+        }
     }
 }
