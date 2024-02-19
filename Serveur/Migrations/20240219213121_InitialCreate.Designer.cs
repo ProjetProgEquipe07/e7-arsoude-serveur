@@ -11,8 +11,8 @@ using arsoudServeur.Data;
 namespace arsoudeServeur.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240209155832_AjoutDbSetRandoUtilisateurTrace2")]
-    partial class AjoutDbSetRandoUtilisateurTrace2
+    [Migration("20240219213121_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -48,20 +48,6 @@ namespace arsoudeServeur.Migrations
                         .HasDatabaseName("RoleNameIndex");
 
                     b.ToTable("AspNetRoles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "3ac95bc6-b558-47d0-9ffe-0282310f3939",
-                            Name = "Administrator",
-                            NormalizedName = "ADMINISTRATOR"
-                        },
-                        new
-                        {
-                            Id = "5f66af6b-3703-4958-bb74-c794a7471b09",
-                            Name = "User",
-                            NormalizedName = "USER"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -155,15 +141,15 @@ namespace arsoudeServeur.Migrations
                         {
                             Id = "11111111-1111-1111-1111-111111111111",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "d36916a8-7d6a-4b03-bb4a-ed0256ba83b5",
+                            ConcurrencyStamp = "9d08088d-3978-4d55-b886-135214f23755",
                             Email = "admin@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@GMAIL.COM",
                             NormalizedUserName = "ADMIN@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEEKBbG9OrhnWZU+QvMqm+o82dhw2TTFEol1o08hI4pYQSuUqGrv1S7aZEMgQ+t6ATA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAENy07yc/USSs1PTWzB+InUNlywLyQnoWUXK81teQ1UnYrwe1mo7awWq6mfenOwyY7w==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "ede51cc6-64d1-41d1-9868-3050bab36475",
+                            SecurityStamp = "4a1ef539-6fca-4dab-87de-55c4f588a3e9",
                             TwoFactorEnabled = false,
                             UserName = "admin@gmail.com"
                         },
@@ -171,15 +157,15 @@ namespace arsoudeServeur.Migrations
                         {
                             Id = "11111111-1111-1111-1111-111111111112",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "f6edd2f6-473a-497e-8c4e-0c608c74f340",
+                            ConcurrencyStamp = "d48c58c2-1b44-434f-91b5-6cca1e32d5ff",
                             Email = "user1@hotmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "USER1@HOTMAIL.COM",
                             NormalizedUserName = "USER1@HOTMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEGHeN4y8U4wAEiBvl7iOdFcq48vJQlLrj4sF8QUNH9ZL+84kfQp++1LDYTH0T9hTvA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEHBzx8Jovb5SdNB4zGPuSUiIIABXL0oYoXJKaPGECHqoOrmZXUtflyh/4MLkFg91Og==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "18d1aab1-b581-448c-967c-7598d3f84170",
+                            SecurityStamp = "45ce8a17-1e09-4c0b-9ae6-591bb48d7bf5",
                             TwoFactorEnabled = false,
                             UserName = "user1@hotmail.com"
                         },
@@ -187,15 +173,15 @@ namespace arsoudeServeur.Migrations
                         {
                             Id = "11111111-1111-1111-1111-111111111113",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "7d9415cb-86e8-4660-b97e-6726643e8762",
+                            ConcurrencyStamp = "a7836969-5784-41e6-b6de-0fccf471386c",
                             Email = "user2@hotmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "USER2@HOTMAIL.COM",
                             NormalizedUserName = "USER2@HOTMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEGR11NNAVg7RPz6nMl5bzNMREr3HGMbjMI5ql6H6QxHSZpVSEXErDQnOMe0X+njt5A==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEOzkYAwJ6uGjOWAqxVNaAGjZBcruqS2gKrGqmix6hxAm6UReDmYD2KiqELp+z1QrBg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "d04ad418-0e06-4592-a915-c5481ceb0a23",
+                            SecurityStamp = "274a3bf4-b46b-4c3d-8ce1-b92742fc2f4e",
                             TwoFactorEnabled = false,
                             UserName = "user2@hotmail.com"
                         });
@@ -284,32 +270,106 @@ namespace arsoudeServeur.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("arsoudeServeur.Models.Avertissement", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("DateSuppresion")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("description")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("randonneeId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("typeAvertissement")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<double>("x")
+                        .HasColumnType("REAL");
+
+                    b.Property<double>("y")
+                        .HasColumnType("REAL");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("randonneeId");
+
+                    b.ToTable("avertissements");
+                });
+
             modelBuilder.Entity("arsoudeServeur.Models.Commentaire", b =>
                 {
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("randonneeid")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("randonnéeId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("texte")
+                    b.Property<string>("message")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("utilisateurId")
+                    b.Property<int?>("note")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("randonneeId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("utilisateurId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("id");
 
-                    b.HasIndex("randonneeid");
+                    b.HasIndex("randonneeId");
 
                     b.HasIndex("utilisateurId");
 
                     b.ToTable("commentaires");
+
+                    b.HasData(
+                        new
+                        {
+                            id = 1,
+                            message = "Are you looking for a new outdoor adventure that won't break the bank? Look no further than Arsoude! This app offers a wide variety of hiking trails at affordable prices, making it easy for anyone to experience the beauty of nature without spending a fortune. With Arsoude, you can easily find new trails to explore based on your location and skill level. The app provides detailed information about each trail, including distance, difficulty level, and user reviews, so you can choose the perfect hike for your next outing.",
+                            note = 3,
+                            randonneeId = 1,
+                            utilisateurId = 2
+                        },
+                        new
+                        {
+                            id = 2,
+                            message = "I recently downloaded the hiking app Arsoude and I have to say I am extremely impressed. The app is user-friendly and provides detailed maps, trail information, and tips for hikers of all levels. I love that it includes features such as GPS tracking and offline maps, making it easy to navigate even in remote areas with no signal. The trail recommendations and difficulty ratings have been spot on and have helped me find new hikes that I never would have discovered otherwise. Overall, Arsoude has become my go-to app for all of my hiking adventures. Highly recommend!",
+                            note = 3,
+                            randonneeId = 2,
+                            utilisateurId = 1
+                        },
+                        new
+                        {
+                            id = 3,
+                            message = "As an avid hiker, I cannot recommend the Arsoude app enough. This user-friendly platform has completely revolutionized my hiking experience. From detailed trail maps to real-time weather updates, Arsoude has everything I need to plan and execute the perfect outdoor adventure. The interface is sleek and intuitive, making it easy to navigate even on the go. Plus, the community feature allows me to connect with other outdoor enthusiasts and share tips and recommendations. Whether you're a seasoned hiker or just starting out, Arsoude is a must-have for your next outdoor excursion.",
+                            note = 3,
+                            randonneeId = 2,
+                            utilisateurId = 2
+                        },
+                        new
+                        {
+                            id = 4,
+                            message = "Arsoude is a fantastic hiking app that has completely changed the way I explore the great outdoors. With detailed trail maps, GPS tracking, and real-time weather updates, I can confidently go on new adventures without worrying about getting lost. The app also features a community forum where users can share tips, photos, and recommendations, making it easy to connect with other outdoor enthusiasts. Overall, Arsoude has become an essential tool for my hiking excursions and I highly recommend it to anyone looking to discover new trails.",
+                            note = 1,
+                            randonneeId = 2,
+                            utilisateurId = 3
+                        },
+                        new
+                        {
+                            id = 5,
+                            message = "J'ai récemment découvert l'application de randonnée Arsoude et je dois dire que je suis impressionné. Non seulement elle est facile à utiliser, mais elle offre également une multitude d'itinéraires de randonnée à travers de superbes paysages. Grâce à Arsoude, j'ai pu explorer de nouveaux sentiers et découvrir des trésors cachés que je n'aurais jamais trouvés autrement. Je recommande vivement cette application à tous les amoureux de la randonnée!",
+                            note = 5,
+                            randonneeId = 6,
+                            utilisateurId = 3
+                        });
                 });
 
             modelBuilder.Entity("arsoudeServeur.Models.GPS", b =>
@@ -517,7 +577,7 @@ namespace arsoudeServeur.Migrations
                             id = 1,
                             description = "promenade cool a st-brun",
                             emplacement = "st-bruno",
-                            etatRandonnee = 0,
+                            etatRandonnee = 1,
                             nom = "St-Brun",
                             typeRandonnee = 1,
                             utilisateurId = 1
@@ -527,7 +587,7 @@ namespace arsoudeServeur.Migrations
                             id = 2,
                             description = "promenade moyennement cool la bas",
                             emplacement = "dehors",
-                            etatRandonnee = 0,
+                            etatRandonnee = 1,
                             nom = "ptite marche au subway",
                             typeRandonnee = 0,
                             utilisateurId = 2
@@ -537,7 +597,7 @@ namespace arsoudeServeur.Migrations
                             id = 3,
                             description = "promenade fresh a bro s s a r d",
                             emplacement = "st-hilaire?",
-                            etatRandonnee = 0,
+                            etatRandonnee = 1,
                             nom = "Brossard",
                             typeRandonnee = 1,
                             utilisateurId = 3
@@ -557,7 +617,7 @@ namespace arsoudeServeur.Migrations
                             id = 5,
                             description = "ça doit être cool la bas",
                             emplacement = "quelque part",
-                            etatRandonnee = 0,
+                            etatRandonnee = 2,
                             nom = "rivière rouge",
                             typeRandonnee = 0,
                             utilisateurId = 2
@@ -567,7 +627,7 @@ namespace arsoudeServeur.Migrations
                             id = 6,
                             description = "je pense qu'on a beaucoup de fun",
                             emplacement = "mont tremblant",
-                            etatRandonnee = 0,
+                            etatRandonnee = 1,
                             nom = "Ma randonnée",
                             typeRandonnee = 0,
                             utilisateurId = 1
@@ -622,6 +682,9 @@ namespace arsoudeServeur.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<int?>("Commentaireid")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("adresse")
                         .HasColumnType("TEXT");
 
@@ -657,6 +720,8 @@ namespace arsoudeServeur.Migrations
 
                     b.HasKey("id");
 
+                    b.HasIndex("Commentaireid");
+
                     b.HasIndex("identityUserId");
 
                     b.ToTable("utilisateurs");
@@ -665,8 +730,9 @@ namespace arsoudeServeur.Migrations
                         new
                         {
                             id = 1,
+                            adresse = "",
                             anneeDeNaissance = 0,
-                            codePostal = "E3A4R4",
+                            codePostal = "E3A 4R4",
                             courriel = "admin@gmail.com",
                             identityUserId = "11111111-1111-1111-1111-111111111111",
                             moisDeNaissance = 0,
@@ -677,8 +743,9 @@ namespace arsoudeServeur.Migrations
                         new
                         {
                             id = 2,
+                            adresse = "",
                             anneeDeNaissance = 0,
-                            codePostal = "E3A4R4",
+                            codePostal = "E3A 4R4",
                             courriel = "user1@hotmail.com",
                             identityUserId = "11111111-1111-1111-1111-111111111112",
                             moisDeNaissance = 0,
@@ -689,8 +756,9 @@ namespace arsoudeServeur.Migrations
                         new
                         {
                             id = 3,
+                            adresse = "1260, rue Mill, suite 100",
                             anneeDeNaissance = 0,
-                            codePostal = "E3A4R4",
+                            codePostal = "E3A 4R4",
                             courriel = "user2@hotmail.com",
                             identityUserId = "11111111-1111-1111-1111-111111111113",
                             moisDeNaissance = 0,
@@ -751,19 +819,26 @@ namespace arsoudeServeur.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("arsoudeServeur.Models.Commentaire", b =>
+            modelBuilder.Entity("arsoudeServeur.Models.Avertissement", b =>
                 {
                     b.HasOne("arsoudeServeur.Models.Randonnee", "randonnee")
-                        .WithMany()
-                        .HasForeignKey("randonneeid")
+                        .WithMany("avertissements")
+                        .HasForeignKey("randonneeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("randonnee");
+                });
+
+            modelBuilder.Entity("arsoudeServeur.Models.Commentaire", b =>
+                {
+                    b.HasOne("arsoudeServeur.Models.Randonnee", "randonnee")
+                        .WithMany("commentaires")
+                        .HasForeignKey("randonneeId");
+
                     b.HasOne("arsoudeServeur.Models.Utilisateur", "utilisateur")
                         .WithMany()
-                        .HasForeignKey("utilisateurId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("utilisateurId");
 
                     b.Navigation("randonnee");
 
@@ -825,7 +900,7 @@ namespace arsoudeServeur.Migrations
             modelBuilder.Entity("arsoudeServeur.Models.RandonneeUtilisateurTrace", b =>
                 {
                     b.HasOne("arsoudeServeur.Models.Randonnee", "randonnee")
-                        .WithMany()
+                        .WithMany("traces")
                         .HasForeignKey("randonneeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -843,6 +918,10 @@ namespace arsoudeServeur.Migrations
 
             modelBuilder.Entity("arsoudeServeur.Models.Utilisateur", b =>
                 {
+                    b.HasOne("arsoudeServeur.Models.Commentaire", null)
+                        .WithMany("utilisateursLikes")
+                        .HasForeignKey("Commentaireid");
+
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "identityUser")
                         .WithMany()
                         .HasForeignKey("identityUserId")
@@ -852,12 +931,23 @@ namespace arsoudeServeur.Migrations
                     b.Navigation("identityUser");
                 });
 
+            modelBuilder.Entity("arsoudeServeur.Models.Commentaire", b =>
+                {
+                    b.Navigation("utilisateursLikes");
+                });
+
             modelBuilder.Entity("arsoudeServeur.Models.Randonnee", b =>
                 {
                     b.Navigation("GPS");
 
+                    b.Navigation("avertissements");
+
+                    b.Navigation("commentaires");
+
                     b.Navigation("image")
                         .IsRequired();
+
+                    b.Navigation("traces");
                 });
 
             modelBuilder.Entity("arsoudeServeur.Models.RandonneeUtilisateurTrace", b =>

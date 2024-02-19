@@ -138,15 +138,15 @@ namespace arsoudeServeur.Migrations
                         {
                             Id = "11111111-1111-1111-1111-111111111111",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "20ecc001-459b-4e28-a00a-3b496cc27166",
+                            ConcurrencyStamp = "9d08088d-3978-4d55-b886-135214f23755",
                             Email = "admin@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@GMAIL.COM",
                             NormalizedUserName = "ADMIN@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEEmPqbDU/AiOyWkBPAYXqgOX4FzN47qJ4Ar08bD8LypWkcE3qbZnXWklO/X0PYIXKQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAENy07yc/USSs1PTWzB+InUNlywLyQnoWUXK81teQ1UnYrwe1mo7awWq6mfenOwyY7w==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "bcfcd3b2-65b4-419e-b283-9330f2a6f794",
+                            SecurityStamp = "4a1ef539-6fca-4dab-87de-55c4f588a3e9",
                             TwoFactorEnabled = false,
                             UserName = "admin@gmail.com"
                         },
@@ -154,15 +154,15 @@ namespace arsoudeServeur.Migrations
                         {
                             Id = "11111111-1111-1111-1111-111111111112",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "49d66fea-c852-4613-ab48-cc90f0283dea",
+                            ConcurrencyStamp = "d48c58c2-1b44-434f-91b5-6cca1e32d5ff",
                             Email = "user1@hotmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "USER1@HOTMAIL.COM",
                             NormalizedUserName = "USER1@HOTMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEKptJQyP0f/HS5NjOpl74c+Wmlwz84qIGbFQs8aEy7txmRmSiV6ckpXj+nADK/mb1A==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEHBzx8Jovb5SdNB4zGPuSUiIIABXL0oYoXJKaPGECHqoOrmZXUtflyh/4MLkFg91Og==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "bd78fc99-6818-4c9f-94f3-f9d7ef6ae38a",
+                            SecurityStamp = "45ce8a17-1e09-4c0b-9ae6-591bb48d7bf5",
                             TwoFactorEnabled = false,
                             UserName = "user1@hotmail.com"
                         },
@@ -170,15 +170,15 @@ namespace arsoudeServeur.Migrations
                         {
                             Id = "11111111-1111-1111-1111-111111111113",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "a637b816-29bc-4487-8c33-c41344a63651",
+                            ConcurrencyStamp = "a7836969-5784-41e6-b6de-0fccf471386c",
                             Email = "user2@hotmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "USER2@HOTMAIL.COM",
                             NormalizedUserName = "USER2@HOTMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEJsVBRV+msSB32vAT5BbhkEWEWxg+IwkQGEa/B4a5Tj4cedUcIjSD1Drkf/5QM72kQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEOzkYAwJ6uGjOWAqxVNaAGjZBcruqS2gKrGqmix6hxAm6UReDmYD2KiqELp+z1QrBg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "67de3bfc-a34a-4739-b48c-f2cad4161517",
+                            SecurityStamp = "274a3bf4-b46b-4c3d-8ce1-b92742fc2f4e",
                             TwoFactorEnabled = false,
                             UserName = "user2@hotmail.com"
                         });
@@ -306,6 +306,7 @@ namespace arsoudeServeur.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("message")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<int?>("note")

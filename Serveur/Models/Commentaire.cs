@@ -11,7 +11,7 @@ namespace arsoudeServeur.Models
         //[Required(ErrorMessage = "Le titre est obligatoire.")]
         //public string? titre { get; set; }
 
-        public string? message { get; set; }
+        public string message { get; set; }
 
         public int? note { get; set; }
 
