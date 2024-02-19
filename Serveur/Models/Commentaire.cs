@@ -13,7 +13,9 @@ namespace arsoudeServeur.Models
 
         public string message { get; set; }
 
-        public int? note { get; set; }
+        public int note { get; set; }
+
+        public bool? estSupprime = false;
 
         // Clé étrangère 
         //Montrer juste des coeurs
@@ -27,8 +29,8 @@ namespace arsoudeServeur.Models
 
         //Afficher prénom + nom
         // Clé étrangère 
-        public int? utilisateurId { get; set; }
         [JsonIgnore]
+        public int? utilisateurId { get; set; }
         public virtual Utilisateur? utilisateur { get; set; }
     }
 }

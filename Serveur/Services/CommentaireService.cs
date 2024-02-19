@@ -32,7 +32,7 @@ namespace arsoudeServeur.Services
 
             //}
 
-            var rando = _context.randonnees.Where(r => r.id == commentaire.randoId).FirstOrDefault() ?? throw new Exception("Randonnée non trouvée");
+            var rando = _context.randonnees.Where(r => r.id == commentaire.randonneeId).FirstOrDefault() ?? throw new Exception("Randonnée non trouvée");
             _context.commentaires.Add(new Commentaire()
             {
                 message = commentaire.message,
@@ -48,7 +48,7 @@ namespace arsoudeServeur.Services
 
         public void PutCommentaire(int id, CommentaireDTO commentaireDTO, Utilisateur utilisateurCourant)
         {
-            var rando = _context.randonnees.Where(r => r.id == commentaireDTO.randoId).FirstOrDefault();
+            var rando = _context.randonnees.Where(r => r.id == commentaireDTO.randonneeId).FirstOrDefault();
             var commentaire = _context.commentaires.Where(c => c.id == id).FirstOrDefault();
             if (utilisateurCourant.id == commentaire.utilisateurId /*|| utilisateurCourant.role == "Administrator"*/)
             {

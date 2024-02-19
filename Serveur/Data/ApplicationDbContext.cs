@@ -291,6 +291,7 @@ namespace arsoudServeur.Data
                     randonneeId = 1,
                     utilisateurId = 2,
                     note = 3,
+                    estSupprime = false,
                 },
                 new Commentaire
                 {
@@ -299,7 +300,7 @@ namespace arsoudServeur.Data
                     randonneeId = 2,
                     utilisateurId = 1,
                     note = 3,
-
+                    estSupprime = false,
                 },
                 new Commentaire
                 {
@@ -308,14 +309,16 @@ namespace arsoudServeur.Data
                     randonneeId = 2,
                     utilisateurId = 2,
                     note = 3,
+                    estSupprime = false,
                 },
                 new Commentaire
                 {
                     id = 4,
-                    message = "Arsoude is a fantastic hiking app that has completely changed the way I explore the great outdoors. With detailed trail maps, GPS tracking, and real-time weather updates, I can confidently go on new adventures without worrying about getting lost. The app also features a community forum where users can share tips, photos, and recommendations, making it easy to connect with other outdoor enthusiasts. Overall, Arsoude has become an essential tool for my hiking excursions and I highly recommend it to anyone looking to discover new trails.",
+                    message = "Your purpose in life is to be in that chat, blowing a dick daily.\r\nYour life is nothing!\r\nYou serve zero purpose. You should kill yourself NOW.\r\nAnd give somebody else a piece of that oxygen, an ozone layer thats covered up so we can breathe inside this blue trapped  bubble, cause what are you here for? To worship me? Kill yourself. I mean that not a hundred percent, but a thousand percent.\r\nI've never seen somebody so worthless in mt life. I deadass. Have not seen such a worthless nigga in my life. If he has kids, oh my god",
                     randonneeId = 2,
                     utilisateurId = 3,
                     note = 1,
+                    estSupprime = false,
                 },
                 new Commentaire
                 {
@@ -324,6 +327,7 @@ namespace arsoudServeur.Data
                     randonneeId = 6,
                     utilisateurId = 3,
                     note = 5,
+                    estSupprime = false,
                 },
             };
             builder.Entity<Commentaire>().HasData(commentaireData);
