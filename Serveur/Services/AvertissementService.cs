@@ -1,4 +1,4 @@
-﻿using arsoudeServeur.Models.DTOs;
+using arsoudeServeur.Models.DTOs;
 using arsoudeServeur.Models;
 using arsoudServeur.Data;
 using Microsoft.EntityFrameworkCore;
@@ -41,7 +41,7 @@ namespace arsoudeServeur.Services
         public virtual async Task<Avertissement> CreateAvertissementAsync(AvertissementDTO avertissementDTO)
         {
 
-            Randonnee rando = await _context.randonnees.FirstOrDefaultAsync(x => x.id == avertissementDTO.randonneeId);
+            Randonnee? rando = await _context.randonnees.FirstOrDefaultAsync(x => x.id == avertissementDTO.randonneeId);
 
             if (rando == null) 
             {
