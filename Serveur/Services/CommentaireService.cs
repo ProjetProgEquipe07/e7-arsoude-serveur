@@ -1,4 +1,4 @@
-﻿using arsoudeServeur.Models;
+using arsoudeServeur.Models;
 using arsoudeServeur.Models.DTOs;
 using arsoudServeur.Data;
 using Microsoft.AspNetCore.Identity;
@@ -97,6 +97,17 @@ namespace arsoudeServeur.Services
             _context.commentaires.Update(commentaire).State = EntityState.Modified;
 
             _context.SaveChangesAsync();
+        }
+        public bool PeutCommenter(int randoId, Utilisateur utilisateurCourant)
+        {
+            var utilisateurTrace = _context.utilisateursTrace.Where(r => r.utilisateurId == utilisateurCourant.id).FirstOrDefault();
+            var rando = _context.randonnees.Where(r => r.id == randoId).FirstOrDefault() ?? throw new Exception("Randonnée n'existe pas");
+            var comm = rando.commentaires.Where(c => c.utilisateurId == utilisateurCourant.id);
+            if (utilisateurTrace == null || comm != null)
+            {
+                return false;
+            }
+            return true;
         }
     }
 }

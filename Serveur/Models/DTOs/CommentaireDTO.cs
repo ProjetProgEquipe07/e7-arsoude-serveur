@@ -1,4 +1,4 @@
-﻿namespace arsoudeServeur.Models.DTOs
+namespace arsoudeServeur.Models.DTOs
 {
     public class CommentaireDTO
     {

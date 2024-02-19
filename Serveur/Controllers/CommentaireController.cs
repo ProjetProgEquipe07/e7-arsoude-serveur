@@ -1,4 +1,4 @@
-﻿using arsoudeServeur.Models;
+using arsoudeServeur.Models;
 using arsoudeServeur.Models.DTOs;
 using arsoudeServeur.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -8,7 +8,7 @@ namespace arsoudeServeur.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
-    [Authorize()]
+    [Authorize]
     public class CommentaireController : BaseController
     {
         private CommentaireService _commentaireService;
@@ -48,5 +48,12 @@ namespace arsoudeServeur.Controllers
             _commentaireService.DeleteCommentaire(id, UtilisateurCourant);
             return Ok();
         }
+
+        [HttpGet("{randoId}")]
+        public async Task<bool> UtilisateurPeutCommenter(int randoId)
+        {
+            return _commentaireService.PeutCommenter(randoId, UtilisateurCourant);
+        }
+        
     }
 }
