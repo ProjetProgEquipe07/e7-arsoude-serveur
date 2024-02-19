@@ -45,20 +45,6 @@ namespace arsoudeServeur.Migrations
                         .HasDatabaseName("RoleNameIndex");
 
                     b.ToTable("AspNetRoles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "f8a2e25c-e417-4f36-8882-be6a2ec3dd7b",
-                            Name = "Administrator",
-                            NormalizedName = "ADMINISTRATOR"
-                        },
-                        new
-                        {
-                            Id = "fdc10744-f42a-4821-bc14-6b2758d0765e",
-                            Name = "User",
-                            NormalizedName = "USER"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -152,15 +138,15 @@ namespace arsoudeServeur.Migrations
                         {
                             Id = "11111111-1111-1111-1111-111111111111",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "ef57815e-8772-474d-b513-520925e06737",
+                            ConcurrencyStamp = "20ecc001-459b-4e28-a00a-3b496cc27166",
                             Email = "admin@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@GMAIL.COM",
                             NormalizedUserName = "ADMIN@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEJMIfvr0qhdgxKEmgy4/MbqCj1pzleBB/COcVmXTifMU06cjrqtwclWbawl5gr4zSw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEEmPqbDU/AiOyWkBPAYXqgOX4FzN47qJ4Ar08bD8LypWkcE3qbZnXWklO/X0PYIXKQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "b2985faf-3a06-483d-adfe-661371072bb4",
+                            SecurityStamp = "bcfcd3b2-65b4-419e-b283-9330f2a6f794",
                             TwoFactorEnabled = false,
                             UserName = "admin@gmail.com"
                         },
@@ -168,15 +154,15 @@ namespace arsoudeServeur.Migrations
                         {
                             Id = "11111111-1111-1111-1111-111111111112",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "b7d2fab9-e990-4494-86fd-a7c00736970f",
+                            ConcurrencyStamp = "49d66fea-c852-4613-ab48-cc90f0283dea",
                             Email = "user1@hotmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "USER1@HOTMAIL.COM",
                             NormalizedUserName = "USER1@HOTMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEOJxVETDzuFh7OvfbTDgChHdXSHLHv+hAtIYV4mkmSAuXSkfHAa1nyqa0BtEdjiXOQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEKptJQyP0f/HS5NjOpl74c+Wmlwz84qIGbFQs8aEy7txmRmSiV6ckpXj+nADK/mb1A==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "11146ff6-67f8-47a7-afd0-de1644a89620",
+                            SecurityStamp = "bd78fc99-6818-4c9f-94f3-f9d7ef6ae38a",
                             TwoFactorEnabled = false,
                             UserName = "user1@hotmail.com"
                         },
@@ -184,15 +170,15 @@ namespace arsoudeServeur.Migrations
                         {
                             Id = "11111111-1111-1111-1111-111111111113",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "a08581ed-39c9-4b67-ba84-1ea104e6fc9c",
+                            ConcurrencyStamp = "a637b816-29bc-4487-8c33-c41344a63651",
                             Email = "user2@hotmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "USER2@HOTMAIL.COM",
                             NormalizedUserName = "USER2@HOTMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEJW8T0VNzKtFgQssxtjzbO+Nbmf/KB2xi9wxoll5yiANoDPvYRbc4anJ84oqfpvJ9w==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEJsVBRV+msSB32vAT5BbhkEWEWxg+IwkQGEa/B4a5Tj4cedUcIjSD1Drkf/5QM72kQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "31272b3e-0474-414c-a395-132c5a171c45",
+                            SecurityStamp = "67de3bfc-a34a-4739-b48c-f2cad4161517",
                             TwoFactorEnabled = false,
                             UserName = "user2@hotmail.com"
                         });
@@ -319,19 +305,16 @@ namespace arsoudeServeur.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("description")
+                    b.Property<string>("message")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("note")
+                    b.Property<int?>("note")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("randonneeId")
+                    b.Property<int?>("randonneeId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("titre")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("utilisateurId")
+                    b.Property<int?>("utilisateurId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("id");
@@ -346,46 +329,41 @@ namespace arsoudeServeur.Migrations
                         new
                         {
                             id = 1,
-                            description = "You are a worthless bitch ass nigga\r\nYour life literally is as valuable as a summer ant. I'm just gonna stomp you.\r\nYou're gonna keep coming back. I'm gonna seal up all my cracks, youre gonna keep coming back\r\n \r\nWhy? Cause you keep smelling the syrup, you worthless bitch ass nigga. Your gonna stay on my dick until you die.\r\nYou serve no purpose in life. Your purpose in life is to be on my stream sucking on my dick daily.\r\n \r\nYour purpose in life is to be in that chat, blowing a dick daily.\r\nYour life is nothing!\r\nYou serve zero purpose. You should kill yourself NOW.\r\nAnd give somebody else a piece of that oxygen, an ozone layer thats covered up so we can breathe inside this blue trapped  bubble, cause what are you here for? To worship me? Kill yourself. I mean that not a 100% but a thousand percent.\r\n \r\nImagine if a nigga like that has kids. Like imagine somebody like that has kids",
+                            message = "Are you looking for a new outdoor adventure that won't break the bank? Look no further than Arsoude! This app offers a wide variety of hiking trails at affordable prices, making it easy for anyone to experience the beauty of nature without spending a fortune. With Arsoude, you can easily find new trails to explore based on your location and skill level. The app provides detailed information about each trail, including distance, difficulty level, and user reviews, so you can choose the perfect hike for your next outing.",
                             note = 3,
                             randonneeId = 1,
-                            titre = "LTG speech #1",
                             utilisateurId = 2
                         },
                         new
                         {
                             id = 2,
-                            description = "Imagine if a nigga like that has kids. Like imagine. Imagine if somebody like that has kids. I will feel so sorry for his children cause the nigga literally serves no purpose. Imagine a father, now we got a lot of niggas with wife and kids and shit like that who keeps sucking on my dick daily on the internet but imagine if this nigga actually had children. This niggas devoting the time he could be spending with his kids checking out a black man on stream cucking him relentlessly. That's crazy! I've never seen somebody so relentless to be seen. Somebody so worthless that they'll come into this stream and keep coming in this bitch over and over and over and over and over again when we keep banning you\r\nNigga let me.. let me.. let's do you a favor",
+                            message = "I recently downloaded the hiking app Arsoude and I have to say I am extremely impressed. The app is user-friendly and provides detailed maps, trail information, and tips for hikers of all levels. I love that it includes features such as GPS tracking and offline maps, making it easy to navigate even in remote areas with no signal. The trail recommendations and difficulty ratings have been spot on and have helped me find new hikes that I never would have discovered otherwise. Overall, Arsoude has become my go-to app for all of my hiking adventures. Highly recommend!",
                             note = 3,
                             randonneeId = 2,
-                            titre = "LTG speech #2",
                             utilisateurId = 1
                         },
                         new
                         {
                             id = 3,
-                            description = "Lets go to the 99 cents store and lets pick out a rope together. Imma give you an assisted suicide. Lets pick out a rope together right? And we're gonna take all the greatest trolls clips, put a tv screen right in front of you.\r\nI'm gonna hang that rope at the top of the motherfucking garage.\r\nWe're gonna forcefully pry your eyes open, we probably don't even need to do that cause your on my dick daily. We're gonna pry your eyes open until you consistently watch clips over and over and over and over again to the point where you're gonna be like 'Wait a minute, this is a little bit too much'\r\nYou're just gonna start going crazy.\r\nYou're gonna start going crazy.\r\nJust, your eyes are gonna bleed your retinas are just gonna start pouring out, pouring out blood and just getting\r\ncracks and veins in your retinas are gonna start engaging and bulging. Then I'm gonna grab that rope for you and say 'Are you ready?' You're gonna say 'Yeah' I'm gonna take it and PULL IT\r\nwhile you beg me, beg me and I mean beg me to kill you and choke you, choke the worthless life out of your sorry ass until you're fucking dead, croaked with a blue face nigga. Cause you don't deserve your soul.\r\nI've never seen somebody so fucking worthless and relentless that keep coming in a niggas chat over and over and over again. Somebody like that needs to die.\r\nThere is really no reason for him to be alive. We lost prominent niggas on earth, that served a purpose that had... so this nigga could be on earth trolling a stream daily, like come on my nigga. Like, your life is just worthless, just please kill yourself.\r\nGo outside, throw some steaks in a fucking alley and hope a bunch of stray dogs jump on you starts chewing your fucking dick your dick off, biting pieces and shit off of you like that cause you literally just gotta go. Like this nigga off of earth. Please",
+                            message = "As an avid hiker, I cannot recommend the Arsoude app enough. This user-friendly platform has completely revolutionized my hiking experience. From detailed trail maps to real-time weather updates, Arsoude has everything I need to plan and execute the perfect outdoor adventure. The interface is sleek and intuitive, making it easy to navigate even on the go. Plus, the community feature allows me to connect with other outdoor enthusiasts and share tips and recommendations. Whether you're a seasoned hiker or just starting out, Arsoude is a must-have for your next outdoor excursion.",
                             note = 3,
-                            randonneeId = 4,
-                            titre = "LTG speech #3",
+                            randonneeId = 2,
                             utilisateurId = 2
                         },
                         new
                         {
                             id = 4,
-                            description = "Lets go to the 99 cents store and lets pick out a rope together. Imma give you an assisted suicide. Lets pick out a rope together right? And we're gonna take all the greatest trolls clips, put a tv screen right in front of you.\r\nI'm gonna hang that rope at the top of the motherfucking garage.\r\nWe're gonna forcefully pry your eyes open, we probably don't even need to do that cause your on my dick daily. We're gonna pry your eyes open until you consistently watch clips over and over and over and over again to the point where you're gonna be like 'Wait a minute, this is a little bit too much'\r\nYou're just gonna start going crazy.\r\nYou're gonna start going crazy.\r\nJust, your eyes are gonna bleed your retinas are just gonna start pouring out, pouring out blood and just getting\r\ncracks and veins in your retinas are gonna start engaging and bulging. Then I'm gonna grab that rope for you and say 'Are you ready?' You're gonna say 'Yeah' I'm gonna take it and PULL IT\r\nwhile you beg me, beg me and I mean beg me to kill you and choke you, choke the worthless life out of your sorry ass until you're fucking dead, croaked with a blue face nigga. Cause you don't deserve your soul.\r\nI've never seen somebody so fucking worthless and relentless that keep coming in a niggas chat over and over and over again. Somebody like that needs to die.\r\nThere is really no reason for him to be alive. We lost prominent niggas on earth, that served a purpose that had... so this nigga could be on earth trolling a stream daily, like come on my nigga. Like, your life is just worthless, just please kill yourself.\r\nGo outside, throw some steaks in a fucking alley and hope a bunch of stray dogs jump on you starts chewing your fucking dick your dick off, biting pieces and shit off of you like that cause you literally just gotta go. Like this nigga off of earth. Please",
+                            message = "Arsoude is a fantastic hiking app that has completely changed the way I explore the great outdoors. With detailed trail maps, GPS tracking, and real-time weather updates, I can confidently go on new adventures without worrying about getting lost. The app also features a community forum where users can share tips, photos, and recommendations, making it easy to connect with other outdoor enthusiasts. Overall, Arsoude has become an essential tool for my hiking excursions and I highly recommend it to anyone looking to discover new trails.",
                             note = 1,
                             randonneeId = 2,
-                            titre = "LTG speech #4",
                             utilisateurId = 3
                         },
                         new
                         {
                             id = 5,
-                            description = "Lets go to the 99 cents store and lets pick out a rope together. Imma give you an assisted suicide. Lets pick out a rope together right? And we're gonna take all the greatest trolls clips, put a tv screen right in front of you.\r\nI'm gonna hang that rope at the top of the motherfucking garage.\r\nWe're gonna forcefully pry your eyes open, we probably don't even need to do that cause your on my dick daily. We're gonna pry your eyes open until you consistently watch clips over and over and over and over again to the point where you're gonna be like 'Wait a minute, this is a little bit too much'\r\nYou're just gonna start going crazy.\r\nYou're gonna start going crazy.\r\nJust, your eyes are gonna bleed your retinas are just gonna start pouring out, pouring out blood and just getting\r\ncracks and veins in your retinas are gonna start engaging and bulging. Then I'm gonna grab that rope for you and say 'Are you ready?' You're gonna say 'Yeah' I'm gonna take it and PULL IT\r\nwhile you beg me, beg me and I mean beg me to kill you and choke you, choke the worthless life out of your sorry ass until you're fucking dead, croaked with a blue face nigga. Cause you don't deserve your soul.\r\nI've never seen somebody so fucking worthless and relentless that keep coming in a niggas chat over and over and over again. Somebody like that needs to die.\r\nThere is really no reason for him to be alive. We lost prominent niggas on earth, that served a purpose that had... so this nigga could be on earth trolling a stream daily, like come on my nigga. Like, your life is just worthless, just please kill yourself.\r\nGo outside, throw some steaks in a fucking alley and hope a bunch of stray dogs jump on you starts chewing your fucking dick your dick off, biting pieces and shit off of you like that cause you literally just gotta go. Like this nigga off of earth. Please",
+                            message = "J'ai récemment découvert l'application de randonnée Arsoude et je dois dire que je suis impressionné. Non seulement elle est facile à utiliser, mais elle offre également une multitude d'itinéraires de randonnée à travers de superbes paysages. Grâce à Arsoude, j'ai pu explorer de nouveaux sentiers et découvrir des trésors cachés que je n'aurais jamais trouvés autrement. Je recommande vivement cette application à tous les amoureux de la randonnée!",
                             note = 5,
                             randonneeId = 6,
-                            titre = "LTG speech #5",
                             utilisateurId = 3
                         });
                 });
@@ -700,6 +678,9 @@ namespace arsoudeServeur.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<int?>("Commentaireid")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("adresse")
                         .HasColumnType("TEXT");
 
@@ -734,6 +715,8 @@ namespace arsoudeServeur.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("id");
+
+                    b.HasIndex("Commentaireid");
 
                     b.HasIndex("identityUserId");
 
@@ -847,15 +830,11 @@ namespace arsoudeServeur.Migrations
                 {
                     b.HasOne("arsoudeServeur.Models.Randonnee", "randonnee")
                         .WithMany("commentaires")
-                        .HasForeignKey("randonneeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("randonneeId");
 
                     b.HasOne("arsoudeServeur.Models.Utilisateur", "utilisateur")
                         .WithMany()
-                        .HasForeignKey("utilisateurId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("utilisateurId");
 
                     b.Navigation("randonnee");
 
@@ -935,6 +914,10 @@ namespace arsoudeServeur.Migrations
 
             modelBuilder.Entity("arsoudeServeur.Models.Utilisateur", b =>
                 {
+                    b.HasOne("arsoudeServeur.Models.Commentaire", null)
+                        .WithMany("utilisateursLikes")
+                        .HasForeignKey("Commentaireid");
+
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "identityUser")
                         .WithMany()
                         .HasForeignKey("identityUserId")
@@ -942,6 +925,11 @@ namespace arsoudeServeur.Migrations
                         .IsRequired();
 
                     b.Navigation("identityUser");
+                });
+
+            modelBuilder.Entity("arsoudeServeur.Models.Commentaire", b =>
+                {
+                    b.Navigation("utilisateursLikes");
                 });
 
             modelBuilder.Entity("arsoudeServeur.Models.Randonnee", b =>

@@ -18,7 +18,7 @@ namespace arsoudeServeur.Models
         // Clé étrangère 
         //Montrer juste des coeurs
         //0 ou 1 et +
-        public virtual List<int>? utilisateurIdsLikes { get; set; }
+        public virtual List<Utilisateur>? utilisateursLikes { get; set; }
 
         // Clé étrangère 
         public int? randonneeId { get; set; }

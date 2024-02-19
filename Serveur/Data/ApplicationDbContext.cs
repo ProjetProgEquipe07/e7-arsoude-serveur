@@ -17,24 +17,8 @@ namespace arsoudServeur.Data
         }
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            //Seed roles
 
             base.OnModelCreating(builder);
-            var adminRole = new IdentityRole
-            {
-                Id = Guid.NewGuid().ToString(),
-                Name = "Administrator",
-                NormalizedName = "ADMINISTRATOR"
-            };
-
-            var userRole = new IdentityRole
-            {
-                Id = Guid.NewGuid().ToString(),
-                Name = "User",
-                NormalizedName = "USER"
-            };
-
-            builder.Entity<IdentityRole>().HasData(adminRole, userRole);
 
             //Seed IdentityUsers
 
@@ -116,7 +100,7 @@ namespace arsoudServeur.Data
             builder.Entity<Utilisateur>().HasData(utilisateurs);
             SeedRandonnees(builder);
             SeedGPSData(builder);
-            SeedCommentaires(builder, utilisateurs);
+            SeedCommentaires(builder);
         }
 
 
@@ -295,7 +279,7 @@ namespace arsoudServeur.Data
 
             builder.Entity<GPS>().HasData(gpsData);
         }
-        private void SeedCommentaires(ModelBuilder builder, List<Utilisateur> utilisateurs)
+        private void SeedCommentaires(ModelBuilder builder)
         {
             var commentaireData = new List<Commentaire>
             {
@@ -307,7 +291,6 @@ namespace arsoudServeur.Data
                     randonneeId = 1,
                     utilisateurId = 2,
                     note = 3,
-                    utilisateurIdsLikes = { utilisateurs[2].id, utilisateurs[0].id },
                 },
                 new Commentaire
                 {
@@ -316,13 +299,13 @@ namespace arsoudServeur.Data
                     randonneeId = 2,
                     utilisateurId = 1,
                     note = 3,
-                    utilisateurIdsLikes = { utilisateurs[2].id },
 
                 },
                 new Commentaire
                 {
                     id = 3,
                     message = "As an avid hiker, I cannot recommend the Arsoude app enough. This user-friendly platform has completely revolutionized my hiking experience. From detailed trail maps to real-time weather updates, Arsoude has everything I need to plan and execute the perfect outdoor adventure. The interface is sleek and intuitive, making it easy to navigate even on the go. Plus, the community feature allows me to connect with other outdoor enthusiasts and share tips and recommendations. Whether you're a seasoned hiker or just starting out, Arsoude is a must-have for your next outdoor excursion.",
+                    randonneeId = 2,
                     utilisateurId = 2,
                     note = 3,
                 },
@@ -333,7 +316,6 @@ namespace arsoudServeur.Data
                     randonneeId = 2,
                     utilisateurId = 3,
                     note = 1,
-                    utilisateurIdsLikes = { utilisateurs[1].id, utilisateurs[0].id},
                 },
                 new Commentaire
                 {
@@ -342,7 +324,6 @@ namespace arsoudServeur.Data
                     randonneeId = 6,
                     utilisateurId = 3,
                     note = 5,
-                    utilisateurIdsLikes = { utilisateurs[0].id, utilisateurs[2].id },
                 },
             };
             builder.Entity<Commentaire>().HasData(commentaireData);
