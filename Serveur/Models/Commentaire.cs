@@ -7,15 +7,18 @@ namespace arsoudeServeur.Models
     {
         public int id { get; set; }
 
-        //TODO: le titre est pas demandé me semble
-        //[Required(ErrorMessage = "Le titre est obligatoire.")]
-        //public string? titre { get; set; }
+        //le titre est pas demandé me semble (j'ai demandé à PO et si on l'a pas noté on le met pas)
 
-        public string message { get; set; }
+        //TODO: mettre une propriété pour la date de création
+        //TODO: mettre une propriété pour la date de modification
+        //TODO: mettre une propriété pour la date de suppression
+        //TODO: mettre une propriété pour le nom complet de la personne prénom + " " + nom 
 
-        public int note { get; set; }
+        public string message { get; set; } = "";
 
-        public bool? estSupprime = false;
+        public int? note { get; set; }
+
+        public bool isDeleted { get; set; } = false;
 
         // Clé étrangère 
         //Montrer juste des coeurs
