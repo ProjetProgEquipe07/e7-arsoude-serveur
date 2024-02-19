@@ -28,7 +28,7 @@ namespace arsoudeServeur.Services
         {
 
         }
-        public class WrongDescriptionException : Exception
+        public class DescriptionOutOfBoundsException : Exception
         {
 
         }
@@ -62,7 +62,7 @@ namespace arsoudeServeur.Services
 
             if (avertissementDTO.description.Length < 1 || avertissementDTO.description.Length > 50)
             {
-                throw new WrongDescriptionException();
+                throw new DescriptionOutOfBoundsException();
             }
 
             Avertissement avertissement = new Avertissement()

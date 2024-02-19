@@ -74,7 +74,7 @@ namespace Tests.Controllers
                 AvertissementDTO avertissementDTO = new AvertissementDTO();
                 var actionResult = await avertissementController.CreateAvertissement(avertissementDTO);
 
-                Assert.IsInstanceOfType(actionResult.Result, typeof(BadRequestObjectResult));
+                Assert.IsInstanceOfType(actionResult.Result, typeof(NotFoundObjectResult));
             }
         }
 
@@ -171,7 +171,7 @@ namespace Tests.Controllers
 
         [TestMethod]
         [ExpectedException(typeof(TypeAvertissementNotFoundException))]
-        public async Task CreateAvertissementService_TypeRandoInvalid()
+        public async Task CreateAvertissementService_TypeRandoInvalid_Max()
         {
             using (var dbContext = new ApplicationDbContext(options))
             {
@@ -211,9 +211,53 @@ namespace Tests.Controllers
 
             }
         }
+
+        [TestMethod]
+        [ExpectedException(typeof(TypeAvertissementNotFoundException))]
+        public async Task CreateAvertissementService_TypeRandoInvalid_Min()
+        {
+            using (var dbContext = new ApplicationDbContext(options))
+            {
+                dbContext.Database.EnsureDeleted();
+                var avertissementMock = new Mock<AvertissementService>(dbContext) { CallBase = true };
+
+                Randonnee rando = new Randonnee
+                {
+                    id = 1,
+                    nom = "test Montagne",
+                    description = "Une belle randonnée en montagne.",
+                    emplacement = "Alpes",
+                    etatRandonnee = Randonnee.Etat.Publique,
+                    typeRandonnee = Randonnee.Type.Marche,
+                    GPS = new List<GPS>
+                        {
+                            new GPS { id = 1, x = 45.832619, y = 6.864719, depart = true, arrivee = false },
+                            new GPS { id = 2, x = 45.832619, y = 6.865719, depart = false, arrivee = true },
+                        },
+                    image = new Image { id = 1, lien = "", randonneeId = 1 },
+                    utilisateurId = 1
+                };
+
+                dbContext.randonnees.Add(rando);
+                await dbContext.SaveChangesAsync();
+
+                AvertissementDTO avertissement = new AvertissementDTO
+                {
+                    id = 1,
+                    description = "description",
+                    typeAvertissement = -1,
+                    randonneeId = 1
+                };
+
+                var result = await avertissementMock.Object.CreateAvertissementAsync(avertissement);
+
+
+            }
+        }
+
         [TestMethod]
         [ExpectedException(typeof(GPSOutOfBoundsException))]
-        public async Task CreateAvertissementService_GpsInvalid()
+        public async Task CreateAvertissementService_GpsInvalid_MaxX()
         {
             using (var dbContext = new ApplicationDbContext(options))
             {
@@ -246,6 +290,114 @@ namespace Tests.Controllers
                     arrivee = false,
                     depart = false,
                     x = 91,
+                    y = 0,
+                    randonneeId = 1
+                };
+
+                AvertissementDTO avertissement = new AvertissementDTO
+                {
+                    id = 1,
+                    description = "description",
+                    typeAvertissement = 2,
+                    randonneeId = 1,
+                    gps = gps,
+                };
+
+                var result = await avertissementMock.Object.CreateAvertissementAsync(avertissement);
+
+
+            }
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(GPSOutOfBoundsException))]
+        public async Task CreateAvertissementService_GpsInvalid_MinX()
+        {
+            using (var dbContext = new ApplicationDbContext(options))
+            {
+                dbContext.Database.EnsureDeleted();
+                var avertissementMock = new Mock<AvertissementService>(dbContext) { CallBase = true };
+
+                Randonnee rando = new Randonnee
+                {
+                    id = 1,
+                    nom = "test Montagne",
+                    description = "Une belle randonnée en montagne.",
+                    emplacement = "Alpes",
+                    etatRandonnee = Randonnee.Etat.Publique,
+                    typeRandonnee = Randonnee.Type.Marche,
+                    GPS = new List<GPS>
+                        {
+                            new GPS { id = 1, x = 45.832619, y = 6.864719, depart = true, arrivee = false },
+                            new GPS { id = 2, x = 45.832619, y = 6.865719, depart = false, arrivee = true },
+                        },
+                    image = new Image { id = 1, lien = "", randonneeId = 1 },
+                    utilisateurId = 1
+                };
+
+                dbContext.randonnees.Add(rando);
+                await dbContext.SaveChangesAsync();
+
+                GPS gps = new GPS
+                {
+                    id = 0,
+                    arrivee = false,
+                    depart = false,
+                    x = -91,
+                    y = 0,
+                    randonneeId = 1
+                };
+
+                AvertissementDTO avertissement = new AvertissementDTO
+                {
+                    id = 1,
+                    description = "description",
+                    typeAvertissement = 2,
+                    randonneeId = 1,
+                    gps = gps,
+                };
+
+                var result = await avertissementMock.Object.CreateAvertissementAsync(avertissement);
+
+
+            }
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(GPSOutOfBoundsException))]
+        public async Task CreateAvertissementService_GpsInvalid_MaxY()
+        {
+            using (var dbContext = new ApplicationDbContext(options))
+            {
+                dbContext.Database.EnsureDeleted();
+                var avertissementMock = new Mock<AvertissementService>(dbContext) { CallBase = true };
+
+                Randonnee rando = new Randonnee
+                {
+                    id = 1,
+                    nom = "test Montagne",
+                    description = "Une belle randonnée en montagne.",
+                    emplacement = "Alpes",
+                    etatRandonnee = Randonnee.Etat.Publique,
+                    typeRandonnee = Randonnee.Type.Marche,
+                    GPS = new List<GPS>
+                        {
+                            new GPS { id = 1, x = 45.832619, y = 6.864719, depart = true, arrivee = false },
+                            new GPS { id = 2, x = 45.832619, y = 6.865719, depart = false, arrivee = true },
+                        },
+                    image = new Image { id = 1, lien = "", randonneeId = 1 },
+                    utilisateurId = 1
+                };
+
+                dbContext.randonnees.Add(rando);
+                await dbContext.SaveChangesAsync();
+
+                GPS gps = new GPS
+                {
+                    id = 0,
+                    arrivee = false,
+                    depart = false,
+                    x = 0,
                     y = 181,
                     randonneeId = 1
                 };
@@ -264,9 +416,64 @@ namespace Tests.Controllers
 
             }
         }
+
         [TestMethod]
-        [ExpectedException(typeof(WrongDescriptionException))]
-        public async Task CreateAvertissementService_DescriptionInvalid()
+        [ExpectedException(typeof(GPSOutOfBoundsException))]
+        public async Task CreateAvertissementService_GpsInvalid_MinY()
+        {
+            using (var dbContext = new ApplicationDbContext(options))
+            {
+                dbContext.Database.EnsureDeleted();
+                var avertissementMock = new Mock<AvertissementService>(dbContext) { CallBase = true };
+
+                Randonnee rando = new Randonnee
+                {
+                    id = 1,
+                    nom = "test Montagne",
+                    description = "Une belle randonnée en montagne.",
+                    emplacement = "Alpes",
+                    etatRandonnee = Randonnee.Etat.Publique,
+                    typeRandonnee = Randonnee.Type.Marche,
+                    GPS = new List<GPS>
+                        {
+                            new GPS { id = 1, x = 45.832619, y = 6.864719, depart = true, arrivee = false },
+                            new GPS { id = 2, x = 45.832619, y = 6.865719, depart = false, arrivee = true },
+                        },
+                    image = new Image { id = 1, lien = "", randonneeId = 1 },
+                    utilisateurId = 1
+                };
+
+                dbContext.randonnees.Add(rando);
+                await dbContext.SaveChangesAsync();
+
+                GPS gps = new GPS
+                {
+                    id = 0,
+                    arrivee = false,
+                    depart = false,
+                    x = 0,
+                    y = -181,
+                    randonneeId = 1
+                };
+
+                AvertissementDTO avertissement = new AvertissementDTO
+                {
+                    id = 1,
+                    description = "description",
+                    typeAvertissement = 2,
+                    randonneeId = 1,
+                    gps = gps,
+                };
+
+                var result = await avertissementMock.Object.CreateAvertissementAsync(avertissement);
+
+
+            }
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(DescriptionOutOfBoundsException))]
+        public async Task CreateAvertissementService_DescriptionInvalid_Max()
         {
             using (var dbContext = new ApplicationDbContext(options))
             {
@@ -305,7 +512,60 @@ namespace Tests.Controllers
                 AvertissementDTO avertissement = new AvertissementDTO
                 {
                     id = 1,
-                    description = "12345678901234567890123456789012345678901234567890XD",
+                    description = "12345678901234567890123456789012345678901234567890plusque50",
+                    typeAvertissement = 2,
+                    randonneeId = 1,
+                    gps = gps,
+                };
+
+                var result = await avertissementMock.Object.CreateAvertissementAsync(avertissement);
+
+
+            }
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(DescriptionOutOfBoundsException))]
+        public async Task CreateAvertissementService_DescriptionInvalid_Min()
+        {
+            using (var dbContext = new ApplicationDbContext(options))
+            {
+                dbContext.Database.EnsureDeleted();
+                var avertissementMock = new Mock<AvertissementService>(dbContext) { CallBase = true };
+
+                Randonnee rando = new Randonnee
+                {
+                    id = 1,
+                    nom = "test Montagne",
+                    description = "Une belle randonnée en montagne.",
+                    emplacement = "Alpes",
+                    etatRandonnee = Randonnee.Etat.Publique,
+                    typeRandonnee = Randonnee.Type.Marche,
+                    GPS = new List<GPS>
+                        {
+                            new GPS { id = 1, x = 45.832619, y = 6.864719, depart = true, arrivee = false },
+                            new GPS { id = 2, x = 45.832619, y = 6.865719, depart = false, arrivee = true },
+                        },
+                    image = new Image { id = 1, lien = "", randonneeId = 1 },
+                    utilisateurId = 1
+                };
+
+                dbContext.randonnees.Add(rando);
+                await dbContext.SaveChangesAsync();
+                GPS gps = new GPS
+                {
+                    id = 0,
+                    arrivee = false,
+                    depart = false,
+                    x = 90,
+                    y = 180,
+                    randonneeId = 1
+                };
+
+                AvertissementDTO avertissement = new AvertissementDTO
+                {
+                    id = 1,
+                    description = "",
                     typeAvertissement = 2,
                     randonneeId = 1,
                     gps = gps,
@@ -369,7 +629,7 @@ namespace Tests.Controllers
                 Avertissement avertissement = new Avertissement();
                 var actionResult = await avertissementController.DeleteAvertissement(10);
 
-                Assert.IsInstanceOfType(actionResult, typeof(BadRequestObjectResult));
+                Assert.IsInstanceOfType(actionResult, typeof(NotFoundObjectResult));
             }
 
         }
@@ -487,7 +747,7 @@ namespace Tests.Controllers
                 Avertissement avertissement = new Avertissement();
                 var actionResult = await avertissementController.AddTime(10);
 
-                Assert.IsInstanceOfType(actionResult, typeof(BadRequestObjectResult));
+                Assert.IsInstanceOfType(actionResult, typeof(NotFoundObjectResult));
             }
 
         }

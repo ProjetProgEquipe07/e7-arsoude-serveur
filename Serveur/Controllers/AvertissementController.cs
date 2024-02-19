@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using static arsoudeServeur.Services.AvertissementService;
 
 namespace arsoudeServeur.Controllers
 {
@@ -22,13 +23,29 @@ namespace arsoudeServeur.Controllers
         [HttpPost]
         public async Task<ActionResult<Avertissement>> CreateAvertissement(AvertissementDTO avertissementdto)
         {
-            try 
+            try
             {
                 var avertissement = await _avertissementService.CreateAvertissementAsync(avertissementdto);
 
                 return Ok(avertissement);
             }
-            catch (Exception e) 
+            catch (RandonneeNotFoundException) 
+            {
+                return NotFound(new { Error = "RandonneeNotFound" });
+            }
+            catch (GPSOutOfBoundsException)
+            {
+                return BadRequest(new { Error = "GpsOutOfBounds" });
+            }
+            catch (TypeAvertissementNotFoundException)
+            {
+                return BadRequest(new { Error = "TypeAvertissementNotFound" });
+            }
+            catch (DescriptionOutOfBoundsException)
+            {
+                return BadRequest(new { Error = "DescriptionOutOfBounds" });
+            }
+            catch (Exception e)
             {
                 return BadRequest(e.Message);
             }
@@ -43,24 +60,32 @@ namespace arsoudeServeur.Controllers
 
                 return Ok();
             }
+            catch (AvertissementNotFoundException)
+            {
+                return NotFound(new { Error = "AvertissmentNotFound" });
+            }
             catch (Exception e)
             {
-                return BadRequest(e.Message);
+                return BadRequest(new { Error = e.Message });
             }
         }
 
         [HttpGet("{avertissementId}")]
         public async Task<IActionResult> DeleteAvertissement(int avertissementId)
-        {            
+        {
             try
             {
                 var success = await _avertissementService.DeleteAvertissementAsync(avertissementId);
-                
+
                 return Ok();
+            }
+            catch (AvertissementNotFoundException) 
+            {
+                return NotFound(new { Error = "AvertissmentNotFound" });
             }
             catch (Exception e)
             {
-                return BadRequest(e.Message);
+                return BadRequest(new { Error = e.Message });
             }
         }
     }
