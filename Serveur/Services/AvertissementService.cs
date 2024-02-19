@@ -3,6 +3,7 @@ using arsoudeServeur.Models;
 using arsoudServeur.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.DotNet.Scaffolding.Shared.Messaging;
 
 namespace arsoudeServeur.Services
 {
@@ -15,25 +16,53 @@ namespace arsoudeServeur.Services
             _context = context;
         }
 
-        public async Task<Avertissement> CreateAvertissementAsync(AvertissementDTO avertissementDTO)
+        public class RandonneeNotFoundException : Exception
         {
+            
+        }
+        public class TypeAvertissementNotFoundException : Exception
+        {
+
+        }
+        public class GPSOutOfBoundsException : Exception
+        {
+
+        }
+        public class WrongDescriptionException : Exception
+        {
+
+        }
+        public class AvertissementNotFoundException : Exception
+        {
+
+        }
+
+
+        public virtual async Task<Avertissement> CreateAvertissementAsync(AvertissementDTO avertissementDTO)
+        {
+
             Randonnee rando = await _context.randonnees.FirstOrDefaultAsync(x => x.id == avertissementDTO.randonneeId);
 
             if (rando == null) 
             {
                 //rando inexistante
-                return null;
+               throw new RandonneeNotFoundException();
             }
 
             if (avertissementDTO.typeAvertissement < 0 || avertissementDTO.typeAvertissement > 3)
             {
-                //avertissement pas existant
-                return null;
+                //Type avertissement pas existant
+                throw new TypeAvertissementNotFoundException();
             }
 
-            if (avertissementDTO.gps == null)
+            if (avertissementDTO.gps.x < -90 || avertissementDTO.gps.x > 90 || avertissementDTO.gps.y < -180 || avertissementDTO.gps.y > 180)
             {
-                return null;
+                throw new GPSOutOfBoundsException();
+            }
+
+            if (avertissementDTO.description.Length < 1 || avertissementDTO.description.Length > 50)
+            {
+                throw new WrongDescriptionException();
             }
 
             Avertissement avertissement = new Avertissement()
@@ -51,13 +80,13 @@ namespace arsoudeServeur.Services
             return avertissement;
         }
 
-        public async Task<bool> DeleteAvertissementAsync(int avertissementId)
+        public virtual async Task<bool> DeleteAvertissementAsync(int avertissementId)
         {
             var avertissement = await _context.avertissements.FindAsync(avertissementId);
 
             if (avertissement == null)
             {
-                return false;
+                throw new AvertissementNotFoundException();
             }
 
             _context.avertissements.Remove(avertissement);
@@ -65,13 +94,13 @@ namespace arsoudeServeur.Services
             return true;
         }
 
-        public async Task<bool> AddTimeAvertissementAsync(int avertissementId)
+        public virtual async Task<bool> AddTimeAvertissementAsync(int avertissementId)
         {
             var avertissement = await _context.avertissements.FindAsync(avertissementId);
 
             if (avertissement == null)
             {
-                return false;
+                throw new AvertissementNotFoundException();
             }
 
             avertissement.DateSuppresion = DateTime.Now + TimeSpan.FromDays(7);
