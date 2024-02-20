@@ -1,4 +1,5 @@
 using arsoudeServeur.Models;
+using arsoudeServeur.Models.DTOs;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -402,5 +403,6 @@ namespace arsoudServeur.Data
         public DbSet<RandonneeUtilisateurTrace> utilisateursTrace { get; set; } = default!;
         public DbSet<Avertissement> avertissements { get; set; } = default!;
         public DbSet<Publication> publication { get; set; } = default!;
+        public DbSet<PublicationUtilisateur> Like { get; set; } = default!;
     }
 }

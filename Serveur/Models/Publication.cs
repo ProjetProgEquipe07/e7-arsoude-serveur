@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Components.Web.Virtualization;
+﻿using arsoudeServeur.Models.DTOs;
+using Microsoft.AspNetCore.Components.Web.Virtualization;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace arsoudeServeur.Models
 {
@@ -8,7 +10,7 @@ namespace arsoudeServeur.Models
 
         public EtatPublication etat { get; set; }
 
-        public virtual List<Utilisateur> listLike { get; set; }
+        public virtual List<PublicationUtilisateur> publicationLikes { get; set; } = new List<PublicationUtilisateur>();
 
         public virtual int randonneeId { get; set; } 
         public virtual int utilisateurId { get; set; }
