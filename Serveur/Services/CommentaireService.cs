@@ -1,6 +1,7 @@
 using arsoudeServeur.Models;
 using arsoudeServeur.Models.DTOs;
 using arsoudServeur.Data;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
@@ -37,6 +38,7 @@ namespace arsoudeServeur.Services
                     randonneeId = rando.id,
                     utilisateur = utilisateurCourant,
                     utilisateurId = utilisateurCourant.id,
+                    utilisateursLikes = new List<Utilisateur>(),
                 });
                 _context.SaveChangesAsync();
             }
@@ -63,6 +65,7 @@ namespace arsoudeServeur.Services
                     randonnee = rando,
                     randonneeId = rando.id,
                     utilisateurId = utilisateurCourant.id,
+                    utilisateursLikes = commentaire.utilisateursLikes,
                 });
 
                 _context.SaveChangesAsync();
@@ -82,6 +85,7 @@ namespace arsoudeServeur.Services
                 throw new Exception("Ce commentaire a déjà été effacé");
             }
 
+            //Change le message du commentaire selon si c'est admin ou utilisateur qui a effacé et empêche les autres utilisateurs d'effacer le commentaire
             if (utilisateurCourant.role == "Administrator")
             {
                 commentaire.message = "Ce commentaire a été effacé par un Administrateur";
@@ -95,6 +99,7 @@ namespace arsoudeServeur.Services
                 throw new UnauthorizedAccessException("Vous n'êtes pas autorisé à supprimer ce commentaire");
             }
 
+            //Enlève la note pour ne pas affecter les scores et dit que le commentaire est effacé pour la gestion
             commentaire.note = null;
             commentaire.isDeleted = true;
 
@@ -120,10 +125,10 @@ namespace arsoudeServeur.Services
         public async Task AjouteLikeCommentaire(int id, Utilisateur utilisateurCourant)
         {
             var commentaire = _context.commentaires.Where(c => c.id == id).FirstOrDefault() ?? throw new Exception("Le commentaire n'existe pas");
-            var listeUser = commentaire.utilisateursLikes;
+            var listeUser = commentaire.utilisateursLikes ?? throw new Exception("Utilisateurs non trouvés");
             if (listeUser != null && listeUser.Contains(utilisateurCourant))
             {
-                throw new Exception("Vous avez déjà aimé ce commentaire");
+                throw new Exception("Vous avez déjà like ce commentaire");
             }
             else
             {
@@ -134,10 +139,10 @@ namespace arsoudeServeur.Services
         public async void EnleveLikeCommentaire(int id, Utilisateur utilisateurCourant)
         {
             var commentaire = _context.commentaires.Where(c => c.id == id).FirstOrDefault() ?? throw new Exception("Le commentaire n'existe pas");
-            var listeUser = commentaire.utilisateursLikes;
+            var listeUser = commentaire.utilisateursLikes ?? throw new Exception("Utilisateurs non trouvés");
             if (listeUser != null && !listeUser.Contains(utilisateurCourant))
             {
-                throw new Exception("Vous n'aimez définitivement pas ce commentaire");
+                throw new Exception("Vous avez déjà enlevé votre like de ce commentaire");
             }
             else
             {
