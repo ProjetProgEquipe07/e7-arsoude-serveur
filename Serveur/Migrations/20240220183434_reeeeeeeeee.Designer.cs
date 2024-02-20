@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using arsoudServeur.Data;
 
@@ -10,9 +11,11 @@ using arsoudServeur.Data;
 namespace arsoudeServeur.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240220183434_reeeeeeeeee")]
+    partial class reeeeeeeeee
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -138,15 +141,15 @@ namespace arsoudeServeur.Migrations
                         {
                             Id = "11111111-1111-1111-1111-111111111111",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "377c194e-33c7-4ba4-b345-e585fdcc04ff",
+                            ConcurrencyStamp = "f87a636b-46f7-4ad8-bcdb-b8de4462eee3",
                             Email = "admin@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@GMAIL.COM",
                             NormalizedUserName = "ADMIN@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEGHfsjyNWvZ0StRlL7kL6ptJvOsd6DGtCJAGkzpHk/skF+4H9am/aZaNUIbxgqg7uw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEDdsMzRLrFxhYKcvq/T4VSprLQt3/RDvLVr7xZf8pjJB/LZFUkJRRurOzt+7vA8Wog==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "3864a155-ae88-465e-b8d7-3e14d88663e9",
+                            SecurityStamp = "9d225053-22ec-4fb0-9ee9-a176c9e7cc76",
                             TwoFactorEnabled = false,
                             UserName = "admin@gmail.com"
                         },
@@ -154,15 +157,15 @@ namespace arsoudeServeur.Migrations
                         {
                             Id = "11111111-1111-1111-1111-111111111112",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "7c4ad851-2812-4162-8342-77b46e40047f",
+                            ConcurrencyStamp = "20cfe303-16d8-4a9f-ad5c-dd180804e194",
                             Email = "user1@hotmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "USER1@HOTMAIL.COM",
                             NormalizedUserName = "USER1@HOTMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEPa/sI9tqSqgo+u6h1ZIKfhjuRLY4cYivcvB9qCVOW8MV5e0IIEgcoY7GicRQDtlog==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEPTGjOx4q1OUglBCaxRHeNoCT/rEyDUFiTzaawvItizCQGYFiFyoSvDR1XqrbSoeag==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "a48d7313-d887-414d-b112-562af8f77ceb",
+                            SecurityStamp = "bcbd92af-307d-417c-9212-25b308884570",
                             TwoFactorEnabled = false,
                             UserName = "user1@hotmail.com"
                         },
@@ -170,15 +173,15 @@ namespace arsoudeServeur.Migrations
                         {
                             Id = "11111111-1111-1111-1111-111111111113",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "372014ce-7a7f-4d62-a79b-b66ab21cefc0",
+                            ConcurrencyStamp = "a3526a6e-4a3f-42df-bcbc-a8ac2515c2f2",
                             Email = "user2@hotmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "USER2@HOTMAIL.COM",
                             NormalizedUserName = "USER2@HOTMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEN4WUYgaMl1w+BsIxjomIoigRLCRjE/ve23N6qkaJaWileM0dTnu6IVw4RcDr7svVg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEKuLusKUvxilxHCb0/S6+d4sz4cH41KnYfTTN+dqdEVJOhk/BH/AeL4I7EQxZAx0Sw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "6834aa2b-417a-4a3d-80b5-1b25422d8407",
+                            SecurityStamp = "55a77dc2-a068-4624-b82d-6445dd3a8d96",
                             TwoFactorEnabled = false,
                             UserName = "user2@hotmail.com"
                         });

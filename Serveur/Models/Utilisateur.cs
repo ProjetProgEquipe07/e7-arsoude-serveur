@@ -32,6 +32,5 @@ namespace arsoudeServeur.Models
 
         [JsonIgnore]
         public virtual List<RandonneeUtilisateurTrace> traces { get; set; } = new List<RandonneeUtilisateurTrace>();
-
     }
 }

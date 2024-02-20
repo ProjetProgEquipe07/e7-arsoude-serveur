@@ -23,7 +23,7 @@ namespace arsoudeServeur.Models
         // Clé étrangère 
         //Montrer juste des coeurs
         //0 ou 1 et +
-        public virtual List<Utilisateur>? utilisateursLikes { get; set; }
+        public virtual List<CommentaireUtilisateur>? utilisateursLikes { get; set; }
 
         // Clé étrangère 
         public int? randonneeId { get; set; }
@@ -32,7 +32,6 @@ namespace arsoudeServeur.Models
 
         //Afficher prénom + nom
         // Clé étrangère 
-        [JsonIgnore]
         public int? utilisateurId { get; set; }
         public virtual Utilisateur? utilisateur { get; set; }
     }

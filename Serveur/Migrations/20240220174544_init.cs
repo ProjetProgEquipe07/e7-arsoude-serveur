@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace arsoudeServeur.Migrations
 {
     /// <inheritdoc />
-    public partial class fixComments : Migration
+    public partial class init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -159,41 +159,6 @@ namespace arsoudeServeur.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "avertissements",
-                columns: table => new
-                {
-                    id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    description = table.Column<string>(type: "TEXT", nullable: false),
-                    typeAvertissement = table.Column<int>(type: "INTEGER", nullable: false),
-                    DateSuppresion = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    randonneeId = table.Column<int>(type: "INTEGER", nullable: false),
-                    x = table.Column<double>(type: "REAL", nullable: false),
-                    y = table.Column<double>(type: "REAL", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_avertissements", x => x.id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "commentaires",
-                columns: table => new
-                {
-                    id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    message = table.Column<string>(type: "TEXT", nullable: false),
-                    note = table.Column<int>(type: "INTEGER", nullable: true),
-                    isDeleted = table.Column<bool>(type: "INTEGER", nullable: false),
-                    randonneeId = table.Column<int>(type: "INTEGER", nullable: true),
-                    utilisateurId = table.Column<int>(type: "INTEGER", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_commentaires", x => x.id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "utilisateurs",
                 columns: table => new
                 {
@@ -207,8 +172,7 @@ namespace arsoudeServeur.Migrations
                     anneeDeNaissance = table.Column<int>(type: "INTEGER", nullable: false),
                     moisDeNaissance = table.Column<int>(type: "INTEGER", nullable: false),
                     adresse = table.Column<string>(type: "TEXT", nullable: true),
-                    identityUserId = table.Column<string>(type: "TEXT", nullable: false),
-                    Commentaireid = table.Column<int>(type: "INTEGER", nullable: true)
+                    identityUserId = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -219,11 +183,6 @@ namespace arsoudeServeur.Migrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_utilisateurs_commentaires_Commentaireid",
-                        column: x => x.Commentaireid,
-                        principalTable: "commentaires",
-                        principalColumn: "id");
                 });
 
             migrationBuilder.CreateTable(
@@ -248,6 +207,57 @@ namespace arsoudeServeur.Migrations
                         principalTable: "utilisateurs",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "avertissements",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    description = table.Column<string>(type: "TEXT", nullable: false),
+                    typeAvertissement = table.Column<int>(type: "INTEGER", nullable: false),
+                    DateSuppresion = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    randonneeId = table.Column<int>(type: "INTEGER", nullable: false),
+                    x = table.Column<double>(type: "REAL", nullable: false),
+                    y = table.Column<double>(type: "REAL", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_avertissements", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_avertissements_randonnees_randonneeId",
+                        column: x => x.randonneeId,
+                        principalTable: "randonnees",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "commentaires",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    message = table.Column<string>(type: "TEXT", nullable: false),
+                    note = table.Column<int>(type: "INTEGER", nullable: true),
+                    isDeleted = table.Column<bool>(type: "INTEGER", nullable: false),
+                    randonneeId = table.Column<int>(type: "INTEGER", nullable: true),
+                    utilisateurId = table.Column<int>(type: "INTEGER", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_commentaires", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_commentaires_randonnees_randonneeId",
+                        column: x => x.randonneeId,
+                        principalTable: "randonnees",
+                        principalColumn: "id");
+                    table.ForeignKey(
+                        name: "FK_commentaires_utilisateurs_utilisateurId",
+                        column: x => x.utilisateurId,
+                        principalTable: "utilisateurs",
+                        principalColumn: "id");
                 });
 
             migrationBuilder.CreateTable(
@@ -322,6 +332,32 @@ namespace arsoudeServeur.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "CommentaireUtilisateur",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    utilisateurId = table.Column<int>(type: "INTEGER", nullable: false),
+                    commentaireId = table.Column<int>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CommentaireUtilisateur", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_CommentaireUtilisateur_commentaires_commentaireId",
+                        column: x => x.commentaireId,
+                        principalTable: "commentaires",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_CommentaireUtilisateur_utilisateurs_utilisateurId",
+                        column: x => x.utilisateurId,
+                        principalTable: "utilisateurs",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "gps",
                 columns: table => new
                 {
@@ -354,19 +390,19 @@ namespace arsoudeServeur.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "11111111-1111-1111-1111-111111111111", 0, "07431bf8-4004-4904-aae4-69628d11a591", "admin@gmail.com", true, false, null, "ADMIN@GMAIL.COM", "ADMIN@GMAIL.COM", "AQAAAAIAAYagAAAAENYg2clAGvXBkSZVYIa7eaVwLPYd1i/xomkgaTR6vS5SBDjeKC9nwGnGhiFceHXQaw==", null, false, "9ded8bc4-20a7-4be5-bd41-4d23a2a49dde", false, "admin@gmail.com" },
-                    { "11111111-1111-1111-1111-111111111112", 0, "cb84db24-f270-49db-832f-ad0af3e3dffe", "user1@hotmail.com", true, false, null, "USER1@HOTMAIL.COM", "USER1@HOTMAIL.COM", "AQAAAAIAAYagAAAAEFZtWSZFOJQ9O279uZx4N8jhTv3sxEAlgqumkfu4aswnKPcs2js4izwjmMGwBfGYTg==", null, false, "b641dcb7-bc7c-461b-b7c2-31ae72bcf60f", false, "user1@hotmail.com" },
-                    { "11111111-1111-1111-1111-111111111113", 0, "27d16261-3ddb-4a6c-9b0c-95efbb6a846e", "user2@hotmail.com", true, false, null, "USER2@HOTMAIL.COM", "USER2@HOTMAIL.COM", "AQAAAAIAAYagAAAAEKbK4hqfiT7hjVv7I4/cBs8n7toIYFQKKjh1FmW9Xko7lFOsL3TruqWLa9qTwBifhg==", null, false, "5895327e-2ee9-4db3-a87e-ab477f24beb1", false, "user2@hotmail.com" }
+                    { "11111111-1111-1111-1111-111111111111", 0, "eeaeb75c-ccc2-4c65-9162-4313b773fcd0", "admin@gmail.com", true, false, null, "ADMIN@GMAIL.COM", "ADMIN@GMAIL.COM", "AQAAAAIAAYagAAAAECmaiTMN1vdeBCyL3l8H4lf4TFcg+wj4Z4Tv/sucd+6gdTrVOBnecy+EDVGUGiCXuQ==", null, false, "ad13a952-ee73-4f01-b679-1cf7adadfd87", false, "admin@gmail.com" },
+                    { "11111111-1111-1111-1111-111111111112", 0, "a198b978-174a-4ba6-8340-48b5bca3e54e", "user1@hotmail.com", true, false, null, "USER1@HOTMAIL.COM", "USER1@HOTMAIL.COM", "AQAAAAIAAYagAAAAEE0DkdZrIuSrJNX/wkogDxDrGIftR/drqMupzCo/yM7YrhuaE7IKYvIXucn7khXFBg==", null, false, "33e54795-7f12-44db-a67a-3f8e074fe0c8", false, "user1@hotmail.com" },
+                    { "11111111-1111-1111-1111-111111111113", 0, "f3d446fc-3fcd-4ef8-b053-fff408c7e066", "user2@hotmail.com", true, false, null, "USER2@HOTMAIL.COM", "USER2@HOTMAIL.COM", "AQAAAAIAAYagAAAAEGls/rK7AFwqWOSC6n+Er+Nju3yRMvR2re5c/A1Zi2LzUDOMu5ICa9wvV19pcMmUkg==", null, false, "b482602f-acb5-4e06-9ead-893bad514e1a", false, "user2@hotmail.com" }
                 });
 
             migrationBuilder.InsertData(
                 table: "utilisateurs",
-                columns: new[] { "id", "Commentaireid", "adresse", "anneeDeNaissance", "codePostal", "courriel", "identityUserId", "moisDeNaissance", "nom", "prenom", "role" },
+                columns: new[] { "id", "adresse", "anneeDeNaissance", "codePostal", "courriel", "identityUserId", "moisDeNaissance", "nom", "prenom", "role" },
                 values: new object[,]
                 {
-                    { 1, null, "", 0, "E3A 4R4", "admin@gmail.com", "11111111-1111-1111-1111-111111111111", 0, "tangerine", "robert", "Administrator" },
-                    { 2, null, "", 0, "E3A 4R4", "user1@hotmail.com", "11111111-1111-1111-1111-111111111112", 0, "Hogan", "Hulk", "User" },
-                    { 3, null, "1260, rue Mill, suite 100", 0, "E3A 4R4", "user2@hotmail.com", "11111111-1111-1111-1111-111111111113", 0, "Charles", "Grégory", "User" }
+                    { 1, "", 0, "E3A 4R4", "admin@gmail.com", "11111111-1111-1111-1111-111111111111", 0, "tangerine", "robert", "Administrator" },
+                    { 2, "", 0, "E3A 4R4", "user1@hotmail.com", "11111111-1111-1111-1111-111111111112", 0, "Hogan", "Hulk", "User" },
+                    { 3, "1260, rue Mill, suite 100", 0, "E3A 4R4", "user2@hotmail.com", "11111111-1111-1111-1111-111111111113", 0, "Charles", "Grégory", "User" }
                 });
 
             migrationBuilder.InsertData(
@@ -391,8 +427,7 @@ namespace arsoudeServeur.Migrations
                     { 2, false, "I recently downloaded the hiking app Arsoude and I have to say I am extremely impressed. The app is user-friendly and provides detailed maps, trail information, and tips for hikers of all levels. I love that it includes features such as GPS tracking and offline maps, making it easy to navigate even in remote areas with no signal. The trail recommendations and difficulty ratings have been spot on and have helped me find new hikes that I never would have discovered otherwise. Overall, Arsoude has become my go-to app for all of my hiking adventures. Highly recommend!", 3, 2, 1 },
                     { 3, false, "As an avid hiker, I cannot recommend the Arsoude app enough. This user-friendly platform has completely revolutionized my hiking experience. From detailed trail maps to real-time weather updates, Arsoude has everything I need to plan and execute the perfect outdoor adventure. The interface is sleek and intuitive, making it easy to navigate even on the go. Plus, the community feature allows me to connect with other outdoor enthusiasts and share tips and recommendations. Whether you're a seasoned hiker or just starting out, Arsoude is a must-have for your next outdoor excursion.", 3, 2, 2 },
                     { 4, false, "Arsoude is a fantastic hiking app that has completely changed the way I explore the great outdoors. With detailed trail maps, GPS tracking, and real-time weather updates, I can confidently go on new adventures without worrying about getting lost. The app also features a community forum where users can share tips, photos, and recommendations, making it easy to connect with other outdoor enthusiasts. Overall, Arsoude has become an essential tool for my hiking excursions and I highly recommend it to anyone looking to discover new trails.", 1, 2, 3 },
-                    { 5, false, "J'ai récemment découvert l'application de randonnée Arsoude et je dois dire que je suis impressionné. Non seulement elle est facile à utiliser, mais elle offre également une multitude d'itinéraires de randonnée à travers de superbes paysages. Grâce à Arsoude, j'ai pu explorer de nouveaux sentiers et découvrir des trésors cachés que je n'aurais jamais trouvés autrement. Je recommande vivement cette application à tous les amoureux de la randonnée!", 5, 6, 3 },
-                    { 6, true, "", null, 6, 3 }
+                    { 5, false, "J'ai récemment découvert l'application de randonnée Arsoude et je dois dire que je suis impressionné. Non seulement elle est facile à utiliser, mais elle offre également une multitude d'itinéraires de randonnée à travers de superbes paysages. Grâce à Arsoude, j'ai pu explorer de nouveaux sentiers et découvrir des trésors cachés que je n'aurais jamais trouvés autrement. Je recommande vivement cette application à tous les amoureux de la randonnée!", 5, 6, 3 }
                 });
 
             migrationBuilder.InsertData(
@@ -467,6 +502,16 @@ namespace arsoudeServeur.Migrations
                 column: "utilisateurId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_CommentaireUtilisateur_commentaireId",
+                table: "CommentaireUtilisateur",
+                column: "commentaireId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CommentaireUtilisateur_utilisateurId",
+                table: "CommentaireUtilisateur",
+                column: "utilisateurId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_gps_randonneeId",
                 table: "gps",
                 column: "randonneeId");
@@ -498,11 +543,6 @@ namespace arsoudeServeur.Migrations
                 column: "utilisateurId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_utilisateurs_Commentaireid",
-                table: "utilisateurs",
-                column: "Commentaireid");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_utilisateurs_identityUserId",
                 table: "utilisateurs",
                 column: "identityUserId");
@@ -516,45 +556,11 @@ namespace arsoudeServeur.Migrations
                 name: "IX_utilisateursTrace_utilisateurId",
                 table: "utilisateursTrace",
                 column: "utilisateurId");
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_avertissements_randonnees_randonneeId",
-                table: "avertissements",
-                column: "randonneeId",
-                principalTable: "randonnees",
-                principalColumn: "id",
-                onDelete: ReferentialAction.Cascade);
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_commentaires_randonnees_randonneeId",
-                table: "commentaires",
-                column: "randonneeId",
-                principalTable: "randonnees",
-                principalColumn: "id");
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_commentaires_utilisateurs_utilisateurId",
-                table: "commentaires",
-                column: "utilisateurId",
-                principalTable: "utilisateurs",
-                principalColumn: "id");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_utilisateurs_AspNetUsers_identityUserId",
-                table: "utilisateurs");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_commentaires_randonnees_randonneeId",
-                table: "commentaires");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_commentaires_utilisateurs_utilisateurId",
-                table: "commentaires");
-
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
@@ -574,6 +580,9 @@ namespace arsoudeServeur.Migrations
                 name: "avertissements");
 
             migrationBuilder.DropTable(
+                name: "CommentaireUtilisateur");
+
+            migrationBuilder.DropTable(
                 name: "gps");
 
             migrationBuilder.DropTable(
@@ -586,10 +595,10 @@ namespace arsoudeServeur.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "utilisateursTrace");
+                name: "commentaires");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
+                name: "utilisateursTrace");
 
             migrationBuilder.DropTable(
                 name: "randonnees");
@@ -598,7 +607,7 @@ namespace arsoudeServeur.Migrations
                 name: "utilisateurs");
 
             migrationBuilder.DropTable(
-                name: "commentaires");
+                name: "AspNetUsers");
         }
     }
 }

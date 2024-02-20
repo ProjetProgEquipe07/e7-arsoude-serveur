@@ -38,7 +38,7 @@ namespace arsoudeServeur.Services
                     randonneeId = rando.id,
                     utilisateur = utilisateurCourant,
                     utilisateurId = utilisateurCourant.id,
-                    utilisateursLikes = new List<Utilisateur>(),
+                    utilisateursLikes = new List<CommentaireUtilisateur>(),
                 });
                 _context.SaveChangesAsync();
             }
@@ -131,13 +131,20 @@ namespace arsoudeServeur.Services
         {
             var commentaire = _context.commentaires.Where(c => c.id == id).FirstOrDefault() ?? throw new Exception("Le commentaire n'existe pas");
             var listeUser = commentaire.utilisateursLikes ?? throw new Exception("Utilisateurs non trouvés");
-            if (listeUser.Contains(utilisateurCourant))
+            if (listeUser.Where(CU => CU.utilisateurId == utilisateurCourant.id).FirstOrDefault() != null)
             {
                 throw new Exception("Vous avez déjà like ce commentaire");
             }
             else
             {
-                commentaire.utilisateursLikes.Add(utilisateurCourant);
+                CommentaireUtilisateur temp = new CommentaireUtilisateur()
+                {
+                    utilisateurId = utilisateurCourant.id,
+                    utilisateur = utilisateurCourant,
+                    commentaireId = commentaire.id,
+                    commentaire = commentaire
+                };
+                commentaire.utilisateursLikes.Add(temp);
             }
             await _context.SaveChangesAsync();
         }
@@ -146,13 +153,14 @@ namespace arsoudeServeur.Services
         {
             var commentaire = _context.commentaires.Where(c => c.id == id).FirstOrDefault() ?? throw new Exception("Le commentaire n'existe pas");
             var listeUser = commentaire.utilisateursLikes ?? throw new Exception("Utilisateurs non trouvés");
-            if (!listeUser.Contains(utilisateurCourant))
+            CommentaireUtilisateur likeCheck = listeUser.Where(CU => CU.utilisateurId == utilisateurCourant.id).FirstOrDefault();
+            if (likeCheck != null)
             {
-                throw new Exception("Vous avez déjà enlevé votre like de ce commentaire");
+                commentaire.utilisateursLikes.Remove(likeCheck);
             }
             else
             {
-                commentaire.utilisateursLikes.Remove(utilisateurCourant);
+                throw new Exception("Vous avez déjà enlevé votre like de ce commentaire");
             }
             await _context.SaveChangesAsync();
         }
