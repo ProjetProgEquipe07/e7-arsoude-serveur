@@ -50,10 +50,22 @@ namespace arsoudeServeur.Controllers
         }
 
         [HttpGet("{randoId}")]
-        public async Task<bool> UtilisateurPeutCommenter(int randoId)
+        public async Task<bool> UtilisateurPeutCommenter(int randonneeId)
         {
-            return _commentaireService.PeutCommenter(randoId, UtilisateurCourant);
+            return _commentaireService.PeutCommenter(randonneeId, UtilisateurCourant);
         }
-        
+        [HttpGet("{id}")]
+        public async Task<ActionResult> AjouteLikeCommentaire(int id)
+        {
+            await _commentaireService.AjouteLikeCommentaire(id, UtilisateurCourant);
+            return Ok();
+        }
+        [HttpGet("{id}")]
+        public async Task<ActionResult> EnleveLikeCommentaire(int id)
+        {
+            _commentaireService.EnleveLikeCommentaire(id, UtilisateurCourant);
+            return Ok();
+        }
+
     }
 }

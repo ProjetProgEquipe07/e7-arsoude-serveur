@@ -77,14 +77,10 @@ namespace arsoudeServeur.Services
         {
             var commentaire = _context.commentaires.Where(c => c.id == id).FirstOrDefault() ?? throw new Exception("Le commentaire n'existe pas");
 
-            //Empêche l'utilisateur d'effacer les commentaires des autres, à part si il est Administrateur
-            //TODO: Tester si la condition est correct si || marche ou si il faut &&
             if (utilisateurCourant.id != commentaire.utilisateurId || utilisateurCourant.role != "Administrator")
             {
-                //TODO: Est-ce que besoin d'une exception aussi précise ??
                 throw new UnauthorizedAccessException("Vous n'êtes pas autorisé à supprimer ce commentaire");
             }
-
             commentaire.message =
                 utilisateurCourant.role == "Administrator" ?
                 "Ce commentaire a été effacé par un Administrateur" : $"Ce commentaire a été effacé par {utilisateurCourant.prenom} {utilisateurCourant.nom}";
@@ -106,6 +102,34 @@ namespace arsoudeServeur.Services
                 return false;
             }
             return true;
+        }
+        public async Task AjouteLikeCommentaire(int id, Utilisateur utilisateurCourant)
+        {
+            var commentaire = _context.commentaires.Where(c => c.id == id).FirstOrDefault() ?? throw new Exception("Le commentaire n'existe pas");
+            var listeUser = commentaire.utilisateursLikes;
+            if(listeUser != null && listeUser.Contains(utilisateurCourant))
+            {
+                throw new Exception("Vous avez déjà aimé ce commentaire");
+            }
+            else
+            {
+                commentaire.utilisateursLikes.Add(utilisateurCourant);
+            }
+            await _context.SaveChangesAsync();
+        }
+        public async void EnleveLikeCommentaire(int id, Utilisateur utilisateurCourant)
+        {
+            var commentaire = _context.commentaires.Where(c => c.id == id).FirstOrDefault() ?? throw new Exception("Le commentaire n'existe pas");
+            var listeUser = commentaire.utilisateursLikes;
+            if (listeUser != null && !listeUser.Contains(utilisateurCourant))
+            {
+                throw new Exception("Vous n'aimez définitivement pas ce commentaire");
+            }
+            else
+            {
+                commentaire.utilisateursLikes.Remove(utilisateurCourant);
+            }
+            await _context.SaveChangesAsync();
         }
     }
 }
