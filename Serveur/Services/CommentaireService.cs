@@ -64,16 +64,13 @@ namespace arsoudeServeur.Services
             //Seulement l'utilisateur peut modifier le commentaire
             if (utilisateurCourant.id == commentaire.utilisateurId)
             {
-                Commentaire newCommentaire = new Commentaire()
-                {
-                    message = commentaire.message,
-                    utilisateur = utilisateurCourant,
-                };
-                _context.commentaires.Update(newCommentaire);
+                commentaire.message = commentaireDTO.message;
+                commentaire.note = commentaireDTO.note;
+                _context.commentaires.Update(commentaire);
 
                 _context.SaveChangesAsync();
                 
-                return newCommentaire;
+                return commentaire;
             }
             else
             {
