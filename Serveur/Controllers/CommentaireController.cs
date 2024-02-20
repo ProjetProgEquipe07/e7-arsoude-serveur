@@ -49,7 +49,7 @@ namespace arsoudeServeur.Controllers
             return Ok();
         }
 
-        [HttpGet("{randoId}")]
+        [HttpGet("{randonneeId}")]
         public async Task<bool> UtilisateurPeutCommenter(int randonneeId)
         {
             return _commentaireService.PeutCommenter(randonneeId, UtilisateurCourant);
