@@ -33,10 +33,11 @@ namespace arsoudeServeur.Services
             return list;
         }
 
-        public void CreateCommentaire(CommentaireDTO commentaire, Utilisateur utilisateurCourant)
+        public async void CreateCommentaire(CommentaireDTO commentaire, Utilisateur utilisateurCourant)
         {
-            var rando = _context.randonnees.Where(r => r.id == commentaire.randonneeId).FirstOrDefault() ?? throw new NullRandonneeException();
-            if (PeutCommenter(rando.id, utilisateurCourant))
+            var rando = _context.randonnees.Where(r => r.id == commentaire.randonneeId).FirstOrDefault() ?? throw new Exception("Randonnée non trouvée");
+            var peutComm = await PeutCommenter(rando.id, utilisateurCourant);
+            if (peutComm)
             {
                 _context.commentaires.Add(new Commentaire()
                 {
@@ -111,13 +112,14 @@ namespace arsoudeServeur.Services
             return commentaire;
         }
 
-        public bool PeutCommenter(int randoId, Utilisateur utilisateurCourant)
+        public async Task<bool> PeutCommenter(int randoId, Utilisateur utilisateurCourant)
         {
-            var rando = _context.randonnees.Where(r => r.id == randoId).FirstOrDefault() ?? throw new NullRandonneeException();
-            //On peut commenter seulement si la randonnée est publique
-            if (rando.etatRandonnee == Randonnee.Etat.Publique)
+            var utilisateurTrace = _context.utilisateursTrace.Where(r => r.utilisateurId == utilisateurCourant.id).FirstOrDefault();
+            var rando = _context.randonnees.Where(r => r.id == randoId).FirstOrDefault() ?? throw new Exception("La randonnée n'existe pas");
+            var comms = rando.commentaires.Where(c => c.utilisateurId == utilisateurCourant.id).ToList() ?? throw new Exception("what");
+            //Si pas fait randonnée ou déjà commenté la randonnée, alors pas autorisé à commenter
+            if (utilisateurTrace == null || comms.Count != 0) 
             {
-                var utilisateurTrace = _context.utilisateursTrace.Where(r => r.utilisateurId == utilisateurCourant.id).FirstOrDefault();
                 var userRandoComms = rando.commentaires.Where(c => c.utilisateurId == utilisateurCourant.id);
                 //Si pas fait randonnée ou déjà commenté la randonnée et que le commentaire est pas effacé, alors pas autorisé à commenter
                 if (utilisateurTrace == null || userRandoComms.Any(c => c.isDeleted == false))
@@ -130,8 +132,7 @@ namespace arsoudeServeur.Services
             }
             return false;
         }
-
-        public async Task AjouteLikeCommentaire(int id, Utilisateur utilisateurCourant)
+        public async Task AjoutLikeCommentaire(int id, Utilisateur utilisateurCourant)
         {
             var commentaire = _context.commentaires.Where(c => c.id == id).FirstOrDefault() ?? throw new NullCommentaireException();
             var listeUser = commentaire.utilisateursLikes ?? throw new Exception("Utilisateurs non trouvés");
@@ -152,8 +153,7 @@ namespace arsoudeServeur.Services
             }
             await _context.SaveChangesAsync();
         }
-
-        public async void EnleveLikeCommentaire(int id, Utilisateur utilisateurCourant)
+        public async Task EnleveLikeCommentaire(int id, Utilisateur utilisateurCourant)
         {
             var commentaire = _context.commentaires.Where(c => c.id == id).FirstOrDefault() ?? throw new NullCommentaireException();
             var listeUser = commentaire.utilisateursLikes ?? throw new Exception("Utilisateurs non trouvés");

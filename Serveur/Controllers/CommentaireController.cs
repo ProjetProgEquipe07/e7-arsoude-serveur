@@ -52,20 +52,18 @@ namespace arsoudeServeur.Controllers
         [HttpGet("{randonneeId}")]
         public async Task<bool> UtilisateurPeutCommenter(int randonneeId)
         {
-            return _commentaireService.PeutCommenter(randonneeId, UtilisateurCourant);
+            return await _commentaireService.PeutCommenter(randonneeId, UtilisateurCourant);
         }
-
-        [HttpGet("{id}")]
-        public async Task<ActionResult> AjouteLikeCommentaire(int id)
+        [HttpGet("{commentaireId}")]
+        public async Task<ActionResult> AjoutLikeCommentaire(int commentaireId)
         {
-            await _commentaireService.AjouteLikeCommentaire(id, UtilisateurCourant);
+            await _commentaireService.AjoutLikeCommentaire(commentaireId, UtilisateurCourant);
             return Ok();
         }
-
-        [HttpGet("{id}")]
-        public async Task<ActionResult> EnleveLikeCommentaire(int id)
+        [HttpGet("{commentaireId}")]
+        public async Task<ActionResult> EnleveLikeCommentaire(int commentaireId)
         {
-            _commentaireService.EnleveLikeCommentaire(id, UtilisateurCourant);
+            await _commentaireService.EnleveLikeCommentaire(commentaireId, UtilisateurCourant);
             return Ok();
         }
 
