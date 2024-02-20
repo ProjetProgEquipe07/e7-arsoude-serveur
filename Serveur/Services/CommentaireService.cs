@@ -95,9 +95,9 @@ namespace arsoudeServeur.Services
         {
             var utilisateurTrace = _context.utilisateursTrace.Where(r => r.utilisateurId == utilisateurCourant.id).FirstOrDefault();
             var rando = _context.randonnees.Where(r => r.id == randoId).FirstOrDefault() ?? throw new Exception("La randonnée n'existe pas");
-            var comm = rando.commentaires.Where(c => c.utilisateurId == utilisateurCourant.id);
+            var userRandoComms = rando.commentaires.Where(c => c.utilisateurId == utilisateurCourant.id);
             //Si pas fait randonnée ou déjà commenté la randonnée, alors pas autorisé à commenter
-            if (utilisateurTrace == null || comm != null) 
+            if (utilisateurTrace == null || (userRandoComms != null && userRandoComms.Where(c => c.isDeleted == false).FirstOrDefault() != null)) 
             {
                 return false;
             }
