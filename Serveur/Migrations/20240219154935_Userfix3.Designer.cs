@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using arsoudServeur.Data;
 
@@ -10,9 +11,11 @@ using arsoudServeur.Data;
 namespace arsoudeServeur.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240219154935_Userfix3")]
+    partial class Userfix3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -49,13 +52,13 @@ namespace arsoudeServeur.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "c2a18eec-02fc-45c7-b6e2-c35b5a3000c2",
+                            Id = "381377c4-e577-4cd1-90c8-3fc173629eef",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
-                            Id = "29673d52-bf9c-444c-ac47-8c6ef4accf55",
+                            Id = "cbfc6b73-fc48-4d7b-bdd4-8525fe894474",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -152,15 +155,15 @@ namespace arsoudeServeur.Migrations
                         {
                             Id = "11111111-1111-1111-1111-111111111111",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "819e5b49-5a77-4005-a976-a16fe2898403",
+                            ConcurrencyStamp = "86da64f4-eb5a-481b-85cb-15244fd27fde",
                             Email = "admin@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@GMAIL.COM",
                             NormalizedUserName = "ADMIN@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEJtBNe7HuKMLPugW79qqZI4Nl+GvfvvmIFiXYS8mA6RoAQ957bRtIpQQcxkvun2BRw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAECWOvXfQ1ik9YINjsdAcw0xgotRdS+cHSIz0CrzjtFO/4pBisQPmtWS/JSQFXCarJg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "6ad96d8c-1d90-441e-9197-ad169a1ba944",
+                            SecurityStamp = "dfc8b5d8-49f5-47ba-912c-910606550bc1",
                             TwoFactorEnabled = false,
                             UserName = "admin@gmail.com"
                         },
@@ -168,15 +171,15 @@ namespace arsoudeServeur.Migrations
                         {
                             Id = "11111111-1111-1111-1111-111111111112",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "7f1cb562-da6a-4bd3-9b08-0c61b64f4465",
+                            ConcurrencyStamp = "8c16fd60-5343-4caa-b728-59cb8fb088f1",
                             Email = "user1@hotmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "USER1@HOTMAIL.COM",
                             NormalizedUserName = "USER1@HOTMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEKqx5PIf4gsf9/2grCRj76AS9OTm6wxFm+P4H7oWwqZgSwA3WAZ6QSrufdzYoDD+LQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAECxkN+3EEJEpgcxpvu67wzB0j8+LOSPFGuKz41uZ1d9JZrcKkbsSq8XciEuAlQNoJA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "77b43273-1e02-4595-b517-ebdb88c9d5b1",
+                            SecurityStamp = "21f3dc8f-96d3-499e-be4b-0e8a43504798",
                             TwoFactorEnabled = false,
                             UserName = "user1@hotmail.com"
                         },
@@ -184,15 +187,15 @@ namespace arsoudeServeur.Migrations
                         {
                             Id = "11111111-1111-1111-1111-111111111113",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "acf90775-bfdf-43af-91fe-39c3f8923dd4",
+                            ConcurrencyStamp = "9b70aad8-bcc5-4e4c-91cf-7bce43cbadec",
                             Email = "user2@hotmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "USER2@HOTMAIL.COM",
                             NormalizedUserName = "USER2@HOTMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEKH3HaQ1EruzAHd0S0XPAa1CALlCXF/LWj2g3Si8EYzdcdEKK1ncQ/LOIucP3+JPlQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAECa0dSlMmbsszEq2/WmgxKiLCWBp1cegNnnuFdKIojh4Uu+iOMsARK2NDnplu7lzig==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "92e9bbbc-e066-4faa-b6e9-d472efac67c3",
+                            SecurityStamp = "5d00e2af-fb81-4f43-a886-ba773e035299",
                             TwoFactorEnabled = false,
                             UserName = "user2@hotmail.com"
                         });
@@ -380,27 +383,6 @@ namespace arsoudeServeur.Migrations
                             texte = "Lets go to the 99 cents store and lets pick out a rope together. Imma give you an assisted suicide. Lets pick out a rope together right? And we're gonna take all the greatest trolls clips, put a tv screen right in front of you.\r\nI'm gonna hang that rope at the top of the motherfucking garage.\r\nWe're gonna forcefully pry your eyes open, we probably don't even need to do that cause your on my dick daily. We're gonna pry your eyes open until you consistently watch clips over and over and over and over again to the point where you're gonna be like 'Wait a minute, this is a little bit too much'\r\nYou're just gonna start going crazy.\r\nYou're gonna start going crazy.\r\nJust, your eyes are gonna bleed your retinas are just gonna start pouring out, pouring out blood and just getting\r\ncracks and veins in your retinas are gonna start engaging and bulging. Then I'm gonna grab that rope for you and say 'Are you ready?' You're gonna say 'Yeah' I'm gonna take it and PULL IT\r\nwhile you beg me, beg me and I mean beg me to kill you and choke you, choke the worthless life out of your sorry ass until you're fucking dead, croaked with a blue face nigga. Cause you don't deserve your soul.\r\nI've never seen somebody so fucking worthless and relentless that keep coming in a niggas chat over and over and over again. Somebody like that needs to die.\r\nThere is really no reason for him to be alive. We lost prominent niggas on earth, that served a purpose that had... so this nigga could be on earth trolling a stream daily, like come on my nigga. Like, your life is just worthless, just please kill yourself.\r\nGo outside, throw some steaks in a fucking alley and hope a bunch of stray dogs jump on you starts chewing your fucking dick your dick off, biting pieces and shit off of you like that cause you literally just gotta go. Like this nigga off of earth. Please",
                             utilisateurId = 3
                         });
-                });
-
-            modelBuilder.Entity("arsoudeServeur.Models.DTOs.PublicationUtilisateur", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("publicationId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("utilisateurId")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("id");
-
-                    b.HasIndex("publicationId");
-
-                    b.HasIndex("utilisateurId");
-
-                    b.ToTable("Like");
                 });
 
             modelBuilder.Entity("arsoudeServeur.Models.GPS", b =>
@@ -781,6 +763,9 @@ namespace arsoudeServeur.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<int?>("Publicationid")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("adresse")
                         .HasColumnType("TEXT");
 
@@ -815,6 +800,8 @@ namespace arsoudeServeur.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("id");
+
+                    b.HasIndex("Publicationid");
 
                     b.HasIndex("identityUserId");
 
@@ -943,25 +930,6 @@ namespace arsoudeServeur.Migrations
                     b.Navigation("utilisateur");
                 });
 
-            modelBuilder.Entity("arsoudeServeur.Models.DTOs.PublicationUtilisateur", b =>
-                {
-                    b.HasOne("arsoudeServeur.Models.Publication", "publication")
-                        .WithMany("publicationLikes")
-                        .HasForeignKey("publicationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("arsoudeServeur.Models.Utilisateur", "utilisateur")
-                        .WithMany("publicationLikes")
-                        .HasForeignKey("utilisateurId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("publication");
-
-                    b.Navigation("utilisateur");
-                });
-
             modelBuilder.Entity("arsoudeServeur.Models.GPS", b =>
                 {
                     b.HasOne("arsoudeServeur.Models.RandonneeUtilisateurTrace", null)
@@ -1054,6 +1022,10 @@ namespace arsoudeServeur.Migrations
 
             modelBuilder.Entity("arsoudeServeur.Models.Utilisateur", b =>
                 {
+                    b.HasOne("arsoudeServeur.Models.Publication", null)
+                        .WithMany("listLike")
+                        .HasForeignKey("Publicationid");
+
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "identityUser")
                         .WithMany()
                         .HasForeignKey("identityUserId")
@@ -1065,7 +1037,7 @@ namespace arsoudeServeur.Migrations
 
             modelBuilder.Entity("arsoudeServeur.Models.Publication", b =>
                 {
-                    b.Navigation("publicationLikes");
+                    b.Navigation("listLike");
                 });
 
             modelBuilder.Entity("arsoudeServeur.Models.Randonnee", b =>
@@ -1090,8 +1062,6 @@ namespace arsoudeServeur.Migrations
             modelBuilder.Entity("arsoudeServeur.Models.Utilisateur", b =>
                 {
                     b.Navigation("favoris");
-
-                    b.Navigation("publicationLikes");
 
                     b.Navigation("traces");
                 });
