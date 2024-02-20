@@ -49,13 +49,13 @@ namespace arsoudeServeur.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "c2a18eec-02fc-45c7-b6e2-c35b5a3000c2",
+                            Id = "b0c0124e-c342-479c-820a-32036a98abda",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
-                            Id = "29673d52-bf9c-444c-ac47-8c6ef4accf55",
+                            Id = "8c253b8e-1fa2-4d5e-be01-4ce04e4df527",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -152,15 +152,15 @@ namespace arsoudeServeur.Migrations
                         {
                             Id = "11111111-1111-1111-1111-111111111111",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "819e5b49-5a77-4005-a976-a16fe2898403",
+                            ConcurrencyStamp = "6cf7e8ae-e47e-4c11-8c44-2977a24c30f4",
                             Email = "admin@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@GMAIL.COM",
                             NormalizedUserName = "ADMIN@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEJtBNe7HuKMLPugW79qqZI4Nl+GvfvvmIFiXYS8mA6RoAQ957bRtIpQQcxkvun2BRw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEHqmAVDRAA1Szn/hw9ImNzl9iMycN9hfZr6BbM+dlYE7/XVx8w3iCAfts5Y4IvMPNw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "6ad96d8c-1d90-441e-9197-ad169a1ba944",
+                            SecurityStamp = "848cf965-0f84-4735-8e69-56c1fbc5f4ec",
                             TwoFactorEnabled = false,
                             UserName = "admin@gmail.com"
                         },
@@ -168,15 +168,15 @@ namespace arsoudeServeur.Migrations
                         {
                             Id = "11111111-1111-1111-1111-111111111112",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "7f1cb562-da6a-4bd3-9b08-0c61b64f4465",
+                            ConcurrencyStamp = "b7468756-682a-442d-9455-0238c65aa60b",
                             Email = "user1@hotmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "USER1@HOTMAIL.COM",
                             NormalizedUserName = "USER1@HOTMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEKqx5PIf4gsf9/2grCRj76AS9OTm6wxFm+P4H7oWwqZgSwA3WAZ6QSrufdzYoDD+LQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEB01+2/VZvuwUGwxRspDhmzL5FgiIzpYEuiNb5ACAyvw8fxifvEsntS7QzhNj2Fhiw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "77b43273-1e02-4595-b517-ebdb88c9d5b1",
+                            SecurityStamp = "c8e87b6a-ec3a-4a56-a6e8-acd10608d8b9",
                             TwoFactorEnabled = false,
                             UserName = "user1@hotmail.com"
                         },
@@ -184,15 +184,15 @@ namespace arsoudeServeur.Migrations
                         {
                             Id = "11111111-1111-1111-1111-111111111113",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "acf90775-bfdf-43af-91fe-39c3f8923dd4",
+                            ConcurrencyStamp = "e58bbc54-ad79-4f46-8a83-e4709a8169cb",
                             Email = "user2@hotmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "USER2@HOTMAIL.COM",
                             NormalizedUserName = "USER2@HOTMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEKH3HaQ1EruzAHd0S0XPAa1CALlCXF/LWj2g3Si8EYzdcdEKK1ncQ/LOIucP3+JPlQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEFI5NQkY+yshG3BbdizCeiFk3SwQkn3nmvje6XRS9NemsfOoOf/cbWe5hjByS62obA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "92e9bbbc-e066-4faa-b6e9-d472efac67c3",
+                            SecurityStamp = "1d50f279-18f3-4bff-9380-5e0a97e3f0cd",
                             TwoFactorEnabled = false,
                             UserName = "user2@hotmail.com"
                         });
@@ -760,6 +760,9 @@ namespace arsoudeServeur.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<int?>("publicationId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<int>("randonneeId")
                         .HasColumnType("INTEGER");
 
@@ -767,6 +770,8 @@ namespace arsoudeServeur.Migrations
                         .HasColumnType("INTEGER");
 
                     b.HasKey("id");
+
+                    b.HasIndex("publicationId");
 
                     b.HasIndex("randonneeId");
 
@@ -1035,6 +1040,10 @@ namespace arsoudeServeur.Migrations
 
             modelBuilder.Entity("arsoudeServeur.Models.RandonneeUtilisateurTrace", b =>
                 {
+                    b.HasOne("arsoudeServeur.Models.Publication", "publication")
+                        .WithMany()
+                        .HasForeignKey("publicationId");
+
                     b.HasOne("arsoudeServeur.Models.Randonnee", "randonnee")
                         .WithMany("traces")
                         .HasForeignKey("randonneeId")
@@ -1046,6 +1055,8 @@ namespace arsoudeServeur.Migrations
                         .HasForeignKey("utilisateurId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("publication");
 
                     b.Navigation("randonnee");
 

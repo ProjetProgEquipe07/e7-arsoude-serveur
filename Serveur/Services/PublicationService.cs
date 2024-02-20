@@ -4,6 +4,7 @@ using arsoudServeur.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using static arsoudeServeur.Models.Publication;
+using static arsoudeServeur.Models.Randonnee;
 
 namespace arsoudeServeur.Services
 {
@@ -20,6 +21,16 @@ namespace arsoudeServeur.Services
         public async Task<Publication> CreatePublication(PublicationDTO dto, Utilisateur user)
         {
             var rando = _context.randonnees.Where(r => r.id == dto.randoiId).FirstOrDefault();
+            EtatPublication etat2;
+
+            if (dto.etatPublic)
+            {
+                etat2 = EtatPublication.Publique;
+            }
+            else
+            {
+                etat2 = EtatPublication.Privee;
+            }
 
             Publication publication = new Publication()
             {
@@ -27,11 +38,13 @@ namespace arsoudeServeur.Services
                 randonneeId = rando.id,
                 utilisateur = user,
                 utilisateurId = user.id,
-                etat = (EtatPublication)dto.etatPublic
-            };
+                etat = etat2
+                 };
 
             _context.publication.Add(publication);
             _context.SaveChangesAsync();
+
+            publication = await _context.publication.OrderBy(p=>p.id).LastAsync();
 
             return publication;
             
@@ -48,7 +61,7 @@ namespace arsoudeServeur.Services
 
             var gpsData = await _context.utilisateursTrace
                     .Where(ut => ut.utilisateurId == user.id && _context.publication.Any(p => p.randonneeId == ut.randonneeId))
-                    .GroupBy(ut => ut.randonneeId)
+                    .GroupBy(ut => ut.publicationId)
                     .ToDictionaryAsync(
                                       g => g.Key,
                                       g => g.SelectMany(ut => ut.gpsListe ?? new List<GPS>()).ToList());
@@ -105,18 +118,24 @@ namespace arsoudeServeur.Services
                     .ToListAsync();
 
             var gpsData = await _context.utilisateursTrace
-                    .Where(ut => ut.utilisateurId == user.id && _context.publication.Any(p => p.randonneeId == ut.randonneeId))
-                    .GroupBy(ut => ut.randonneeId) 
-                    .ToDictionaryAsync(
-                                      g => g.Key, 
-                                      g => g.SelectMany(ut => ut.gpsListe ?? new List<GPS>()).ToList());
+                .Where(ut => ut.utilisateurId == user.id && _context.publication.Any(p => p.randonneeId == ut.randonneeId))
+                .ToListAsync();
+
+            var gpsDataGrouped = await _context.utilisateursTrace
+                .Where(ut => ut.utilisateurId == user.id && _context.publication.Any(p => p.id == ut.publicationId))
+                .GroupBy(ut => ut.publicationId)
+                .ToDictionaryAsync(
+                         g => g.Key,
+                         g => g.SelectMany(ut => ut.gpsListe ?? new List<GPS>()).ToList());
+
             var publications = await _context.publication
                             .Where(p => p.etat == EtatPublication.Publique || (p.utilisateur.id == user.id && p.etat == EtatPublication.Privee))
                             .Select(p => new PublicationResult
                             {
                                 Publication = p,
-                                GpsList = gpsData.ContainsKey(p.randonnee.id) ? gpsData[p.randonnee.id] : null,
+                                GpsList = gpsDataGrouped.ContainsKey(p.id) ? gpsDataGrouped[p.id] : null,
                                 Likes = (List<Utilisateur>?)null
+
                             }).ToListAsync();
             foreach (var pub in publications)
             {
@@ -130,7 +149,7 @@ namespace arsoudeServeur.Services
                                      .Select(p => new
                                      {
                                        Publication = p,
-                                       GpsList = gpsData.ContainsKey(p.randonnee.id) ? gpsData[p.randonnee.id] : null,
+                                       GpsList = gpsDataGrouped.ContainsKey(p.id) ? gpsDataGrouped[p.id] : null,
                                        Likes = p.publicationLikes.Select(pl => pl.utilisateur).ToList()
                                      }).ToListAsync();
 

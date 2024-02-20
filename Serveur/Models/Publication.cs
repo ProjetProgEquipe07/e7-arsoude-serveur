@@ -14,8 +14,6 @@ namespace arsoudeServeur.Models
 
         public virtual int randonneeId { get; set; } 
         public virtual int utilisateurId { get; set; }
-
-
         // Clé étrangère
         public virtual Randonnee randonnee { get; set; }
         public virtual Utilisateur utilisateur { get; set; }
