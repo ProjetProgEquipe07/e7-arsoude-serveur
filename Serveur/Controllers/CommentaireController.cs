@@ -54,12 +54,14 @@ namespace arsoudeServeur.Controllers
         {
             return _commentaireService.PeutCommenter(randonneeId, UtilisateurCourant);
         }
+
         [HttpGet("{id}")]
         public async Task<ActionResult> AjouteLikeCommentaire(int id)
         {
             await _commentaireService.AjouteLikeCommentaire(id, UtilisateurCourant);
             return Ok();
         }
+
         [HttpGet("{id}")]
         public async Task<ActionResult> EnleveLikeCommentaire(int id)
         {

@@ -122,11 +122,12 @@ namespace arsoudeServeur.Services
             }
             return true;
         }
+
         public async Task AjouteLikeCommentaire(int id, Utilisateur utilisateurCourant)
         {
             var commentaire = _context.commentaires.Where(c => c.id == id).FirstOrDefault() ?? throw new Exception("Le commentaire n'existe pas");
             var listeUser = commentaire.utilisateursLikes ?? throw new Exception("Utilisateurs non trouvés");
-            if (listeUser != null && listeUser.Contains(utilisateurCourant))
+            if (listeUser.Contains(utilisateurCourant))
             {
                 throw new Exception("Vous avez déjà like ce commentaire");
             }
@@ -136,11 +137,12 @@ namespace arsoudeServeur.Services
             }
             await _context.SaveChangesAsync();
         }
+
         public async void EnleveLikeCommentaire(int id, Utilisateur utilisateurCourant)
         {
             var commentaire = _context.commentaires.Where(c => c.id == id).FirstOrDefault() ?? throw new Exception("Le commentaire n'existe pas");
             var listeUser = commentaire.utilisateursLikes ?? throw new Exception("Utilisateurs non trouvés");
-            if (listeUser != null && !listeUser.Contains(utilisateurCourant))
+            if (!listeUser.Contains(utilisateurCourant))
             {
                 throw new Exception("Vous avez déjà enlevé votre like de ce commentaire");
             }
