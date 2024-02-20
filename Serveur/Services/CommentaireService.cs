@@ -109,18 +109,22 @@ namespace arsoudeServeur.Services
 
         public bool PeutCommenter(int randoId, Utilisateur utilisateurCourant)
         {
-            var utilisateurTrace = _context.utilisateursTrace.Where(r => r.utilisateurId == utilisateurCourant.id).FirstOrDefault();
             var rando = _context.randonnees.Where(r => r.id == randoId).FirstOrDefault() ?? throw new Exception("La randonnée n'existe pas");
-            var userRandoComms = rando.commentaires.Where(c => c.utilisateurId == utilisateurCourant.id);
-            //Si pas fait randonnée ou déjà commenté la randonnée et que le commentaire est pas effacé, alors pas autorisé à commenter
-            if (utilisateurTrace == null ||
-                (userRandoComms.Count() > 0 && userRandoComms.Where(c => c.isDeleted == false).Count() > 0))
+            //On peut commenter seulement si la randonnée est publique
+            if (rando.etatRandonnee == Randonnee.Etat.Publique)
             {
-                //Debug Console
-                //userRandoComms.ToList().ForEach(c => Console.WriteLine(c.id + "\n" + c.utilisateur!.courriel + "\n" + c.message + "\n" + c.note + "\n" + c.isDeleted));
-                return false;
+                var utilisateurTrace = _context.utilisateursTrace.Where(r => r.utilisateurId == utilisateurCourant.id).FirstOrDefault();
+                var userRandoComms = rando.commentaires.Where(c => c.utilisateurId == utilisateurCourant.id);
+                //Si pas fait randonnée ou déjà commenté la randonnée et que le commentaire est pas effacé, alors pas autorisé à commenter
+                if (utilisateurTrace == null || userRandoComms.Any(c => c.isDeleted == false))
+                {
+                    //Debug Console
+                    //userRandoComms.ToList().ForEach(c => Console.WriteLine(c.id + "\n" + c.utilisateur!.courriel + "\n" + c.message + "\n" + c.note + "\n" + c.isDeleted));
+                    return false;
+                }
+                return true;
             }
-            return true;
+            return false;
         }
 
         public async Task AjouteLikeCommentaire(int id, Utilisateur utilisateurCourant)
