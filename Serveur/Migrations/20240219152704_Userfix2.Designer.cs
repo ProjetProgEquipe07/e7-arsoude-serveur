@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using arsoudServeur.Data;
 
@@ -10,9 +11,11 @@ using arsoudServeur.Data;
 namespace arsoudeServeur.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240219152704_Userfix2")]
+    partial class Userfix2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -49,13 +52,13 @@ namespace arsoudeServeur.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "381377c4-e577-4cd1-90c8-3fc173629eef",
+                            Id = "805b0735-00ea-4d19-9331-3cb919b288ef",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
-                            Id = "cbfc6b73-fc48-4d7b-bdd4-8525fe894474",
+                            Id = "ca9a3c83-deef-48f4-a093-c11f07179f3a",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -152,15 +155,15 @@ namespace arsoudeServeur.Migrations
                         {
                             Id = "11111111-1111-1111-1111-111111111111",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "86da64f4-eb5a-481b-85cb-15244fd27fde",
+                            ConcurrencyStamp = "9d8d52e7-e107-4ff8-9406-f729401ea849",
                             Email = "admin@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@GMAIL.COM",
                             NormalizedUserName = "ADMIN@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAECWOvXfQ1ik9YINjsdAcw0xgotRdS+cHSIz0CrzjtFO/4pBisQPmtWS/JSQFXCarJg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEFTYifRk6L30/RcgZdTLmJzMkKzd7lIEIoDLKvHdEa7EJPMR0qdPqNkvdK4rwYm7nw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "dfc8b5d8-49f5-47ba-912c-910606550bc1",
+                            SecurityStamp = "089fb0a7-ad8c-4810-8c5a-d32120265d81",
                             TwoFactorEnabled = false,
                             UserName = "admin@gmail.com"
                         },
@@ -168,15 +171,15 @@ namespace arsoudeServeur.Migrations
                         {
                             Id = "11111111-1111-1111-1111-111111111112",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "8c16fd60-5343-4caa-b728-59cb8fb088f1",
+                            ConcurrencyStamp = "1185a74a-45df-4c95-8340-dff209293cca",
                             Email = "user1@hotmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "USER1@HOTMAIL.COM",
                             NormalizedUserName = "USER1@HOTMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAECxkN+3EEJEpgcxpvu67wzB0j8+LOSPFGuKz41uZ1d9JZrcKkbsSq8XciEuAlQNoJA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEKxt3NFh114Mme6x+zI5ElYK6wwWDxbBjso+cA+EEVB5VwpXxCnuBCZm63ixJW6oAA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "21f3dc8f-96d3-499e-be4b-0e8a43504798",
+                            SecurityStamp = "8162a329-3cb0-4fc0-938f-861560c17e45",
                             TwoFactorEnabled = false,
                             UserName = "user1@hotmail.com"
                         },
@@ -184,15 +187,15 @@ namespace arsoudeServeur.Migrations
                         {
                             Id = "11111111-1111-1111-1111-111111111113",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "9b70aad8-bcc5-4e4c-91cf-7bce43cbadec",
+                            ConcurrencyStamp = "31c7a884-6f61-455f-9ab5-069f4d9a79d2",
                             Email = "user2@hotmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "USER2@HOTMAIL.COM",
                             NormalizedUserName = "USER2@HOTMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAECa0dSlMmbsszEq2/WmgxKiLCWBp1cegNnnuFdKIojh4Uu+iOMsARK2NDnplu7lzig==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEDea0xrauRbHYGa8qlOE0JTsIR8wjUwWCpOiwfXXnD8lYv2m9YNolXo7s0dFxL4u2w==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "5d00e2af-fb81-4f43-a886-ba773e035299",
+                            SecurityStamp = "7552a47b-165c-4f22-afb3-5f8874eaeb8b",
                             TwoFactorEnabled = false,
                             UserName = "user2@hotmail.com"
                         });
@@ -568,50 +571,6 @@ namespace arsoudeServeur.Migrations
                     b.HasIndex("utilisateurId");
 
                     b.ToTable("publication");
-
-                    b.HasData(
-                        new
-                        {
-                            id = 1,
-                            etat = 1,
-                            randonneeId = 1,
-                            utilisateurId = 1
-                        },
-                        new
-                        {
-                            id = 2,
-                            etat = 1,
-                            randonneeId = 2,
-                            utilisateurId = 2
-                        },
-                        new
-                        {
-                            id = 3,
-                            etat = 1,
-                            randonneeId = 3,
-                            utilisateurId = 3
-                        },
-                        new
-                        {
-                            id = 4,
-                            etat = 1,
-                            randonneeId = 4,
-                            utilisateurId = 2
-                        },
-                        new
-                        {
-                            id = 5,
-                            etat = 1,
-                            randonneeId = 5,
-                            utilisateurId = 2
-                        },
-                        new
-                        {
-                            id = 6,
-                            etat = 1,
-                            randonneeId = 6,
-                            utilisateurId = 1
-                        });
                 });
 
             modelBuilder.Entity("arsoudeServeur.Models.Randonnee", b =>

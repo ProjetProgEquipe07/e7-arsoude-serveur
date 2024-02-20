@@ -116,9 +116,61 @@ namespace arsoudServeur.Data
             SeedRandonnees(builder);
             SeedGPSData(builder);
             SeedCommentaires(builder);
+            SeedPublication(builder);
         }
 
 
+
+        private void SeedPublication(ModelBuilder builder)
+        {
+            var publications = new List<Publication>
+            {
+                new Publication
+                {
+                    id = 1,
+                    etat = Publication.EtatPublication.Publique,
+                    randonneeId = 1,
+                    utilisateurId = 1,
+                },
+                new Publication
+                {
+                    id = 2,
+                    etat = Publication.EtatPublication.Publique,
+                    randonneeId = 2,
+                    utilisateurId = 2,
+                },
+                new Publication
+                {
+                    id = 3,
+                    etat = Publication.EtatPublication.Publique,
+                    randonneeId = 3,
+                    utilisateurId = 3,
+                },
+                new Publication
+                {
+                    id = 4,
+                    etat = Publication.EtatPublication.Publique,
+                    randonneeId = 4,
+                    utilisateurId = 2,
+                },
+                new Publication
+                {
+                    id = 5,
+                    etat = Publication.EtatPublication.Publique,
+                    randonneeId = 5,
+                    utilisateurId = 2,
+                },
+                new Publication
+                {
+                    id = 6,
+                    etat = Publication.EtatPublication.Publique,
+                    randonneeId = 6,
+                    utilisateurId = 1,
+                }
+            };
+
+            builder.Entity<Publication>().HasData(publications);
+        }
 
         private void SeedRandonnees(ModelBuilder builder)
         {

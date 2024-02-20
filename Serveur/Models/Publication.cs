@@ -8,7 +8,7 @@ namespace arsoudeServeur.Models
 
         public EtatPublication etat { get; set; }
 
-        public List<Utilisateur> listLike { get; set; }
+        public virtual List<Utilisateur> listLike { get; set; }
 
         public virtual int randonneeId { get; set; } 
         public virtual int utilisateurId { get; set; }
@@ -21,7 +21,7 @@ namespace arsoudeServeur.Models
 
         public enum EtatPublication
         {
-            Privée,
+            Privee,
             Publique,
         }
     }
