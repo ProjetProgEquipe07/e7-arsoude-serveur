@@ -6,10 +6,18 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.DotNet.Scaffolding.Shared.Messaging;
 using Microsoft.EntityFrameworkCore;
 
 namespace arsoudeServeur.Services
-{
+{ 
+    public class NullRandonneeException : Exception { } //"Cette randonnée n'existe pas"
+
+    public class NullCommentaireException : Exception { } //"Ce commentaire n'existe pas"
+
+    public class UnauthorizedCommentaireException : Exception { } //"Vous n'êtes pas autorisé à supprimer ce commentaire"
+
+
     public class CommentaireService
     {
         private ApplicationDbContext _context;
@@ -27,7 +35,7 @@ namespace arsoudeServeur.Services
 
         public void CreateCommentaire(CommentaireDTO commentaire, Utilisateur utilisateurCourant)
         {
-            var rando = _context.randonnees.Where(r => r.id == commentaire.randonneeId).FirstOrDefault() ?? throw new Exception("Randonnée non trouvée");
+            var rando = _context.randonnees.Where(r => r.id == commentaire.randonneeId).FirstOrDefault() ?? throw new NullRandonneeException();
             if (PeutCommenter(rando.id, utilisateurCourant))
             {
                 _context.commentaires.Add(new Commentaire()
@@ -49,26 +57,23 @@ namespace arsoudeServeur.Services
 
         }
 
-        public void PutCommentaire(int id, CommentaireDTO commentaireDTO, Utilisateur utilisateurCourant)
+        public Commentaire PutCommentaire(int id, CommentaireDTO commentaireDTO, Utilisateur utilisateurCourant)
         {
-            var rando = _context.randonnees.Where(r => r.id == commentaireDTO.randonneeId).FirstOrDefault() ?? throw new Exception("La randonnée n'existe pas");
-            var commentaire = _context.commentaires.Where(c => c.id == id).FirstOrDefault() ?? throw new Exception("Le commentaire n'existe pas");
+            var rando = _context.randonnees.Where(r => r.id == commentaireDTO.randonneeId).FirstOrDefault() ?? throw new NullRandonneeException();
+            var commentaire = _context.commentaires.Where(c => c.id == id).FirstOrDefault() ?? throw new NullCommentaireException();
             //Seulement l'utilisateur peut modifier le commentaire
             if (utilisateurCourant.id == commentaire.utilisateurId)
             {
-                _context.commentaires.Update(new Commentaire()
+                Commentaire newCommentaire = new Commentaire()
                 {
-                    id = id,
                     message = commentaire.message,
                     utilisateur = utilisateurCourant,
-                    note = commentaire.note,
-                    randonnee = rando,
-                    randonneeId = rando.id,
-                    utilisateurId = utilisateurCourant.id,
-                    utilisateursLikes = commentaire.utilisateursLikes,
-                });
+                };
+                _context.commentaires.Update(newCommentaire);
 
                 _context.SaveChangesAsync();
+                
+                return newCommentaire;
             }
             else
             {
@@ -77,9 +82,9 @@ namespace arsoudeServeur.Services
 
         }
 
-        public void DeleteCommentaire(int commentaireId, Utilisateur utilisateurCourant)
+        public Commentaire DeleteCommentaire(int commentaireId, Utilisateur utilisateurCourant)
         {
-            var commentaire = _context.commentaires.Where(c => c.id == commentaireId).FirstOrDefault() ?? throw new Exception("Le commentaire n'existe pas");
+            var commentaire = _context.commentaires.Where(c => c.id == commentaireId).FirstOrDefault() ?? throw new NullCommentaireException();
             if (commentaire.isDeleted == true)
             {
                 throw new Exception("Ce commentaire a déjà été effacé");
@@ -96,7 +101,7 @@ namespace arsoudeServeur.Services
             }
             else
             {
-                throw new UnauthorizedAccessException("Vous n'êtes pas autorisé à supprimer ce commentaire");
+                throw new UnauthorizedCommentaireException();
             }
 
             //Enlève la note pour ne pas affecter les scores et dit que le commentaire est effacé pour la gestion
@@ -105,11 +110,13 @@ namespace arsoudeServeur.Services
 
             _context.commentaires.Update(commentaire);
             _context.SaveChangesAsync();
+
+            return commentaire;
         }
 
         public bool PeutCommenter(int randoId, Utilisateur utilisateurCourant)
         {
-            var rando = _context.randonnees.Where(r => r.id == randoId).FirstOrDefault() ?? throw new Exception("La randonnée n'existe pas");
+            var rando = _context.randonnees.Where(r => r.id == randoId).FirstOrDefault() ?? throw new NullRandonneeException();
             //On peut commenter seulement si la randonnée est publique
             if (rando.etatRandonnee == Randonnee.Etat.Publique)
             {
@@ -129,7 +136,7 @@ namespace arsoudeServeur.Services
 
         public async Task AjouteLikeCommentaire(int id, Utilisateur utilisateurCourant)
         {
-            var commentaire = _context.commentaires.Where(c => c.id == id).FirstOrDefault() ?? throw new Exception("Le commentaire n'existe pas");
+            var commentaire = _context.commentaires.Where(c => c.id == id).FirstOrDefault() ?? throw new NullCommentaireException();
             var listeUser = commentaire.utilisateursLikes ?? throw new Exception("Utilisateurs non trouvés");
             if (listeUser.Where(CU => CU.utilisateurId == utilisateurCourant.id).FirstOrDefault() != null)
             {
@@ -151,9 +158,9 @@ namespace arsoudeServeur.Services
 
         public async void EnleveLikeCommentaire(int id, Utilisateur utilisateurCourant)
         {
-            var commentaire = _context.commentaires.Where(c => c.id == id).FirstOrDefault() ?? throw new Exception("Le commentaire n'existe pas");
+            var commentaire = _context.commentaires.Where(c => c.id == id).FirstOrDefault() ?? throw new NullCommentaireException();
             var listeUser = commentaire.utilisateursLikes ?? throw new Exception("Utilisateurs non trouvés");
-            CommentaireUtilisateur likeCheck = listeUser.Where(CU => CU.utilisateurId == utilisateurCourant.id).FirstOrDefault();
+            CommentaireUtilisateur likeCheck = listeUser.Where(CU => CU.utilisateurId == utilisateurCourant.id).FirstOrDefault() ?? throw new Exception("");
             if (likeCheck != null)
             {
                 commentaire.utilisateursLikes.Remove(likeCheck);
