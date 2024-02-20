@@ -7,12 +7,10 @@ namespace arsoudeServeur.Models
     {
         public int id { get; set; }
 
-        //le titre est pas demandé me semble (j'ai demandé à PO et si on l'a pas noté on le met pas)
-
-        //TODO: mettre une propriété pour la date de création
-        //TODO: mettre une propriété pour la date de modification
-        //TODO: mettre une propriété pour la date de suppression
-        //TODO: mettre une propriété pour le nom complet de la personne prénom + " " + nom 
+        //TODO?: mettre une propriété pour la date de création
+        //TODO?: mettre une propriété pour la date de modification
+        //TODO?: mettre une propriété pour la date de suppression
+        //TODO?: mettre une propriété pour le nom complet de la personne prénom + " " + nom 
 
         public string message { get; set; } = "";
 
@@ -21,9 +19,9 @@ namespace arsoudeServeur.Models
         public bool isDeleted { get; set; } = false;
 
         // Clé étrangère 
-        //Montrer juste des coeurs
+        //Montrer juste des coeurs et les noms des personnes qui ont liké
         //0 ou 1 et +
-        public virtual List<CommentaireUtilisateur>? utilisateursLikes { get; set; }
+        public virtual List<CommentaireUtilisateur> utilisateursLikes { get; set; } = new List<CommentaireUtilisateur>();
 
         // Clé étrangère 
         public int? randonneeId { get; set; }

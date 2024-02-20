@@ -12,8 +12,8 @@ namespace arsoudeServeur.Controllers
     public class CommentaireController : BaseController
     {
         private CommentaireService _commentaireService;
-        public CommentaireController(CommentaireService commentaire, UtilisateursService utilisateursService) :base(utilisateursService) 
-        { 
+        public CommentaireController(CommentaireService commentaire, UtilisateursService utilisateursService) : base(utilisateursService)
+        {
             _commentaireService = commentaire;
         }
 
@@ -22,49 +22,111 @@ namespace arsoudeServeur.Controllers
         //UnlikeCommentaire
 
         [HttpGet("{id}")]
-        public async Task<IEnumerable<Commentaire>> GetCommentaire(int id)
+        public async Task<IEnumerable<Commentaire>> GetCommentaires(int id)
         {
-           var list = _commentaireService.GetCommentaires(id);
-           return list;
+            try
+            {
+                var list = await _commentaireService.GetCommentaires(id);
+                return list;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         [HttpPost]
-        public async Task<ActionResult> CreateCommentaire([FromBody] CommentaireDTO commentaire)
+        public async Task<ActionResult> CreateCommentaire([FromBody] CommentaireDTO commentaireDTO)
         {
-            _commentaireService.CreateCommentaire(commentaire, UtilisateurCourant);
-            return Ok();
+            try
+            {
+                var commentaire = await _commentaireService.CreateCommentaire(commentaireDTO, UtilisateurCourant);
+                return Ok(commentaire);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> EditCommentaire(int id, [FromBody] CommentaireDTO commentaire)
+        public async Task<ActionResult> EditCommentaire(int id, [FromBody] CommentaireDTO commentaireDTO)
         {
-             _commentaireService.PutCommentaire(id, commentaire, UtilisateurCourant);
-            return Ok();
+            try
+            {
+                var commentaire = await _commentaireService.PutCommentaire(id, commentaireDTO, UtilisateurCourant);
+                return Ok(commentaire);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteCommentaire(int id)
         {
-            _commentaireService.DeleteCommentaire(id, UtilisateurCourant);
-            return Ok();
+            try
+            {
+                await _commentaireService.DeleteCommentaire(id, UtilisateurCourant);
+                return Ok();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         [HttpGet("{randonneeId}")]
-        public async Task<bool> UtilisateurPeutCommenter(int randonneeId)
+        public async Task<ActionResult> UtilisateurPeutCommenter(int randonneeId)
         {
-            return await _commentaireService.PeutCommenter(randonneeId, UtilisateurCourant);
+            try
+            {
+                await _commentaireService.PeutCommenter(randonneeId, UtilisateurCourant);
+                return Ok();
+            }
+            catch (NoTraceFoundException)
+            {
+                return NotFound("Aucun tracé fait dans la randonnée");
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
         [HttpGet("{commentaireId}")]
         public async Task<ActionResult> AjoutLikeCommentaire(int commentaireId)
         {
-            await _commentaireService.AjoutLikeCommentaire(commentaireId, UtilisateurCourant);
-            return Ok();
+            try
+            {
+
+                await _commentaireService.AjoutLikeCommentaire(commentaireId, UtilisateurCourant);
+                return Ok();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
         [HttpGet("{commentaireId}")]
         public async Task<ActionResult> EnleveLikeCommentaire(int commentaireId)
         {
-            await _commentaireService.EnleveLikeCommentaire(commentaireId, UtilisateurCourant);
-            return Ok();
+            try
+            {
+                await _commentaireService.EnleveLikeCommentaire(commentaireId, UtilisateurCourant);
+                return Ok();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
     }
