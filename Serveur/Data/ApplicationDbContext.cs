@@ -291,6 +291,7 @@ namespace arsoudServeur.Data
                     randonneeId = 1,
                     utilisateurId = 2,
                     note = 3,
+                    isDeleted = false,
                 },
                 new Commentaire
                 {
@@ -299,6 +300,7 @@ namespace arsoudServeur.Data
                     randonneeId = 2,
                     utilisateurId = 1,
                     note = 3,
+                    isDeleted = false,
 
                 },
                 new Commentaire
@@ -308,6 +310,7 @@ namespace arsoudServeur.Data
                     randonneeId = 2,
                     utilisateurId = 2,
                     note = 3,
+                    isDeleted = false,
                 },
                 new Commentaire
                 {
@@ -316,6 +319,7 @@ namespace arsoudServeur.Data
                     randonneeId = 2,
                     utilisateurId = 3,
                     note = 1,
+                    isDeleted = false,
                 },
                 new Commentaire
                 {
@@ -324,14 +328,7 @@ namespace arsoudServeur.Data
                     randonneeId = 6,
                     utilisateurId = 3,
                     note = 5,
-                },
-                 new Commentaire
-                {
-                    id = 6,
-                    randonneeId = 6,
-                    utilisateurId = 3,
-                     note = null,
-                    isDeleted = true,
+                    isDeleted = false,
                 },
             };
             builder.Entity<Commentaire>().HasData(commentaireData);

@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace arsoudeServeur.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class fixComments : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -184,6 +184,7 @@ namespace arsoudeServeur.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     message = table.Column<string>(type: "TEXT", nullable: false),
                     note = table.Column<int>(type: "INTEGER", nullable: true),
+                    isDeleted = table.Column<bool>(type: "INTEGER", nullable: false),
                     randonneeId = table.Column<int>(type: "INTEGER", nullable: true),
                     utilisateurId = table.Column<int>(type: "INTEGER", nullable: true)
                 },
@@ -353,9 +354,9 @@ namespace arsoudeServeur.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "11111111-1111-1111-1111-111111111111", 0, "9d08088d-3978-4d55-b886-135214f23755", "admin@gmail.com", true, false, null, "ADMIN@GMAIL.COM", "ADMIN@GMAIL.COM", "AQAAAAIAAYagAAAAENy07yc/USSs1PTWzB+InUNlywLyQnoWUXK81teQ1UnYrwe1mo7awWq6mfenOwyY7w==", null, false, "4a1ef539-6fca-4dab-87de-55c4f588a3e9", false, "admin@gmail.com" },
-                    { "11111111-1111-1111-1111-111111111112", 0, "d48c58c2-1b44-434f-91b5-6cca1e32d5ff", "user1@hotmail.com", true, false, null, "USER1@HOTMAIL.COM", "USER1@HOTMAIL.COM", "AQAAAAIAAYagAAAAEHBzx8Jovb5SdNB4zGPuSUiIIABXL0oYoXJKaPGECHqoOrmZXUtflyh/4MLkFg91Og==", null, false, "45ce8a17-1e09-4c0b-9ae6-591bb48d7bf5", false, "user1@hotmail.com" },
-                    { "11111111-1111-1111-1111-111111111113", 0, "a7836969-5784-41e6-b6de-0fccf471386c", "user2@hotmail.com", true, false, null, "USER2@HOTMAIL.COM", "USER2@HOTMAIL.COM", "AQAAAAIAAYagAAAAEOzkYAwJ6uGjOWAqxVNaAGjZBcruqS2gKrGqmix6hxAm6UReDmYD2KiqELp+z1QrBg==", null, false, "274a3bf4-b46b-4c3d-8ce1-b92742fc2f4e", false, "user2@hotmail.com" }
+                    { "11111111-1111-1111-1111-111111111111", 0, "07431bf8-4004-4904-aae4-69628d11a591", "admin@gmail.com", true, false, null, "ADMIN@GMAIL.COM", "ADMIN@GMAIL.COM", "AQAAAAIAAYagAAAAENYg2clAGvXBkSZVYIa7eaVwLPYd1i/xomkgaTR6vS5SBDjeKC9nwGnGhiFceHXQaw==", null, false, "9ded8bc4-20a7-4be5-bd41-4d23a2a49dde", false, "admin@gmail.com" },
+                    { "11111111-1111-1111-1111-111111111112", 0, "cb84db24-f270-49db-832f-ad0af3e3dffe", "user1@hotmail.com", true, false, null, "USER1@HOTMAIL.COM", "USER1@HOTMAIL.COM", "AQAAAAIAAYagAAAAEFZtWSZFOJQ9O279uZx4N8jhTv3sxEAlgqumkfu4aswnKPcs2js4izwjmMGwBfGYTg==", null, false, "b641dcb7-bc7c-461b-b7c2-31ae72bcf60f", false, "user1@hotmail.com" },
+                    { "11111111-1111-1111-1111-111111111113", 0, "27d16261-3ddb-4a6c-9b0c-95efbb6a846e", "user2@hotmail.com", true, false, null, "USER2@HOTMAIL.COM", "USER2@HOTMAIL.COM", "AQAAAAIAAYagAAAAEKbK4hqfiT7hjVv7I4/cBs8n7toIYFQKKjh1FmW9Xko7lFOsL3TruqWLa9qTwBifhg==", null, false, "5895327e-2ee9-4db3-a87e-ab477f24beb1", false, "user2@hotmail.com" }
                 });
 
             migrationBuilder.InsertData(
@@ -383,14 +384,15 @@ namespace arsoudeServeur.Migrations
 
             migrationBuilder.InsertData(
                 table: "commentaires",
-                columns: new[] { "id", "message", "note", "randonneeId", "utilisateurId" },
+                columns: new[] { "id", "isDeleted", "message", "note", "randonneeId", "utilisateurId" },
                 values: new object[,]
                 {
-                    { 1, "Are you looking for a new outdoor adventure that won't break the bank? Look no further than Arsoude! This app offers a wide variety of hiking trails at affordable prices, making it easy for anyone to experience the beauty of nature without spending a fortune. With Arsoude, you can easily find new trails to explore based on your location and skill level. The app provides detailed information about each trail, including distance, difficulty level, and user reviews, so you can choose the perfect hike for your next outing.", 3, 1, 2 },
-                    { 2, "I recently downloaded the hiking app Arsoude and I have to say I am extremely impressed. The app is user-friendly and provides detailed maps, trail information, and tips for hikers of all levels. I love that it includes features such as GPS tracking and offline maps, making it easy to navigate even in remote areas with no signal. The trail recommendations and difficulty ratings have been spot on and have helped me find new hikes that I never would have discovered otherwise. Overall, Arsoude has become my go-to app for all of my hiking adventures. Highly recommend!", 3, 2, 1 },
-                    { 3, "As an avid hiker, I cannot recommend the Arsoude app enough. This user-friendly platform has completely revolutionized my hiking experience. From detailed trail maps to real-time weather updates, Arsoude has everything I need to plan and execute the perfect outdoor adventure. The interface is sleek and intuitive, making it easy to navigate even on the go. Plus, the community feature allows me to connect with other outdoor enthusiasts and share tips and recommendations. Whether you're a seasoned hiker or just starting out, Arsoude is a must-have for your next outdoor excursion.", 3, 2, 2 },
-                    { 4, "Arsoude is a fantastic hiking app that has completely changed the way I explore the great outdoors. With detailed trail maps, GPS tracking, and real-time weather updates, I can confidently go on new adventures without worrying about getting lost. The app also features a community forum where users can share tips, photos, and recommendations, making it easy to connect with other outdoor enthusiasts. Overall, Arsoude has become an essential tool for my hiking excursions and I highly recommend it to anyone looking to discover new trails.", 1, 2, 3 },
-                    { 5, "J'ai récemment découvert l'application de randonnée Arsoude et je dois dire que je suis impressionné. Non seulement elle est facile à utiliser, mais elle offre également une multitude d'itinéraires de randonnée à travers de superbes paysages. Grâce à Arsoude, j'ai pu explorer de nouveaux sentiers et découvrir des trésors cachés que je n'aurais jamais trouvés autrement. Je recommande vivement cette application à tous les amoureux de la randonnée!", 5, 6, 3 }
+                    { 1, false, "Are you looking for a new outdoor adventure that won't break the bank? Look no further than Arsoude! This app offers a wide variety of hiking trails at affordable prices, making it easy for anyone to experience the beauty of nature without spending a fortune. With Arsoude, you can easily find new trails to explore based on your location and skill level. The app provides detailed information about each trail, including distance, difficulty level, and user reviews, so you can choose the perfect hike for your next outing.", 3, 1, 2 },
+                    { 2, false, "I recently downloaded the hiking app Arsoude and I have to say I am extremely impressed. The app is user-friendly and provides detailed maps, trail information, and tips for hikers of all levels. I love that it includes features such as GPS tracking and offline maps, making it easy to navigate even in remote areas with no signal. The trail recommendations and difficulty ratings have been spot on and have helped me find new hikes that I never would have discovered otherwise. Overall, Arsoude has become my go-to app for all of my hiking adventures. Highly recommend!", 3, 2, 1 },
+                    { 3, false, "As an avid hiker, I cannot recommend the Arsoude app enough. This user-friendly platform has completely revolutionized my hiking experience. From detailed trail maps to real-time weather updates, Arsoude has everything I need to plan and execute the perfect outdoor adventure. The interface is sleek and intuitive, making it easy to navigate even on the go. Plus, the community feature allows me to connect with other outdoor enthusiasts and share tips and recommendations. Whether you're a seasoned hiker or just starting out, Arsoude is a must-have for your next outdoor excursion.", 3, 2, 2 },
+                    { 4, false, "Arsoude is a fantastic hiking app that has completely changed the way I explore the great outdoors. With detailed trail maps, GPS tracking, and real-time weather updates, I can confidently go on new adventures without worrying about getting lost. The app also features a community forum where users can share tips, photos, and recommendations, making it easy to connect with other outdoor enthusiasts. Overall, Arsoude has become an essential tool for my hiking excursions and I highly recommend it to anyone looking to discover new trails.", 1, 2, 3 },
+                    { 5, false, "J'ai récemment découvert l'application de randonnée Arsoude et je dois dire que je suis impressionné. Non seulement elle est facile à utiliser, mais elle offre également une multitude d'itinéraires de randonnée à travers de superbes paysages. Grâce à Arsoude, j'ai pu explorer de nouveaux sentiers et découvrir des trésors cachés que je n'aurais jamais trouvés autrement. Je recommande vivement cette application à tous les amoureux de la randonnée!", 5, 6, 3 },
+                    { 6, true, "", null, 6, 3 }
                 });
 
             migrationBuilder.InsertData(

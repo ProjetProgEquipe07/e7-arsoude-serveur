@@ -4,6 +4,7 @@ using arsoudServeur.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 
 namespace arsoudeServeur.Services
@@ -41,7 +42,7 @@ namespace arsoudeServeur.Services
             }
             else
             {
-                throw new Exception("Vous n'êtes pas autorisé à commenter cette randonnée (Vous devez faire la randonnée ou avez déjà commenté cette randonnée)");
+                throw new Exception("Vous devez faire la randonnée ou avez déjà commenté cette randonnée");
             }
 
         }
@@ -68,22 +69,32 @@ namespace arsoudeServeur.Services
             }
             else
             {
-                //Unauthorized ?
+                throw new Exception("Vous n'êtes pas autorisé à modifier ce commentaire");
             }
 
         }
 
-        public void DeleteCommentaire(int id, Utilisateur utilisateurCourant)
+        public void DeleteCommentaire(int commentaireId, Utilisateur utilisateurCourant)
         {
-            var commentaire = _context.commentaires.Where(c => c.id == id).FirstOrDefault() ?? throw new Exception("Le commentaire n'existe pas");
+            var commentaire = _context.commentaires.Where(c => c.id == commentaireId).FirstOrDefault() ?? throw new Exception("Le commentaire n'existe pas");
+            if (commentaire.isDeleted == true)
+            {
+                throw new Exception("Ce commentaire a déjà été effacé");
+            }
 
-            if (utilisateurCourant.id != commentaire.utilisateurId || utilisateurCourant.role != "Administrator")
+            if (utilisateurCourant.role == "Administrator")
+            {
+                commentaire.message = "Ce commentaire a été effacé par un Administrateur";
+            }
+            else if (utilisateurCourant.id == commentaire.utilisateurId)
+            {
+                commentaire.message = $"Ce commentaire a été effacé par {utilisateurCourant.prenom} {utilisateurCourant.nom}";
+            }
+            else
             {
                 throw new UnauthorizedAccessException("Vous n'êtes pas autorisé à supprimer ce commentaire");
             }
-            commentaire.message =
-                utilisateurCourant.role == "Administrator" ?
-                "Ce commentaire a été effacé par un Administrateur" : $"Ce commentaire a été effacé par {utilisateurCourant.prenom} {utilisateurCourant.nom}";
+
             commentaire.note = null;
             commentaire.isDeleted = true;
 
@@ -96,9 +107,12 @@ namespace arsoudeServeur.Services
             var utilisateurTrace = _context.utilisateursTrace.Where(r => r.utilisateurId == utilisateurCourant.id).FirstOrDefault();
             var rando = _context.randonnees.Where(r => r.id == randoId).FirstOrDefault() ?? throw new Exception("La randonnée n'existe pas");
             var userRandoComms = rando.commentaires.Where(c => c.utilisateurId == utilisateurCourant.id);
-            //Si pas fait randonnée ou déjà commenté la randonnée, alors pas autorisé à commenter
-            if (utilisateurTrace == null || (userRandoComms != null && userRandoComms.Where(c => c.isDeleted == false).FirstOrDefault() != null)) 
+            //Si pas fait randonnée ou déjà commenté la randonnée et que le commentaire est pas effacé, alors pas autorisé à commenter
+            if (utilisateurTrace == null ||
+                (userRandoComms.Count() > 0 && userRandoComms.Where(c => c.isDeleted == false).Count() > 0))
             {
+                //Debug Console
+                //userRandoComms.ToList().ForEach(c => Console.WriteLine(c.id + "\n" + c.utilisateur!.courriel + "\n" + c.message + "\n" + c.note + "\n" + c.isDeleted));
                 return false;
             }
             return true;
@@ -107,7 +121,7 @@ namespace arsoudeServeur.Services
         {
             var commentaire = _context.commentaires.Where(c => c.id == id).FirstOrDefault() ?? throw new Exception("Le commentaire n'existe pas");
             var listeUser = commentaire.utilisateursLikes;
-            if(listeUser != null && listeUser.Contains(utilisateurCourant))
+            if (listeUser != null && listeUser.Contains(utilisateurCourant))
             {
                 throw new Exception("Vous avez déjà aimé ce commentaire");
             }

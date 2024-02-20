@@ -11,8 +11,8 @@ using arsoudServeur.Data;
 namespace arsoudeServeur.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240219215707_Sprint3Seed")]
-    partial class Sprint3Seed
+    [Migration("20240220154631_fixComments")]
+    partial class fixComments
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -141,15 +141,15 @@ namespace arsoudeServeur.Migrations
                         {
                             Id = "11111111-1111-1111-1111-111111111111",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "f13bf880-09fc-4dec-9164-d465fbef7209",
+                            ConcurrencyStamp = "07431bf8-4004-4904-aae4-69628d11a591",
                             Email = "admin@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@GMAIL.COM",
                             NormalizedUserName = "ADMIN@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAENNqtuhNluVx7ldAONmEwVcWtwKsUYFsyGRQKbV/LDplpffeYSwO/dp6SLp4k6ubMA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAENYg2clAGvXBkSZVYIa7eaVwLPYd1i/xomkgaTR6vS5SBDjeKC9nwGnGhiFceHXQaw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "13dbacdc-544e-4c52-9608-037573bc9de9",
+                            SecurityStamp = "9ded8bc4-20a7-4be5-bd41-4d23a2a49dde",
                             TwoFactorEnabled = false,
                             UserName = "admin@gmail.com"
                         },
@@ -157,15 +157,15 @@ namespace arsoudeServeur.Migrations
                         {
                             Id = "11111111-1111-1111-1111-111111111112",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "a89ce742-b7da-4386-ac26-2d0bfd25c7a1",
+                            ConcurrencyStamp = "cb84db24-f270-49db-832f-ad0af3e3dffe",
                             Email = "user1@hotmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "USER1@HOTMAIL.COM",
                             NormalizedUserName = "USER1@HOTMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAELUe9vHgGX85NxLwFzuItsKCTHsrIgVN+aI/AwI+IuZki8g9SupQJYKJVUlor9I3MQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEFZtWSZFOJQ9O279uZx4N8jhTv3sxEAlgqumkfu4aswnKPcs2js4izwjmMGwBfGYTg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "dc0e9c89-6c88-41d0-9506-036a40f84161",
+                            SecurityStamp = "b641dcb7-bc7c-461b-b7c2-31ae72bcf60f",
                             TwoFactorEnabled = false,
                             UserName = "user1@hotmail.com"
                         },
@@ -173,15 +173,15 @@ namespace arsoudeServeur.Migrations
                         {
                             Id = "11111111-1111-1111-1111-111111111113",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "800a66ee-4f20-44c5-9dd6-bca5d5fd2d63",
+                            ConcurrencyStamp = "27d16261-3ddb-4a6c-9b0c-95efbb6a846e",
                             Email = "user2@hotmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "USER2@HOTMAIL.COM",
                             NormalizedUserName = "USER2@HOTMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAECqLfifVukTU1mXUHJ/ZLetnzRi/KmnrMfj+Shjdh+N5c8PobFxYiVpQxVH1cX9Ddg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEKbK4hqfiT7hjVv7I4/cBs8n7toIYFQKKjh1FmW9Xko7lFOsL3TruqWLa9qTwBifhg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "4b82a56a-8289-4b52-9eb1-b075ee49c011",
+                            SecurityStamp = "5895327e-2ee9-4db3-a87e-ab477f24beb1",
                             TwoFactorEnabled = false,
                             UserName = "user2@hotmail.com"
                         });
@@ -308,11 +308,14 @@ namespace arsoudeServeur.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<bool>("isDeleted")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("message")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("note")
+                    b.Property<int?>("note")
                         .HasColumnType("INTEGER");
 
                     b.Property<int?>("randonneeId")
@@ -333,6 +336,7 @@ namespace arsoudeServeur.Migrations
                         new
                         {
                             id = 1,
+                            isDeleted = false,
                             message = "Are you looking for a new outdoor adventure that won't break the bank? Look no further than Arsoude! This app offers a wide variety of hiking trails at affordable prices, making it easy for anyone to experience the beauty of nature without spending a fortune. With Arsoude, you can easily find new trails to explore based on your location and skill level. The app provides detailed information about each trail, including distance, difficulty level, and user reviews, so you can choose the perfect hike for your next outing.",
                             note = 3,
                             randonneeId = 1,
@@ -341,6 +345,7 @@ namespace arsoudeServeur.Migrations
                         new
                         {
                             id = 2,
+                            isDeleted = false,
                             message = "I recently downloaded the hiking app Arsoude and I have to say I am extremely impressed. The app is user-friendly and provides detailed maps, trail information, and tips for hikers of all levels. I love that it includes features such as GPS tracking and offline maps, making it easy to navigate even in remote areas with no signal. The trail recommendations and difficulty ratings have been spot on and have helped me find new hikes that I never would have discovered otherwise. Overall, Arsoude has become my go-to app for all of my hiking adventures. Highly recommend!",
                             note = 3,
                             randonneeId = 2,
@@ -349,6 +354,7 @@ namespace arsoudeServeur.Migrations
                         new
                         {
                             id = 3,
+                            isDeleted = false,
                             message = "As an avid hiker, I cannot recommend the Arsoude app enough. This user-friendly platform has completely revolutionized my hiking experience. From detailed trail maps to real-time weather updates, Arsoude has everything I need to plan and execute the perfect outdoor adventure. The interface is sleek and intuitive, making it easy to navigate even on the go. Plus, the community feature allows me to connect with other outdoor enthusiasts and share tips and recommendations. Whether you're a seasoned hiker or just starting out, Arsoude is a must-have for your next outdoor excursion.",
                             note = 3,
                             randonneeId = 2,
@@ -357,7 +363,8 @@ namespace arsoudeServeur.Migrations
                         new
                         {
                             id = 4,
-                            message = "Your purpose in life is to be in that chat, blowing a dick daily.\r\nYour life is nothing!\r\nYou serve zero purpose. You should kill yourself NOW.\r\nAnd give somebody else a piece of that oxygen, an ozone layer thats covered up so we can breathe inside this blue trapped  bubble, cause what are you here for? To worship me? Kill yourself. I mean that not a hundred percent, but a thousand percent.\r\nI've never seen somebody so worthless in mt life. I deadass. Have not seen such a worthless nigga in my life. If he has kids, oh my god",
+                            isDeleted = false,
+                            message = "Arsoude is a fantastic hiking app that has completely changed the way I explore the great outdoors. With detailed trail maps, GPS tracking, and real-time weather updates, I can confidently go on new adventures without worrying about getting lost. The app also features a community forum where users can share tips, photos, and recommendations, making it easy to connect with other outdoor enthusiasts. Overall, Arsoude has become an essential tool for my hiking excursions and I highly recommend it to anyone looking to discover new trails.",
                             note = 1,
                             randonneeId = 2,
                             utilisateurId = 3
@@ -365,8 +372,17 @@ namespace arsoudeServeur.Migrations
                         new
                         {
                             id = 5,
+                            isDeleted = false,
                             message = "J'ai récemment découvert l'application de randonnée Arsoude et je dois dire que je suis impressionné. Non seulement elle est facile à utiliser, mais elle offre également une multitude d'itinéraires de randonnée à travers de superbes paysages. Grâce à Arsoude, j'ai pu explorer de nouveaux sentiers et découvrir des trésors cachés que je n'aurais jamais trouvés autrement. Je recommande vivement cette application à tous les amoureux de la randonnée!",
                             note = 5,
+                            randonneeId = 6,
+                            utilisateurId = 3
+                        },
+                        new
+                        {
+                            id = 6,
+                            isDeleted = true,
+                            message = "",
                             randonneeId = 6,
                             utilisateurId = 3
                         });
