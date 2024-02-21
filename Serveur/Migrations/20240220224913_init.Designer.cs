@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using arsoudServeur.Data;
 
@@ -10,9 +11,11 @@ using arsoudServeur.Data;
 namespace arsoudeServeur.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240220224913_init")]
+    partial class init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -45,23 +48,6 @@ namespace arsoudeServeur.Migrations
                         .HasDatabaseName("RoleNameIndex");
 
                     b.ToTable("AspNetRoles", (string)null);
-<<<<<<< HEAD
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "b0c0124e-c342-479c-820a-32036a98abda",
-                            Name = "Administrator",
-                            NormalizedName = "ADMINISTRATOR"
-                        },
-                        new
-                        {
-                            Id = "8c253b8e-1fa2-4d5e-be01-4ce04e4df527",
-                            Name = "User",
-                            NormalizedName = "USER"
-                        });
-=======
->>>>>>> commentaires
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -155,25 +141,15 @@ namespace arsoudeServeur.Migrations
                         {
                             Id = "11111111-1111-1111-1111-111111111111",
                             AccessFailedCount = 0,
-<<<<<<< HEAD
-                            ConcurrencyStamp = "6cf7e8ae-e47e-4c11-8c44-2977a24c30f4",
-=======
                             ConcurrencyStamp = "719119ff-395f-408d-93c6-03f364c34795",
->>>>>>> commentaires
                             Email = "admin@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@GMAIL.COM",
                             NormalizedUserName = "ADMIN@GMAIL.COM",
-<<<<<<< HEAD
-                            PasswordHash = "AQAAAAIAAYagAAAAEHqmAVDRAA1Szn/hw9ImNzl9iMycN9hfZr6BbM+dlYE7/XVx8w3iCAfts5Y4IvMPNw==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "848cf965-0f84-4735-8e69-56c1fbc5f4ec",
-=======
                             PasswordHash = "AQAAAAIAAYagAAAAEOJhbTRfK2UgTfcFjWCb51lwDbDv1PKFBqA35NOLCzaKM7vneXYjxKSl6TgneqdHpw==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "c47f8019-bcf3-45d3-8ede-80d77f7af762",
->>>>>>> commentaires
                             TwoFactorEnabled = false,
                             UserName = "admin@gmail.com"
                         },
@@ -181,25 +157,15 @@ namespace arsoudeServeur.Migrations
                         {
                             Id = "11111111-1111-1111-1111-111111111112",
                             AccessFailedCount = 0,
-<<<<<<< HEAD
-                            ConcurrencyStamp = "b7468756-682a-442d-9455-0238c65aa60b",
-=======
                             ConcurrencyStamp = "137be061-c374-4d61-9b38-9780b0e7911b",
->>>>>>> commentaires
                             Email = "user1@hotmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "USER1@HOTMAIL.COM",
                             NormalizedUserName = "USER1@HOTMAIL.COM",
-<<<<<<< HEAD
-                            PasswordHash = "AQAAAAIAAYagAAAAEB01+2/VZvuwUGwxRspDhmzL5FgiIzpYEuiNb5ACAyvw8fxifvEsntS7QzhNj2Fhiw==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "c8e87b6a-ec3a-4a56-a6e8-acd10608d8b9",
-=======
                             PasswordHash = "AQAAAAIAAYagAAAAEBCoqhjaJUgXZtwS6IuRjOEx8ZGPHBsF9QQeiDLgbKnKTI9Ay/izdo5ui48CFfQ30g==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "fecbcef5-fed6-4ed1-8e21-665563365d42",
->>>>>>> commentaires
                             TwoFactorEnabled = false,
                             UserName = "user1@hotmail.com"
                         },
@@ -207,25 +173,15 @@ namespace arsoudeServeur.Migrations
                         {
                             Id = "11111111-1111-1111-1111-111111111113",
                             AccessFailedCount = 0,
-<<<<<<< HEAD
-                            ConcurrencyStamp = "e58bbc54-ad79-4f46-8a83-e4709a8169cb",
-=======
                             ConcurrencyStamp = "92f47986-ce5b-413a-aa1e-f12dc6d242a9",
->>>>>>> commentaires
                             Email = "user2@hotmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "USER2@HOTMAIL.COM",
                             NormalizedUserName = "USER2@HOTMAIL.COM",
-<<<<<<< HEAD
-                            PasswordHash = "AQAAAAIAAYagAAAAEFI5NQkY+yshG3BbdizCeiFk3SwQkn3nmvje6XRS9NemsfOoOf/cbWe5hjByS62obA==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "1d50f279-18f3-4bff-9380-5e0a97e3f0cd",
-=======
                             PasswordHash = "AQAAAAIAAYagAAAAEDsamnLkrkZQHMmMQuQPmZiI5kwEZ9v9T+N2ub6O+q5kdwlKVxkJwP/sb4O1U0+VOg==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "0454d1fe-da2f-4491-a573-c9d1618bd7cd",
->>>>>>> commentaires
                             TwoFactorEnabled = false,
                             UserName = "user2@hotmail.com"
                         });
@@ -451,21 +407,13 @@ namespace arsoudeServeur.Migrations
                         });
                 });
 
-<<<<<<< HEAD
-            modelBuilder.Entity("arsoudeServeur.Models.DTOs.PublicationUtilisateur", b =>
-=======
             modelBuilder.Entity("arsoudeServeur.Models.CommentaireUtilisateur", b =>
->>>>>>> commentaires
                 {
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-<<<<<<< HEAD
-                    b.Property<int>("publicationId")
-=======
                     b.Property<int>("commentaireId")
->>>>>>> commentaires
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("utilisateurId")
@@ -473,19 +421,11 @@ namespace arsoudeServeur.Migrations
 
                     b.HasKey("id");
 
-<<<<<<< HEAD
-                    b.HasIndex("publicationId");
-
-                    b.HasIndex("utilisateurId");
-
-                    b.ToTable("Like");
-=======
                     b.HasIndex("commentaireId");
 
                     b.HasIndex("utilisateurId");
 
                     b.ToTable("CommentaireUtilisateur");
->>>>>>> commentaires
                 });
 
             modelBuilder.Entity("arsoudeServeur.Models.GPS", b =>
@@ -652,74 +592,6 @@ namespace arsoudeServeur.Migrations
                     b.ToTable("images");
                 });
 
-            modelBuilder.Entity("arsoudeServeur.Models.Publication", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("etat")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("randonneeId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("utilisateurId")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("id");
-
-                    b.HasIndex("randonneeId");
-
-                    b.HasIndex("utilisateurId");
-
-                    b.ToTable("publication");
-
-                    b.HasData(
-                        new
-                        {
-                            id = 1,
-                            etat = 1,
-                            randonneeId = 1,
-                            utilisateurId = 1
-                        },
-                        new
-                        {
-                            id = 2,
-                            etat = 1,
-                            randonneeId = 2,
-                            utilisateurId = 2
-                        },
-                        new
-                        {
-                            id = 3,
-                            etat = 1,
-                            randonneeId = 3,
-                            utilisateurId = 3
-                        },
-                        new
-                        {
-                            id = 4,
-                            etat = 1,
-                            randonneeId = 4,
-                            utilisateurId = 2
-                        },
-                        new
-                        {
-                            id = 5,
-                            etat = 1,
-                            randonneeId = 5,
-                            utilisateurId = 2
-                        },
-                        new
-                        {
-                            id = 6,
-                            etat = 1,
-                            randonneeId = 6,
-                            utilisateurId = 1
-                        });
-                });
-
             modelBuilder.Entity("arsoudeServeur.Models.Randonnee", b =>
                 {
                     b.Property<int>("id")
@@ -761,7 +633,7 @@ namespace arsoudeServeur.Migrations
                             id = 1,
                             description = "promenade cool a st-brun",
                             emplacement = "st-bruno",
-                            etatRandonnee = 0,
+                            etatRandonnee = 1,
                             nom = "St-Brun",
                             typeRandonnee = 1,
                             utilisateurId = 1
@@ -771,7 +643,7 @@ namespace arsoudeServeur.Migrations
                             id = 2,
                             description = "promenade moyennement cool la bas",
                             emplacement = "dehors",
-                            etatRandonnee = 0,
+                            etatRandonnee = 1,
                             nom = "ptite marche au subway",
                             typeRandonnee = 0,
                             utilisateurId = 2
@@ -781,7 +653,7 @@ namespace arsoudeServeur.Migrations
                             id = 3,
                             description = "promenade fresh a bro s s a r d",
                             emplacement = "st-hilaire?",
-                            etatRandonnee = 0,
+                            etatRandonnee = 1,
                             nom = "Brossard",
                             typeRandonnee = 1,
                             utilisateurId = 3
@@ -801,7 +673,7 @@ namespace arsoudeServeur.Migrations
                             id = 5,
                             description = "ça doit être cool la bas",
                             emplacement = "quelque part",
-                            etatRandonnee = 0,
+                            etatRandonnee = 2,
                             nom = "rivière rouge",
                             typeRandonnee = 0,
                             utilisateurId = 2
@@ -811,7 +683,7 @@ namespace arsoudeServeur.Migrations
                             id = 6,
                             description = "je pense qu'on a beaucoup de fun",
                             emplacement = "mont tremblant",
-                            etatRandonnee = 0,
+                            etatRandonnee = 1,
                             nom = "Ma randonnée",
                             typeRandonnee = 0,
                             utilisateurId = 1
@@ -845,9 +717,6 @@ namespace arsoudeServeur.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("publicationId")
-                        .HasColumnType("INTEGER");
-
                     b.Property<int>("randonneeId")
                         .HasColumnType("INTEGER");
 
@@ -855,8 +724,6 @@ namespace arsoudeServeur.Migrations
                         .HasColumnType("INTEGER");
 
                     b.HasKey("id");
-
-                    b.HasIndex("publicationId");
 
                     b.HasIndex("randonneeId");
 
@@ -1048,25 +915,6 @@ namespace arsoudeServeur.Migrations
                     b.Navigation("utilisateur");
                 });
 
-            modelBuilder.Entity("arsoudeServeur.Models.DTOs.PublicationUtilisateur", b =>
-                {
-                    b.HasOne("arsoudeServeur.Models.Publication", "publication")
-                        .WithMany("publicationLikes")
-                        .HasForeignKey("publicationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("arsoudeServeur.Models.Utilisateur", "utilisateur")
-                        .WithMany("publicationLikes")
-                        .HasForeignKey("utilisateurId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("publication");
-
-                    b.Navigation("utilisateur");
-                });
-
             modelBuilder.Entity("arsoudeServeur.Models.GPS", b =>
                 {
                     b.HasOne("arsoudeServeur.Models.RandonneeUtilisateurTrace", null)
@@ -1087,25 +935,6 @@ namespace arsoudeServeur.Migrations
                         .HasForeignKey("arsoudeServeur.Models.Image", "randonneeId");
 
                     b.Navigation("randonnee");
-                });
-
-            modelBuilder.Entity("arsoudeServeur.Models.Publication", b =>
-                {
-                    b.HasOne("arsoudeServeur.Models.Randonnee", "randonnee")
-                        .WithMany()
-                        .HasForeignKey("randonneeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("arsoudeServeur.Models.Utilisateur", "utilisateur")
-                        .WithMany()
-                        .HasForeignKey("utilisateurId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("randonnee");
-
-                    b.Navigation("utilisateur");
                 });
 
             modelBuilder.Entity("arsoudeServeur.Models.Randonnee", b =>
@@ -1140,10 +969,6 @@ namespace arsoudeServeur.Migrations
 
             modelBuilder.Entity("arsoudeServeur.Models.RandonneeUtilisateurTrace", b =>
                 {
-                    b.HasOne("arsoudeServeur.Models.Publication", "publication")
-                        .WithMany()
-                        .HasForeignKey("publicationId");
-
                     b.HasOne("arsoudeServeur.Models.Randonnee", "randonnee")
                         .WithMany("traces")
                         .HasForeignKey("randonneeId")
@@ -1155,8 +980,6 @@ namespace arsoudeServeur.Migrations
                         .HasForeignKey("utilisateurId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("publication");
 
                     b.Navigation("randonnee");
 
@@ -1174,15 +997,9 @@ namespace arsoudeServeur.Migrations
                     b.Navigation("identityUser");
                 });
 
-<<<<<<< HEAD
-            modelBuilder.Entity("arsoudeServeur.Models.Publication", b =>
-                {
-                    b.Navigation("publicationLikes");
-=======
             modelBuilder.Entity("arsoudeServeur.Models.Commentaire", b =>
                 {
                     b.Navigation("utilisateursLikes");
->>>>>>> commentaires
                 });
 
             modelBuilder.Entity("arsoudeServeur.Models.Randonnee", b =>
@@ -1207,8 +1024,6 @@ namespace arsoudeServeur.Migrations
             modelBuilder.Entity("arsoudeServeur.Models.Utilisateur", b =>
                 {
                     b.Navigation("favoris");
-
-                    b.Navigation("publicationLikes");
 
                     b.Navigation("traces");
                 });
