@@ -360,15 +360,35 @@ namespace arsoudeServeur.Services
                     }
             }
 
-            RandonneeUtilisateurTrace gpstemp = new RandonneeUtilisateurTrace()
+            RandonneeUtilisateurTrace gpstemp; 
+            if (traceRandoDTO.publicationid == 0 )
+            {
+               gpstemp = new RandonneeUtilisateurTrace()
+                {
+                    randonnee = randonneeContext,
+                    randonneeId = randonneeContext.id,
+                    utilisateur = utilisateurContext,
+                    utilisateurId = utilisateurContext.id,
+                    gpsListe = newgps,
+                    timer = traceRandoDTO.timer
+                };
+
+
+            }
+            else
+            { 
+
+             gpstemp = new RandonneeUtilisateurTrace()
             {
                 randonnee = randonneeContext,
                 randonneeId = randonneeContext.id,
                 utilisateur = utilisateurContext,
                 utilisateurId = utilisateurContext.id,
                 gpsListe = newgps,
-                publicationId = traceRandoDTO.publicationid
+                publicationId = traceRandoDTO.publicationid,
+                timer = traceRandoDTO.timer
             };
+            }
 
             utilisateurContext.traces.Add(gpstemp);
 

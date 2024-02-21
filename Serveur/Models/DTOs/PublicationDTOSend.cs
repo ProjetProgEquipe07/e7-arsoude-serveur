@@ -10,6 +10,7 @@ namespace arsoudeServeur.Models.DTOs
         public EtatPublication etat { get; set; }
 
         public List<Utilisateur> listLike { get; set; }
+        public string timer { get; set; }
 
         public virtual int randonneeId { get; set; }
         public virtual int utilisateurId { get; set; }

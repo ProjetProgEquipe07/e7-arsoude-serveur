@@ -7,6 +7,7 @@
         //et de créer son propre tracé
         public int id { get; set; }
 
+        public string timer { get; set; }
         public virtual int utilisateurId { get; set; }
         public virtual Utilisateur utilisateur { get; set; }
 
@@ -17,5 +18,6 @@
         public virtual Randonnee randonnee { get; set; }
 
         public virtual List<GPS> gpsListe { get; set; }
+
     }
 }
