@@ -11,7 +11,7 @@ namespace arsoudeServeur.Services
         private readonly ApplicationDbContext _context;
         private readonly AvertissementService _avertissementService;
 
-            public RandonneesService(ApplicationDbContext context)
+        public RandonneesService(ApplicationDbContext context)
         {
             _context = context;
         }
@@ -254,7 +254,6 @@ namespace arsoudeServeur.Services
             // Trouver le currentUser et l'associer à la randonnée 
             Randonnee randonnee = new Randonnee
             {
-                id = 0,
                 nom = randonneeDTO.nom,
                 description = randonneeDTO.description,
                 emplacement = randonneeDTO.emplacement,
@@ -368,6 +367,7 @@ namespace arsoudeServeur.Services
                 utilisateur = utilisateurContext,
                 utilisateurId = utilisateurContext.id,
                 gpsListe = newgps,
+                publicationId = traceRandoDTO.publicationid
             };
 
             utilisateurContext.traces.Add(gpstemp);

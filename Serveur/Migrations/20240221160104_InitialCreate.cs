@@ -239,10 +239,11 @@ namespace arsoudeServeur.Migrations
                 {
                     id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    texte = table.Column<string>(type: "TEXT", nullable: true),
-                    review = table.Column<int>(type: "INTEGER", nullable: false),
-                    randonneeId = table.Column<int>(type: "INTEGER", nullable: false),
-                    utilisateurId = table.Column<int>(type: "INTEGER", nullable: false)
+                    message = table.Column<string>(type: "TEXT", nullable: false),
+                    note = table.Column<int>(type: "INTEGER", nullable: true),
+                    isDeleted = table.Column<bool>(type: "INTEGER", nullable: false),
+                    randonneeId = table.Column<int>(type: "INTEGER", nullable: true),
+                    utilisateurId = table.Column<int>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -251,14 +252,12 @@ namespace arsoudeServeur.Migrations
                         name: "FK_commentaires_randonnees_randonneeId",
                         column: x => x.randonneeId,
                         principalTable: "randonnees",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "id");
                     table.ForeignKey(
                         name: "FK_commentaires_utilisateurs_utilisateurId",
                         column: x => x.utilisateurId,
                         principalTable: "utilisateurs",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "id");
                 });
 
             migrationBuilder.CreateTable(
@@ -278,6 +277,33 @@ namespace arsoudeServeur.Migrations
                         column: x => x.randonneeId,
                         principalTable: "randonnees",
                         principalColumn: "id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "publication",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    etat = table.Column<int>(type: "INTEGER", nullable: false),
+                    randonneeId = table.Column<int>(type: "INTEGER", nullable: false),
+                    utilisateurId = table.Column<int>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_publication", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_publication_randonnees_randonneeId",
+                        column: x => x.randonneeId,
+                        principalTable: "randonnees",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_publication_utilisateurs_utilisateurId",
+                        column: x => x.utilisateurId,
+                        principalTable: "utilisateurs",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -307,17 +333,75 @@ namespace arsoudeServeur.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "CommentaireUtilisateur",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    utilisateurId = table.Column<int>(type: "INTEGER", nullable: false),
+                    commentaireId = table.Column<int>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CommentaireUtilisateur", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_CommentaireUtilisateur_commentaires_commentaireId",
+                        column: x => x.commentaireId,
+                        principalTable: "commentaires",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_CommentaireUtilisateur_utilisateurs_utilisateurId",
+                        column: x => x.utilisateurId,
+                        principalTable: "utilisateurs",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Like",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    utilisateurId = table.Column<int>(type: "INTEGER", nullable: false),
+                    publicationId = table.Column<int>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Like", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_Like_publication_publicationId",
+                        column: x => x.publicationId,
+                        principalTable: "publication",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Like_utilisateurs_utilisateurId",
+                        column: x => x.utilisateurId,
+                        principalTable: "utilisateurs",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "utilisateursTrace",
                 columns: table => new
                 {
                     id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     utilisateurId = table.Column<int>(type: "INTEGER", nullable: false),
+                    publicationId = table.Column<int>(type: "INTEGER", nullable: true),
                     randonneeId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_utilisateursTrace", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_utilisateursTrace_publication_publicationId",
+                        column: x => x.publicationId,
+                        principalTable: "publication",
+                        principalColumn: "id");
                     table.ForeignKey(
                         name: "FK_utilisateursTrace_randonnees_randonneeId",
                         column: x => x.randonneeId,
@@ -361,22 +445,13 @@ namespace arsoudeServeur.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "AspNetRoles",
-                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[,]
-                {
-                    { "664b588a-399f-4509-8e5b-5eabbf47612c", null, "Administrator", "ADMINISTRATOR" },
-                    { "a7465334-d9c5-420f-a04b-981bbeef25a2", null, "User", "USER" }
-                });
-
-            migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "11111111-1111-1111-1111-111111111111", 0, "529ee0e3-bd4b-4c6e-b873-e6c04353909f", "admin@gmail.com", true, false, null, "ADMIN@GMAIL.COM", "ADMIN@GMAIL.COM", "AQAAAAIAAYagAAAAENRZImkcK8pQ3i7C7AQGxnkgQ1uHlWF1jc7bEaop+vxMHpwy2fPepTqA7+nCuBuFyQ==", null, false, "3bc9ce4e-5e80-48a6-9498-9a82d6ceedb8", false, "admin@gmail.com" },
-                    { "11111111-1111-1111-1111-111111111112", 0, "660289db-bf2e-4478-9b69-2432d2f75f91", "user1@hotmail.com", true, false, null, "USER1@HOTMAIL.COM", "USER1@HOTMAIL.COM", "AQAAAAIAAYagAAAAED/NVun3qmu5+xcfB9Sn7RnUlZ3vUXQhBwqn6HnkuK2qWGZhPhxSPopdzUse2Cr4ZA==", null, false, "c8552cf6-2525-4cbe-9682-d3c94bb792cd", false, "user1@hotmail.com" },
-                    { "11111111-1111-1111-1111-111111111113", 0, "90f947bf-cf57-4a8d-bc2a-78d026547fea", "user2@hotmail.com", true, false, null, "USER2@HOTMAIL.COM", "USER2@HOTMAIL.COM", "AQAAAAIAAYagAAAAED2L1sEQTWgrT5qQJs6eDbabj30PmKxhvK+3xzpBkZl4mh8EV4t+aypWn5EfJbljXA==", null, false, "0abce4d6-e625-4189-96d8-f503f50c121e", false, "user2@hotmail.com" }
+                    { "11111111-1111-1111-1111-111111111111", 0, "eb3d5311-e855-4b9e-848b-8b9ad06978e8", "admin@gmail.com", true, false, null, "ADMIN@GMAIL.COM", "ADMIN@GMAIL.COM", "AQAAAAIAAYagAAAAEO/kwhoufGmgeKF25AFA5YyEx50BEkx5qUWeUsRNtORe0/fu2sBuarQMEcsjB3wXgA==", null, false, "846b691c-08cf-4df2-b0b1-67165dc85711", false, "admin@gmail.com" },
+                    { "11111111-1111-1111-1111-111111111112", 0, "ea2a4388-3d6b-4c9b-8110-d88175053cf9", "user1@hotmail.com", true, false, null, "USER1@HOTMAIL.COM", "USER1@HOTMAIL.COM", "AQAAAAIAAYagAAAAEFwYZJ36Bp9AqQHVbSYpKtDRSWkmxVjg6GUKn0OCEzknhz38dKy0K8vqsLCR9KL2UA==", null, false, "6851c748-07bd-4a46-a6b6-1a716f93cc0a", false, "user1@hotmail.com" },
+                    { "11111111-1111-1111-1111-111111111113", 0, "b101db50-c5f3-418d-8f88-61429b4ae983", "user2@hotmail.com", true, false, null, "USER2@HOTMAIL.COM", "USER2@HOTMAIL.COM", "AQAAAAIAAYagAAAAEFaQc9uXHWbZcBedsynBKv/u+QtGt0dAkU0L2zhetzaSvWgZ0zWTMUjThutlahuUhg==", null, false, "a4d4c7a9-c73b-4070-8152-d4ecf851720a", false, "user2@hotmail.com" }
                 });
 
             migrationBuilder.InsertData(
@@ -394,24 +469,27 @@ namespace arsoudeServeur.Migrations
                 columns: new[] { "id", "description", "emplacement", "etatRandonnee", "nom", "typeRandonnee", "utilisateurId" },
                 values: new object[,]
                 {
-                    { 1, "promenade cool a st-brun", "st-bruno", 1, "St-Brun", 1, 1 },
-                    { 2, "promenade moyennement cool la bas", "dehors", 1, "ptite marche au subway", 0, 2 },
-                    { 3, "promenade fresh a bro s s a r d", "st-hilaire?", 1, "Brossard", 1, 3 },
+                    { 1, "promenade cool a st-brun", "st-bruno", 0, "St-Brun", 1, 1 },
+                    { 2, "promenade moyennement cool la bas", "dehors", 0, "ptite marche au subway", 0, 2 },
+                    { 3, "promenade fresh a bro s s a r d", "st-hilaire?", 0, "Brossard", 1, 3 },
                     { 4, "promenade au subway", "st-grégoire", 0, "ma randonnée pédestre", 0, 2 },
-                    { 5, "ça doit être cool la bas", "quelque part", 2, "rivière rouge", 0, 2 },
-                    { 6, "je pense qu'on a beaucoup de fun", "mont tremblant", 1, "Ma randonnée", 0, 1 }
+                    { 5, "ça doit être cool la bas", "quelque part", 0, "rivière rouge", 0, 2 },
+                    { 6, "je pense qu'on a beaucoup de fun", "mont tremblant", 0, "Ma randonnée", 0, 1 }
                 });
 
             migrationBuilder.InsertData(
                 table: "commentaires",
-                columns: new[] { "id", "randonneeId", "review", "texte", "utilisateurId" },
+                columns: new[] { "id", "isDeleted", "message", "note", "randonneeId", "utilisateurId" },
                 values: new object[,]
                 {
-                    { 1, 1, 3, "You are a worthless bitch ass nigga\r\nYour life literally is as valuable as a summer ant. I'm just gonna stomp you.\r\nYou're gonna keep coming back. I'm gonna seal up all my cracks, youre gonna keep coming back\r\n \r\nWhy? Cause you keep smelling the syrup, you worthless bitch ass nigga. Your gonna stay on my dick until you die.\r\nYou serve no purpose in life. Your purpose in life is to be on my stream sucking on my dick daily.\r\n \r\nYour purpose in life is to be in that chat, blowing a dick daily.\r\nYour life is nothing!\r\nYou serve zero purpose. You should kill yourself NOW.\r\nAnd give somebody else a piece of that oxygen, an ozone layer thats covered up so we can breathe inside this blue trapped  bubble, cause what are you here for? To worship me? Kill yourself. I mean that not a 100% but a thousand percent.\r\n \r\nImagine if a nigga like that has kids. Like imagine somebody like that has kids", 2 },
-                    { 2, 2, 3, "Imagine if a nigga like that has kids. Like imagine. Imagine if somebody like that has kids. I will feel so sorry for his children cause the nigga literally serves no purpose. Imagine a father, now we got a lot of niggas with wife and kids and shit like that who keeps sucking on my dick daily on the internet but imagine if this nigga actually had children. This niggas devoting the time he could be spending with his kids checking out a black man on stream cucking him relentlessly. That's crazy! I've never seen somebody so relentless to be seen. Somebody so worthless that they'll come into this stream and keep coming in this bitch over and over and over and over and over again when we keep banning you\r\nNigga let me.. let me.. let's do you a favor", 1 },
-                    { 3, 4, 3, "Lets go to the 99 cents store and lets pick out a rope together. Imma give you an assisted suicide. Lets pick out a rope together right? And we're gonna take all the greatest trolls clips, put a tv screen right in front of you.\r\nI'm gonna hang that rope at the top of the motherfucking garage.\r\nWe're gonna forcefully pry your eyes open, we probably don't even need to do that cause your on my dick daily. We're gonna pry your eyes open until you consistently watch clips over and over and over and over again to the point where you're gonna be like 'Wait a minute, this is a little bit too much'\r\nYou're just gonna start going crazy.\r\nYou're gonna start going crazy.\r\nJust, your eyes are gonna bleed your retinas are just gonna start pouring out, pouring out blood and just getting\r\ncracks and veins in your retinas are gonna start engaging and bulging. Then I'm gonna grab that rope for you and say 'Are you ready?' You're gonna say 'Yeah' I'm gonna take it and PULL IT\r\nwhile you beg me, beg me and I mean beg me to kill you and choke you, choke the worthless life out of your sorry ass until you're fucking dead, croaked with a blue face nigga. Cause you don't deserve your soul.\r\nI've never seen somebody so fucking worthless and relentless that keep coming in a niggas chat over and over and over again. Somebody like that needs to die.\r\nThere is really no reason for him to be alive. We lost prominent niggas on earth, that served a purpose that had... so this nigga could be on earth trolling a stream daily, like come on my nigga. Like, your life is just worthless, just please kill yourself.\r\nGo outside, throw some steaks in a fucking alley and hope a bunch of stray dogs jump on you starts chewing your fucking dick your dick off, biting pieces and shit off of you like that cause you literally just gotta go. Like this nigga off of earth. Please", 2 },
-                    { 4, 2, 1, "Lets go to the 99 cents store and lets pick out a rope together. Imma give you an assisted suicide. Lets pick out a rope together right? And we're gonna take all the greatest trolls clips, put a tv screen right in front of you.\r\nI'm gonna hang that rope at the top of the motherfucking garage.\r\nWe're gonna forcefully pry your eyes open, we probably don't even need to do that cause your on my dick daily. We're gonna pry your eyes open until you consistently watch clips over and over and over and over again to the point where you're gonna be like 'Wait a minute, this is a little bit too much'\r\nYou're just gonna start going crazy.\r\nYou're gonna start going crazy.\r\nJust, your eyes are gonna bleed your retinas are just gonna start pouring out, pouring out blood and just getting\r\ncracks and veins in your retinas are gonna start engaging and bulging. Then I'm gonna grab that rope for you and say 'Are you ready?' You're gonna say 'Yeah' I'm gonna take it and PULL IT\r\nwhile you beg me, beg me and I mean beg me to kill you and choke you, choke the worthless life out of your sorry ass until you're fucking dead, croaked with a blue face nigga. Cause you don't deserve your soul.\r\nI've never seen somebody so fucking worthless and relentless that keep coming in a niggas chat over and over and over again. Somebody like that needs to die.\r\nThere is really no reason for him to be alive. We lost prominent niggas on earth, that served a purpose that had... so this nigga could be on earth trolling a stream daily, like come on my nigga. Like, your life is just worthless, just please kill yourself.\r\nGo outside, throw some steaks in a fucking alley and hope a bunch of stray dogs jump on you starts chewing your fucking dick your dick off, biting pieces and shit off of you like that cause you literally just gotta go. Like this nigga off of earth. Please", 3 },
-                    { 5, 6, 5, "Lets go to the 99 cents store and lets pick out a rope together. Imma give you an assisted suicide. Lets pick out a rope together right? And we're gonna take all the greatest trolls clips, put a tv screen right in front of you.\r\nI'm gonna hang that rope at the top of the motherfucking garage.\r\nWe're gonna forcefully pry your eyes open, we probably don't even need to do that cause your on my dick daily. We're gonna pry your eyes open until you consistently watch clips over and over and over and over again to the point where you're gonna be like 'Wait a minute, this is a little bit too much'\r\nYou're just gonna start going crazy.\r\nYou're gonna start going crazy.\r\nJust, your eyes are gonna bleed your retinas are just gonna start pouring out, pouring out blood and just getting\r\ncracks and veins in your retinas are gonna start engaging and bulging. Then I'm gonna grab that rope for you and say 'Are you ready?' You're gonna say 'Yeah' I'm gonna take it and PULL IT\r\nwhile you beg me, beg me and I mean beg me to kill you and choke you, choke the worthless life out of your sorry ass until you're fucking dead, croaked with a blue face nigga. Cause you don't deserve your soul.\r\nI've never seen somebody so fucking worthless and relentless that keep coming in a niggas chat over and over and over again. Somebody like that needs to die.\r\nThere is really no reason for him to be alive. We lost prominent niggas on earth, that served a purpose that had... so this nigga could be on earth trolling a stream daily, like come on my nigga. Like, your life is just worthless, just please kill yourself.\r\nGo outside, throw some steaks in a fucking alley and hope a bunch of stray dogs jump on you starts chewing your fucking dick your dick off, biting pieces and shit off of you like that cause you literally just gotta go. Like this nigga off of earth. Please", 3 }
+                    { 1, false, "Are you looking for a new outdoor adventure that won't break the bank? Look no further than Arsoude! This app offers a wide variety of hiking trails at affordable prices, making it easy for anyone to experience the beauty of nature without spending a fortune. With Arsoude, you can easily find new trails to explore based on your location and skill level. The app provides detailed information about each trail, including distance, difficulty level, and user reviews, so you can choose the perfect hike for your next outing.", 3, 1, 2 },
+                    { 2, false, "I recently downloaded the hiking app Arsoude and I have to say I am extremely impressed. The app is user-friendly and provides detailed maps, trail information, and tips for hikers of all levels. I love that it includes features such as GPS tracking and offline maps, making it easy to navigate even in remote areas with no signal. The trail recommendations and difficulty ratings have been spot on and have helped me find new hikes that I never would have discovered otherwise. Overall, Arsoude has become my go-to app for all of my hiking adventures. Highly recommend!", 3, 2, 1 },
+                    { 3, false, "As an avid hiker, I cannot recommend the Arsoude app enough. This user-friendly platform has completely revolutionized my hiking experience. From detailed trail maps to real-time weather updates, Arsoude has everything I need to plan and execute the perfect outdoor adventure. The interface is sleek and intuitive, making it easy to navigate even on the go. Plus, the community feature allows me to connect with other outdoor enthusiasts and share tips and recommendations. Whether you're a seasoned hiker or just starting out, Arsoude is a must-have for your next outdoor excursion.", 3, 2, 2 },
+                    { 4, false, "Arsoude is a fantastic hiking app that has completely changed the way I explore the great outdoors. With detailed trail maps, GPS tracking, and real-time weather updates, I can confidently go on new adventures without worrying about getting lost. The app also features a community forum where users can share tips, photos, and recommendations, making it easy to connect with other outdoor enthusiasts. Overall, Arsoude has become an essential tool for my hiking excursions and I highly recommend it to anyone looking to discover new trails.", 1, 2, 3 },
+                    { 5, false, "J'ai récemment découvert l'application de randonnée Arsoude et je dois dire que je suis impressionné. Non seulement elle est facile à utiliser, mais elle offre également une multitude d'itinéraires de randonnée à travers de superbes paysages. Grâce à Arsoude, j'ai pu explorer de nouveaux sentiers et découvrir des trésors cachés que je n'aurais jamais trouvés autrement. Je recommande vivement cette application à tous les amoureux de la randonnée!", 5, 6, 3 },
+                    { 6, false, "Imagine if a nigga like that has kids. Like imagine. Imagine if somebody like that has kids. I will feel so sorry for his children cause the nigga literally serves no purpose. Imagine a father, now we got a lot of niggas with wife and kids and shit like that who keeps sucking on my dick daily on the internet but imagine if this nigga actually had children. This niggas devoting the time he could be spending with his kids checking out a black man on stream cucking him relentlessly. That's crazy! I've never seen somebody so relentless to be seen. Somebody so worthless that they'll come into this stream and keep coming in this bitch over and over and over and over and over again when we keep banning you\r\nNigga let me.. let me.. let's do you a favor.", 5, 6, 1 },
+                    { 7, false, "Lets go to the 99 cents store and lets pick out a rope together. Imma give you an assisted suicide. Lets pick out a rope together right? And we're gonna take all the greatest trolls clips, put a tv screen right in front of you.\r\nI'm gonna hang that rope at the top of the motherfucking garage.\r\nWe're gonna forcefully pry your eyes open, we probably don't even need to do that cause your on my dick daily. We're gonna pry your eyes open until you consistently watch clips over and over and over and over again to the point where you're gonna be like 'Wait a minute, this is a little bit too much'\r\nYou're just gonna start going crazy.\r\nYou're gonna start going crazy.\r\nJust, your eyes are gonna bleed your retinas are just gonna start pouring out, pouring out blood and just getting\r\ncracks and veins in your retinas are gonna start engaging and bulging. Then I'm gonna grab that rope for you and say 'Are you ready?' You're gonna say 'Yeah' I'm gonna take it and PULL IT\r\nwhile you beg me, beg me and I mean beg me to kill you and choke you, choke the worthless life out of your sorry ass until you're fucking dead, croaked with a blue face nigga. Cause you don't deserve your soul.\r\nI've never seen somebody so fucking worthless and relentless that keep coming in a niggas chat over and over and over again. Somebody like that needs to die.\r\nThere is really no reason for him to be alive. We lost prominent niggas on earth, that served a purpose that had... so this nigga could be on earth trolling a stream daily, like come on my nigga. Like, your life is just worthless, just please kill yourself.\r\nGo outside, throw some steaks in a fucking alley and hope a bunch of stray dogs jump on you starts chewing your fucking dick your dick off, biting pieces and shit off of you like that cause you literally just gotta go. Like this nigga off of earth. Please", 1, 3, 3 },
+                    { 8, false, "You are a worthless bitch ass nigga\r\nYour life literally is as valuabke as a summer ant. I'm just gonna stomp you.\r\nYou're gonna keep coming back. I'm gonna seal up all my cracks, youre gonna keep coming back\r\n \r\nWhy? Cause you keep smelling the syrup, you worthless bitch ass nigga. Your gonna stay on my dick until you die.\r\nYou serve no purpose in life. Your purpose in life is to be on my stream sucking on my dick daily.", 4, 1, 3 }
                 });
 
             migrationBuilder.InsertData(
@@ -431,6 +509,19 @@ namespace arsoudeServeur.Migrations
                     { 10, null, true, false, 5, 45.356924999999997, -73.150233999999998 },
                     { 11, null, false, true, 6, 45.354998999999999, -73.160238000000007 },
                     { 12, null, true, false, 6, 45.356924999999997, -73.150233999999998 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "publication",
+                columns: new[] { "id", "etat", "randonneeId", "utilisateurId" },
+                values: new object[,]
+                {
+                    { 1, 1, 1, 1 },
+                    { 2, 1, 2, 2 },
+                    { 3, 1, 3, 3 },
+                    { 4, 1, 4, 2 },
+                    { 5, 1, 5, 2 },
+                    { 6, 1, 6, 1 }
                 });
 
             migrationBuilder.CreateIndex(
@@ -486,6 +577,16 @@ namespace arsoudeServeur.Migrations
                 column: "utilisateurId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_CommentaireUtilisateur_commentaireId",
+                table: "CommentaireUtilisateur",
+                column: "commentaireId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CommentaireUtilisateur_utilisateurId",
+                table: "CommentaireUtilisateur",
+                column: "utilisateurId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_gps_randonneeId",
                 table: "gps",
                 column: "randonneeId");
@@ -500,6 +601,26 @@ namespace arsoudeServeur.Migrations
                 table: "images",
                 column: "randonneeId",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Like_publicationId",
+                table: "Like",
+                column: "publicationId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Like_utilisateurId",
+                table: "Like",
+                column: "utilisateurId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_publication_randonneeId",
+                table: "publication",
+                column: "randonneeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_publication_utilisateurId",
+                table: "publication",
+                column: "utilisateurId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_randonnees_utilisateurId",
@@ -520,6 +641,11 @@ namespace arsoudeServeur.Migrations
                 name: "IX_utilisateurs_identityUserId",
                 table: "utilisateurs",
                 column: "identityUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_utilisateursTrace_publicationId",
+                table: "utilisateursTrace",
+                column: "publicationId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_utilisateursTrace_randonneeId",
@@ -554,7 +680,7 @@ namespace arsoudeServeur.Migrations
                 name: "avertissements");
 
             migrationBuilder.DropTable(
-                name: "commentaires");
+                name: "CommentaireUtilisateur");
 
             migrationBuilder.DropTable(
                 name: "gps");
@@ -563,13 +689,22 @@ namespace arsoudeServeur.Migrations
                 name: "images");
 
             migrationBuilder.DropTable(
+                name: "Like");
+
+            migrationBuilder.DropTable(
                 name: "RandonneeUtilisateur");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
+                name: "commentaires");
+
+            migrationBuilder.DropTable(
                 name: "utilisateursTrace");
+
+            migrationBuilder.DropTable(
+                name: "publication");
 
             migrationBuilder.DropTable(
                 name: "randonnees");

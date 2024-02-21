@@ -1,53 +1,147 @@
-﻿using arsoudeServeur.Models;
+using arsoudeServeur.Models;
 using arsoudeServeur.Models.DTOs;
 using arsoudeServeur.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace arsoudeServeur.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
+    [Authorize]
     public class CommentaireController : BaseController
     {
         private CommentaireService _commentaireService;
-        public CommentaireController(CommentaireService commentaire, UtilisateursService utilisateursService) :base(utilisateursService) 
-        { 
+        public CommentaireController(CommentaireService commentaire, UtilisateursService utilisateursService) : base(utilisateursService)
+        {
             _commentaireService = commentaire;
         }
 
-        [HttpGet("{id}")]
-        public async Task<IEnumerable<Commentaire>> GetCommentaire(int id)
+        private async Task<ActionResult> TryCatch<T>(Func<Task<T>> func)
         {
-           var list = _commentaireService.GetCommentaires(id);
-           return list;
+            try
+            {
+                var result = await func();
+                return Ok(result);
+            }
+            catch (NullCommentaireException)
+            {
+                return NotFound("$CommentaireExistePas");
+            }
+            catch (NullRandonneeException)
+            {
+                return NotFound("$RandonneeExistePas");
+            }
+            catch (NullUtilisateursException)
+            {
+                return NotFound("$UserExistePas");
+            }
+            catch (UnauthorizedDeleteCommentaireException)
+            {
+                return Unauthorized("$DeleteCommentaireInterdit");
+            }
+            catch (UnauthorizedModifyCommentaireException)
+            {
+                return Unauthorized("$ModifyCommentaireInterdit");
+            }
+            catch (AlreadyDeletedException)
+            {
+                return NotFound("$CommentaireDejaDelete");
+            }
+            catch (AlreadyExistsCommentaireExeption)
+            {
+                return Unauthorized("$PublicationDejaComment");
+            }
+            catch (AlreadyLikedCommentaireException)
+            {
+                return Unauthorized("$CommentaireDejaLike");
+            }
+            catch (AlreadyUnlikedCommentaireException)
+            {
+                return Unauthorized("$CommentaireDejaUnlike");
+            }
+            catch (NoTraceFoundException)
+            {
+                return Unauthorized("$RandonnePasFaite");
+            }
+            catch (RandonneeNotPublicException)
+            {
+                return Unauthorized("$RandonnePrivee");
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<List<Commentaire>>> GetCommentaires(int id)
+        {
+            return await TryCatch(async () =>
+            {
+                var commentaires = await _commentaireService.GetCommentaires(id);
+                return commentaires;
+            });
         }
 
         [HttpPost]
-        public async Task<ActionResult> CreateCommentaire([FromBody] CommentaireDTO commentaire)
+        public async Task<ActionResult> CreateCommentaire([FromBody] CommentaireDTO commentaireDTO)
         {
-            Utilisateur user = UtilisateurCourant;
+            return await TryCatch(async () =>
+            {
+                var commentaire = await _commentaireService.CreateCommentaire(commentaireDTO, UtilisateurCourant);
+                return commentaire;
+            });
 
-            _commentaireService.CreateCommentaire(commentaire, user);
-            return Ok();
         }
 
-        [HttpGet("{id}")]
+        [HttpPut("{id}")]
+        public async Task<ActionResult> EditCommentaire(int id, [FromBody] CommentaireDTO commentaireDTO)
+        {
+            return await TryCatch(async () =>
+            {
+                var commentaire = await _commentaireService.PutCommentaire(id, commentaireDTO, UtilisateurCourant);
+                return commentaire;
+            });
+        }
+
+        [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteCommentaire(int id)
         {
-            Utilisateur user = UtilisateurCourant;
-            _commentaireService.DeleteCommentaire(id, user);
-            return Ok();
+            return await TryCatch(async () =>
+            {
+                var commentaire = await _commentaireService.DeleteCommentaire(id, UtilisateurCourant);
+                return commentaire;
+            });
         }
 
-        [HttpPost("{id}")]
-        public async Task<IActionResult> EditCommentaire(int id, [FromBody] CommentaireDTO commentaire)
+        [HttpGet("{randonneeId}")]
+        public async Task<ActionResult> UtilisateurPeutCommenter(int randonneeId)
         {
-            Utilisateur user = UtilisateurCourant;
-             _commentaireService.PutCommentaire(id, commentaire, user);
-            return Ok();
+            return await TryCatch(async () =>
+            {
+                var peutCommenter = await _commentaireService.PeutCommenter(randonneeId, UtilisateurCourant);
+                return peutCommenter;
+            });
+        }
+        [HttpGet("{commentaireId}")]
+        public async Task<ActionResult> AjoutLikeCommentaire(int commentaireId)
+        {
+            return await TryCatch(async () =>
+            {
+                await _commentaireService.AjoutLikeCommentaire(commentaireId, UtilisateurCourant);
+                return "";
+            });
+        }
+        [HttpGet("{commentaireId}")]
+        public async Task<ActionResult> EnleveLikeCommentaire(int commentaireId)
+        {
+            return await TryCatch(async () =>
+            {
+               await _commentaireService.EnleveLikeCommentaire(commentaireId, UtilisateurCourant);
+                return "";
+            });
         }
 
-
-        
     }
 }

@@ -16,7 +16,7 @@ namespace arsoudeServeur.Controllers
 
         protected Utilisateur? utilisateur = null;
 
-        protected virtual Utilisateur UtilisateurCourant
+        public virtual Utilisateur UtilisateurCourant
         {
             get
             {

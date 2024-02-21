@@ -1,4 +1,4 @@
-﻿using arsoudeServeur.Models;
+using arsoudeServeur.Models;
 using arsoudeServeur.Models.DTOs;
 using arsoudeServeur.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -24,20 +24,24 @@ namespace arsoudeServeur.Controllers
         [HttpPost]
         public async Task<ActionResult<IEnumerable<RandonneeListDTO>>> GetNearSearch([FromBody] SearchDTO searchDTO)
         {
+            IEnumerable<Randonnee> result;
 
-                IEnumerable<Randonnee> result;
-                if (UtilisateurCourant != null)
-                { 
-                 result = await _rechercheService.GetNearSearchWithAuth(searchDTO.recherche, UtilisateurCourant, searchDTO.value, searchDTO.owned);
-                }
-                else
-                {
-                result = await _rechercheService.GetNearSearchNoAuth(searchDTO.recherche, searchDTO.value);
-
-                }
-                 var resultDTO = await _randonneeService.PutRandonneesFavorisAsync(result.ToList(), UtilisateurCourant);
+            if (UtilisateurCourant != null)
+            { 
+                
+                result = await _rechercheService.GetNearSearch(searchDTO.recherche, UtilisateurCourant, searchDTO.value, searchDTO.owned, searchDTO.moyenne);
+                var resultDTO = await _randonneeService.PutRandonneesFavorisAsync(result.ToList(), UtilisateurCourant);
 
             return Ok(resultDTO);
+
+            }
+            else
+            { 
+                result = await _rechercheService.GetNearSearch(searchDTO.recherche, searchDTO.value, searchDTO.moyenne);
+                var resultDTO = await _randonneeService.PutRandonneesFavorisAsync(result.ToList(), null);
+                return Ok(resultDTO);
+            }
+           
 
         }
     }

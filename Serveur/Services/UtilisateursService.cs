@@ -3,6 +3,8 @@ using arsoudeServeur.Models.DTOs;
 using arsoudeServeur.Services.Interfaces;
 using arsoudServeur.Data;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.V4.Pages.Account.Manage.Internal;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace arsoudeServeur.Services
@@ -13,10 +15,18 @@ namespace arsoudeServeur.Services
 
         UserManager<IdentityUser> userManager;
 
+        public class UserNotFoundException : Exception{}
+        public class BadPasswordException : Exception
+        {
+            public BadPasswordException(string? message) : base(message)
+            {
+            }
+        }
 
         public UtilisateursService(ApplicationDbContext context)
         {
             _context = context;
+
         }
 
         public UtilisateursService(ApplicationDbContext context, UserManager<IdentityUser> userManager)
@@ -73,17 +83,9 @@ namespace arsoudeServeur.Services
             throw new NotImplementedException();
         }
 
-        public async Task EditProfil(Utilisateur utilisateur, EditProfilDTO profil)
+        public virtual async Task<Utilisateur> EditProfil(Utilisateur utilisateurCourant, EditProfilDTO profil)
         {
-            if (utilisateur == null)
-            {
-                return;
-            }
-            var user = await _context.utilisateurs.FirstOrDefaultAsync(u => u.id == utilisateur.id);
-            if (user == null)
-            {
-                return;
-            }
+            var utilisateurModifie = await _context.utilisateurs.FirstOrDefaultAsync(u => u.id == utilisateurCourant.id);
 
             if (profil.moisDeNaissance == null)
             {
@@ -98,35 +100,40 @@ namespace arsoudeServeur.Services
                 profil.adresse = "";
             }
 
-            user.prenom = profil.prenom;
-            user.nom = profil.nom;
-            user.adresse = profil.adresse;
-            user.codePostal = profil.codePostal;
-            user.anneeDeNaissance = (int)profil.anneeDeNaissance;
-            user.moisDeNaissance = (int)profil.moisDeNaissance;
+            utilisateurModifie.prenom = profil.prenom;
+            utilisateurModifie.nom = profil.nom;
+            utilisateurModifie.adresse = profil.adresse;
+            utilisateurModifie.codePostal = profil.codePostal;
+            utilisateurModifie.anneeDeNaissance = (int)profil.anneeDeNaissance;
+            utilisateurModifie.moisDeNaissance = (int)profil.moisDeNaissance;
 
             await _context.SaveChangesAsync();
 
-            return;
+            return utilisateurModifie;
         }
 
-        public async Task EditPassword(Utilisateur utilisateur, string currentPassword, string newPassword)
+        public virtual async Task<bool> EditPassword(Utilisateur utilisateurCourant, string currentPassword, string newPassword)
         {
-            if (utilisateur == null)
+            var utilisateurModifie = await _context.Users.FirstOrDefaultAsync(u => u.Id == utilisateurCourant.identityUserId);
+
+            IdentityResult changePasswordResult = await userManager.ChangePasswordAsync(utilisateurModifie, currentPassword, newPassword);
+
+            if (changePasswordResult.Succeeded)
             {
-                return;
+                await _context.SaveChangesAsync();
+                return true;
             }
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == utilisateur.identityUserId);
-            if (user == null)
+            else
             {
-                return;
+                string errorList = "";
+
+                foreach (var error in changePasswordResult.Errors)
+                {
+                    errorList += error.Description;
+                }
+
+                throw new BadPasswordException(errorList);
             }
-
-            await userManager.ChangePasswordAsync(user, currentPassword, newPassword);
-
-            await _context.SaveChangesAsync();
-
-            return;
         }
     }
 }
