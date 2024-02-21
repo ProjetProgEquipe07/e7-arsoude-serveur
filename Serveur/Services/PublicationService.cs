@@ -52,26 +52,31 @@ namespace arsoudeServeur.Services
 
         public async Task<IEnumerable<PublicationDTOSend>> GetPublicationsUser(int utilisateurId, Utilisateur userCourant)
         {
-            Utilisateur user = await _context.utilisateurs.Where(u => u.id == utilisateurId).FirstOrDefaultAsync();
-
+            Utilisateur user = await _context.utilisateurs.FindAsync(utilisateurId);
 
             var likesData = await _context.Like
                     .Include(pu => pu.utilisateur)
                     .ToListAsync();
 
             var gpsData = await _context.utilisateursTrace
-                    .Where(ut => ut.utilisateurId == user.id && _context.publication.Any(p => p.randonneeId == ut.randonneeId))
-                    .GroupBy(ut => ut.publicationId)
-                    .ToDictionaryAsync(
-                                      g => g.Key,
-                                      g => g.SelectMany(ut => ut.gpsListe ?? new List<GPS>()).ToList());
+                .Where(ut => ut.utilisateurId == user.id && _context.publication.Any(p => p.randonneeId == ut.randonneeId))
+                .ToListAsync();
+
+            var gpsDataGrouped = await _context.utilisateursTrace
+                .Where(ut => ut.utilisateurId == user.id && _context.publication.Any(p => p.id == ut.publicationId))
+                .GroupBy(ut => ut.publicationId)
+                .ToDictionaryAsync(
+                         g => g.Key,
+                         g => g.SelectMany(ut => ut.gpsListe ?? new List<GPS>()).ToList());
+
             var publications = await _context.publication
                             .Where(p => (p.etat == EtatPublication.Publique && p.utilisateurId == user.id) || (p.utilisateur.id == userCourant.id && p.etat == EtatPublication.Privee))
                             .Select(p => new PublicationResult
                             {
                                 Publication = p,
-                                GpsList = gpsData.ContainsKey(p.randonnee.id) ? gpsData[p.randonnee.id] : null,
+                                GpsList = gpsDataGrouped.ContainsKey(p.id) ? gpsDataGrouped[p.id] : null,
                                 Likes = (List<Utilisateur>?)null
+
                             }).ToListAsync();
             foreach (var pub in publications)
             {
@@ -81,11 +86,11 @@ namespace arsoudeServeur.Services
             var list = await _context.publication
                                      .Include(p => p.publicationLikes)
                                      .ThenInclude(pl => pl.utilisateur)
-                                     .Where(p => p.etat == EtatPublication.Publique || (p.utilisateur.id == user.id && p.etat == EtatPublication.Privee))
+                                     .Where(p => (p.etat == EtatPublication.Publique && p.utilisateurId == user.id) || (p.utilisateur.id == userCourant.id && p.etat == EtatPublication.Privee))
                                      .Select(p => new
                                      {
                                          Publication = p,
-                                         GpsList = gpsData.ContainsKey(p.randonnee.id) ? gpsData[p.randonnee.id] : null,
+                                         GpsList = gpsDataGrouped.ContainsKey(p.id) ? gpsDataGrouped[p.id] : null,
                                          Likes = p.publicationLikes.Select(pl => pl.utilisateur).ToList()
                                      }).ToListAsync();
 
@@ -106,9 +111,10 @@ namespace arsoudeServeur.Services
                 randonneeId = item.Publication.randonneeId,
                 utilisateurId = item.Publication.utilisateurId,
                 listLike = item.Likes,
-                utilisateur = item.Publication.utilisateur
+                utilisateur = item.Publication.utilisateur,
+                utilisateurActuel = userCourant
             }).ToList();
-            return resultList;           
+            return resultList;   
         }
 
         public async Task<ActionResult<IEnumerable<PublicationDTOSend>>> GetPublications(Utilisateur user)
@@ -170,7 +176,8 @@ namespace arsoudeServeur.Services
                 randonneeId = item.Publication.randonneeId,
                 utilisateurId = item.Publication.utilisateurId,
                 listLike = item.Likes,
-                utilisateur = item.Publication.utilisateur
+                utilisateur = item.Publication.utilisateur,
+                utilisateurActuel = user
             }).ToList();
             return resultList;
         }

@@ -10,6 +10,7 @@ using arsoudeServeur.Models;
 using Microsoft.AspNetCore.Authorization;
 using arsoudeServeur.Controllers;
 using arsoudeServeur.Services;
+using arsoudeServeur.Models.DTOs;
 
 namespace arsoudeServeur.Areas.Admin.Controllers
 {
@@ -42,6 +43,21 @@ namespace arsoudeServeur.Areas.Admin.Controllers
             {
                 return false;
             }
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<IEnumerable<Utilisateur>>> GetUtilisateurViaMail(ProfilPubliqueDTO email)
+        {
+
+            ProfilDTO user = await _context.utilisateurs.Where(u => u.courriel == email.courriel).Select(u => new ProfilDTO
+            {
+                id = u.id,
+                nom = u.nom,
+                prenom = u.prenom,
+                courriel = u.courriel,
+            }).FirstOrDefaultAsync();
+
+            return Ok(user);
         }
        
     }
