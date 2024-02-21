@@ -3,6 +3,7 @@ using arsoudeServeur.Models.DTOs;
 using arsoudeServeur.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.Operations;
 
 namespace arsoudeServeur.Controllers
 {
@@ -89,14 +90,28 @@ namespace arsoudeServeur.Controllers
                 await _commentaireService.PeutCommenter(randonneeId, UtilisateurCourant);
                 return Ok();
             }
-            catch (NoTraceFoundException)
-            {
-                return NotFound("Aucun tracé fait dans la randonnée");
-            }
-            catch (Exception)
+            catch (NullRandonneeException)
             {
 
-                throw;
+                return NotFound("RandonneeIntrouvable");
+            }
+            catch (NoTraceFoundException)
+            {
+                return NotFound("TraceNonFait");
+            }
+            catch (AlreadyExistsCommentaireExeption)
+            {
+
+                return BadRequest("AlreadyExists");
+            }
+            catch (RandonneeNotPublicException)
+            {
+
+                return BadRequest("RandonneeNonPublique");
+            }
+            catch (Exception e)
+            {
+                return NotFound(e);
             }
         }
         [HttpGet("{commentaireId}")]

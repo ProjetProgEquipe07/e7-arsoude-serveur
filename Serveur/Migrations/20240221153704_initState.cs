@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace arsoudeServeur.Migrations
 {
     /// <inheritdoc />
-    public partial class init : Migration
+    public partial class initState : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -280,6 +280,33 @@ namespace arsoudeServeur.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "publication",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    etat = table.Column<int>(type: "INTEGER", nullable: false),
+                    randonneeId = table.Column<int>(type: "INTEGER", nullable: false),
+                    utilisateurId = table.Column<int>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_publication", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_publication_randonnees_randonneeId",
+                        column: x => x.randonneeId,
+                        principalTable: "randonnees",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_publication_utilisateurs_utilisateurId",
+                        column: x => x.utilisateurId,
+                        principalTable: "utilisateurs",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "RandonneeUtilisateur",
                 columns: table => new
                 {
@@ -306,32 +333,6 @@ namespace arsoudeServeur.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "utilisateursTrace",
-                columns: table => new
-                {
-                    id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    utilisateurId = table.Column<int>(type: "INTEGER", nullable: false),
-                    randonneeId = table.Column<int>(type: "INTEGER", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_utilisateursTrace", x => x.id);
-                    table.ForeignKey(
-                        name: "FK_utilisateursTrace_randonnees_randonneeId",
-                        column: x => x.randonneeId,
-                        principalTable: "randonnees",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_utilisateursTrace_utilisateurs_utilisateurId",
-                        column: x => x.utilisateurId,
-                        principalTable: "utilisateurs",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "CommentaireUtilisateur",
                 columns: table => new
                 {
@@ -351,6 +352,64 @@ namespace arsoudeServeur.Migrations
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_CommentaireUtilisateur_utilisateurs_utilisateurId",
+                        column: x => x.utilisateurId,
+                        principalTable: "utilisateurs",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Like",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    utilisateurId = table.Column<int>(type: "INTEGER", nullable: false),
+                    publicationId = table.Column<int>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Like", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_Like_publication_publicationId",
+                        column: x => x.publicationId,
+                        principalTable: "publication",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Like_utilisateurs_utilisateurId",
+                        column: x => x.utilisateurId,
+                        principalTable: "utilisateurs",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "utilisateursTrace",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    utilisateurId = table.Column<int>(type: "INTEGER", nullable: false),
+                    publicationId = table.Column<int>(type: "INTEGER", nullable: true),
+                    randonneeId = table.Column<int>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_utilisateursTrace", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_utilisateursTrace_publication_publicationId",
+                        column: x => x.publicationId,
+                        principalTable: "publication",
+                        principalColumn: "id");
+                    table.ForeignKey(
+                        name: "FK_utilisateursTrace_randonnees_randonneeId",
+                        column: x => x.randonneeId,
+                        principalTable: "randonnees",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_utilisateursTrace_utilisateurs_utilisateurId",
                         column: x => x.utilisateurId,
                         principalTable: "utilisateurs",
                         principalColumn: "id",
@@ -390,9 +449,9 @@ namespace arsoudeServeur.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "11111111-1111-1111-1111-111111111111", 0, "719119ff-395f-408d-93c6-03f364c34795", "admin@gmail.com", true, false, null, "ADMIN@GMAIL.COM", "ADMIN@GMAIL.COM", "AQAAAAIAAYagAAAAEOJhbTRfK2UgTfcFjWCb51lwDbDv1PKFBqA35NOLCzaKM7vneXYjxKSl6TgneqdHpw==", null, false, "c47f8019-bcf3-45d3-8ede-80d77f7af762", false, "admin@gmail.com" },
-                    { "11111111-1111-1111-1111-111111111112", 0, "137be061-c374-4d61-9b38-9780b0e7911b", "user1@hotmail.com", true, false, null, "USER1@HOTMAIL.COM", "USER1@HOTMAIL.COM", "AQAAAAIAAYagAAAAEBCoqhjaJUgXZtwS6IuRjOEx8ZGPHBsF9QQeiDLgbKnKTI9Ay/izdo5ui48CFfQ30g==", null, false, "fecbcef5-fed6-4ed1-8e21-665563365d42", false, "user1@hotmail.com" },
-                    { "11111111-1111-1111-1111-111111111113", 0, "92f47986-ce5b-413a-aa1e-f12dc6d242a9", "user2@hotmail.com", true, false, null, "USER2@HOTMAIL.COM", "USER2@HOTMAIL.COM", "AQAAAAIAAYagAAAAEDsamnLkrkZQHMmMQuQPmZiI5kwEZ9v9T+N2ub6O+q5kdwlKVxkJwP/sb4O1U0+VOg==", null, false, "0454d1fe-da2f-4491-a573-c9d1618bd7cd", false, "user2@hotmail.com" }
+                    { "11111111-1111-1111-1111-111111111111", 0, "b260ddbb-87e1-4d8d-9315-2e4cb5584d27", "admin@gmail.com", true, false, null, "ADMIN@GMAIL.COM", "ADMIN@GMAIL.COM", "AQAAAAIAAYagAAAAEKYWCMsc3ytnsw7iSNQ0aNGyv2ubu/4vQGOSZBVjy6gLrMscRZBLw1LK5ouSo8fMbQ==", null, false, "7c1be616-cd04-4c36-9940-21046d58efc4", false, "admin@gmail.com" },
+                    { "11111111-1111-1111-1111-111111111112", 0, "9a69796e-3f52-4c65-ae52-7d0a28bb2f33", "user1@hotmail.com", true, false, null, "USER1@HOTMAIL.COM", "USER1@HOTMAIL.COM", "AQAAAAIAAYagAAAAEAtiMlRuHISy/Udu/auONf2qcBxviCsM3d5jcCpFuXBtJ2cEAxQJoldUmphe3VWUtA==", null, false, "c5176193-44d5-43c0-accd-e61c31230924", false, "user1@hotmail.com" },
+                    { "11111111-1111-1111-1111-111111111113", 0, "e5506f71-a827-4ade-9de3-299069b678e1", "user2@hotmail.com", true, false, null, "USER2@HOTMAIL.COM", "USER2@HOTMAIL.COM", "AQAAAAIAAYagAAAAEACorvwR+ukGFS4x4clDxomQ7QU6eYBfAbQ1GFCpKuCM2dC+Sj+yaf0Cu8ab8NWf4A==", null, false, "79c2bb78-ca4b-4694-8328-1116d45bad81", false, "user2@hotmail.com" }
                 });
 
             migrationBuilder.InsertData(
@@ -410,12 +469,12 @@ namespace arsoudeServeur.Migrations
                 columns: new[] { "id", "description", "emplacement", "etatRandonnee", "nom", "typeRandonnee", "utilisateurId" },
                 values: new object[,]
                 {
-                    { 1, "promenade cool a st-brun", "st-bruno", 1, "St-Brun", 1, 1 },
-                    { 2, "promenade moyennement cool la bas", "dehors", 1, "ptite marche au subway", 0, 2 },
-                    { 3, "promenade fresh a bro s s a r d", "st-hilaire?", 1, "Brossard", 1, 3 },
+                    { 1, "promenade cool a st-brun", "st-bruno", 0, "St-Brun", 1, 1 },
+                    { 2, "promenade moyennement cool la bas", "dehors", 0, "ptite marche au subway", 0, 2 },
+                    { 3, "promenade fresh a bro s s a r d", "st-hilaire?", 0, "Brossard", 1, 3 },
                     { 4, "promenade au subway", "st-grégoire", 0, "ma randonnée pédestre", 0, 2 },
-                    { 5, "ça doit être cool la bas", "quelque part", 2, "rivière rouge", 0, 2 },
-                    { 6, "je pense qu'on a beaucoup de fun", "mont tremblant", 1, "Ma randonnée", 0, 1 }
+                    { 5, "ça doit être cool la bas", "quelque part", 0, "rivière rouge", 0, 2 },
+                    { 6, "je pense qu'on a beaucoup de fun", "mont tremblant", 0, "Ma randonnée", 0, 1 }
                 });
 
             migrationBuilder.InsertData(
@@ -450,6 +509,19 @@ namespace arsoudeServeur.Migrations
                     { 10, null, true, false, 5, 45.356924999999997, -73.150233999999998 },
                     { 11, null, false, true, 6, 45.354998999999999, -73.160238000000007 },
                     { 12, null, true, false, 6, 45.356924999999997, -73.150233999999998 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "publication",
+                columns: new[] { "id", "etat", "randonneeId", "utilisateurId" },
+                values: new object[,]
+                {
+                    { 1, 1, 1, 1 },
+                    { 2, 1, 2, 2 },
+                    { 3, 1, 3, 3 },
+                    { 4, 1, 4, 2 },
+                    { 5, 1, 5, 2 },
+                    { 6, 1, 6, 1 }
                 });
 
             migrationBuilder.CreateIndex(
@@ -531,6 +603,26 @@ namespace arsoudeServeur.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_Like_publicationId",
+                table: "Like",
+                column: "publicationId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Like_utilisateurId",
+                table: "Like",
+                column: "utilisateurId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_publication_randonneeId",
+                table: "publication",
+                column: "randonneeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_publication_utilisateurId",
+                table: "publication",
+                column: "utilisateurId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_randonnees_utilisateurId",
                 table: "randonnees",
                 column: "utilisateurId");
@@ -549,6 +641,11 @@ namespace arsoudeServeur.Migrations
                 name: "IX_utilisateurs_identityUserId",
                 table: "utilisateurs",
                 column: "identityUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_utilisateursTrace_publicationId",
+                table: "utilisateursTrace",
+                column: "publicationId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_utilisateursTrace_randonneeId",
@@ -592,6 +689,9 @@ namespace arsoudeServeur.Migrations
                 name: "images");
 
             migrationBuilder.DropTable(
+                name: "Like");
+
+            migrationBuilder.DropTable(
                 name: "RandonneeUtilisateur");
 
             migrationBuilder.DropTable(
@@ -602,6 +702,9 @@ namespace arsoudeServeur.Migrations
 
             migrationBuilder.DropTable(
                 name: "utilisateursTrace");
+
+            migrationBuilder.DropTable(
+                name: "publication");
 
             migrationBuilder.DropTable(
                 name: "randonnees");
