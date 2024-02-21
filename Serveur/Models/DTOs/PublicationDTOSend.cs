@@ -16,5 +16,6 @@ namespace arsoudeServeur.Models.DTOs
 
         public RandonneeDetailDTO randonnee { get; set; }
         public Utilisateur utilisateur { get; set; }
+        public Utilisateur utilisateurActuel { get; set; }
     }
 }

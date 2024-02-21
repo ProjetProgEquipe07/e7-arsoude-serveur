@@ -28,7 +28,7 @@ namespace arsoudeServeur.Controllers
             if (user !=null)
             {
 
-                 var result = await _rechercheService.GetNearSearch(searchDTO.recherche, user, searchDTO.value, searchDTO.owned);
+                 var result = await _rechercheService.GetNearSearch(searchDTO.recherche, user, searchDTO.value, searchDTO.owned, searchDTO.moyenne);
                  var resultDTO = await _randonneeService.PutRandonneesFavorisAsync(result.ToList(), user);
 
                     return Ok(resultDTO);
@@ -36,7 +36,7 @@ namespace arsoudeServeur.Controllers
             }
             else
             { 
-                var result = await _rechercheService.GetNearSearch(searchDTO.recherche, searchDTO.value);
+                var result = await _rechercheService.GetNearSearch(searchDTO.recherche, searchDTO.value, searchDTO.moyenne);
                 var resultDTO = await _randonneeService.PutRandonneesFavorisAsync(result.ToList(), user);
 
                 return Ok(resultDTO);
