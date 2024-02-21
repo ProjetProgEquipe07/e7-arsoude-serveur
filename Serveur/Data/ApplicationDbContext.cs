@@ -117,6 +117,7 @@ namespace arsoudServeur.Data
                     etat = Publication.EtatPublication.Publique,
                     randonneeId = 1,
                     utilisateurId = 1,
+                  
                 },
                 new Publication
                 {

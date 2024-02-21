@@ -4,6 +4,7 @@
     {
       public int randoiId { get; set; }
       public bool etatPublic { get; set; }   
+     
         
     }
 }
