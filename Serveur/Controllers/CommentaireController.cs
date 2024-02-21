@@ -26,47 +26,47 @@ namespace arsoudeServeur.Controllers
             }
             catch (NullCommentaireException)
             {
-                return NotFound("Le commentaire n'existe pas");
+                return NotFound("$CommentaireExistePas");
             }
             catch (NullRandonneeException)
             {
-                return NotFound("La randonnée n'existe pas");
+                return NotFound("$RandonneeExistePas");
             }
             catch (NullUtilisateursException)
             {
-                return NotFound("L'utilisateur n'existe pas");
+                return NotFound("$UserExistePas");
             }
             catch (UnauthorizedDeleteCommentaireException)
             {
-                return Unauthorized("Vous n'avez pas le droit de supprimer ce commentaire");
+                return Unauthorized("$DeleteCommentaireInterdit");
             }
             catch (UnauthorizedModifyCommentaireException)
             {
-                return Unauthorized("Vous n'avez pas le droit de modifier ce commentaire");
+                return Unauthorized("$ModifyCommentaireInterdit");
             }
             catch (AlreadyDeletedException)
             {
-                return NotFound("Le commentaire a déjà été supprimé");
+                return NotFound("$CommentaireDejaDelete");
             }
             catch (AlreadyExistsCommentaireExeption)
             {
-                return Unauthorized("Vous avez déjà commenté la publication");
+                return Unauthorized("$PublicationDejaComment");
             }
             catch (AlreadyLikedCommentaireException)
             {
-                return Unauthorized("Vous avez déjà 'aimé' ce commentaire");
+                return Unauthorized("$CommentaireDejaLike");
             }
             catch (AlreadyUnlikedCommentaireException)
             {
-                return Unauthorized("Vous avez déjà enlevé votre 'j'aime' de ce commentaire");
+                return Unauthorized("$CommentaireDejaUnlike");
             }
             catch (NoTraceFoundException)
             {
-                return Unauthorized("Vous ne pouvez pas commenter tant que la randonnée n'a pas été faite");
+                return Unauthorized("$RandonnePasFaite");
             }
             catch (RandonneeNotPublicException)
             {
-                return Unauthorized("Vous ne pouvez pas commenter une randonnée privée");
+                return Unauthorized("$RandonnePrivee");
             }
             catch (Exception e)
             {
