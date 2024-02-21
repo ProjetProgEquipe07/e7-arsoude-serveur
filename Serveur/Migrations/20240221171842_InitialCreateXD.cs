@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace arsoudeServeur.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class InitialCreateXD : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -390,6 +390,7 @@ namespace arsoudeServeur.Migrations
                 {
                     id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
+                    timer = table.Column<string>(type: "TEXT", nullable: false),
                     utilisateurId = table.Column<int>(type: "INTEGER", nullable: false),
                     publicationId = table.Column<int>(type: "INTEGER", nullable: true),
                     randonneeId = table.Column<int>(type: "INTEGER", nullable: false)
@@ -449,9 +450,9 @@ namespace arsoudeServeur.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "11111111-1111-1111-1111-111111111111", 0, "eb3d5311-e855-4b9e-848b-8b9ad06978e8", "admin@gmail.com", true, false, null, "ADMIN@GMAIL.COM", "ADMIN@GMAIL.COM", "AQAAAAIAAYagAAAAEO/kwhoufGmgeKF25AFA5YyEx50BEkx5qUWeUsRNtORe0/fu2sBuarQMEcsjB3wXgA==", null, false, "846b691c-08cf-4df2-b0b1-67165dc85711", false, "admin@gmail.com" },
-                    { "11111111-1111-1111-1111-111111111112", 0, "ea2a4388-3d6b-4c9b-8110-d88175053cf9", "user1@hotmail.com", true, false, null, "USER1@HOTMAIL.COM", "USER1@HOTMAIL.COM", "AQAAAAIAAYagAAAAEFwYZJ36Bp9AqQHVbSYpKtDRSWkmxVjg6GUKn0OCEzknhz38dKy0K8vqsLCR9KL2UA==", null, false, "6851c748-07bd-4a46-a6b6-1a716f93cc0a", false, "user1@hotmail.com" },
-                    { "11111111-1111-1111-1111-111111111113", 0, "b101db50-c5f3-418d-8f88-61429b4ae983", "user2@hotmail.com", true, false, null, "USER2@HOTMAIL.COM", "USER2@HOTMAIL.COM", "AQAAAAIAAYagAAAAEFaQc9uXHWbZcBedsynBKv/u+QtGt0dAkU0L2zhetzaSvWgZ0zWTMUjThutlahuUhg==", null, false, "a4d4c7a9-c73b-4070-8152-d4ecf851720a", false, "user2@hotmail.com" }
+                    { "11111111-1111-1111-1111-111111111111", 0, "c5efa013-f23d-4b7e-a0d4-8ad232a87b56", "admin@gmail.com", true, false, null, "ADMIN@GMAIL.COM", "ADMIN@GMAIL.COM", "AQAAAAIAAYagAAAAENH3ZNVcowOY7jFSmbP2JJOcvCZy8bVlUituPPXCijwv2gqrBzyF1BR2UZAAvguV3w==", null, false, "385901e0-2912-4def-a5bb-546b43fbbcb6", false, "admin@gmail.com" },
+                    { "11111111-1111-1111-1111-111111111112", 0, "5e50660d-6358-4206-9212-43ad6123e01a", "user1@hotmail.com", true, false, null, "USER1@HOTMAIL.COM", "USER1@HOTMAIL.COM", "AQAAAAIAAYagAAAAEBXzTOVkFlU69kHVMvRR2ZDiuCKRdpnnk+fjuI8GHIXuvDq1C1H8yaz8yw2wijURcw==", null, false, "c64918dd-8b7b-4efb-b7b4-d914fbb599fc", false, "user1@hotmail.com" },
+                    { "11111111-1111-1111-1111-111111111113", 0, "785b4263-554f-4018-96f3-d020bf82b34b", "user2@hotmail.com", true, false, null, "USER2@HOTMAIL.COM", "USER2@HOTMAIL.COM", "AQAAAAIAAYagAAAAEGFDkN6rdQ+a4t7qbjtufoTkDerGpzRt2O33ynhvKklamz5ynbs3dY0d+crXbN+OKA==", null, false, "a62ea0cd-7951-4ee2-994a-ccec108abbef", false, "user2@hotmail.com" }
                 });
 
             migrationBuilder.InsertData(

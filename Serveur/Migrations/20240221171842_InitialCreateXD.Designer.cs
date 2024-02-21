@@ -11,8 +11,8 @@ using arsoudServeur.Data;
 namespace arsoudeServeur.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240221160104_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20240221171842_InitialCreateXD")]
+    partial class InitialCreateXD
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -141,15 +141,15 @@ namespace arsoudeServeur.Migrations
                         {
                             Id = "11111111-1111-1111-1111-111111111111",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "eb3d5311-e855-4b9e-848b-8b9ad06978e8",
+                            ConcurrencyStamp = "c5efa013-f23d-4b7e-a0d4-8ad232a87b56",
                             Email = "admin@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@GMAIL.COM",
                             NormalizedUserName = "ADMIN@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEO/kwhoufGmgeKF25AFA5YyEx50BEkx5qUWeUsRNtORe0/fu2sBuarQMEcsjB3wXgA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAENH3ZNVcowOY7jFSmbP2JJOcvCZy8bVlUituPPXCijwv2gqrBzyF1BR2UZAAvguV3w==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "846b691c-08cf-4df2-b0b1-67165dc85711",
+                            SecurityStamp = "385901e0-2912-4def-a5bb-546b43fbbcb6",
                             TwoFactorEnabled = false,
                             UserName = "admin@gmail.com"
                         },
@@ -157,15 +157,15 @@ namespace arsoudeServeur.Migrations
                         {
                             Id = "11111111-1111-1111-1111-111111111112",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "ea2a4388-3d6b-4c9b-8110-d88175053cf9",
+                            ConcurrencyStamp = "5e50660d-6358-4206-9212-43ad6123e01a",
                             Email = "user1@hotmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "USER1@HOTMAIL.COM",
                             NormalizedUserName = "USER1@HOTMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEFwYZJ36Bp9AqQHVbSYpKtDRSWkmxVjg6GUKn0OCEzknhz38dKy0K8vqsLCR9KL2UA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEBXzTOVkFlU69kHVMvRR2ZDiuCKRdpnnk+fjuI8GHIXuvDq1C1H8yaz8yw2wijURcw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "6851c748-07bd-4a46-a6b6-1a716f93cc0a",
+                            SecurityStamp = "c64918dd-8b7b-4efb-b7b4-d914fbb599fc",
                             TwoFactorEnabled = false,
                             UserName = "user1@hotmail.com"
                         },
@@ -173,15 +173,15 @@ namespace arsoudeServeur.Migrations
                         {
                             Id = "11111111-1111-1111-1111-111111111113",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "b101db50-c5f3-418d-8f88-61429b4ae983",
+                            ConcurrencyStamp = "785b4263-554f-4018-96f3-d020bf82b34b",
                             Email = "user2@hotmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "USER2@HOTMAIL.COM",
                             NormalizedUserName = "USER2@HOTMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEFaQc9uXHWbZcBedsynBKv/u+QtGt0dAkU0L2zhetzaSvWgZ0zWTMUjThutlahuUhg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEGFDkN6rdQ+a4t7qbjtufoTkDerGpzRt2O33ynhvKklamz5ynbs3dY0d+crXbN+OKA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "a4d4c7a9-c73b-4070-8152-d4ecf851720a",
+                            SecurityStamp = "a62ea0cd-7951-4ee2-994a-ccec108abbef",
                             TwoFactorEnabled = false,
                             UserName = "user2@hotmail.com"
                         });
@@ -811,6 +811,10 @@ namespace arsoudeServeur.Migrations
 
                     b.Property<int>("randonneeId")
                         .HasColumnType("INTEGER");
+
+                    b.Property<string>("timer")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("utilisateurId")
                         .HasColumnType("INTEGER");
