@@ -17,116 +17,130 @@ namespace arsoudeServeur.Controllers
             _commentaireService = commentaire;
         }
 
-        //LikeCommentaire
-
-        //UnlikeCommentaire
-
-        [HttpGet("{id}")]
-        public async Task<IEnumerable<Commentaire>> GetCommentaires(int id)
+        private async Task<ActionResult> TryCatch<T>(Func<Task<T>> func)
         {
             try
             {
-                var list = await _commentaireService.GetCommentaires(id);
-                return list;
+                var result = await func();
+                return Ok(result);
             }
-            catch (Exception)
+            catch (NullCommentaireException)
             {
-
-                throw;
+                return NotFound("$CommentaireExistePas");
             }
+            catch (NullRandonneeException)
+            {
+                return NotFound("$RandonneeExistePas");
+            }
+            catch (NullUtilisateursException)
+            {
+                return NotFound("$UserExistePas");
+            }
+            catch (UnauthorizedDeleteCommentaireException)
+            {
+                return Unauthorized("$DeleteCommentaireInterdit");
+            }
+            catch (UnauthorizedModifyCommentaireException)
+            {
+                return Unauthorized("$ModifyCommentaireInterdit");
+            }
+            catch (AlreadyDeletedException)
+            {
+                return NotFound("$CommentaireDejaDelete");
+            }
+            catch (AlreadyExistsCommentaireExeption)
+            {
+                return Unauthorized("$PublicationDejaComment");
+            }
+            catch (AlreadyLikedCommentaireException)
+            {
+                return Unauthorized("$CommentaireDejaLike");
+            }
+            catch (AlreadyUnlikedCommentaireException)
+            {
+                return Unauthorized("$CommentaireDejaUnlike");
+            }
+            catch (NoTraceFoundException)
+            {
+                return Unauthorized("$RandonnePasFaite");
+            }
+            catch (RandonneeNotPublicException)
+            {
+                return Unauthorized("$RandonnePrivee");
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<List<Commentaire>>> GetCommentaires(int id)
+        {
+            return await TryCatch(async () =>
+            {
+                var commentaires = await _commentaireService.GetCommentaires(id);
+                return commentaires;
+            });
         }
 
         [HttpPost]
         public async Task<ActionResult> CreateCommentaire([FromBody] CommentaireDTO commentaireDTO)
         {
-            try
+            return await TryCatch(async () =>
             {
                 var commentaire = await _commentaireService.CreateCommentaire(commentaireDTO, UtilisateurCourant);
-                return Ok(commentaire);
-            }
-            catch (Exception)
-            {
+                return commentaire;
+            });
 
-                throw;
-            }
         }
 
         [HttpPut("{id}")]
         public async Task<ActionResult> EditCommentaire(int id, [FromBody] CommentaireDTO commentaireDTO)
         {
-            try
+            return await TryCatch(async () =>
             {
                 var commentaire = await _commentaireService.PutCommentaire(id, commentaireDTO, UtilisateurCourant);
-                return Ok(commentaire);
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
+                return commentaire;
+            });
         }
 
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteCommentaire(int id)
         {
-            try
+            return await TryCatch(async () =>
             {
-                await _commentaireService.DeleteCommentaire(id, UtilisateurCourant);
-                return Ok();
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
+                var commentaire = await _commentaireService.DeleteCommentaire(id, UtilisateurCourant);
+                return commentaire;
+            });
         }
 
         [HttpGet("{randonneeId}")]
         public async Task<ActionResult> UtilisateurPeutCommenter(int randonneeId)
         {
-            try
+            return await TryCatch(async () =>
             {
-                await _commentaireService.PeutCommenter(randonneeId, UtilisateurCourant);
-                return Ok();
-            }
-            catch (NoTraceFoundException)
-            {
-                return NotFound("Aucun tracé fait dans la randonnée");
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
+                var peutCommenter = await _commentaireService.PeutCommenter(randonneeId, UtilisateurCourant);
+                return peutCommenter;
+            });
         }
         [HttpGet("{commentaireId}")]
         public async Task<ActionResult> AjoutLikeCommentaire(int commentaireId)
         {
-            try
+            return await TryCatch(async () =>
             {
-
                 await _commentaireService.AjoutLikeCommentaire(commentaireId, UtilisateurCourant);
-                return Ok();
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
+                return "";
+            });
         }
         [HttpGet("{commentaireId}")]
         public async Task<ActionResult> EnleveLikeCommentaire(int commentaireId)
         {
-            try
+            return await TryCatch(async () =>
             {
-                await _commentaireService.EnleveLikeCommentaire(commentaireId, UtilisateurCourant);
-                return Ok();
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
+               await _commentaireService.EnleveLikeCommentaire(commentaireId, UtilisateurCourant);
+                return "";
+            });
         }
 
     }

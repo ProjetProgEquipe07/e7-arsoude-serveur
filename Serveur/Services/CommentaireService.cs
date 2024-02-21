@@ -95,18 +95,18 @@ namespace arsoudeServeur.Services
             _context = context;
         }
 
-        public async Task<IEnumerable<Commentaire>> GetCommentaires(int randonneId)
+        public async Task<List<Commentaire>> GetCommentaires(int randonneId)
         {
             var randonnee = await _context.randonnees.Where(r => r.id == randonneId).FirstOrDefaultAsync() ?? throw new NullRandonneeException();
 
-            var list = randonnee.commentaires;
+            var list = randonnee.commentaires; //order by published date ?
 
             return list;
         }
 
         public async Task<Commentaire> CreateCommentaire(CommentaireDTO commentaire, Utilisateur utilisateurCourant)
         {
-            var rando = await _context.randonnees.Where(r => r.id == commentaire.randonneeId).FirstOrDefaultAsync() ?? throw new Exception("Randonnée non trouvée");
+            var rando = await _context.randonnees.Where(r => r.id == commentaire.randonneeId).FirstOrDefaultAsync() ?? throw new NullRandonneeException();
             var peutCommenter = await PeutCommenter(rando.id, utilisateurCourant);
             if (peutCommenter)
             {
