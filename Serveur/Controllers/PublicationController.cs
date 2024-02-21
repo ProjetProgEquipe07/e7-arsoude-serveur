@@ -23,7 +23,7 @@ namespace arsoudeServeur.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<PublicationDTOSend>>> GetPublications()
         {
-            Utilisateur user = await _context.utilisateurs.FindAsync(1);
+            Utilisateur user = UtilisateurCourant;
 
             var list = await _PublicationService.GetPublications(user);
             return list;
