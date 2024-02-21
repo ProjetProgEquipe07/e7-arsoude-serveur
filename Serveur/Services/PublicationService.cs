@@ -114,7 +114,8 @@ namespace arsoudeServeur.Services
                 utilisateur = item.Publication.utilisateur,
                 utilisateurActuel = userCourant
             }).ToList();
-            return resultList;   
+            resultList = resultList.OrderByDescending(p => p.id).ToList();
+            return resultList;
         }
 
         public async Task<ActionResult<IEnumerable<PublicationDTOSend>>> GetPublications(Utilisateur user)
@@ -179,6 +180,7 @@ namespace arsoudeServeur.Services
                 utilisateur = item.Publication.utilisateur,
                 utilisateurActuel = user
             }).ToList();
+            resultList = resultList.OrderByDescending(p => p.id).ToList();
             return resultList;
         }
 
