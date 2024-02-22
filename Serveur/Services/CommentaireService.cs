@@ -126,11 +126,7 @@ namespace arsoudeServeur.Services
 
                 return newCommentaire;
             }
-            else
-            {
-                throw new Exception("Vous devez faire la randonnée ou avez déjà commenté cette randonnée");
-            }
-
+            throw new Exception(); //Qu'est-ce que je devrais retourner ?? Demander JM
         }
 
         public async Task<Commentaire> PutCommentaire(int id, CommentaireDTO commentaireDTO, Utilisateur utilisateurCourant)

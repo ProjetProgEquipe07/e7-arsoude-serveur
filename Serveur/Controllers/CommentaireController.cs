@@ -6,6 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace arsoudeServeur.Controllers
 {
+    public static class ExceptionMessage
+    {
+        public const string NULL_COMMENTAIRE = "$CommentaireExistePas";
+    }
+
     [Route("api/[controller]/[action]")]
     [ApiController]
     [Authorize]
@@ -17,6 +22,7 @@ namespace arsoudeServeur.Controllers
             _commentaireService = commentaire;
         }
 
+        //TODO: Enlever et mettre try catch précis dans chaques actions
         private async Task<ActionResult> TryCatch<T>(Func<Task<T>> func)
         {
             try
@@ -26,7 +32,7 @@ namespace arsoudeServeur.Controllers
             }
             catch (NullCommentaireException)
             {
-                return NotFound("$CommentaireExistePas");
+                return NotFound(ExceptionMessage.NULL_COMMENTAIRE);
             }
             catch (NullRandonneeException)
             {
@@ -50,7 +56,7 @@ namespace arsoudeServeur.Controllers
             }
             catch (AlreadyExistsCommentaireExeption)
             {
-                return Unauthorized("$PublicationDejaComment");
+                return BadRequest("$PublicationDejaComment");
             }
             catch (AlreadyLikedCommentaireException)
             {
@@ -71,6 +77,7 @@ namespace arsoudeServeur.Controllers
             catch (Exception e)
             {
                 return StatusCode(500, e.Message);
+
             }
         }
 
@@ -138,7 +145,7 @@ namespace arsoudeServeur.Controllers
         {
             return await TryCatch(async () =>
             {
-               await _commentaireService.EnleveLikeCommentaire(commentaireId, UtilisateurCourant);
+                await _commentaireService.EnleveLikeCommentaire(commentaireId, UtilisateurCourant);
                 return "";
             });
         }
