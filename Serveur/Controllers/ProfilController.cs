@@ -3,6 +3,7 @@ using arsoudeServeur.Models.DTOs;
 using arsoudeServeur.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using static arsoudeServeur.Services.UtilisateursService;
 
 namespace arsoudeServeur.Controllers
 {
@@ -41,29 +42,37 @@ namespace arsoudeServeur.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Edit(EditProfilDTO profil)
+        public async Task<ActionResult<Utilisateur>> Edit(EditProfilDTO profil)
         {
-            var utilisateur = UtilisateurCourant;
-            if (utilisateur == null)
+            var utilisateurCourant = UtilisateurCourant;
+            if (utilisateurCourant == null || utilisateurCourant.id == 0)
             {
-                return NotFound(new { Error = "L'utilisateur est introuvable" });
+                return NotFound(new { Error = "NotFound" });
             }
-            await _utilisateurService.EditProfil(utilisateur, profil);
 
-            return Ok();
+            var utilisateurModifie = await _utilisateurService.EditProfil(utilisateurCourant, profil);
+
+            return Ok(utilisateurModifie);
         }
 
         [HttpPost]
         public async Task<ActionResult> EditPassword(EditPasswordDTO editPassword)
         {
-            var utilisateur = UtilisateurCourant;
-            if (utilisateur == null)
+            var utilisateurCourant = UtilisateurCourant;
+            if (utilisateurCourant == null || utilisateurCourant.id == 0)
             {
-                return NotFound(new { Error = "L'utilisateur est introuvable" });
+                return NotFound(new { Error = "NotFound" });
             }
-            await _utilisateurService.EditPassword(utilisateur, editPassword.currentPassword, editPassword.newPassword);
 
-            return Ok();
+            try
+            {
+                var result = await _utilisateurService.EditPassword(utilisateurCourant, editPassword.currentPassword, editPassword.newPassword);
+                return Ok();
+            }
+            catch(BadPasswordException error)
+            {
+                return BadRequest(new { Error = error.Message });
+            }
         }
 
     }

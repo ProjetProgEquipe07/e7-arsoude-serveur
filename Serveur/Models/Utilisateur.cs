@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using arsoudeServeur.Models.DTOs;
+using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
 namespace arsoudeServeur.Models
@@ -32,5 +34,8 @@ namespace arsoudeServeur.Models
 
         [JsonIgnore]
         public virtual List<RandonneeUtilisateurTrace> traces { get; set; } = new List<RandonneeUtilisateurTrace>();
+
+        [JsonIgnore]
+        public virtual List<PublicationUtilisateur>? publicationLikes { get; set; } = new List<PublicationUtilisateur>();
     }
 }

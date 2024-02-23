@@ -11,6 +11,11 @@ namespace arsoudeServeur.Services
         private readonly ApplicationDbContext _context;
         private readonly AvertissementService _avertissementService;
 
+        public RandonneesService(ApplicationDbContext context)
+        {
+            _context = context;
+        }
+
         public RandonneesService(ApplicationDbContext context, AvertissementService avertissementService)
         {
             _context = context;
@@ -46,8 +51,8 @@ namespace arsoudeServeur.Services
         {
             List<RandonneeListDTO> randonneesEnvoye = new List<RandonneeListDTO>();
             List<Randonnee> randonnees = await _context.randonnees.Where(
-                s => s.etatRandonnee == Randonnee.Etat.Privée// && s.etatRandonnee == Randonnee.Etat.Publique//Publique
-                //(s.etatRandonnee == Randonnee.Etat.Privée && s.utilisateurId == utilisateurCourant.id) //Privée et uniquement à l'utilisateur courant
+                s => s.etatRandonnee == Randonnee.Etat.Publique || //Publique
+                (s.etatRandonnee == Randonnee.Etat.Privée && s.utilisateurId == utilisateurCourant.id) //Privée et uniquement à l'utilisateur courant
                 ).Take(listSize).ToListAsync();
 
             foreach (Randonnee rando in randonnees)
@@ -316,7 +321,6 @@ namespace arsoudeServeur.Services
             // Trouver le currentUser et l'associer à la randonnée 
             Randonnee randonnee = new Randonnee
             {
-                id = 0,
                 nom = randonneeDTO.nom,
                 description = randonneeDTO.description,
                 emplacement = randonneeDTO.emplacement,
@@ -423,14 +427,35 @@ namespace arsoudeServeur.Services
                     }
             }
 
-            RandonneeUtilisateurTrace gpstemp = new RandonneeUtilisateurTrace()
+            RandonneeUtilisateurTrace gpstemp; 
+            if (traceRandoDTO.publicationid == 0 )
+            {
+               gpstemp = new RandonneeUtilisateurTrace()
+                {
+                    randonnee = randonneeContext,
+                    randonneeId = randonneeContext.id,
+                    utilisateur = utilisateurContext,
+                    utilisateurId = utilisateurContext.id,
+                    gpsListe = newgps,
+                    timer = traceRandoDTO.timer
+                };
+
+
+            }
+            else
+            { 
+
+             gpstemp = new RandonneeUtilisateurTrace()
             {
                 randonnee = randonneeContext,
                 randonneeId = randonneeContext.id,
                 utilisateur = utilisateurContext,
                 utilisateurId = utilisateurContext.id,
                 gpsListe = newgps,
+                publicationId = traceRandoDTO.publicationid,
+                timer = traceRandoDTO.timer
             };
+            }
 
             utilisateurContext.traces.Add(gpstemp);
 

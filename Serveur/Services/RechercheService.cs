@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Primitives;
 using Newtonsoft.Json;
+using SQLitePCL;
 using static arsoudeServeur.Models.Randonnee;
 using static arsoudeServeur.Services.RechercheService;
 
@@ -28,6 +29,8 @@ namespace arsoudeServeur.Services
         {
             _context = context;
         }
+
+        
 
         public virtual async Task<Location> GetLocation(string codePostal)
         {
@@ -53,7 +56,7 @@ namespace arsoudeServeur.Services
         /// <param name="recherche"></param>
         /// <param name="filtreTypeRandonne"></param>
         /// <returns></returns>
-        public virtual async Task<IEnumerable<Randonnee>> GetNearSearch(string recherche, string filtreTypeRandonne)
+        public virtual async Task<IEnumerable<Randonnee>> GetNearSearch(string recherche, string filtreTypeRandonne, int moyenneDemandé)
         {
             List<Randonnee> randoList = new List<Randonnee>();
 
@@ -65,29 +68,69 @@ namespace arsoudeServeur.Services
             {
                 foreach (Randonnee randonnee in randoList)
                 {
-                if (filtreTypeRandonne.Contains(randonnee.typeRandonnee.ToString()) || filtreTypeRandonne.Contains("undefined") || filtreTypeRandonne.Contains("Tous"))
-                {
-                    Score score = new Score();
-                    score.randonnee = randonnee;
-                    foreach (string str in strList)
+                    int count = _context.commentaires.Where(s => s.randonneeId == randonnee.id).Count();
+                    double? moyenne = 0;
+                    if (count != 0)
                     {
-                        if (randonnee.description.ToLower().Contains(str.ToLower()))
-                            score.score++;
-                        if (randonnee.emplacement.ToLower().Contains(str.ToLower()))
-                            score.score++;
-                        if (randonnee.nom.ToLower().Contains(str.ToLower()))
-                            score.score++;
+                        moyenne = _context.commentaires.Where(s => s.randonneeId == randonnee.id).Average(s => s.note);
                     }
-                    if (score.score != 0)
+                    else
                     {
-                        scoreList.Add(score);
+                        moyenne = 5;
+                    }
+                    if (moyenne > moyenneDemandé)
+                    {
+                        if (filtreTypeRandonne.Contains(randonnee.typeRandonnee.ToString()) || filtreTypeRandonne.Contains("undefined") || filtreTypeRandonne.Contains("Tous"))
+                        {
+                            Score score = new Score();
+                            score.randonnee = randonnee;
+                            foreach (string str in strList)
+                            {
+                                if (randonnee.description.ToLower().Contains(str.ToLower()))
+                                    score.score++;
+                                if (randonnee.emplacement.ToLower().Contains(str.ToLower()))
+                                    score.score++;
+                                if (randonnee.nom.ToLower().Contains(str.ToLower()))
+                                    score.score++;
+                            }
+                            if (score.score != 0)
+                            {
+                                scoreList.Add(score);
+                            }
+                        }
                     }
                 }
+                randoList = scoreList.OrderByDescending(s => s.score).Select(s => s.randonnee).ToList();
+                return randoList;
             }
-            randoList = scoreList.OrderByDescending(s => s.score).Select(s => s.randonnee).ToList();
- }
-            return randoList;
+            List<Randonnee> randoList2 = new List<Randonnee>();
+            foreach (Randonnee randonnee in randoList)
+            {
+                double? moyenne = _context.commentaires.Where(s => s.randonneeId == randonnee.id).Average(s => s.note);
+                if (moyenne >= moyenneDemandé)
+                {
+                    randoList2.Add(randonnee);
+                }
+            }
+            return randoList2;
 
+        }
+
+        public Score ScoreCalcul(List<string> strList, Randonnee randonnee)
+        {
+            Score score = new Score();
+            score.randonnee = randonnee;
+            foreach (string str in strList)
+            {
+                if (randonnee.description.ToLower().Contains(str.ToLower()))
+                    score.score++;
+                if (randonnee.emplacement.ToLower().Contains(str.ToLower()))
+                    score.score++;
+                if (randonnee.nom.ToLower().Contains(str.ToLower()))
+                    score.score++;
+            }
+
+            return score;
         }
 
 
@@ -99,7 +142,7 @@ namespace arsoudeServeur.Services
         /// <param name="filtreTypeRandonne"></param>
         /// <param name="myrando"></param>
         /// <returns></returns>
-        public virtual async Task<IEnumerable<Randonnee>> GetNearSearch(string recherche, Utilisateur user, string filtreTypeRandonne, bool myrando)
+        public virtual async Task<IEnumerable<Randonnee>> GetNearSearch(string recherche, Utilisateur user, string filtreTypeRandonne, bool myrando, int moyenneDemandé)
         {
             Location loc = await GetLocation(user.codePostal);
             List<Randonnee> randoList = new List<Randonnee>();
@@ -120,53 +163,89 @@ namespace arsoudeServeur.Services
             {
                 foreach (Randonnee randonnee in randoList)
                 {
-                    if (filtreTypeRandonne.Contains(randonnee.typeRandonnee.ToString()) || filtreTypeRandonne.Contains("undefined") || filtreTypeRandonne.Contains("Tous"))
+
+                    int count = _context.commentaires.Where(s => s.randonneeId == randonnee.id).Count();
+                    double? moyenne = 0;
+                    if (count != 0)
                     {
-                        Score score = new Score();
-                        score.randonnee = randonnee;
-                        foreach (string str in strList)
+                        moyenne = _context.commentaires.Where(s => s.randonneeId == randonnee.id).Average(s => s.note);
+                    }
+                    else
+                    {
+                         moyenne = 5;
+                    }
+                    if (moyenne > moyenneDemandé)
+                    {
+                        if (filtreTypeRandonne.Contains(randonnee.typeRandonnee.ToString()) || filtreTypeRandonne.Contains("undefined") || filtreTypeRandonne.Contains("Tous"))
                         {
-                            if (randonnee.description.ToLower().Contains(str.ToLower()))
-                                score.score++;
-                            if (randonnee.emplacement.ToLower().Contains(str.ToLower()))
-                                score.score++;
-                            if (randonnee.nom.ToLower().Contains(str.ToLower()))
-                                score.score++;
-                        }
-                        if (loc != null)
-                        {
-                            var geod = new Geodesic(a, f);
-                            GPS depart = await _context.gps.Where(s => s.randonneeId == randonnee.id && s.depart == true).FirstOrDefaultAsync();
-                            if (depart != null)
+                            Score score = new Score();
+                            score.randonnee = randonnee;
+                            foreach (string str in strList)
                             {
-                                double s12;
-                                geod.Inverse(loc.lat, loc.lng, depart.x, depart.y, out s12);
-
-                                score.distance = s12;
-
-                                if (score.score != 0)
+                                if (randonnee.description.ToLower().Contains(str.ToLower()))
+                                    score.score++;
+                                if (randonnee.emplacement.ToLower().Contains(str.ToLower()))
+                                    score.score++;
+                                if (randonnee.nom.ToLower().Contains(str.ToLower()))
+                                    score.score++;
+                            }
+                            if (loc != null)
+                            {
+                                var geod = new Geodesic(a, f);
+                                GPS depart = await _context.gps.Where(s => s.randonneeId == randonnee.id && s.depart == true).FirstOrDefaultAsync();
+                                if (depart != null)
                                 {
-                                    scoreList.Add(score);
+                                    double s12;
+                                    geod.Inverse(loc.lat, loc.lng, depart.x, depart.y, out s12);
+
+                                    score.distance = s12;
+
+                                    if (score.score != 0)
+                                    {
+                                        scoreList.Add(score);
+                                    }
                                 }
                             }
-                        }
-                        else
-                        {
-                            if (score.score != 0)
+                            else
                             {
-                                score.distance = 0;
-                                scoreList.Add(score);
+                                if (score.score != 0)
+                                {
+                                    score.distance = 0;
+                                    scoreList.Add(score);
+                                }
                             }
                         }
                     }
                 }
                 randoList = scoreList.OrderByDescending(s => s.score).ThenBy(s => s.distance).Select(s => s.randonnee).ToList();
+                return randoList;
             }
-            return randoList;
+            List<Randonnee> randoList2 = new List<Randonnee>();
+            foreach (Randonnee randonnee in randoList)
+            {
+                int count = _context.commentaires.Where(s => s.randonneeId == randonnee.id).Count();
+                if (count != 0)
+                {
+
+                    double? moyenne = _context.commentaires.Where(s => s.randonneeId == randonnee.id).Average(s => s.note);
+
+                    if (moyenne >= moyenneDemandé)
+                    {
+                        randoList2.Add(randonnee);
+                    }
+                }
+                else
+                {
+                    randoList2.Add(randonnee);
+                }
+
+            }
+            return randoList2;
+
 
         }
 
-        private class Score
+        public class Score
         {
             public int score { get; set; }
             public double distance { get; set; }

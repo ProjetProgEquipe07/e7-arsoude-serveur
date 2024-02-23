@@ -65,6 +65,9 @@ builder.Services.AddScoped<UtilisateursService>();
 builder.Services.AddScoped<RechercheService>();
 builder.Services.AddScoped<AvertissementService>();
 builder.Services.AddScoped<ServiceTranslate>();
+builder.Services.AddScoped<CommentaireService>();
+builder.Services.AddScoped<PublicationService>();
+
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)

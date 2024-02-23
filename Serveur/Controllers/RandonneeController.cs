@@ -120,10 +120,11 @@ namespace arsoudeServeur.Controllers
 
             return Ok();
         }
-        //[Authorize]
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> CreateRandonneeTrace(TraceRandoDTO randonnee)
         {
+            
             var rando = await _randonneeService.CreateRandonneeTraceAsync(randonnee);
 
             if (rando == null)

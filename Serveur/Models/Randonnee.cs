@@ -22,6 +22,7 @@ namespace arsoudeServeur.Models
         [Required(ErrorMessage = "La propriété est obligatoire.")]
         public virtual List<GPS> GPS { get; set; } = new List<GPS>();
 
+        [JsonIgnore]
         public virtual List<Commentaire> commentaires { get; set; } = new List<Commentaire>();
 
         //public virtual int? imageId { get; set; }
@@ -46,6 +47,7 @@ namespace arsoudeServeur.Models
 
         // Clé étrangère 
         public virtual int utilisateurId { get; set; }
+        [JsonIgnore]
         public virtual Utilisateur utilisateur { get; set; }
 
     }
