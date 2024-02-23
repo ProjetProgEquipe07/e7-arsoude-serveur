@@ -11,8 +11,8 @@ using arsoudServeur.Data;
 namespace arsoudeServeur.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240221171842_InitialCreateXD")]
-    partial class InitialCreateXD
+    [Migration("20240223183351_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -141,15 +141,15 @@ namespace arsoudeServeur.Migrations
                         {
                             Id = "11111111-1111-1111-1111-111111111111",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "c5efa013-f23d-4b7e-a0d4-8ad232a87b56",
+                            ConcurrencyStamp = "dbe3b777-fa0d-4bca-9744-3018d10ae04a",
                             Email = "admin@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@GMAIL.COM",
                             NormalizedUserName = "ADMIN@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAENH3ZNVcowOY7jFSmbP2JJOcvCZy8bVlUituPPXCijwv2gqrBzyF1BR2UZAAvguV3w==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEIo1IkuAXOydyyuNl1sQ9b859tRlVUvLTfDkYmvS/kAu32dncwJjPj0QxprmnYxY5g==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "385901e0-2912-4def-a5bb-546b43fbbcb6",
+                            SecurityStamp = "b0670da0-8d56-4d56-a142-5a616e7e924a",
                             TwoFactorEnabled = false,
                             UserName = "admin@gmail.com"
                         },
@@ -157,15 +157,15 @@ namespace arsoudeServeur.Migrations
                         {
                             Id = "11111111-1111-1111-1111-111111111112",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "5e50660d-6358-4206-9212-43ad6123e01a",
+                            ConcurrencyStamp = "09d55d73-1d24-464b-9eb2-a88cb963a935",
                             Email = "user1@hotmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "USER1@HOTMAIL.COM",
                             NormalizedUserName = "USER1@HOTMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEBXzTOVkFlU69kHVMvRR2ZDiuCKRdpnnk+fjuI8GHIXuvDq1C1H8yaz8yw2wijURcw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAENAvELWD+IxaEB68qwBaVAkz6Prwj8QX5bBhIqOED4rJ1DxXnLvnI+E0F/rNQQ/8UA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "c64918dd-8b7b-4efb-b7b4-d914fbb599fc",
+                            SecurityStamp = "684f509e-f200-4642-a0fd-41a2f77fcd1a",
                             TwoFactorEnabled = false,
                             UserName = "user1@hotmail.com"
                         },
@@ -173,15 +173,15 @@ namespace arsoudeServeur.Migrations
                         {
                             Id = "11111111-1111-1111-1111-111111111113",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "785b4263-554f-4018-96f3-d020bf82b34b",
+                            ConcurrencyStamp = "3ce1ed50-fd86-4855-926a-11a17f742bcd",
                             Email = "user2@hotmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "USER2@HOTMAIL.COM",
                             NormalizedUserName = "USER2@HOTMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEGFDkN6rdQ+a4t7qbjtufoTkDerGpzRt2O33ynhvKklamz5ynbs3dY0d+crXbN+OKA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEMNukQUgXU+GolLUFo2Vt8tgOFehJE7erp0d8PHuiTLF3PRF5i9s8w09khV5KRVVdA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "a62ea0cd-7951-4ee2-994a-ccec108abbef",
+                            SecurityStamp = "bb7c460f-0589-4cf6-91c0-436034e4f2a9",
                             TwoFactorEnabled = false,
                             UserName = "user2@hotmail.com"
                         });
@@ -376,33 +376,6 @@ namespace arsoudeServeur.Migrations
                             message = "J'ai récemment découvert l'application de randonnée Arsoude et je dois dire que je suis impressionné. Non seulement elle est facile à utiliser, mais elle offre également une multitude d'itinéraires de randonnée à travers de superbes paysages. Grâce à Arsoude, j'ai pu explorer de nouveaux sentiers et découvrir des trésors cachés que je n'aurais jamais trouvés autrement. Je recommande vivement cette application à tous les amoureux de la randonnée!",
                             note = 5,
                             randonneeId = 6,
-                            utilisateurId = 3
-                        },
-                        new
-                        {
-                            id = 6,
-                            isDeleted = false,
-                            message = "Imagine if a nigga like that has kids. Like imagine. Imagine if somebody like that has kids. I will feel so sorry for his children cause the nigga literally serves no purpose. Imagine a father, now we got a lot of niggas with wife and kids and shit like that who keeps sucking on my dick daily on the internet but imagine if this nigga actually had children. This niggas devoting the time he could be spending with his kids checking out a black man on stream cucking him relentlessly. That's crazy! I've never seen somebody so relentless to be seen. Somebody so worthless that they'll come into this stream and keep coming in this bitch over and over and over and over and over again when we keep banning you\r\nNigga let me.. let me.. let's do you a favor.",
-                            note = 5,
-                            randonneeId = 6,
-                            utilisateurId = 1
-                        },
-                        new
-                        {
-                            id = 7,
-                            isDeleted = false,
-                            message = "Lets go to the 99 cents store and lets pick out a rope together. Imma give you an assisted suicide. Lets pick out a rope together right? And we're gonna take all the greatest trolls clips, put a tv screen right in front of you.\r\nI'm gonna hang that rope at the top of the motherfucking garage.\r\nWe're gonna forcefully pry your eyes open, we probably don't even need to do that cause your on my dick daily. We're gonna pry your eyes open until you consistently watch clips over and over and over and over again to the point where you're gonna be like 'Wait a minute, this is a little bit too much'\r\nYou're just gonna start going crazy.\r\nYou're gonna start going crazy.\r\nJust, your eyes are gonna bleed your retinas are just gonna start pouring out, pouring out blood and just getting\r\ncracks and veins in your retinas are gonna start engaging and bulging. Then I'm gonna grab that rope for you and say 'Are you ready?' You're gonna say 'Yeah' I'm gonna take it and PULL IT\r\nwhile you beg me, beg me and I mean beg me to kill you and choke you, choke the worthless life out of your sorry ass until you're fucking dead, croaked with a blue face nigga. Cause you don't deserve your soul.\r\nI've never seen somebody so fucking worthless and relentless that keep coming in a niggas chat over and over and over again. Somebody like that needs to die.\r\nThere is really no reason for him to be alive. We lost prominent niggas on earth, that served a purpose that had... so this nigga could be on earth trolling a stream daily, like come on my nigga. Like, your life is just worthless, just please kill yourself.\r\nGo outside, throw some steaks in a fucking alley and hope a bunch of stray dogs jump on you starts chewing your fucking dick your dick off, biting pieces and shit off of you like that cause you literally just gotta go. Like this nigga off of earth. Please",
-                            note = 1,
-                            randonneeId = 3,
-                            utilisateurId = 3
-                        },
-                        new
-                        {
-                            id = 8,
-                            isDeleted = false,
-                            message = "You are a worthless bitch ass nigga\r\nYour life literally is as valuabke as a summer ant. I'm just gonna stomp you.\r\nYou're gonna keep coming back. I'm gonna seal up all my cracks, youre gonna keep coming back\r\n \r\nWhy? Cause you keep smelling the syrup, you worthless bitch ass nigga. Your gonna stay on my dick until you die.\r\nYou serve no purpose in life. Your purpose in life is to be on my stream sucking on my dick daily.",
-                            note = 4,
-                            randonneeId = 1,
                             utilisateurId = 3
                         });
                 });
@@ -723,7 +696,7 @@ namespace arsoudeServeur.Migrations
                             description = "promenade cool a st-brun",
                             emplacement = "st-bruno",
                             etatRandonnee = 0,
-                            nom = "St-Brun",
+                            nom = "la hike a LTG",
                             typeRandonnee = 1,
                             utilisateurId = 1
                         },
@@ -743,7 +716,7 @@ namespace arsoudeServeur.Migrations
                             description = "promenade fresh a bro s s a r d",
                             emplacement = "st-hilaire?",
                             etatRandonnee = 0,
-                            nom = "Brossard",
+                            nom = "La promenade du matin",
                             typeRandonnee = 1,
                             utilisateurId = 3
                         },
@@ -763,7 +736,7 @@ namespace arsoudeServeur.Migrations
                             description = "ça doit être cool la bas",
                             emplacement = "quelque part",
                             etatRandonnee = 0,
-                            nom = "rivière rouge",
+                            nom = "La place nice a rivière rouge",
                             typeRandonnee = 0,
                             utilisateurId = 2
                         },
@@ -773,7 +746,7 @@ namespace arsoudeServeur.Migrations
                             description = "je pense qu'on a beaucoup de fun",
                             emplacement = "mont tremblant",
                             etatRandonnee = 0,
-                            nom = "Ma randonnée",
+                            nom = "Word-up au mont-tremblant",
                             typeRandonnee = 0,
                             utilisateurId = 1
                         });
