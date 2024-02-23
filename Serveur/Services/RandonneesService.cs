@@ -10,16 +10,18 @@ namespace arsoudeServeur.Services
     {
         private readonly ApplicationDbContext _context;
         private readonly AvertissementService _avertissementService;
+        private readonly ServiceTranslate _serviceTranslate;    
 
         public RandonneesService(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        public RandonneesService(ApplicationDbContext context, AvertissementService avertissementService)
+        public RandonneesService(ApplicationDbContext context, AvertissementService avertissementService, ServiceTranslate serviceTranslate)
         {
             _context = context;
             _avertissementService = avertissementService;
+            _serviceTranslate = serviceTranslate;
         }
 
         public async Task<List<RandonneeListeAdminDTO>> GetAllRandonneesAsync()
@@ -318,20 +320,112 @@ namespace arsoudeServeur.Services
 
         public async Task<Randonnee> CreateRandonneeAsync(RandonneeDTO randonneeDTO, Utilisateur user)
         {
-            // Trouver le currentUser et l'associer à la randonnée 
-            Randonnee randonnee = new Randonnee
+            Randonnee randoFr = new Randonnee
             {
-                nom = randonneeDTO.nom,
-                description = randonneeDTO.description,
-                emplacement = randonneeDTO.emplacement,
+
+                id = 0,
+                nom = null,
+                description = null,
+                emplacement = null,
                 typeRandonnee = (Randonnee.Type)randonneeDTO.typeRandonnee,
                 GPS = randonneeDTO.gps,
                 utilisateur = user
-
             };
-            _context.randonnees.Add(randonnee);
+            RandonneeAnglais randonneeAnglais = new RandonneeAnglais
+            {
+                id = 0,
+                nom = null,
+                description = null,
+                emplacement = null,
+                typeRandonnee = (Randonnee.Type)randonneeDTO.typeRandonnee,
+                GPS = randonneeDTO.gps,
+                utilisateur = user
+            };
+
+            IEnumerable<TraductionIndicator> traductionIndicators = new List<TraductionIndicator>();
+
+
+            traductionIndicators = await _serviceTranslate.DetectLanguage(randonneeDTO);
+
+            int index = 0;
+            foreach (var indicator in traductionIndicators)
+            {
+                switch (index)
+                {
+                    case 0:
+                        if (indicator.targetLanguage == "en")
+                        {
+                            randonneeAnglais.nom = indicator.text;
+                        }
+                        else
+                        {
+                            randoFr.nom = indicator.text;
+                        }
+
+                        if (randonneeAnglais.nom == null)
+                        {
+                            randonneeAnglais.nom = await _serviceTranslate.TranslateText(indicator.text, "en");
+                        }
+                        else
+                        {
+                            randoFr.nom = await _serviceTranslate.TranslateText(indicator.text, "fr");
+                        }
+
+
+                        break;
+                    case 1:
+                        if (indicator.targetLanguage == "en")
+                        {
+                            randonneeAnglais.description = indicator.text;
+                        }
+                        else
+                        {
+                            randoFr.description = indicator.text;
+                        }
+
+                        if (randonneeAnglais.description == null)
+                        {
+                            randonneeAnglais.description = await _serviceTranslate.TranslateText(indicator.text, "en");
+                        }
+                        else
+                        {
+                            randoFr.description = await _serviceTranslate.TranslateText(indicator.text, "fr");
+                        }
+                        break;
+                    case 2:
+                        if (indicator.targetLanguage == "en")
+                        {
+                            randonneeAnglais.emplacement = indicator.text;
+                        }
+                        else
+                        {
+                            randoFr.emplacement = indicator.text;
+                        }
+
+                        if (randonneeAnglais.emplacement == null)
+                        {
+                            randonneeAnglais.emplacement = await _serviceTranslate.TranslateText(indicator.text, "en");
+                        }
+                        else
+                        {
+                            randoFr.emplacement = await _serviceTranslate.TranslateText(indicator.text, "fr");
+                        }
+                        break;
+
+                }
+                index++;
+            }
+
+
+
+            _context.randonnees.Add(randoFr);
             await _context.SaveChangesAsync();
-            return randonnee;
+
+            randonneeAnglais.randonneeId = randoFr.id;
+
+            _context.randonneeAnglais.Add(randonneeAnglais);
+            await _context.SaveChangesAsync();
+            return randoFr;
         }
 
         public async Task<bool?> UpdateFavoritesAsync(int randonneeId, Utilisateur utilisateurCourant)
@@ -410,7 +504,6 @@ namespace arsoudeServeur.Services
 
             if(utilisateurContext == null)
             {
-                //t'es un invité bro tu peux pas faire de tracé
                 return null;
             }
 

@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace arsoudeServeur.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreateXD : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -234,33 +234,6 @@ namespace arsoudeServeur.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "commentaires",
-                columns: table => new
-                {
-                    id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    message = table.Column<string>(type: "TEXT", nullable: false),
-                    note = table.Column<int>(type: "INTEGER", nullable: true),
-                    isDeleted = table.Column<bool>(type: "INTEGER", nullable: false),
-                    randonneeId = table.Column<int>(type: "INTEGER", nullable: true),
-                    utilisateurId = table.Column<int>(type: "INTEGER", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_commentaires", x => x.id);
-                    table.ForeignKey(
-                        name: "FK_commentaires_randonnees_randonneeId",
-                        column: x => x.randonneeId,
-                        principalTable: "randonnees",
-                        principalColumn: "id");
-                    table.ForeignKey(
-                        name: "FK_commentaires_utilisateurs_utilisateurId",
-                        column: x => x.utilisateurId,
-                        principalTable: "utilisateurs",
-                        principalColumn: "id");
-                });
-
-            migrationBuilder.CreateTable(
                 name: "images",
                 columns: table => new
                 {
@@ -307,6 +280,37 @@ namespace arsoudeServeur.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "randonneeAnglais",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    nom = table.Column<string>(type: "TEXT", nullable: false),
+                    description = table.Column<string>(type: "TEXT", nullable: false),
+                    emplacement = table.Column<string>(type: "TEXT", nullable: false),
+                    typeRandonnee = table.Column<int>(type: "INTEGER", nullable: false),
+                    etatRandonnee = table.Column<int>(type: "INTEGER", nullable: false),
+                    randonneeId = table.Column<int>(type: "INTEGER", nullable: false),
+                    utilisateurId = table.Column<int>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_randonneeAnglais", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_randonneeAnglais_randonnees_randonneeId",
+                        column: x => x.randonneeId,
+                        principalTable: "randonnees",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_randonneeAnglais_utilisateurs_utilisateurId",
+                        column: x => x.utilisateurId,
+                        principalTable: "utilisateurs",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "RandonneeUtilisateur",
                 columns: table => new
                 {
@@ -326,32 +330,6 @@ namespace arsoudeServeur.Migrations
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_RandonneeUtilisateur_utilisateurs_utilisateurId",
-                        column: x => x.utilisateurId,
-                        principalTable: "utilisateurs",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "CommentaireUtilisateur",
-                columns: table => new
-                {
-                    id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    utilisateurId = table.Column<int>(type: "INTEGER", nullable: false),
-                    commentaireId = table.Column<int>(type: "INTEGER", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CommentaireUtilisateur", x => x.id);
-                    table.ForeignKey(
-                        name: "FK_CommentaireUtilisateur_commentaires_commentaireId",
-                        column: x => x.commentaireId,
-                        principalTable: "commentaires",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_CommentaireUtilisateur_utilisateurs_utilisateurId",
                         column: x => x.utilisateurId,
                         principalTable: "utilisateurs",
                         principalColumn: "id",
@@ -418,6 +396,39 @@ namespace arsoudeServeur.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "commentaires",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    message = table.Column<string>(type: "TEXT", nullable: false),
+                    note = table.Column<int>(type: "INTEGER", nullable: true),
+                    isDeleted = table.Column<bool>(type: "INTEGER", nullable: false),
+                    randonneeId = table.Column<int>(type: "INTEGER", nullable: true),
+                    utilisateurId = table.Column<int>(type: "INTEGER", nullable: true),
+                    RandonneeAnglaisid = table.Column<int>(type: "INTEGER", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_commentaires", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_commentaires_randonneeAnglais_RandonneeAnglaisid",
+                        column: x => x.RandonneeAnglaisid,
+                        principalTable: "randonneeAnglais",
+                        principalColumn: "id");
+                    table.ForeignKey(
+                        name: "FK_commentaires_randonnees_randonneeId",
+                        column: x => x.randonneeId,
+                        principalTable: "randonnees",
+                        principalColumn: "id");
+                    table.ForeignKey(
+                        name: "FK_commentaires_utilisateurs_utilisateurId",
+                        column: x => x.utilisateurId,
+                        principalTable: "utilisateurs",
+                        principalColumn: "id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "gps",
                 columns: table => new
                 {
@@ -428,11 +439,18 @@ namespace arsoudeServeur.Migrations
                     depart = table.Column<bool>(type: "INTEGER", nullable: false),
                     arrivee = table.Column<bool>(type: "INTEGER", nullable: false),
                     randonneeId = table.Column<int>(type: "INTEGER", nullable: true),
+                    randonneAnglaisId = table.Column<int>(type: "INTEGER", nullable: true),
+                    RandonneeAnglaisid = table.Column<int>(type: "INTEGER", nullable: true),
                     RandonneeUtilisateurTraceid = table.Column<int>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_gps", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_gps_randonneeAnglais_RandonneeAnglaisid",
+                        column: x => x.RandonneeAnglaisid,
+                        principalTable: "randonneeAnglais",
+                        principalColumn: "id");
                     table.ForeignKey(
                         name: "FK_gps_randonnees_randonneeId",
                         column: x => x.randonneeId,
@@ -445,14 +463,40 @@ namespace arsoudeServeur.Migrations
                         principalColumn: "id");
                 });
 
+            migrationBuilder.CreateTable(
+                name: "CommentaireUtilisateur",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    utilisateurId = table.Column<int>(type: "INTEGER", nullable: false),
+                    commentaireId = table.Column<int>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CommentaireUtilisateur", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_CommentaireUtilisateur_commentaires_commentaireId",
+                        column: x => x.commentaireId,
+                        principalTable: "commentaires",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_CommentaireUtilisateur_utilisateurs_utilisateurId",
+                        column: x => x.utilisateurId,
+                        principalTable: "utilisateurs",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "11111111-1111-1111-1111-111111111111", 0, "c5efa013-f23d-4b7e-a0d4-8ad232a87b56", "admin@gmail.com", true, false, null, "ADMIN@GMAIL.COM", "ADMIN@GMAIL.COM", "AQAAAAIAAYagAAAAENH3ZNVcowOY7jFSmbP2JJOcvCZy8bVlUituPPXCijwv2gqrBzyF1BR2UZAAvguV3w==", null, false, "385901e0-2912-4def-a5bb-546b43fbbcb6", false, "admin@gmail.com" },
-                    { "11111111-1111-1111-1111-111111111112", 0, "5e50660d-6358-4206-9212-43ad6123e01a", "user1@hotmail.com", true, false, null, "USER1@HOTMAIL.COM", "USER1@HOTMAIL.COM", "AQAAAAIAAYagAAAAEBXzTOVkFlU69kHVMvRR2ZDiuCKRdpnnk+fjuI8GHIXuvDq1C1H8yaz8yw2wijURcw==", null, false, "c64918dd-8b7b-4efb-b7b4-d914fbb599fc", false, "user1@hotmail.com" },
-                    { "11111111-1111-1111-1111-111111111113", 0, "785b4263-554f-4018-96f3-d020bf82b34b", "user2@hotmail.com", true, false, null, "USER2@HOTMAIL.COM", "USER2@HOTMAIL.COM", "AQAAAAIAAYagAAAAEGFDkN6rdQ+a4t7qbjtufoTkDerGpzRt2O33ynhvKklamz5ynbs3dY0d+crXbN+OKA==", null, false, "a62ea0cd-7951-4ee2-994a-ccec108abbef", false, "user2@hotmail.com" }
+                    { "11111111-1111-1111-1111-111111111111", 0, "69d7acaa-f0d1-427e-b92b-7d7e00a3ad97", "admin@gmail.com", true, false, null, "ADMIN@GMAIL.COM", "ADMIN@GMAIL.COM", "AQAAAAIAAYagAAAAEPG3pdMSA+Uc+mm/Oyn/8u1C8OZR7z0YH0WE452HC9y3yHIOL1r05pxMdmB6uQvHrw==", null, false, "baabf6bc-e455-41a7-9002-ba919c2079d7", false, "admin@gmail.com" },
+                    { "11111111-1111-1111-1111-111111111112", 0, "575f3e30-ec12-46b5-a8d0-7661d4b9a0c6", "user1@hotmail.com", true, false, null, "USER1@HOTMAIL.COM", "USER1@HOTMAIL.COM", "AQAAAAIAAYagAAAAEHpeQKa+RwdASA06xMbhjRdNa0T+QwaWqM/tuDMYHSyyVh1tQleVCqHJmRJUWSHVpg==", null, false, "e18da311-3361-4568-b517-9a2862d0d871", false, "user1@hotmail.com" },
+                    { "11111111-1111-1111-1111-111111111113", 0, "7237e611-5ee8-4d83-888c-d84626ce4f36", "user2@hotmail.com", true, false, null, "USER2@HOTMAIL.COM", "USER2@HOTMAIL.COM", "AQAAAAIAAYagAAAAEFoSp4LReFJzp3gzIx9Wkuat26vCdwcMxjYt+aDLfKfGH7Exo8KTPVEcAP2DaEXvbg==", null, false, "f07d4251-ea23-47e3-888c-9623401a0a01", false, "user2@hotmail.com" }
                 });
 
             migrationBuilder.InsertData(
@@ -480,36 +524,36 @@ namespace arsoudeServeur.Migrations
 
             migrationBuilder.InsertData(
                 table: "commentaires",
-                columns: new[] { "id", "isDeleted", "message", "note", "randonneeId", "utilisateurId" },
+                columns: new[] { "id", "RandonneeAnglaisid", "isDeleted", "message", "note", "randonneeId", "utilisateurId" },
                 values: new object[,]
                 {
-                    { 1, false, "Are you looking for a new outdoor adventure that won't break the bank? Look no further than Arsoude! This app offers a wide variety of hiking trails at affordable prices, making it easy for anyone to experience the beauty of nature without spending a fortune. With Arsoude, you can easily find new trails to explore based on your location and skill level. The app provides detailed information about each trail, including distance, difficulty level, and user reviews, so you can choose the perfect hike for your next outing.", 3, 1, 2 },
-                    { 2, false, "I recently downloaded the hiking app Arsoude and I have to say I am extremely impressed. The app is user-friendly and provides detailed maps, trail information, and tips for hikers of all levels. I love that it includes features such as GPS tracking and offline maps, making it easy to navigate even in remote areas with no signal. The trail recommendations and difficulty ratings have been spot on and have helped me find new hikes that I never would have discovered otherwise. Overall, Arsoude has become my go-to app for all of my hiking adventures. Highly recommend!", 3, 2, 1 },
-                    { 3, false, "As an avid hiker, I cannot recommend the Arsoude app enough. This user-friendly platform has completely revolutionized my hiking experience. From detailed trail maps to real-time weather updates, Arsoude has everything I need to plan and execute the perfect outdoor adventure. The interface is sleek and intuitive, making it easy to navigate even on the go. Plus, the community feature allows me to connect with other outdoor enthusiasts and share tips and recommendations. Whether you're a seasoned hiker or just starting out, Arsoude is a must-have for your next outdoor excursion.", 3, 2, 2 },
-                    { 4, false, "Arsoude is a fantastic hiking app that has completely changed the way I explore the great outdoors. With detailed trail maps, GPS tracking, and real-time weather updates, I can confidently go on new adventures without worrying about getting lost. The app also features a community forum where users can share tips, photos, and recommendations, making it easy to connect with other outdoor enthusiasts. Overall, Arsoude has become an essential tool for my hiking excursions and I highly recommend it to anyone looking to discover new trails.", 1, 2, 3 },
-                    { 5, false, "J'ai récemment découvert l'application de randonnée Arsoude et je dois dire que je suis impressionné. Non seulement elle est facile à utiliser, mais elle offre également une multitude d'itinéraires de randonnée à travers de superbes paysages. Grâce à Arsoude, j'ai pu explorer de nouveaux sentiers et découvrir des trésors cachés que je n'aurais jamais trouvés autrement. Je recommande vivement cette application à tous les amoureux de la randonnée!", 5, 6, 3 },
-                    { 6, false, "Imagine if a nigga like that has kids. Like imagine. Imagine if somebody like that has kids. I will feel so sorry for his children cause the nigga literally serves no purpose. Imagine a father, now we got a lot of niggas with wife and kids and shit like that who keeps sucking on my dick daily on the internet but imagine if this nigga actually had children. This niggas devoting the time he could be spending with his kids checking out a black man on stream cucking him relentlessly. That's crazy! I've never seen somebody so relentless to be seen. Somebody so worthless that they'll come into this stream and keep coming in this bitch over and over and over and over and over again when we keep banning you\r\nNigga let me.. let me.. let's do you a favor.", 5, 6, 1 },
-                    { 7, false, "Lets go to the 99 cents store and lets pick out a rope together. Imma give you an assisted suicide. Lets pick out a rope together right? And we're gonna take all the greatest trolls clips, put a tv screen right in front of you.\r\nI'm gonna hang that rope at the top of the motherfucking garage.\r\nWe're gonna forcefully pry your eyes open, we probably don't even need to do that cause your on my dick daily. We're gonna pry your eyes open until you consistently watch clips over and over and over and over again to the point where you're gonna be like 'Wait a minute, this is a little bit too much'\r\nYou're just gonna start going crazy.\r\nYou're gonna start going crazy.\r\nJust, your eyes are gonna bleed your retinas are just gonna start pouring out, pouring out blood and just getting\r\ncracks and veins in your retinas are gonna start engaging and bulging. Then I'm gonna grab that rope for you and say 'Are you ready?' You're gonna say 'Yeah' I'm gonna take it and PULL IT\r\nwhile you beg me, beg me and I mean beg me to kill you and choke you, choke the worthless life out of your sorry ass until you're fucking dead, croaked with a blue face nigga. Cause you don't deserve your soul.\r\nI've never seen somebody so fucking worthless and relentless that keep coming in a niggas chat over and over and over again. Somebody like that needs to die.\r\nThere is really no reason for him to be alive. We lost prominent niggas on earth, that served a purpose that had... so this nigga could be on earth trolling a stream daily, like come on my nigga. Like, your life is just worthless, just please kill yourself.\r\nGo outside, throw some steaks in a fucking alley and hope a bunch of stray dogs jump on you starts chewing your fucking dick your dick off, biting pieces and shit off of you like that cause you literally just gotta go. Like this nigga off of earth. Please", 1, 3, 3 },
-                    { 8, false, "You are a worthless bitch ass nigga\r\nYour life literally is as valuabke as a summer ant. I'm just gonna stomp you.\r\nYou're gonna keep coming back. I'm gonna seal up all my cracks, youre gonna keep coming back\r\n \r\nWhy? Cause you keep smelling the syrup, you worthless bitch ass nigga. Your gonna stay on my dick until you die.\r\nYou serve no purpose in life. Your purpose in life is to be on my stream sucking on my dick daily.", 4, 1, 3 }
+                    { 1, null, false, "Are you looking for a new outdoor adventure that won't break the bank? Look no further than Arsoude! This app offers a wide variety of hiking trails at affordable prices, making it easy for anyone to experience the beauty of nature without spending a fortune. With Arsoude, you can easily find new trails to explore based on your location and skill level. The app provides detailed information about each trail, including distance, difficulty level, and user reviews, so you can choose the perfect hike for your next outing.", 3, 1, 2 },
+                    { 2, null, false, "I recently downloaded the hiking app Arsoude and I have to say I am extremely impressed. The app is user-friendly and provides detailed maps, trail information, and tips for hikers of all levels. I love that it includes features such as GPS tracking and offline maps, making it easy to navigate even in remote areas with no signal. The trail recommendations and difficulty ratings have been spot on and have helped me find new hikes that I never would have discovered otherwise. Overall, Arsoude has become my go-to app for all of my hiking adventures. Highly recommend!", 3, 2, 1 },
+                    { 3, null, false, "As an avid hiker, I cannot recommend the Arsoude app enough. This user-friendly platform has completely revolutionized my hiking experience. From detailed trail maps to real-time weather updates, Arsoude has everything I need to plan and execute the perfect outdoor adventure. The interface is sleek and intuitive, making it easy to navigate even on the go. Plus, the community feature allows me to connect with other outdoor enthusiasts and share tips and recommendations. Whether you're a seasoned hiker or just starting out, Arsoude is a must-have for your next outdoor excursion.", 3, 2, 2 },
+                    { 4, null, false, "Arsoude is a fantastic hiking app that has completely changed the way I explore the great outdoors. With detailed trail maps, GPS tracking, and real-time weather updates, I can confidently go on new adventures without worrying about getting lost. The app also features a community forum where users can share tips, photos, and recommendations, making it easy to connect with other outdoor enthusiasts. Overall, Arsoude has become an essential tool for my hiking excursions and I highly recommend it to anyone looking to discover new trails.", 1, 2, 3 },
+                    { 5, null, false, "J'ai récemment découvert l'application de randonnée Arsoude et je dois dire que je suis impressionné. Non seulement elle est facile à utiliser, mais elle offre également une multitude d'itinéraires de randonnée à travers de superbes paysages. Grâce à Arsoude, j'ai pu explorer de nouveaux sentiers et découvrir des trésors cachés que je n'aurais jamais trouvés autrement. Je recommande vivement cette application à tous les amoureux de la randonnée!", 5, 6, 3 },
+                    { 6, null, false, "Imagine if a nigga like that has kids. Like imagine. Imagine if somebody like that has kids. I will feel so sorry for his children cause the nigga literally serves no purpose. Imagine a father, now we got a lot of niggas with wife and kids and shit like that who keeps sucking on my dick daily on the internet but imagine if this nigga actually had children. This niggas devoting the time he could be spending with his kids checking out a black man on stream cucking him relentlessly. That's crazy! I've never seen somebody so relentless to be seen. Somebody so worthless that they'll come into this stream and keep coming in this bitch over and over and over and over and over again when we keep banning you\r\nNigga let me.. let me.. let's do you a favor.", 5, 6, 1 },
+                    { 7, null, false, "Lets go to the 99 cents store and lets pick out a rope together. Imma give you an assisted suicide. Lets pick out a rope together right? And we're gonna take all the greatest trolls clips, put a tv screen right in front of you.\r\nI'm gonna hang that rope at the top of the motherfucking garage.\r\nWe're gonna forcefully pry your eyes open, we probably don't even need to do that cause your on my dick daily. We're gonna pry your eyes open until you consistently watch clips over and over and over and over again to the point where you're gonna be like 'Wait a minute, this is a little bit too much'\r\nYou're just gonna start going crazy.\r\nYou're gonna start going crazy.\r\nJust, your eyes are gonna bleed your retinas are just gonna start pouring out, pouring out blood and just getting\r\ncracks and veins in your retinas are gonna start engaging and bulging. Then I'm gonna grab that rope for you and say 'Are you ready?' You're gonna say 'Yeah' I'm gonna take it and PULL IT\r\nwhile you beg me, beg me and I mean beg me to kill you and choke you, choke the worthless life out of your sorry ass until you're fucking dead, croaked with a blue face nigga. Cause you don't deserve your soul.\r\nI've never seen somebody so fucking worthless and relentless that keep coming in a niggas chat over and over and over again. Somebody like that needs to die.\r\nThere is really no reason for him to be alive. We lost prominent niggas on earth, that served a purpose that had... so this nigga could be on earth trolling a stream daily, like come on my nigga. Like, your life is just worthless, just please kill yourself.\r\nGo outside, throw some steaks in a fucking alley and hope a bunch of stray dogs jump on you starts chewing your fucking dick your dick off, biting pieces and shit off of you like that cause you literally just gotta go. Like this nigga off of earth. Please", 1, 3, 3 },
+                    { 8, null, false, "You are a worthless bitch ass nigga\r\nYour life literally is as valuabke as a summer ant. I'm just gonna stomp you.\r\nYou're gonna keep coming back. I'm gonna seal up all my cracks, youre gonna keep coming back\r\n \r\nWhy? Cause you keep smelling the syrup, you worthless bitch ass nigga. Your gonna stay on my dick until you die.\r\nYou serve no purpose in life. Your purpose in life is to be on my stream sucking on my dick daily.", 4, 1, 3 }
                 });
 
             migrationBuilder.InsertData(
                 table: "gps",
-                columns: new[] { "id", "RandonneeUtilisateurTraceid", "arrivee", "depart", "randonneeId", "x", "y" },
+                columns: new[] { "id", "RandonneeAnglaisid", "RandonneeUtilisateurTraceid", "arrivee", "depart", "randonneAnglaisId", "randonneeId", "x", "y" },
                 values: new object[,]
                 {
-                    { 1, null, false, true, 1, 45.536653134864743, -73.494974340959118 },
-                    { 2, null, true, false, 1, 45.636653134864737, -73.594974340959126 },
-                    { 3, null, false, true, 2, 45.354998999999999, -73.150238000000002 },
-                    { 4, null, true, false, 2, 45.356924999999997, -73.150233999999998 },
-                    { 5, null, false, true, 3, 45.538015000000001, -73.156982999999997 },
-                    { 6, null, true, false, 3, 45.636653134864737, -73.594974340959126 },
-                    { 7, null, false, true, 4, 45.354998999999999, -73.150238000000002 },
-                    { 8, null, true, false, 4, 45.356924999999997, -73.150233999999998 },
-                    { 9, null, false, true, 5, 45.354998999999999, -73.150238000000002 },
-                    { 10, null, true, false, 5, 45.356924999999997, -73.150233999999998 },
-                    { 11, null, false, true, 6, 45.354998999999999, -73.160238000000007 },
-                    { 12, null, true, false, 6, 45.356924999999997, -73.150233999999998 }
+                    { 1, null, null, false, true, 1, 1, 45.536653134864743, -73.494974340959118 },
+                    { 2, null, null, true, false, 1, 1, 45.636653134864737, -73.594974340959126 },
+                    { 3, null, null, false, true, 2, 2, 45.354998999999999, -73.150238000000002 },
+                    { 4, null, null, true, false, 2, 2, 45.356924999999997, -73.150233999999998 },
+                    { 5, null, null, false, true, 3, 3, 45.538015000000001, -73.156982999999997 },
+                    { 6, null, null, true, false, 3, 3, 45.636653134864737, -73.594974340959126 },
+                    { 7, null, null, false, true, 4, 4, 45.354998999999999, -73.150238000000002 },
+                    { 8, null, null, true, false, 4, 4, 45.356924999999997, -73.150233999999998 },
+                    { 9, null, null, false, true, 5, 5, 45.354998999999999, -73.150238000000002 },
+                    { 10, null, null, true, false, 5, 5, 45.356924999999997, -73.150233999999998 },
+                    { 11, null, null, false, true, 6, 6, 45.354998999999999, -73.160238000000007 },
+                    { 12, null, null, true, false, 6, 6, 45.356924999999997, -73.150233999999998 }
                 });
 
             migrationBuilder.InsertData(
@@ -523,6 +567,19 @@ namespace arsoudeServeur.Migrations
                     { 4, 1, 4, 2 },
                     { 5, 1, 5, 2 },
                     { 6, 1, 6, 1 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "randonneeAnglais",
+                columns: new[] { "id", "description", "emplacement", "etatRandonnee", "nom", "randonneeId", "typeRandonnee", "utilisateurId" },
+                values: new object[,]
+                {
+                    { 1, "Cool walk in St-Bruno", "St-Bruno", 0, "St-Bruno", 1, 1, 1 },
+                    { 2, "Moderately cool walk there", "Outside", 0, "Little Walk to Subway", 2, 0, 2 },
+                    { 3, "Fresh walk in St-Hilaire", "St-Hilaire", 0, "St-Hilaire", 3, 1, 3 },
+                    { 4, "Walk to Subway", "St-Grégoire", 0, "My Hiking Trip", 4, 0, 2 },
+                    { 5, "It must be cool there", "Somewhere", 0, "Red River", 5, 0, 2 },
+                    { 6, "I think it's a lot of fun", "Mont Tremblant", 0, "My Trek", 6, 0, 1 }
                 });
 
             migrationBuilder.CreateIndex(
@@ -568,6 +625,11 @@ namespace arsoudeServeur.Migrations
                 column: "randonneeId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_commentaires_RandonneeAnglaisid",
+                table: "commentaires",
+                column: "RandonneeAnglaisid");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_commentaires_randonneeId",
                 table: "commentaires",
                 column: "randonneeId");
@@ -586,6 +648,11 @@ namespace arsoudeServeur.Migrations
                 name: "IX_CommentaireUtilisateur_utilisateurId",
                 table: "CommentaireUtilisateur",
                 column: "utilisateurId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_gps_RandonneeAnglaisid",
+                table: "gps",
+                column: "RandonneeAnglaisid");
 
             migrationBuilder.CreateIndex(
                 name: "IX_gps_randonneeId",
@@ -621,6 +688,16 @@ namespace arsoudeServeur.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_publication_utilisateurId",
                 table: "publication",
+                column: "utilisateurId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_randonneeAnglais_randonneeId",
+                table: "randonneeAnglais",
+                column: "randonneeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_randonneeAnglais_utilisateurId",
+                table: "randonneeAnglais",
                 column: "utilisateurId");
 
             migrationBuilder.CreateIndex(
@@ -703,6 +780,9 @@ namespace arsoudeServeur.Migrations
 
             migrationBuilder.DropTable(
                 name: "utilisateursTrace");
+
+            migrationBuilder.DropTable(
+                name: "randonneeAnglais");
 
             migrationBuilder.DropTable(
                 name: "publication");

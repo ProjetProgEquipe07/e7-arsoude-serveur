@@ -17,7 +17,7 @@ namespace arsoudeServeur.Controllers
         }
 
 
-        [HttpPost]
+       /* [HttpPost]
         public ActionResult<string> GetTranslate([FromBody]TranslateDTO translateDTO)
         {
             string transltedText = _serviceTranslate.TranslateText(translateDTO.text).Result;
@@ -26,11 +26,11 @@ namespace arsoudeServeur.Controllers
         }
 
         [HttpPost]
-        public ActionResult<string> GetLanguages([FromBody] TranslateDTO translateDTO)
+        public async Task<ActionResult<IEnumerable<TraductionIndicator>>> GetLanguages([FromBody]RandonneeDTO translateDTO)
         {
-            var languages = _serviceTranslate.DetectLanguage(translateDTO.text);
+            var languages = await _serviceTranslate.DetectLanguage(translateDTO);
 
             return Ok(languages);
-        }
+        }*/
     }
 }

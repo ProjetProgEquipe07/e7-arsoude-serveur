@@ -234,7 +234,8 @@ namespace arsoudServeur.Data
                     description = "Cool walk in St-Bruno",
                     emplacement = "St-Bruno",
                     utilisateurId = 1,
-                    typeRandonnee = RandonneeAnglais.Type.Vélo,
+                    typeRandonnee = Randonnee.Type.Vélo,
+                    etatRandonnee = Randonnee.Etat.Privée,
                     randonneeId = 1,
                 },
                 new RandonneeAnglais
@@ -244,7 +245,8 @@ namespace arsoudServeur.Data
                     description = "Moderately cool walk there",
                     emplacement = "Outside",
                     utilisateurId = 2,
-                    typeRandonnee = RandonneeAnglais.Type.Marche,
+                    typeRandonnee = Randonnee.Type.Marche,
+                    etatRandonnee = Randonnee.Etat.Privée,
                     randonneeId = 2,
                 },
                 new RandonneeAnglais
@@ -254,7 +256,8 @@ namespace arsoudServeur.Data
                     description = "Fresh walk in St-Hilaire",
                     emplacement = "St-Hilaire",
                     utilisateurId = 3,
-                    typeRandonnee = RandonneeAnglais.Type.Vélo,
+                    typeRandonnee = Randonnee.Type.Vélo,
+                    etatRandonnee = Randonnee.Etat.Privée,
                     randonneeId = 3,
                 },
                 new RandonneeAnglais
@@ -264,7 +267,8 @@ namespace arsoudServeur.Data
                     description = "Walk to Subway",
                     emplacement = "St-Grégoire",
                     utilisateurId = 2,
-                    typeRandonnee = RandonneeAnglais.Type.Marche,
+                    typeRandonnee = Randonnee.Type.Marche,
+                    etatRandonnee = Randonnee.Etat.Privée,
                     randonneeId = 4,
                 },
                 new RandonneeAnglais
@@ -274,7 +278,8 @@ namespace arsoudServeur.Data
                     description = "It must be cool there",
                     emplacement = "Somewhere",
                     utilisateurId = 2,
-                    typeRandonnee = RandonneeAnglais.Type.Marche,
+                    typeRandonnee = Randonnee.Type.Marche,
+                    etatRandonnee = Randonnee.Etat.Privée,
                     randonneeId = 5,
                 },
                 new RandonneeAnglais
@@ -284,7 +289,8 @@ namespace arsoudServeur.Data
                     description = "I think it's a lot of fun",
                     emplacement = "Mont Tremblant",
                     utilisateurId = 1,
-                    typeRandonnee = RandonneeAnglais.Type.Marche,
+                    typeRandonnee = Randonnee.Type.Marche,
+                    etatRandonnee = Randonnee.Etat.Privée,
                     randonneeId = 6,
                 },
             };

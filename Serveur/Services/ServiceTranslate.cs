@@ -1,5 +1,7 @@
-﻿using Google.Cloud.Translate.V3;
+﻿using arsoudeServeur.Models.DTOs;
+using Google.Cloud.Translate.V3;
 using Microsoft.AspNetCore.Mvc;
+using System.Reflection;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace arsoudeServeur.Services
@@ -22,12 +24,12 @@ namespace arsoudeServeur.Services
             client = builder.Build();
         }
 
-        public async Task<string> TranslateText(string text)
+        public async Task<string> TranslateText(string text, string targetLanguage)
         {
             TranslateTextRequest request = new TranslateTextRequest
             {
                 Contents = { text },
-                TargetLanguageCode = "en",
+                TargetLanguageCode = targetLanguage,
                 Parent = $"projects/{projectId}"
             };
 
@@ -36,52 +38,61 @@ namespace arsoudeServeur.Services
             return response.Translations[0].TranslatedText;
         }
 
-        public async Task<string> DetectLanguage(string text)
+        public async Task<IEnumerable<TraductionIndicator>> DetectLanguage(Object objet)
         {
 
-            if (text.Length > 30)
+            List<string> stringObjet = new List<string>();
+
+            Type type = objet.GetType();
+
+            foreach (FieldInfo field in type.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance))
             {
-                text = text.Substring(0, 30);
+                if (field.FieldType == typeof(string))
+                {
+                    string value = (string)field.GetValue(objet);
+                    if (value != null)
+                    {
+                        stringObjet.Add(value);
+                    }
+                }
             }
 
-            DetectLanguageRequest request = new DetectLanguageRequest
+            List<TraductionIndicator> stringObjetTraduit = new List<TraductionIndicator>();
+
+            if (!(stringObjet.Count >= 5))
             {
-                Content = text,
-                Parent = $"projects/{projectId}"
-            };
+                
+                foreach (string text in stringObjet)
+                {
+                    string textTraduction = text;
+                    if (textTraduction.Length > 30)
+                    {
+                        textTraduction = textTraduction.Substring(0, 30);
+                    }
 
-            DetectLanguageResponse response = client.DetectLanguage(request);
+                    DetectLanguageRequest request = new DetectLanguageRequest
+                    {
+                        Content = textTraduction,
+                        Parent = $"projects/{projectId}"
+                    };
+
+                    DetectLanguageResponse response = client.DetectLanguage(request);
+
+                    TraductionIndicator traductionIndicator = new TraductionIndicator()
+                    {
+                        text = text,
+                        targetLanguage = response.Languages[0].LanguageCode
+                    };
+
+                    stringObjetTraduit.Add(traductionIndicator);
+                }
+
+                
+            }
+
+            return stringObjetTraduit.ToList();
 
 
-            return response.Languages[0].LanguageCode;
-        }
-
-        public async Task<string> TranslateEnglish(string text)
-        {
-            TranslateTextRequest request = new TranslateTextRequest
-            {
-                Contents = { text } ,
-                TargetLanguageCode = "en",
-                Parent = $"projects/{projectId}"
-            };
-
-            TranslateTextResponse response = await client.TranslateTextAsync(request);
-
-            return response.Translations[0].TranslatedText;
-        }
-
-        public async Task<string> TranslateFrançais(string text)
-        {
-            TranslateTextRequest request = new TranslateTextRequest
-            {
-                Contents = { text },
-                TargetLanguageCode = "fr",
-                Parent = $"projects/{projectId}"
-            };
-
-            TranslateTextResponse response = await client.TranslateTextAsync(request);
-
-            return response.Translations[0].TranslatedText;
-        }
+        }//return response.Languages[0].LanguageCode;   
     }
 }

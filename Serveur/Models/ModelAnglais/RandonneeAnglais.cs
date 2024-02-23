@@ -7,13 +7,13 @@ namespace arsoudeServeur.Models
     {
         public int id { get; set; }
 
-        public string nom { get; set; }
+        public string? nom { get; set; }
 
-        public string description { get; set; }
+        public string? description { get; set; }
 
-        public string emplacement { get; set; }
+        public string? emplacement { get; set; }
 
-        public Type typeRandonnee { get; set; }
+        public Randonnee.Type typeRandonnee { get; set; }
 
         public Etat etatRandonnee { get; set; } = Etat.Privée;
 
@@ -21,15 +21,7 @@ namespace arsoudeServeur.Models
         public virtual List<GPS> GPS { get; set; } = new List<GPS>();
 
         public virtual List<Commentaire> commentaires { get; set; } = new List<Commentaire>();
-
-
-        public enum Type
-        {
-            Marche,
-            Vélo
-        }
-
-
+ 
         // Clé étrangère 
         public virtual int randonneeId { get; set; }
         public virtual Randonnee randonnee { get; set; }
