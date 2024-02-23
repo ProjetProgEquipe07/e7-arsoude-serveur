@@ -38,6 +38,11 @@ namespace arsoudeServeur.Services
     public class UnauthorizedModifyCommentaireException : Exception { }
 
     /// <summary>
+    /// Vous n'êtes pas autorisé à créer ce commentaire
+    /// </summary>
+    public class UnauthorizedCreateCommentaireException : Exception { }
+
+    /// <summary>
     /// Ce commentaire a déjà été effacé
     /// </summary>
     public class AlreadyDeletedException : Exception { }
@@ -107,36 +112,52 @@ namespace arsoudeServeur.Services
         public async Task<Commentaire> CreateCommentaire(CommentaireDTO commentaire, Utilisateur utilisateurCourant)
         {
             var rando = await _context.randonnees.Where(r => r.id == commentaire.randonneeId).FirstOrDefaultAsync() ?? throw new NullRandonneeException();
-            var peutCommenter = await PeutCommenter(rando.id, utilisateurCourant);
-            if (peutCommenter)
+
+            try
             {
-                var newCommentaire = new Commentaire()
+                var peutCommenter = await PeutCommenter(rando.id, utilisateurCourant);
+                if (peutCommenter)
                 {
-                    message = commentaire.message,
-                    note = commentaire.note,
-                    randonnee = rando,
-                    randonneeId = rando.id,
-                    utilisateur = utilisateurCourant,
-                    utilisateurId = utilisateurCourant.id,
-                    utilisateursLikes = new List<CommentaireUtilisateur>(),
-                };
+                    var newCommentaire = new Commentaire()
+                    {
+                        message = commentaire.message,
+                        note = commentaire.note,
+                        randonnee = rando,
+                        randonneeId = rando.id,
+                        utilisateur = utilisateurCourant,
+                        utilisateurId = utilisateurCourant.id,
+                        utilisateursLikes = new List<CommentaireUtilisateur>(),
+                    };
 
-                _context.commentaires.Add(newCommentaire);
-                await _context.SaveChangesAsync();
+                    _context.commentaires.Add(newCommentaire);
+                    await _context.SaveChangesAsync();
 
-                return newCommentaire;
+                    return newCommentaire;
+                }
+                else
+                {
+                    throw new UnauthorizedCreateCommentaireException();
+                }
             }
-            else
+            catch
             {
-                throw new Exception("Vous devez faire la randonnée ou avez déjà commenté cette randonnée");
+                throw;
             }
-
         }
 
         public async Task<Commentaire> PutCommentaire(int id, CommentaireDTO commentaireDTO, Utilisateur utilisateurCourant)
         {
-            var rando = await _context.randonnees.Where(r => r.id == commentaireDTO.randonneeId).FirstOrDefaultAsync() ?? throw new NullRandonneeException();
-            var commentaire = await _context.commentaires.Where(c => c.id == id).FirstOrDefaultAsync() ?? throw new NullCommentaireException();
+            Randonnee? rando = await _context.randonnees.Where(r => r.id == commentaireDTO.randonneeId).FirstOrDefaultAsync();
+            if (rando == null)
+            {
+                throw new NullRandonneeException();
+            }
+            Commentaire? commentaire = await _context.commentaires.Where(c => c.id == id).FirstOrDefaultAsync();
+            if (commentaire == null)
+            {
+                throw new NullCommentaireException();
+            }
+
             //Seulement l'utilisateur peut modifier le commentaire
             if (utilisateurCourant.id == commentaire.utilisateurId)
             {
@@ -157,7 +178,11 @@ namespace arsoudeServeur.Services
 
         public async Task<Commentaire> DeleteCommentaire(int commentaireId, Utilisateur utilisateurCourant)
         {
-            var commentaire = await _context.commentaires.Where(c => c.id == commentaireId).FirstOrDefaultAsync() ?? throw new NullCommentaireException();
+            Commentaire? commentaire = await _context.commentaires.Where(c => c.id == commentaireId).FirstOrDefaultAsync();
+            if (commentaire == null)
+            {
+                throw new NullCommentaireException();
+            }
             if (commentaire.isDeleted == true)
             {
                 throw new AlreadyDeletedException();
@@ -166,11 +191,11 @@ namespace arsoudeServeur.Services
             //Change le message du commentaire selon si c'est admin ou utilisateur qui a effacé et empêche les autres utilisateurs d'effacer le commentaire
             if (utilisateurCourant.role == "Administrator")
             {
-                commentaire.message = "$CommentDeletedByAdministrator";
+                commentaire.message = "CommentDeletedByAdministrator";
             }
             else if (utilisateurCourant.id == commentaire.utilisateurId)
             {
-                commentaire.message = "$CommentDeletedByUserFirstNameLastName";
+                commentaire.message = "CommentDeletedByUserFirstNameLastName";
             }
             else
             {
@@ -189,7 +214,7 @@ namespace arsoudeServeur.Services
 
         public async Task<bool> PeutCommenter(int randoId, Utilisateur utilisateurCourant)
         {
-            var rando = await _context.randonnees.Where(r => r.id == randoId).FirstOrDefaultAsync();
+            Randonnee? rando = await _context.randonnees.Where(r => r.id == randoId).FirstOrDefaultAsync();
             if (rando == null)
             {
                 throw new NullRandonneeException();
@@ -199,8 +224,7 @@ namespace arsoudeServeur.Services
             if (rando.etatRandonnee == Randonnee.Etat.Publique)
             {
                 //Si fait randonnée et que le commentaire est effacé ou non existant, alors autorisé à commenter
-
-                var utilisateurTrace = await _context.utilisateursTrace.Where(r => r.utilisateurId == utilisateurCourant.id).FirstOrDefaultAsync();
+                RandonneeUtilisateurTrace? utilisateurTrace = await _context.utilisateursTrace.Where(r => r.utilisateurId == utilisateurCourant.id).FirstOrDefaultAsync();
                 if (utilisateurTrace == null)
                 {
                     //Debug Console
@@ -221,11 +245,16 @@ namespace arsoudeServeur.Services
                 throw new RandonneeNotPublicException();
             }
         }
-        public async Task AjoutLikeCommentaire(int id, Utilisateur utilisateurCourant)
+        public async Task<List<CommentaireUtilisateur>> AjoutLikeCommentaire(int id, Utilisateur utilisateurCourant)
         {
-            var commentaire = await _context.commentaires.Where(c => c.id == id).FirstOrDefaultAsync() ?? throw new NullCommentaireException();
-            var listeUser = commentaire.utilisateursLikes;
-            if (listeUser.Where(CU => CU.utilisateurId == utilisateurCourant.id).FirstOrDefault() != null)
+            Commentaire? commentaire = await _context.commentaires.Where(c => c.id == id).FirstOrDefaultAsync();
+            if (commentaire == null)
+            {
+                throw new NullCommentaireException();
+            }
+
+            List<CommentaireUtilisateur> listeUser = commentaire.utilisateursLikes;
+            if (listeUser.FirstOrDefault(CU => CU.utilisateurId == utilisateurCourant.id) != null)
             {
                 throw new AlreadyLikedCommentaireException();
             }
@@ -239,23 +268,32 @@ namespace arsoudeServeur.Services
                     commentaire = commentaire
                 };
                 commentaire.utilisateursLikes.Add(temp);
+                await _context.SaveChangesAsync();
+
+                return listeUser;
             }
-            await _context.SaveChangesAsync();
+
         }
-        public async Task EnleveLikeCommentaire(int id, Utilisateur utilisateurCourant)
+        public async Task<List<CommentaireUtilisateur>> EnleveLikeCommentaire(int id, Utilisateur utilisateurCourant)
         {
-            var commentaire = await _context.commentaires.Where(c => c.id == id).FirstOrDefaultAsync() ?? throw new NullCommentaireException();
-            var listeUser = commentaire.utilisateursLikes ?? throw new Exception("Utilisateurs non trouvés");
-            CommentaireUtilisateur likeCheck = listeUser.Where(CU => CU.utilisateurId == utilisateurCourant.id).FirstOrDefault() ?? throw new Exception("");
-            if (likeCheck != null)
+            var commentaire = await _context.commentaires.FirstOrDefaultAsync(c => c.id == id);
+            if (commentaire == null)
             {
-                commentaire.utilisateursLikes.Remove(likeCheck);
+                throw new NullCommentaireException();
             }
-            else
+            var listeUser = commentaire.utilisateursLikes;
+            CommentaireUtilisateur? likeCheck = listeUser.FirstOrDefault(CU => CU.utilisateurId == utilisateurCourant.id);
+            if (likeCheck == null)
             {
                 throw new AlreadyUnlikedCommentaireException();
             }
-            await _context.SaveChangesAsync();
+            else
+            {
+                commentaire.utilisateursLikes.Remove(likeCheck);
+                await _context.SaveChangesAsync();
+
+                return listeUser;
+            }
         }
     }
 }

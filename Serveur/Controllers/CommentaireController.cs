@@ -6,6 +6,21 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace arsoudeServeur.Controllers
 {
+    public static class ExceptionStrings
+    {
+        public const string CommentaireExistePas = "CommentaireExistePas"; //not found
+        public const string RandonneeExistePas = "RandonneeExistePas"; //not found
+        public const string UserExistePas = "UserExistePas"; //not found
+        public const string DeleteCommentaireInterdit = "DeleteCommentaireInterdit"; //unauthorized
+        public const string ModifyCommentaireInterdit = "ModifyCommentaireInterdit"; //unauthorized
+        public const string CommentaireDejaDelete = "CommentaireDejaDelete"; //not found
+        public const string PublicationDejaComment = "PublicationDejaComment"; //unauthorized
+        public const string CommentaireDejaLike = "CommentaireDejaLike"; //unauthorized
+        public const string CommentaireDejaUnlike = "CommentaireDejaUnlike"; //unauthorized
+        public const string RandonnePasFaite = "RandonnePasFaite"; //unauthorized
+        public const string RandonnePrivee = "RandonnePrivee"; //unauthorized
+    }
+
     [Route("api/[controller]/[action]")]
     [ApiController]
     [Authorize]
@@ -26,47 +41,47 @@ namespace arsoudeServeur.Controllers
             }
             catch (NullCommentaireException)
             {
-                return NotFound("$CommentaireExistePas");
+                return NotFound(ExceptionStrings.CommentaireExistePas);
             }
             catch (NullRandonneeException)
             {
-                return NotFound("$RandonneeExistePas");
+                return NotFound(ExceptionStrings.RandonneeExistePas);
             }
             catch (NullUtilisateursException)
             {
-                return NotFound("$UserExistePas");
+                return NotFound(ExceptionStrings.UserExistePas);
             }
             catch (UnauthorizedDeleteCommentaireException)
             {
-                return Unauthorized("$DeleteCommentaireInterdit");
+                return Unauthorized(ExceptionStrings.DeleteCommentaireInterdit);
             }
             catch (UnauthorizedModifyCommentaireException)
             {
-                return Unauthorized("$ModifyCommentaireInterdit");
+                return Unauthorized(ExceptionStrings.ModifyCommentaireInterdit);
             }
             catch (AlreadyDeletedException)
             {
-                return NotFound("$CommentaireDejaDelete");
+                return NotFound(ExceptionStrings.CommentaireDejaDelete);
             }
             catch (AlreadyExistsCommentaireExeption)
             {
-                return Unauthorized("$PublicationDejaComment");
+                return Unauthorized(ExceptionStrings.PublicationDejaComment);
             }
             catch (AlreadyLikedCommentaireException)
             {
-                return Unauthorized("$CommentaireDejaLike");
+                return Unauthorized(ExceptionStrings.CommentaireDejaLike);
             }
             catch (AlreadyUnlikedCommentaireException)
             {
-                return Unauthorized("$CommentaireDejaUnlike");
+                return Unauthorized(ExceptionStrings.CommentaireDejaUnlike);
             }
             catch (NoTraceFoundException)
             {
-                return Unauthorized("$RandonnePasFaite");
+                return Unauthorized(ExceptionStrings.RandonnePasFaite);
             }
             catch (RandonneeNotPublicException)
             {
-                return Unauthorized("$RandonnePrivee");
+                return Unauthorized(ExceptionStrings.RandonnePrivee);
             }
             catch (Exception e)
             {
@@ -92,7 +107,6 @@ namespace arsoudeServeur.Controllers
                 var commentaire = await _commentaireService.CreateCommentaire(commentaireDTO, UtilisateurCourant);
                 return commentaire;
             });
-
         }
 
         [HttpPut("{id}")]
@@ -138,10 +152,9 @@ namespace arsoudeServeur.Controllers
         {
             return await TryCatch(async () =>
             {
-               await _commentaireService.EnleveLikeCommentaire(commentaireId, UtilisateurCourant);
+                await _commentaireService.EnleveLikeCommentaire(commentaireId, UtilisateurCourant);
                 return "";
             });
         }
-
     }
 }
