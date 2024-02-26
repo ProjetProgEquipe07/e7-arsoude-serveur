@@ -33,63 +33,6 @@ namespace arsoudeServeur.Controllers
             _commentaireService = commentaire;
         }
 
-        //private async Task<ActionResult> TryCatch<T>(Func<Task<T>> func)
-        //{
-        //try
-        //{
-        //    var result = await func();
-        //    return Ok(result);
-        //}
-        //catch (NullCommentaireException)
-        //{
-        //    return NotFound(ExceptionStrings.CommentaireExistePas);
-        //}
-        //catch (NullRandonneeException)
-        //{
-        //    return NotFound(ExceptionStrings.RandonneeExistePas);
-        //}
-        //catch (NullUtilisateursException)
-        //{
-        //    return NotFound(ExceptionStrings.UserExistePas);
-        //}
-        //catch (UnauthorizedDeleteCommentaireException)
-        //{
-        //    return Unauthorized(ExceptionStrings.DeleteCommentaireInterdit);
-        //}
-        //catch (UnauthorizedModifyCommentaireException)
-        //{
-        //    return Unauthorized(ExceptionStrings.ModifyCommentaireInterdit);
-        //}
-        //catch (AlreadyDeletedException)
-        //{
-        //    return NotFound(ExceptionStrings.CommentaireDejaDelete);
-        //}
-        //catch (AlreadyExistsCommentaireExeption)
-        //{
-        //    return Unauthorized(ExceptionStrings.PublicationDejaComment);
-        //}
-        //catch (AlreadyLikedCommentaireException)
-        //{
-        //    return Unauthorized(ExceptionStrings.CommentaireDejaLike);
-        //}
-        //catch (AlreadyUnlikedCommentaireException)
-        //{
-        //    return Unauthorized(ExceptionStrings.CommentaireDejaUnlike);
-        //}
-        //catch (NoTraceFoundException)
-        //{
-        //    return Unauthorized(ExceptionStrings.RandonnePasFaite);
-        //}
-        //catch (RandonneeNotPublicException)
-        //{
-        //    return Unauthorized(ExceptionStrings.RandonnePrivee);
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        return StatusCode(500, e.Message);
-        //    }
-        //}
-
         [HttpGet("{id}")]
         public async Task<ActionResult<List<Commentaire>>> GetCommentaires(int id)
         {
@@ -177,9 +120,17 @@ namespace arsoudeServeur.Controllers
                 var commentaire = await _commentaireService.DeleteCommentaire(id, UtilisateurCourant);
                 return Ok(commentaire);
             }
-            catch (NullRandonneeException)
+            catch (NullCommentaireException)
             {
-                return NotFound(ExceptionStrings.RandonneeExistePas);
+                return NotFound(ExceptionStrings.CommentaireExistePas);
+            }
+            catch (AlreadyDeletedException)
+            {
+                return NotFound(ExceptionStrings.CommentaireDejaDelete);
+            }
+            catch (UnauthorizedDeleteCommentaireException)
+            {
+                return Unauthorized(ExceptionStrings.DeleteCommentaireInterdit);
             }
             catch (Exception e)
             {
@@ -195,6 +146,22 @@ namespace arsoudeServeur.Controllers
                 var peutCommenter = await _commentaireService.PeutCommenter(randonneeId, UtilisateurCourant);
                 return Ok(peutCommenter);
             }
+            catch (NullRandonneeException)
+            {
+                return NotFound(ExceptionStrings.RandonneeExistePas);
+            }
+            catch (NoTraceFoundException)
+            {
+                return NotFound(ExceptionStrings.RandonnePasFaite);
+            }
+            catch (AlreadyExistsCommentaireExeption)
+            {
+                return Unauthorized(ExceptionStrings.PublicationDejaComment);
+            }
+            catch (RandonneeNotPublicException)
+            {
+                return Unauthorized(ExceptionStrings.RandonnePrivee);
+            }
             catch (Exception e)
             {
                 return StatusCode(500, e.Message);
@@ -205,7 +172,16 @@ namespace arsoudeServeur.Controllers
         {
             try
             {
-                await _commentaireService.AjoutLikeCommentaire(commentaireId, UtilisateurCourant);
+               var likes = await _commentaireService.AjoutLikeCommentaire(commentaireId, UtilisateurCourant);
+                return Ok(likes);
+            }
+            catch (NullCommentaireException)
+            {
+                return NotFound(ExceptionStrings.CommentaireExistePas);
+            }
+            catch (AlreadyLikedCommentaireException)
+            {
+                return Unauthorized(ExceptionStrings.CommentaireDejaLike);
             }
             catch (Exception e)
             {
@@ -217,7 +193,16 @@ namespace arsoudeServeur.Controllers
         {
             try
             {
-                await _commentaireService.EnleveLikeCommentaire(commentaireId, UtilisateurCourant);
+               var likes = await _commentaireService.EnleveLikeCommentaire(commentaireId, UtilisateurCourant);
+                return Ok(likes);
+            }
+            catch (NullCommentaireException)
+            {
+                return NotFound(ExceptionStrings.CommentaireExistePas);
+            }
+            catch (AlreadyUnlikedCommentaireException)
+            {
+                return Unauthorized(ExceptionStrings.CommentaireDejaUnlike);
             }
             catch (Exception e)
             {
