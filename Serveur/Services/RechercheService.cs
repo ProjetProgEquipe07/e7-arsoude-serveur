@@ -168,7 +168,13 @@ namespace arsoudeServeur.Services
                     double? moyenne = 0;
                     if (count != 0)
                     {
+                       
+
                         moyenne = _context.commentaires.Where(s => s.randonneeId == randonnee.id).Average(s => s.note);
+                        if (moyenne == null)
+                        {
+                            moyenne = 0;
+                        }
                     }
                     else
                     {
@@ -228,6 +234,11 @@ namespace arsoudeServeur.Services
                 {
 
                     double? moyenne = _context.commentaires.Where(s => s.randonneeId == randonnee.id).Average(s => s.note);
+
+                    if(moyenne == null)
+                    {
+                        moyenne = 0;
+                    }
 
                     if (moyenne >= moyenneDemandé)
                     {

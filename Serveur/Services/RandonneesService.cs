@@ -209,8 +209,6 @@ namespace arsoudeServeur.Services
             }
             else
             {
-                listgps.Add(rando.GPS[0]);
-                listgps.Add(rando.GPS[1]);
 
                 gps = await _context.utilisateursTrace.Where(x => x.utilisateurId == rando.utilisateurId && x.randonneeId == rando.id).FirstOrDefaultAsync();
 
@@ -348,7 +346,6 @@ namespace arsoudeServeur.Services
             }
 
             List<GPS> newgps = new List<GPS>();
-
             foreach (GPS gps in traceRandoDTO.gps)
             {
                     if (!gps.arrivee && !gps.depart)
@@ -358,7 +355,12 @@ namespace arsoudeServeur.Services
                         newgps.Add(gps);
                         _context.gps.Add(gps);
                     }
-            }
+                    else if (randonneeContext.utilisateurId == traceRandoDTO.utilisateurId && (gps.arrivee || gps.depart))
+                    {
+                    GPS gpsSup = await _context.gps.Where(p => p.randonneeId == gps.randonneeId && (gps.arrivee || gps.depart)).FirstOrDefaultAsync();
+                    _context.gps.Remove(gpsSup);
+                    }
+            }   
 
             RandonneeUtilisateurTrace gpstemp; 
             if (traceRandoDTO.publicationid == 0 )
