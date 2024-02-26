@@ -11,6 +11,7 @@ namespace arsoudeServeur.Controllers
         public const string CommentaireExistePas = "CommentaireExistePas"; //not found
         public const string RandonneeExistePas = "RandonneeExistePas"; //not found
         public const string UserExistePas = "UserExistePas"; //not found
+        public const string CreateCommentaireInterdit = "CreateCommentaireInterdit"; //unauthorized
         public const string DeleteCommentaireInterdit = "DeleteCommentaireInterdit"; //unauthorized
         public const string ModifyCommentaireInterdit = "ModifyCommentaireInterdit"; //unauthorized
         public const string CommentaireDejaDelete = "CommentaireDejaDelete"; //not found
@@ -32,52 +33,105 @@ namespace arsoudeServeur.Controllers
             _commentaireService = commentaire;
         }
 
-        private async Task<ActionResult> TryCatch<T>(Func<Task<T>> func)
+        //private async Task<ActionResult> TryCatch<T>(Func<Task<T>> func)
+        //{
+        //try
+        //{
+        //    var result = await func();
+        //    return Ok(result);
+        //}
+        //catch (NullCommentaireException)
+        //{
+        //    return NotFound(ExceptionStrings.CommentaireExistePas);
+        //}
+        //catch (NullRandonneeException)
+        //{
+        //    return NotFound(ExceptionStrings.RandonneeExistePas);
+        //}
+        //catch (NullUtilisateursException)
+        //{
+        //    return NotFound(ExceptionStrings.UserExistePas);
+        //}
+        //catch (UnauthorizedDeleteCommentaireException)
+        //{
+        //    return Unauthorized(ExceptionStrings.DeleteCommentaireInterdit);
+        //}
+        //catch (UnauthorizedModifyCommentaireException)
+        //{
+        //    return Unauthorized(ExceptionStrings.ModifyCommentaireInterdit);
+        //}
+        //catch (AlreadyDeletedException)
+        //{
+        //    return NotFound(ExceptionStrings.CommentaireDejaDelete);
+        //}
+        //catch (AlreadyExistsCommentaireExeption)
+        //{
+        //    return Unauthorized(ExceptionStrings.PublicationDejaComment);
+        //}
+        //catch (AlreadyLikedCommentaireException)
+        //{
+        //    return Unauthorized(ExceptionStrings.CommentaireDejaLike);
+        //}
+        //catch (AlreadyUnlikedCommentaireException)
+        //{
+        //    return Unauthorized(ExceptionStrings.CommentaireDejaUnlike);
+        //}
+        //catch (NoTraceFoundException)
+        //{
+        //    return Unauthorized(ExceptionStrings.RandonnePasFaite);
+        //}
+        //catch (RandonneeNotPublicException)
+        //{
+        //    return Unauthorized(ExceptionStrings.RandonnePrivee);
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        return StatusCode(500, e.Message);
+        //    }
+        //}
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<List<Commentaire>>> GetCommentaires(int id)
         {
             try
             {
-                var result = await func();
-                return Ok(result);
-            }
-            catch (NullCommentaireException)
-            {
-                return NotFound(ExceptionStrings.CommentaireExistePas);
+                var commentaires = await _commentaireService.GetCommentaires(id);
+                return Ok(commentaires);
             }
             catch (NullRandonneeException)
             {
                 return NotFound(ExceptionStrings.RandonneeExistePas);
             }
-            catch (NullUtilisateursException)
+            catch (Exception e)
             {
-                return NotFound(ExceptionStrings.UserExistePas);
+                return StatusCode(500, e.Message);
             }
-            catch (UnauthorizedDeleteCommentaireException)
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> CreateCommentaire([FromBody] CommentaireDTO commentaireDTO)
+        {
+            try
             {
-                return Unauthorized(ExceptionStrings.DeleteCommentaireInterdit);
+                var commentaire = await _commentaireService.CreateCommentaire(commentaireDTO, UtilisateurCourant);
+                return Ok(commentaire);
             }
-            catch (UnauthorizedModifyCommentaireException)
+            catch (UnauthorizedCreateCommentaireException)
             {
-                return Unauthorized(ExceptionStrings.ModifyCommentaireInterdit);
+                return Unauthorized(ExceptionStrings.CreateCommentaireInterdit);
             }
-            catch (AlreadyDeletedException)
+            //Les exceptions dessous sont dans PeutCommenter
+            catch (NullRandonneeException)
             {
-                return NotFound(ExceptionStrings.CommentaireDejaDelete);
+                return NotFound(ExceptionStrings.RandonneeExistePas);
+            }
+            catch (NoTraceFoundException)
+            {
+                return NotFound(ExceptionStrings.RandonnePasFaite);
             }
             catch (AlreadyExistsCommentaireExeption)
             {
                 return Unauthorized(ExceptionStrings.PublicationDejaComment);
-            }
-            catch (AlreadyLikedCommentaireException)
-            {
-                return Unauthorized(ExceptionStrings.CommentaireDejaLike);
-            }
-            catch (AlreadyUnlikedCommentaireException)
-            {
-                return Unauthorized(ExceptionStrings.CommentaireDejaUnlike);
-            }
-            catch (NoTraceFoundException)
-            {
-                return Unauthorized(ExceptionStrings.RandonnePasFaite);
             }
             catch (RandonneeNotPublicException)
             {
@@ -89,72 +143,86 @@ namespace arsoudeServeur.Controllers
             }
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<List<Commentaire>>> GetCommentaires(int id)
-        {
-            return await TryCatch(async () =>
-            {
-                var commentaires = await _commentaireService.GetCommentaires(id);
-                return commentaires;
-            });
-        }
-
-        [HttpPost]
-        public async Task<ActionResult> CreateCommentaire([FromBody] CommentaireDTO commentaireDTO)
-        {
-            return await TryCatch(async () =>
-            {
-                var commentaire = await _commentaireService.CreateCommentaire(commentaireDTO, UtilisateurCourant);
-                return commentaire;
-            });
-        }
-
         [HttpPut("{id}")]
         public async Task<ActionResult> EditCommentaire(int id, [FromBody] CommentaireDTO commentaireDTO)
         {
-            return await TryCatch(async () =>
+            try
             {
                 var commentaire = await _commentaireService.PutCommentaire(id, commentaireDTO, UtilisateurCourant);
-                return commentaire;
-            });
+                return Ok(commentaire);
+            }
+            catch (NullRandonneeException)
+            {
+                return NotFound(ExceptionStrings.RandonneeExistePas);
+            }
+            catch (NullCommentaireException)
+            {
+                return NotFound(ExceptionStrings.CommentaireExistePas);
+            }
+            catch (UnauthorizedModifyCommentaireException)
+            {
+                return NotFound(ExceptionStrings.ModifyCommentaireInterdit);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
         }
 
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteCommentaire(int id)
         {
-            return await TryCatch(async () =>
+            try
             {
                 var commentaire = await _commentaireService.DeleteCommentaire(id, UtilisateurCourant);
-                return commentaire;
-            });
+                return Ok(commentaire);
+            }
+            catch (NullRandonneeException)
+            {
+                return NotFound(ExceptionStrings.RandonneeExistePas);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
         }
 
         [HttpGet("{randonneeId}")]
         public async Task<ActionResult> UtilisateurPeutCommenter(int randonneeId)
         {
-            return await TryCatch(async () =>
+            try
             {
                 var peutCommenter = await _commentaireService.PeutCommenter(randonneeId, UtilisateurCourant);
-                return peutCommenter;
-            });
+                return Ok(peutCommenter);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
         }
         [HttpGet("{commentaireId}")]
         public async Task<ActionResult> AjoutLikeCommentaire(int commentaireId)
         {
-            return await TryCatch(async () =>
+            try
             {
                 await _commentaireService.AjoutLikeCommentaire(commentaireId, UtilisateurCourant);
-                return "";
-            });
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
         }
         [HttpGet("{commentaireId}")]
         public async Task<ActionResult> EnleveLikeCommentaire(int commentaireId)
         {
-            return await TryCatch(async () =>
+            try
             {
                 await _commentaireService.EnleveLikeCommentaire(commentaireId, UtilisateurCourant);
-                return "";
-            });
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
         }
     }
 }
