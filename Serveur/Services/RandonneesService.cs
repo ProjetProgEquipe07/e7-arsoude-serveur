@@ -209,9 +209,6 @@ namespace arsoudeServeur.Services
             }
             else
             {
-                listgps.Add(rando.GPS[0]);
-                listgps.Add(rando.GPS[1]);
-
                 gps = await _context.utilisateursTrace.Where(x => x.utilisateurId == rando.utilisateurId && x.randonneeId == rando.id).FirstOrDefaultAsync();
 
                 foreach (GPS gps2 in gps.gpsListe) {
@@ -336,10 +333,10 @@ namespace arsoudeServeur.Services
             return true;
         }
 
-        public async Task<Randonnee> CreateRandonneeTraceAsync(TraceRandoDTO traceRandoDTO)
+        public async Task<Randonnee> CreateRandonneeTraceAsync(TraceRandoDTO traceRandoDTO, Utilisateur ut)
         {
             Randonnee randonneeContext = await _context.randonnees.FirstOrDefaultAsync(x => x.id == traceRandoDTO.randoId);
-            Utilisateur utilisateurContext = await _context.utilisateurs.FirstOrDefaultAsync(x => x.id == traceRandoDTO.utilisateurId);
+            Utilisateur utilisateurContext = await _context.utilisateurs.FirstOrDefaultAsync(x => x.id == ut.id);
 
             if(utilisateurContext == null)
             {
@@ -349,8 +346,22 @@ namespace arsoudeServeur.Services
 
             List<GPS> newgps = new List<GPS>();
 
-            foreach (GPS gps in traceRandoDTO.gps)
+            if (utilisateurContext.id == randonneeContext.utilisateurId)
             {
+                randonneeContext.GPS.Clear();
+
+                foreach (GPS gps in traceRandoDTO.gps)
+                {
+                    gps.randonnee = randonneeContext;
+                    gps.randonneeId = randonneeContext.id;
+                    newgps.Add(gps);
+                    _context.gps.Add(gps);
+                }
+            }
+            else 
+            {
+                foreach (GPS gps in traceRandoDTO.gps)
+                {
                     if (!gps.arrivee && !gps.depart)
                     {
                         gps.randonnee = randonneeContext;
@@ -358,7 +369,10 @@ namespace arsoudeServeur.Services
                         newgps.Add(gps);
                         _context.gps.Add(gps);
                     }
+                    
+                }
             }
+            
 
             RandonneeUtilisateurTrace gpstemp; 
             if (traceRandoDTO.publicationid == 0 )
