@@ -111,7 +111,7 @@ namespace arsoudeServeur.Controllers
         public async Task<IActionResult> CreateRandonneeTrace(TraceRandoDTO randonnee)
         {
             
-            var rando = await _randonneeService.CreateRandonneeTraceAsync(randonnee);
+            var rando = await _randonneeService.CreateRandonneeTraceAsync(randonnee, UtilisateurCourant);
 
             if (rando == null)
             {
