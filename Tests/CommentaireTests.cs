@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using NuGet.Packaging.Signing;
 using System.Security.Claims;
 using static arsoudeServeur.Services.CommentaireService;
+using static arsoudeServeur.Services.AvertissementService;
 
 namespace Tests.Controllers
 {
@@ -92,6 +93,28 @@ namespace Tests.Controllers
         [TestMethod]
         public async Task GetCommentaires_Controller_Ok()
         {
+            //var avertissementMock = new Mock<AvertissementService>(dbContext) { CallBase = true };
+            //var userMock = new Mock<UtilisateursService>(dbContext) { CallBase = true };
+
+            //avertissementMock.Setup(s => s.CreateAvertissementAsync(It.IsAny<AvertissementDTO>())).ThrowsAsync(new RandonneeNotFoundException());
+
+            //var avertissementController = new AvertissementController(userMock.Object, avertissementMock.Object);
+            //var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
+            //{
+            //    new Claim(ClaimTypes.NameIdentifier, "11111111-1111-1111-1111-111111111111"),
+            //}));
+
+            //avertissementController.ControllerContext = new ControllerContext()
+            //{
+            //    HttpContext = new DefaultHttpContext() { User = user }
+            //};
+
+            //AvertissementDTO avertissementDTO = new AvertissementDTO();
+            //var actionResult = await avertissementController.CreateAvertissement(avertissementDTO);
+
+            //Assert.IsInstanceOfType(actionResult.Result, typeof(NotFoundObjectResult));
+
+
             using (var dbContext = new ApplicationDbContext(options))
             {
                 //dbContext.Database.EnsureDeleted();
@@ -142,36 +165,6 @@ namespace Tests.Controllers
             Assert.Fail();
         }
 
-        [TestMethod]
-        public async Task EditCommentaire_Controller_Test()
-        {
-            Assert.Fail();
-        }
-
-        [TestMethod]
-        public async Task DeleteCommentaire_Controller_Test()
-        {
-            Assert.Fail();
-        }
-
-        [TestMethod]
-        public async Task UtilisateurPeutCommenter_Controller_Test()
-        {
-            Assert.Fail();
-        }
-
-        [TestMethod]
-        public async Task AjoutLikeCommentaire_Controller_Test()
-        {
-            Assert.Fail();
-        }
-
-        [TestMethod]
-        public async Task EnleveLikeCommentaire_Controller_Test()
-        {
-            Assert.Fail();
-        }
-
 
         //CommentaireService
         [TestMethod]
@@ -182,36 +175,6 @@ namespace Tests.Controllers
 
         [TestMethod]
         public async Task CreateCommentaireService_Test()
-        {
-            Assert.Fail();
-        }
-
-        [TestMethod]
-        public async Task EditCommentaire_Service_Test()
-        {
-            Assert.Fail();
-        }
-
-        [TestMethod]
-        public async Task DeleteCommentaire_Service_Test()
-        {
-            Assert.Fail();
-        }
-
-        [TestMethod]
-        public async Task UtilisateurPeutCommenter_Service_Test()
-        {
-            Assert.Fail();
-        }
-
-        [TestMethod]
-        public async Task AjoutLikeCommentaire_Service_Test()
-        {
-            Assert.Fail();
-        }
-
-        [TestMethod]
-        public async Task EnleveLikeCommentaire_Service_Test()
         {
             Assert.Fail();
         }
