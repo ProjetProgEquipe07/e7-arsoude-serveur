@@ -45,10 +45,6 @@ namespace arsoudeServeur.Controllers
             {
                 return NotFound(ExceptionStrings.RandonneeExistePas);
             }
-            catch (Exception e)
-            {
-                return StatusCode(500, e.Message);
-            }
         }
 
         [HttpPost]
@@ -80,10 +76,6 @@ namespace arsoudeServeur.Controllers
             {
                 return Unauthorized(ExceptionStrings.RandonnePrivee);
             }
-            catch (Exception e)
-            {
-                return StatusCode(500, e.Message);
-            }
         }
 
         [HttpPut("{id}")]
@@ -106,10 +98,7 @@ namespace arsoudeServeur.Controllers
             {
                 return NotFound(ExceptionStrings.ModifyCommentaireInterdit);
             }
-            catch (Exception e)
-            {
-                return StatusCode(500, e.Message);
-            }
+
         }
 
         [HttpDelete("{id}")]

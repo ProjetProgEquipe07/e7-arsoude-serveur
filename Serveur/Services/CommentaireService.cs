@@ -80,7 +80,7 @@ namespace arsoudeServeur.Services
             _context = context;
         }
 
-        public async Task<List<Commentaire>> GetCommentaires(int randonneId)
+        virtual public async Task<List<Commentaire>> GetCommentaires(int randonneId)
         {
             Randonnee? randonnee = await _context.randonnees.SingleOrDefaultAsync(r => r.id == randonneId);
             if (randonnee == null)
@@ -93,7 +93,7 @@ namespace arsoudeServeur.Services
             return list;
         }
 
-        public async Task<Commentaire> CreateCommentaire(CommentaireDTO commentaire, Utilisateur utilisateurCourant)
+        virtual public async Task<Commentaire> CreateCommentaire(CommentaireDTO commentaire, Utilisateur utilisateurCourant)
         {
             Randonnee? rando = await _context.randonnees.SingleOrDefaultAsync(r => r.id == commentaire.randonneeId);
             if (rando == null)
@@ -133,7 +133,7 @@ namespace arsoudeServeur.Services
             }
         }
 
-        public async Task<Commentaire> PutCommentaire(int id, CommentaireDTO commentaireDTO, Utilisateur utilisateurCourant)
+        virtual public async Task<Commentaire> PutCommentaire(int id, CommentaireDTO commentaireDTO, Utilisateur utilisateurCourant)
         {
             Randonnee? rando = await _context.randonnees.SingleOrDefaultAsync(r => r.id == commentaireDTO.randonneeId);
             if (rando == null)
@@ -163,7 +163,7 @@ namespace arsoudeServeur.Services
 
         }
 
-        public async Task<Commentaire> DeleteCommentaire(int commentaireId, Utilisateur utilisateurCourant)
+        virtual public async Task<Commentaire> DeleteCommentaire(int commentaireId, Utilisateur utilisateurCourant)
         {
             Commentaire? commentaire = await _context.commentaires.SingleOrDefaultAsync(c => c.id == commentaireId);
             if (commentaire == null)
@@ -199,7 +199,7 @@ namespace arsoudeServeur.Services
             return commentaire;
         }
 
-        public async Task<bool> PeutCommenter(int randoId, Utilisateur utilisateurCourant)
+        virtual public async Task<bool> PeutCommenter(int randoId, Utilisateur utilisateurCourant)
         {
             Randonnee? rando = await _context.randonnees.SingleOrDefaultAsync(r => r.id == randoId);
             if (rando == null)
@@ -232,7 +232,8 @@ namespace arsoudeServeur.Services
                 throw new RandonneeNotPublicException();
             }
         }
-        public async Task<List<CommentaireUtilisateur>> AjoutLikeCommentaire(int id, Utilisateur utilisateurCourant)
+
+        virtual public async Task<List<CommentaireUtilisateur>> AjoutLikeCommentaire(int id, Utilisateur utilisateurCourant)
         {
             Commentaire? commentaire = await _context.commentaires.SingleOrDefaultAsync(c => c.id == id);
             if (commentaire == null)
@@ -262,7 +263,8 @@ namespace arsoudeServeur.Services
             }
 
         }
-        public async Task<List<CommentaireUtilisateur>> EnleveLikeCommentaire(int id, Utilisateur utilisateurCourant)
+
+        virtual public async Task<List<CommentaireUtilisateur>> EnleveLikeCommentaire(int id, Utilisateur utilisateurCourant)
         {
             var commentaire = await _context.commentaires.SingleOrDefaultAsync(c => c.id == id);
             if (commentaire == null)
