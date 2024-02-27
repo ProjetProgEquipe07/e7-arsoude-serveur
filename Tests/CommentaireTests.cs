@@ -1,4 +1,4 @@
-﻿using arsoudServeur.Data;
+using arsoudServeur.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Moq;
@@ -8,6 +8,8 @@ using NuGet.Packaging.Signing;
 using System.Security.Claims;
 using static arsoudeServeur.Services.CommentaireService;
 using static arsoudeServeur.Services.AvertissementService;
+using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Authentication;
 
 namespace Tests.Controllers
 {
@@ -82,53 +84,42 @@ namespace Tests.Controllers
                 .Options;
         }
 
-        private static Mock<UtilisateursService> UserMock(ApplicationDbContext dbContext)
+        private static CommentaireController CommentaireController(ApplicationDbContext dbContext, Mock<CommentaireService> commentaireServiceMock, string userId = "11111111-1111-1111-1111-111111111111")
         {
-            var userMock = new Mock<UtilisateursService>(dbContext) { CallBase = true };
+            //Mock utilisateurs service
+            Mock<UtilisateursService>? userMock = new Mock<UtilisateursService>(dbContext) { CallBase = true };
             userMock.Setup(service => service.GetUtilisateurFromUserId(It.IsAny<string>()))
-                    .Returns(new Utilisateur { identityUserId = "11111111-1111-1111-1111-111111111111", codePostal = "J8K 9L9" });
-            return userMock;
+                    .Returns(new Utilisateur { identityUserId = userId });
+
+            //Connecter user
+            ClaimsPrincipal? user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
+            {
+                    new Claim(ClaimTypes.NameIdentifier, userId),
+            }));
+
+            //Créer le controller
+            CommentaireController? controller = new CommentaireController(commentaireServiceMock.Object, userMock.Object);
+            //Ajoute user à la requête
+            controller.ControllerContext = new ControllerContext()
+            {
+                HttpContext = new DefaultHttpContext() { User = user }
+            };
+            return controller;
         }
 
         [TestMethod]
         public async Task GetCommentaires_Controller_Ok()
         {
-            //var avertissementMock = new Mock<AvertissementService>(dbContext) { CallBase = true };
-            //var userMock = new Mock<UtilisateursService>(dbContext) { CallBase = true };
-
-            //avertissementMock.Setup(s => s.CreateAvertissementAsync(It.IsAny<AvertissementDTO>())).ThrowsAsync(new RandonneeNotFoundException());
-
-            //var avertissementController = new AvertissementController(userMock.Object, avertissementMock.Object);
-            //var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
-            //{
-            //    new Claim(ClaimTypes.NameIdentifier, "11111111-1111-1111-1111-111111111111"),
-            //}));
-
-            //avertissementController.ControllerContext = new ControllerContext()
-            //{
-            //    HttpContext = new DefaultHttpContext() { User = user }
-            //};
-
-            //AvertissementDTO avertissementDTO = new AvertissementDTO();
-            //var actionResult = await avertissementController.CreateAvertissement(avertissementDTO);
-
-            //Assert.IsInstanceOfType(actionResult.Result, typeof(NotFoundObjectResult));
-
-
             using (var dbContext = new ApplicationDbContext(options))
             {
-                //dbContext.Database.EnsureDeleted();
+                dbContext.Database.EnsureDeleted();
 
-                Mock<UtilisateursService> userMock = UserMock(dbContext);
-
-                var commentaireServiceMock = new Mock<CommentaireService>(dbContext) { CallBase = true };
+                Mock<CommentaireService>? commentaireServiceMock = new Mock<CommentaireService>(dbContext) { CallBase = true };
                 commentaireServiceMock.Setup(service => service.GetCommentaires(It.IsAny<int>()))
                                       .ReturnsAsync(new List<Commentaire>());
 
-                var controller = new CommentaireController(commentaireServiceMock.Object, userMock.Object);
-
                 // Act
-                var result = await controller.GetCommentaires(1);
+                var result = await CommentaireController(dbContext, commentaireServiceMock).GetCommentaires(0);
 
                 // Assert
                 Assert.IsInstanceOfType(result.Result, typeof(OkObjectResult));
@@ -136,26 +127,36 @@ namespace Tests.Controllers
         }
 
         [TestMethod]
-        [ExpectedException(typeof(NullRandonneeException))]
         public async Task GetCommentaires_Controller_NullRandonnee_NotFound()
         {
             using (var dbContext = new ApplicationDbContext(options))
             {
-                //dbContext.Database.EnsureDeleted();
+                dbContext.Database.EnsureDeleted();
 
-                Mock<UtilisateursService> userMock = UserMock(dbContext);
-
-                var commentaireServiceMock = new Mock<CommentaireService>(dbContext) { CallBase = true };
+                Mock<CommentaireService>? commentaireServiceMock = new Mock<CommentaireService>(dbContext) { CallBase = true };
                 commentaireServiceMock.Setup(service => service.GetCommentaires(It.IsAny<int>()))
                                       .ReturnsAsync(new List<Commentaire>());
 
-                var controller = new CommentaireController(commentaireServiceMock.Object, userMock.Object);
-
                 // Act
-                var result = await controller.GetCommentaires(1);
+                var result = await CommentaireController(dbContext, commentaireServiceMock).GetCommentaires(0);
 
                 // Assert
-                Assert.IsInstanceOfType(result.Result, typeof(OkObjectResult));
+                Assert.IsInstanceOfType(result.Result, typeof(NotFoundObjectResult), "Expected NotFoundObjectResult");
+
+                var notFoundResult = (NotFoundObjectResult)result.Result!;
+                var errorMessage = (string)notFoundResult.Value!;
+                Assert.AreEqual(ExceptionStrings.RandonneeExistePas, result.Result, "Error message is not as expected");
+
+
+
+                //var notFoundResult = Assert.IsInstanceOfType(result.Result, typeof(NotFoundObjectResult));
+                //var errorMessage = (string)((NotFoundObjectResult)notFoundResult).Value;
+                //Assert.AreEqual(ExceptionStrings.RandonneeExistePas, errorMessage);
+
+                //// Assert
+                //var notFoundResult = ;
+                //var errorMessage = (string)(Assert.IsInstanceOfType(result.Result, typeof(NotFoundObjectResult)).Value;
+                //Assert.AreEqual(ExceptionStrings.RandonneeExistePas, errorMessage);
             }
         }
 

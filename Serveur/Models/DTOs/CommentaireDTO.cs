@@ -6,7 +6,7 @@ namespace arsoudeServeur.Models.DTOs
     {
         public int randonneeId { get; set; }
         [MaxLength(255, ErrorMessage = "La longueur maximale est de 255 caractères.")]
-        public string message { get; set; }
+        public string? message { get; set; }
         [Range(0, 5)]
         public int note { get; set; }
     }
