@@ -4,12 +4,43 @@ using arsoudServeur.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
+
 namespace arsoudeServeur.Services
 {
     public class RandonneesService
     {
         private readonly ApplicationDbContext _context;
         private readonly AvertissementService _avertissementService;
+
+        public class RandonneeNotFoundException : Exception
+        {
+
+        }
+        public class UtilisateurNotFoundException : Exception
+        {
+
+        }
+        public class GPSRequiredException : Exception
+        {
+
+        }
+        public class NomOutOfBoundsException : Exception
+        {
+
+        }
+        public class DescriptionOutOfBoundsException : Exception
+        {
+
+        }
+        public class TypeRandonneeOutOfBoundsException : Exception
+        {
+
+        }
+        public class AvertissementNotFoundException : Exception
+        {
+
+        }
+
 
         public RandonneesService(ApplicationDbContext context)
         {
@@ -22,7 +53,7 @@ namespace arsoudeServeur.Services
             _avertissementService = avertissementService;
         }
 
-        public async Task<List<RandonneeListeAdminDTO>> GetAllRandonneesAsync()
+        public virtual async Task<List<RandonneeListeAdminDTO>> GetAllRandonneesAsync()
         {
             List<RandonneeListeAdminDTO> randonneesEnvoye = new List<RandonneeListeAdminDTO>();
             List<Randonnee> randonnees = await _context.randonnees.ToListAsync();
@@ -47,14 +78,18 @@ namespace arsoudeServeur.Services
         }
 
         //Méthode pour les randonnées à faire (publique, et privée mais uniquement de l'utilisateur courant)
-        public async Task<List<RandonneeListDTO>> GetRandonneesAFaireAsync(int listSize, Utilisateur utilisateurCourant)
+        public virtual async Task<List<RandonneeListDTO>> GetRandonneesAFaireAsync(int listSize, Utilisateur utilisateurCourant)
         {
             List<RandonneeListDTO> randonneesEnvoye = new List<RandonneeListDTO>();
             List<Randonnee> randonnees = await _context.randonnees.Where(
                 s => s.etatRandonnee == Randonnee.Etat.Publique || //Publique
                 (s.etatRandonnee == Randonnee.Etat.Privée && s.utilisateurId == utilisateurCourant.id) //Privée et uniquement à l'utilisateur courant
                 ).Take(listSize).ToListAsync();
-
+            if (randonnees == null)
+            {
+                //rando inexistante
+                throw new RandonneeNotFoundException();
+            }
             foreach (Randonnee rando in randonnees)
             {
                 RandonneeListDTO r = new RandonneeListDTO()
@@ -70,7 +105,7 @@ namespace arsoudeServeur.Services
 
                 if (utilisateurCourant != null)
                 {
-                    RandonneeUtilisateur favorisUtilisateurCheck = utilisateurCourant.favoris.FirstOrDefault(randonnee => randonnee.randonneeId == rando.id);
+                    RandonneeUtilisateur favorisUtilisateurCheck = utilisateurCourant.favoris.SingleOrDefault(randonnee => randonnee.randonneeId == rando.id);
 
                     if (utilisateurCourant.favoris.Contains(favorisUtilisateurCheck))
                     {
@@ -83,12 +118,17 @@ namespace arsoudeServeur.Services
 
             return randonneesEnvoye;
         }
-        public async Task<List<RandonneeListDTO>> GetRandonneesAFaireAsync(int listSize)
+        public virtual async Task<List<RandonneeListDTO>> GetRandonneesAFaireNoAuthAsync(int listSize)
         {
             List<RandonneeListDTO> randonneesEnvoye = new List<RandonneeListDTO>();
             List<Randonnee> randonnees = await _context.randonnees.Where(
-                s => s.etatRandonnee == Randonnee.Etat.Privée).Take(listSize).ToListAsync();
+                s => s.etatRandonnee == Randonnee.Etat.Publique).Take(listSize).ToListAsync();
 
+            if (randonnees == null)
+            {
+                //rando inexistante
+                throw new RandonneeNotFoundException();
+            }
             foreach (Randonnee rando in randonnees)
             {
                 RandonneeListDTO r = new RandonneeListDTO()
@@ -176,17 +216,22 @@ namespace arsoudeServeur.Services
             return randonneesEnvoye;
         }
 
-        public async Task<RandonneeDetailDTO> GetRandonneeByIdAsync(int id, Utilisateur utilisateurCourant)
+        public virtual async Task<RandonneeDetailDTO> GetRandonneeByIdAsync(int id, Utilisateur utilisateurCourant)
         {
             Randonnee rando = await _context.randonnees.FindAsync(id);
-
             if (rando == null)
             {
-                return null;
+                //rando inexistante
+                throw new RandonneeNotFoundException();
             }
 
             List<Avertissement> avertissements = new List<Avertissement>();
             avertissements = await _context.avertissements.Where(x => x.randonneeId == rando.id).ToListAsync();
+
+            if (avertissements == null)
+            {
+                throw new AvertissementNotFoundException();
+            }
 
             if (avertissements.Count > 0)
             {
@@ -203,14 +248,18 @@ namespace arsoudeServeur.Services
             RandonneeUtilisateurTrace gps = new RandonneeUtilisateurTrace();
             List<GPS> listgps = new List<GPS>();
 
-            if (rando.GPS.Count == 2)
+            if (rando.GPS.Count < 2)
+            {
+                throw new GPSRequiredException();
+            }
+            else if (rando.GPS.Count == 2)
             {
                 gps.gpsListe = rando.GPS;
             }
             else
             {
 
-                gps = await _context.utilisateursTrace.Where(x => x.utilisateurId == rando.utilisateurId && x.randonneeId == rando.id).FirstOrDefaultAsync();
+                gps = await _context.utilisateursTrace.Where(x => x.utilisateurId == rando.utilisateurId && x.randonneeId == rando.id).SingleOrDefaultAsync();
 
                 foreach (GPS gps2 in gps.gpsListe) {
                     listgps.Add(gps2);
@@ -236,7 +285,7 @@ namespace arsoudeServeur.Services
 
             if (utilisateurCourant != null)
             {
-                RandonneeUtilisateur favorisUtilisateurCheck = utilisateurCourant.favoris.FirstOrDefault(randonnee => randonnee.randonneeId == rando.id);
+                RandonneeUtilisateur favorisUtilisateurCheck = utilisateurCourant.favoris.SingleOrDefault(randonnee => randonnee.randonneeId == rando.id);
 
                 if (utilisateurCourant.favoris.Contains(favorisUtilisateurCheck))
                 {
@@ -247,7 +296,7 @@ namespace arsoudeServeur.Services
             return r;
         }
 
-        public async Task<Randonnee> CreateRandonneeAsync(RandonneeDTO randonneeDTO, Utilisateur user)
+        public virtual async Task<Randonnee> CreateRandonneeAsync(RandonneeDTO randonneeDTO, Utilisateur user)
         {
             // Trouver le currentUser et l'associer à la randonnée 
             Randonnee randonnee = new Randonnee
@@ -258,8 +307,28 @@ namespace arsoudeServeur.Services
                 typeRandonnee = (Randonnee.Type)randonneeDTO.typeRandonnee,
                 GPS = randonneeDTO.gps,
                 utilisateur = user
-
             };
+            if(user == null)
+            {
+                throw new UtilisateurNotFoundException();
+            }
+            if (randonneeDTO.nom.Length > 25 || randonneeDTO.nom.Length < 2)
+            {
+                throw new NomOutOfBoundsException();
+            }
+            if (randonneeDTO.description.Length > 255 || randonneeDTO.description.Length < 10)
+            {
+                throw new DescriptionOutOfBoundsException();
+            }
+            if (randonneeDTO.typeRandonnee < 0 || randonneeDTO.typeRandonnee > 2)
+            {
+                throw new TypeRandonneeOutOfBoundsException();
+            }
+            if (randonneeDTO.gps.Count < 2)
+            {
+                throw new GPSRequiredException();
+            }
+
             _context.randonnees.Add(randonnee);
             await _context.SaveChangesAsync();
             return randonnee;
@@ -280,7 +349,7 @@ namespace arsoudeServeur.Services
                 return null;
             }
 
-            RandonneeUtilisateur favorisUtilisateurCheck = utilisateurCourant.favoris.FirstOrDefault(rando => rando.randonneeId == randonneeId);
+            RandonneeUtilisateur favorisUtilisateurCheck = utilisateurCourant.favoris.SingleOrDefault(rando => rando.randonneeId == randonneeId);
 
             if (favorisUtilisateurCheck != null)
             {
