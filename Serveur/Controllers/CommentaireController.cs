@@ -79,7 +79,8 @@ namespace arsoudeServeur.Controllers
         {
             return await TryCatch(async () =>
             {
-                var commentaires = await _commentaireService.GetCommentaires(id);
+                var languageHeader = HttpContext.Request.Headers["Accept-Language"].ToString();
+                var commentaires = await _commentaireService.GetCommentaires(id, languageHeader);
                 return commentaires;
             });
         }

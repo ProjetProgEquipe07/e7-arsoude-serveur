@@ -12,7 +12,7 @@ namespace arsoudeServeur.Models
         //TODO?: mettre une propriété pour la date de suppression
         //TODO?: mettre une propriété pour le nom complet de la personne prénom + " " + nom 
 
-        public string message { get; set; } = "";
+        public string? message { get; set; } = "";
 
         public int? note { get; set; }
 

@@ -6,7 +6,7 @@ namespace arsoudeServeur.Models
     {
         public int id { get; set; }
 
-        public string description { get; set; }
+        public string? description { get; set; }
 
         public TypeAvertissement typeAvertissement { get; set; }
 

@@ -24,8 +24,9 @@ namespace arsoudeServeur.Controllers
         public async Task<ActionResult<IEnumerable<PublicationDTOSend>>> GetPublications()
         {
             Utilisateur user = UtilisateurCourant;
+            var languageHeader = HttpContext.Request.Headers["Accept-Language"].ToString();
 
-            var list = await _PublicationService.GetPublications(user);
+            var list = await _PublicationService.GetPublications(user, languageHeader);
             return list;
         }
 
@@ -50,8 +51,9 @@ namespace arsoudeServeur.Controllers
         [HttpGet("{UtilisateurId}")]
         public async Task<ActionResult<IEnumerable<PublicationDTOSend>>> GetUserPublications(int utilisateurId)
         {
-          
-            var list = await _PublicationService.GetPublicationsUser(utilisateurId, UtilisateurCourant);
+            var languageHeader = HttpContext.Request.Headers["Accept-Language"].ToString();
+
+            var list = await _PublicationService.GetPublicationsUser(utilisateurId, UtilisateurCourant, languageHeader);
             return Ok(list);
         }
     }

@@ -41,6 +41,8 @@ namespace arsoudeServeur.Areas.Admin.Controllers
                     {
                         var rando = await _context.randonnees.FindAsync(randonneeId);
                         rando.etatRandonnee = Randonnee.Etat.Publique;
+                        var randoAnglais = await _context.randonneeAnglais.Where(r => r.randonnee.id == randonneeId).FirstOrDefaultAsync();
+                        randoAnglais.etatRandonnee = Randonnee.Etat.Publique;
                         await _context.SaveChangesAsync();
                         return Ok(rando);
                     }
@@ -103,6 +105,8 @@ namespace arsoudeServeur.Areas.Admin.Controllers
                     try
                     {
                         var rando = await _context.randonnees.FindAsync(randonneeId);
+                        var randoAnglais = await _context.randonneeAnglais.Where(r => r.randonnee.id == randonneeId).FirstOrDefaultAsync();
+                        randoAnglais.etatRandonnee = Randonnee.Etat.Refusée;
                         rando.etatRandonnee = Randonnee.Etat.Refusée;
                         await _context.SaveChangesAsync();
                     }
@@ -134,7 +138,9 @@ namespace arsoudeServeur.Areas.Admin.Controllers
                 {
                     var rando = await _context.randonnees.FindAsync(randonneeId);
                     rando.etatRandonnee = Randonnee.Etat.Privée;
-                    await _context.SaveChangesAsync();
+                    var randoAnglais = await _context.randonneeAnglais.Where(r => r.randonnee.id == randonneeId).FirstOrDefaultAsync();
+                    randoAnglais.etatRandonnee = Randonnee.Etat.Privée;
+                        await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {

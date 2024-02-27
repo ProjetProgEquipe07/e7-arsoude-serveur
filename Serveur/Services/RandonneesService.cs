@@ -49,13 +49,37 @@ namespace arsoudeServeur.Services
         }
 
         //Méthode pour les randonnées à faire (publique, et privée mais uniquement de l'utilisateur courant)
-        public async Task<List<RandonneeListDTO>> GetRandonneesAFaireAsync(int listSize, Utilisateur utilisateurCourant)
+        public async Task<List<RandonneeListDTO>> GetRandonneesAFaireAsync(int listSize, Utilisateur utilisateurCourant, string language)
         {
             List<RandonneeListDTO> randonneesEnvoye = new List<RandonneeListDTO>();
-            List<Randonnee> randonnees = await _context.randonnees.Where(
-                s => s.etatRandonnee == Randonnee.Etat.Publique || //Publique
-                (s.etatRandonnee == Randonnee.Etat.Privée && s.utilisateurId == utilisateurCourant.id) //Privée et uniquement à l'utilisateur courant
-                ).Take(listSize).ToListAsync();
+
+            List<Randonnee> randonnees = new List<Randonnee>();
+
+            if (language == "fr")
+            {
+                randonnees = await _context.randonnees.Where(
+                                s => s.etatRandonnee == Randonnee.Etat.Publique || //Publique
+                                (s.etatRandonnee == Randonnee.Etat.Privée && s.utilisateurId == utilisateurCourant.id) //Privée et uniquement à l'utilisateur courant
+                                ).Take(listSize).ToListAsync();
+            }
+            else
+            {
+                randonnees = await _context.randonneeAnglais.Where(s => s.etatRandonnee == Randonnee.Etat.Publique || //Publique
+                                (s.etatRandonnee == Randonnee.Etat.Privée && s.utilisateurId == utilisateurCourant.id)).Select(p => new Randonnee
+                {
+                    id = p.randonneeId,
+                    nom = p.nom,
+                    description = p.description,
+                    emplacement = p.emplacement,
+                    typeRandonnee = p.typeRandonnee,
+                    GPS = p.GPS,
+                    utilisateur = p.utilisateur,
+                    utilisateurId = p.utilisateurId
+                }).Take(listSize).ToListAsync();
+
+            }
+              
+            
 
             foreach (Randonnee rando in randonnees)
             {
@@ -86,11 +110,32 @@ namespace arsoudeServeur.Services
             return randonneesEnvoye;
         }
 
-        public async Task<List<RandonneeListDTO>> GetRandonneesAFaireAsync(int listSize)
+        public async Task<List<RandonneeListDTO>> GetRandonneesAFaireAsync(int listSize, string language)
         {
             List<RandonneeListDTO> randonneesEnvoye = new List<RandonneeListDTO>();
-            List<Randonnee> randonnees = await _context.randonnees.Where(
-                s => s.etatRandonnee == Randonnee.Etat.Privée).Take(listSize).ToListAsync();
+            List<Randonnee> randonnees = new List<Randonnee>();
+            
+            if(language == "fr")
+            {
+                randonnees = await _context.randonnees.Where(
+                s => s.etatRandonnee == Randonnee.Etat.Publique).Take(listSize).ToListAsync();
+            }
+            else
+            {
+                randonnees = await _context.randonneeAnglais.Where(s => s.etatRandonnee == Randonnee.Etat.Publique).Select(p => new Randonnee
+                {
+                    id = p.randonneeId,
+                    nom = p.nom,
+                    description = p.description,
+                    emplacement = p.emplacement,
+                    typeRandonnee = p.typeRandonnee,
+                    GPS = p.GPS,
+                    utilisateur = p.utilisateur,
+                    utilisateurId = p.utilisateurId
+                }).Take(listSize).ToListAsync();
+            }
+            
+            
 
             foreach (Randonnee rando in randonnees)
             {
@@ -112,79 +157,29 @@ namespace arsoudeServeur.Services
 
             return randonneesEnvoye;
         }
-
-        public async Task<List<RandonneeListDTO>> GetRandonneesAFaireAnglaisAsync(int listSize, Utilisateur utilisateurCourant)
-        {
-            List<RandonneeListDTO> randonneesEnvoye = new List<RandonneeListDTO>();
-            List<RandonneeAnglais> randonnees = await _context.randonneeAnglais.Where(
-                 s => s.etatRandonnee == Randonnee.Etat.Privée).Take(listSize).ToListAsync();// && s.etatRandonnee == Randonnee.Etat.Publique//Publique
-                //(s.etatRandonnee == Randonnee.Etat.Privée && s.utilisateurId == utilisateurCourant.id) //Privée et uniquement à l'utilisateur courant
-
-            foreach (RandonneeAnglais rando in randonnees)
-            {
-                RandonneeListDTO r = new RandonneeListDTO()
-                {
-                    id = rando.id,
-                    nom = rando.nom,
-                    description = rando.description,
-                    emplacement = rando.emplacement,
-                    typeRandonnee = (int)rando.typeRandonnee,
-                    gps = rando.GPS,
-                    favoris = false
-                };
-
-                if (utilisateurCourant != null)
-                {
-                    RandonneeUtilisateur favorisUtilisateurCheck = utilisateurCourant.favoris.FirstOrDefault(randonnee => randonnee.randonneeId == rando.id);
-
-                    if (utilisateurCourant.favoris.Contains(favorisUtilisateurCheck))
-                    {
-                        r.favoris = true;
-                    }
-                }
-
-                randonneesEnvoye.Add(r);
-            }
-
-            return randonneesEnvoye;
-        }
-
-        public async Task<List<RandonneeListDTO>> GetRandonneesAFaireAnglaisAsync(int listSize)
-        {
-            List<RandonneeListDTO> randonneesEnvoye = new List<RandonneeListDTO>();
-            List<RandonneeAnglais> randonnees = await _context.randonneeAnglais.Where(
-                s => s.etatRandonnee == Randonnee.Etat.Privée).Take(listSize).ToListAsync();
-
-            foreach (RandonneeAnglais rando in randonnees)
-            {
-                RandonneeListDTO r = new RandonneeListDTO()
-                {
-                    id = rando.id,
-                    nom = rando.nom,
-                    description = rando.description,
-                    emplacement = rando.emplacement,
-                    typeRandonnee = (int)rando.typeRandonnee,
-                    gps = rando.GPS,
-                    favoris = false
-                };
-
-
-
-                randonneesEnvoye.Add(r);
-            }
-
-            return randonneesEnvoye;
-        }
-
-
         
-        public async Task<List<RandonneeListDTO>> GetRandonneesFavorisAsync(int listSize, Utilisateur utilisateurCourant)
+        public async Task<List<RandonneeListDTO>> GetRandonneesFavorisAsync(int listSize, Utilisateur utilisateurCourant, string language)
         {
             List<RandonneeListDTO> randonneesEnvoye = new List<RandonneeListDTO>();
 
             if (utilisateurCourant != null)
             {
                 List<Randonnee> randonnees = utilisateurCourant.favoris.Select(s => s.randonnee).Take(listSize).ToList();
+
+                if(language == "en")
+                {
+                    randonnees = utilisateurCourant.favoris.Select(s => s.randonnee).Select(p => new Randonnee
+                    {
+                        id = p.id,
+                        nom = _context.randonneeAnglais.Where(p => p.randonneeId == p.id).Select(p => p.nom).FirstOrDefault(),
+                        description = _context.randonneeAnglais.Where(p => p.randonneeId == p.id).Select(p => p.description).FirstOrDefault(),
+                        emplacement = _context.randonneeAnglais.Where(p => p.randonneeId == p.id).Select(p => p.emplacement).FirstOrDefault(),
+                        typeRandonnee = p.typeRandonnee,
+                        GPS = p.GPS,
+                        utilisateur = p.utilisateur,
+                        utilisateurId = p.utilisateurId
+                    }).Take(listSize).ToList();
+                }
 
                 foreach (Randonnee rando in randonnees)
                 {
@@ -245,9 +240,27 @@ namespace arsoudeServeur.Services
             return randonneesEnvoye;
         }
 
-        public async Task<RandonneeDetailDTO> GetRandonneeByIdAsync(int id, Utilisateur utilisateurCourant)
+        public async Task<RandonneeDetailDTO> GetRandonneeByIdAsync(int id, Utilisateur utilisateurCourant, string acceptLanguage)
         {
-            Randonnee rando = await _context.randonnees.FindAsync(id);
+            Randonnee rando = new Randonnee();
+           
+                rando = await _context.randonnees.FindAsync(id);     
+            if (acceptLanguage == "en")
+            {
+                rando = await _context.randonneeAnglais.Where(p => p.randonneeId == id).Select(p => new Randonnee
+                {
+                    id = p.randonneeId,
+                    nom = p.nom,
+                    description = p.description,
+                    emplacement = p.emplacement,
+                    typeRandonnee = p.typeRandonnee,
+                    GPS = rando.GPS,
+                    utilisateur = p.utilisateur,
+                    utilisateurId = p.utilisateurId,
+                    commentaires = rando.commentaires
+                }).FirstOrDefaultAsync();
+            }
+            
 
             if (rando == null)
             {
@@ -255,10 +268,25 @@ namespace arsoudeServeur.Services
             }
 
             List<Avertissement> avertissements = new List<Avertissement>();
-            avertissements = await _context.avertissements.Where(x => x.randonneeId == rando.id).ToListAsync();
+                avertissements = await _context.avertissements.Where(x => x.randonneeId == rando.id).ToListAsync();
+           
 
             if (avertissements.Count > 0)
             {
+                if (acceptLanguage == "en")
+                {
+                    var avertissementAng = await _context.avertissementAnglais.Where(c => c.randonneeId == rando.id).ToListAsync();
+                    avertissements = await _context.avertissements.Where(x => x.randonneeId == rando.id).Select(p => new Avertissement
+                    {
+                        id = p.id,
+                        description = avertissementAng.Where(p => p.avertissementId == p.id).Select(p => p.description).FirstOrDefault(),
+                        typeAvertissement = p.typeAvertissement,
+                        x = p.x,
+                        y = p.y,
+                        randonneeId = p.randonneeId
+                    }).ToListAsync();
+                }
+
                 for (int i = avertissements.Count() - 1; i >= 0; i--)
                 {
                     if (DateTime.Compare(avertissements[i].DateSuppresion, DateTime.Now) < 0)
@@ -302,7 +330,8 @@ namespace arsoudeServeur.Services
                 utilisateur = rando.utilisateur,
                 utilisateurId = rando.utilisateurId,
                 favoris = false,
-                avertissements = avertissements
+                avertissements = avertissements,
+                
             };
 
             if (utilisateurCourant != null)

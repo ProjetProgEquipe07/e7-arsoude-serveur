@@ -24,27 +24,19 @@ namespace arsoudeServeur.Controllers
 
             var languageHeader = HttpContext.Request.Headers["Accept-Language"].ToString();
 
-            if(languageHeader == "fr")
-            {
                 if (UtilisateurCourant != null)
-                    return await _randonneeService.GetRandonneesAFaireAsync(listSize, UtilisateurCourant);
+                    return await _randonneeService.GetRandonneesAFaireAsync(listSize, UtilisateurCourant, languageHeader);
                 else
-                    return await _randonneeService.GetRandonneesAFaireAsync(listSize);
-            }
-            else
-            {
-                if (UtilisateurCourant != null)
-                    return await _randonneeService.GetRandonneesAFaireAnglaisAsync(listSize, UtilisateurCourant);
-                else
-                    return await _randonneeService.GetRandonneesAFaireAnglaisAsync(listSize);
-            }
+                    return await _randonneeService.GetRandonneesAFaireAsync(listSize, languageHeader);
            
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<RandonneeDetailDTO>> GetRandonnee(int id)
         {
-            var randonnee = await _randonneeService.GetRandonneeByIdAsync(id, UtilisateurCourant);
+            var languageHeader = HttpContext.Request.Headers["Accept-Language"].ToString();
+            var randonnee = await _randonneeService.GetRandonneeByIdAsync(id, UtilisateurCourant, languageHeader);
+            
 
 
             if (randonnee == null)
@@ -59,7 +51,8 @@ namespace arsoudeServeur.Controllers
         //[Authorize]
         public async Task<ActionResult<IEnumerable<RandonneeListDTO>>> GetRandonneesFavoris(int listSize)
         {
-            return await _randonneeService.GetRandonneesFavorisAsync(listSize, UtilisateurCourant);
+            var languageHeader = HttpContext.Request.Headers["Accept-Language"].ToString();
+            return await _randonneeService.GetRandonneesFavorisAsync(listSize, UtilisateurCourant, languageHeader);
         }
 
         [HttpGet("{id}")]

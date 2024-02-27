@@ -1,5 +1,6 @@
 using arsoudeServeur.Models;
 using arsoudeServeur.Models.DTOs;
+using arsoudeServeur.Models.ModelAnglais;
 using arsoudServeur.Data;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
@@ -8,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.DotNet.Scaffolding.Shared.Messaging;
 using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace arsoudeServeur.Services
 {
@@ -90,16 +92,36 @@ namespace arsoudeServeur.Services
     public class CommentaireService
     {
         private ApplicationDbContext _context;
-        public CommentaireService(ApplicationDbContext context)
+        private ServiceTranslate _serviceTranslate;
+        public CommentaireService(ApplicationDbContext context, ServiceTranslate serviceTranslate)
         {
             _context = context;
+            _serviceTranslate = serviceTranslate;
         }
 
-        public async Task<List<Commentaire>> GetCommentaires(int randonneId)
+        public async Task<List<Commentaire>> GetCommentaires(int randonneId, string language)
         {
             var randonnee = await _context.randonnees.Where(r => r.id == randonneId).FirstOrDefaultAsync() ?? throw new NullRandonneeException();
 
             var list = randonnee.commentaires; //order by published date ?
+
+            if(language == "en")
+            {
+                var commentaireAng = await _context.commentaireAnglais.Where(c => c.randonneeId == randonneId).ToListAsync();
+
+                list = list.Select(c => new Commentaire()
+                {
+                    id = c.id,
+                    message = commentaireAng.Where(p => p.commentaireId == c.id).Select(p => p.message).FirstOrDefault(),
+                    note = c.note,
+                    isDeleted = c.isDeleted,
+                    randonneeId = c.randonneeId,
+                    randonnee = c.randonnee,
+                    utilisateurId = c.utilisateurId,
+                    utilisateur = c.utilisateur,
+                    utilisateursLikes = c.utilisateursLikes
+                }).ToList();
+            }
 
             return list;
         }
@@ -110,9 +132,9 @@ namespace arsoudeServeur.Services
             var peutCommenter = await PeutCommenter(rando.id, utilisateurCourant);
             if (peutCommenter)
             {
-                var newCommentaire = new Commentaire()
+                Commentaire commentFR = new Commentaire
                 {
-                    message = commentaire.message,
+                    message = null,
                     note = commentaire.note,
                     randonnee = rando,
                     randonneeId = rando.id,
@@ -121,10 +143,45 @@ namespace arsoudeServeur.Services
                     utilisateursLikes = new List<CommentaireUtilisateur>(),
                 };
 
-                _context.commentaires.Add(newCommentaire);
+                CommentaireAnglais commentEn = new CommentaireAnglais
+                {
+                    message = null,
+                    randonnee = rando,
+                    randonneeId = rando.id,
+                    commentaireId = 0
+                };
+
+                IEnumerable<TraductionIndicator> traductionIndicators = new List<TraductionIndicator>();
+
+                traductionIndicators = await _serviceTranslate.DetectLanguage(commentaire);
+
+                if (traductionIndicators.First().targetLanguage == "en")
+                {
+                    commentEn.message = traductionIndicators.First().text;
+                }
+                else
+                {
+                    commentFR.message = traductionIndicators.First().text;
+                }
+
+                if (commentEn.message == null)
+                {
+                    commentEn.message = await _serviceTranslate.TranslateText(traductionIndicators.First().text, "en");
+                }
+                else
+                {
+                    commentFR.message = await _serviceTranslate.TranslateText(traductionIndicators.First().text, "fr");
+                }
+
+                _context.commentaires.Add(commentFR);
                 await _context.SaveChangesAsync();
 
-                return newCommentaire;
+                commentEn.commentaireId = commentFR.id;
+
+                _context.commentaireAnglais.Add(commentEn);
+                await _context.SaveChangesAsync();
+
+                return commentFR;
             }
             else
             {
@@ -137,13 +194,17 @@ namespace arsoudeServeur.Services
         {
             var rando = await _context.randonnees.Where(r => r.id == commentaireDTO.randonneeId).FirstOrDefaultAsync() ?? throw new NullRandonneeException();
             var commentaire = await _context.commentaires.Where(c => c.id == id).FirstOrDefaultAsync() ?? throw new NullCommentaireException();
+            var commentaireAng = await _context.commentaireAnglais.Where(c => c.commentaireId == id).FirstOrDefaultAsync();
             //Seulement l'utilisateur peut modifier le commentaire
             if (utilisateurCourant.id == commentaire.utilisateurId)
             {
                 commentaire.message = commentaireDTO.message;
+                commentaireAng.message = commentaireDTO.message;
                 commentaire.note = commentaireDTO.note;
 
                 _context.commentaires.Update(commentaire);
+                _context.commentaireAnglais.Update(commentaireAng);
+
                 await _context.SaveChangesAsync();
 
                 return commentaire;
@@ -158,6 +219,8 @@ namespace arsoudeServeur.Services
         public async Task<Commentaire> DeleteCommentaire(int commentaireId, Utilisateur utilisateurCourant)
         {
             var commentaire = await _context.commentaires.Where(c => c.id == commentaireId).FirstOrDefaultAsync() ?? throw new NullCommentaireException();
+            var commentaireAng =  await _context.commentaireAnglais.Where(c => c.commentaireId == commentaireId).FirstOrDefaultAsync(); 
+
             if (commentaire.isDeleted == true)
             {
                 throw new AlreadyDeletedException();
@@ -167,10 +230,12 @@ namespace arsoudeServeur.Services
             if (utilisateurCourant.role == "Administrator")
             {
                 commentaire.message = "$CommentDeletedByAdministrator";
+                commentaireAng.message = "$CommentDeletedByAdministrator";
             }
             else if (utilisateurCourant.id == commentaire.utilisateurId)
             {
                 commentaire.message = "$CommentDeletedByUserFirstNameLastName";
+                commentaireAng.message = "$CommentDeletedByUserFirstNameLastName";
             }
             else
             {
@@ -182,6 +247,7 @@ namespace arsoudeServeur.Services
             commentaire.isDeleted = true;
 
             _context.commentaires.Update(commentaire);
+            _context.commentaireAnglais.Update(commentaireAng);
             await _context.SaveChangesAsync();
 
             return commentaire;

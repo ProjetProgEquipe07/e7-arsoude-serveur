@@ -4,16 +4,18 @@ using arsoudServeur.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.DotNet.Scaffolding.Shared.Messaging;
+using arsoudeServeur.Models.ModelAnglais;
 
 namespace arsoudeServeur.Services
 {
     public class AvertissementService
     {
         private readonly ApplicationDbContext _context;
-
-        public AvertissementService(ApplicationDbContext context)
+        private readonly ServiceTranslate _serviceTranslate;
+        public AvertissementService(ApplicationDbContext context, ServiceTranslate serviceTranslate)
         {
             _context = context;
+            _serviceTranslate = serviceTranslate;
         }
 
         public class RandonneeNotFoundException : Exception
@@ -65,19 +67,53 @@ namespace arsoudeServeur.Services
                 throw new DescriptionOutOfBoundsException();
             }
 
-            Avertissement avertissement = new Avertissement()
+           
+
+            Avertissement avertissementFr = new Avertissement()
             {
                 DateSuppresion = DateTime.Now + TimeSpan.FromDays(7),
                 randonneeId = rando.id,
-                description = avertissementDTO.description,
+                description = null,
                 typeAvertissement = (Avertissement.TypeAvertissement)avertissementDTO.typeAvertissement,
                 x = avertissementDTO.gps.x,
                 y = avertissementDTO.gps.y,
             };
 
-            _context.avertissements.Add(avertissement);
+            AvertissementAnglais avertissementAnglais = new AvertissementAnglais()
+            {
+                randonnee = rando,
+                description = null,
+            };
+
+            IEnumerable<TraductionIndicator> traductionIndicators = new List<TraductionIndicator>();
+
+            traductionIndicators = await _serviceTranslate.DetectLanguage(avertissementDTO);
+
+            if (traductionIndicators.First().targetLanguage == "en")
+            {
+                avertissementAnglais.description = traductionIndicators.First().text;
+            }
+            else
+            {
+                avertissementFr.description = traductionIndicators.First().text;
+            }
+
+            if (avertissementAnglais.description == null)
+            {
+                avertissementAnglais.description = await _serviceTranslate.TranslateText(traductionIndicators.First().text, "en");
+            }
+            else
+            {
+                avertissementFr.description = await _serviceTranslate.TranslateText(traductionIndicators.First().text, "fr");
+            }
+
+
+            _context.avertissements.Add(avertissementFr);
             await _context.SaveChangesAsync();
-            return avertissement;
+            avertissementAnglais.id = avertissementFr.id;
+            _context.avertissementAnglais.Add(avertissementAnglais);
+            await _context.SaveChangesAsync();
+            return avertissementFr;
         }
 
         public virtual async Task<bool> DeleteAvertissementAsync(int avertissementId)

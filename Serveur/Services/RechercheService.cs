@@ -56,16 +56,19 @@ namespace arsoudeServeur.Services
         /// <param name="recherche"></param>
         /// <param name="filtreTypeRandonne"></param>
         /// <returns></returns>
-        public virtual async Task<IEnumerable<Randonnee>> GetNearSearch(string recherche, string filtreTypeRandonne, int moyenneDemandé)
+        public virtual async Task<IEnumerable<Randonnee>> GetNearSearch(string recherche, string filtreTypeRandonne, int moyenneDemandé, string language)
         {
             List<Randonnee> randoList = new List<Randonnee>();
+            List<RandonneeAnglais> randoListAng = new List<RandonneeAnglais>();
 
             randoList = await _context.randonnees.Where(s => s.etatRandonnee == Randonnee.Etat.Publique).ToListAsync();
+            randoListAng = await _context.randonneeAnglais.Where(s => s.etatRandonnee == Randonnee.Etat.Publique).ToListAsync();
 
             List<Score> scoreList = new List<Score>();
             List<string> strList = recherche.Split(' ').ToList();
             if (!recherche.Equals(""))
             {
+                int index = 0;
                 foreach (Randonnee randonnee in randoList)
                 {
                     int count = _context.commentaires.Where(s => s.randonneeId == randonnee.id).Count();
@@ -83,7 +86,24 @@ namespace arsoudeServeur.Services
                         if (filtreTypeRandonne.Contains(randonnee.typeRandonnee.ToString()) || filtreTypeRandonne.Contains("undefined") || filtreTypeRandonne.Contains("Tous"))
                         {
                             Score score = new Score();
-                            score.randonnee = randonnee;
+                            if (language == "fr")
+                                score.randonnee = randonnee;
+                            else
+                            {
+#pragma warning disable CS8601
+                                score.randonnee = randoListAng.Where(p => p.randonneeId == randonnee.id).Select(p => new Randonnee
+                                {
+                                    id = p.id,
+                                    nom = p.nom,
+                                    description = p.description,
+                                    emplacement = p.emplacement,
+                                    typeRandonnee = p.typeRandonnee,
+                                    etatRandonnee = p.etatRandonnee,
+                                    GPS = p.GPS,
+                                    utilisateurId = p.utilisateurId
+                                }).FirstOrDefault();
+                            }
+#pragma warning restore CS8601 
                             foreach (string str in strList)
                             {
                                 if (randonnee.description.ToLower().Contains(str.ToLower()))
@@ -92,6 +112,15 @@ namespace arsoudeServeur.Services
                                     score.score++;
                                 if (randonnee.nom.ToLower().Contains(str.ToLower()))
                                     score.score++;
+                                if (randoListAng[index] != null)
+                                {
+                                    if (randoListAng[index].description.ToLower().Contains(str.ToLower()))
+                                        score.score++;
+                                    if (randoListAng[index].emplacement.ToLower().Contains(str.ToLower()))
+                                        score.score++;
+                                    if (randoListAng[index].nom.ToLower().Contains(str.ToLower()))
+                                        score.score++;
+                                }
                             }
                             if (score.score != 0)
                             {
@@ -99,6 +128,7 @@ namespace arsoudeServeur.Services
                             }
                         }
                     }
+                    index++;
                 }
                 randoList = scoreList.OrderByDescending(s => s.score).Select(s => s.randonnee).ToList();
                 return randoList;
@@ -142,25 +172,28 @@ namespace arsoudeServeur.Services
         /// <param name="filtreTypeRandonne"></param>
         /// <param name="myrando"></param>
         /// <returns></returns>
-        public virtual async Task<IEnumerable<Randonnee>> GetNearSearch(string recherche, Utilisateur user, string filtreTypeRandonne, bool myrando, int moyenneDemandé)
+        public virtual async Task<IEnumerable<Randonnee>> GetNearSearch(string recherche, Utilisateur user, string filtreTypeRandonne, bool myrando, int moyenneDemandé, string language)
         {
             Location loc = await GetLocation(user.codePostal);
             List<Randonnee> randoList = new List<Randonnee>();
-
+            List<RandonneeAnglais> randoListAng = new List<RandonneeAnglais>();
             if (myrando)
             {
 
                 randoList = await _context.randonnees.Where(s => s.etatRandonnee == Randonnee.Etat.Publique && s.utilisateurId == user.id).ToListAsync();
+                randoListAng = await _context.randonneeAnglais.Where(s => s.etatRandonnee == Randonnee.Etat.Publique && s.utilisateurId == user.id).ToListAsync();
             }
             else
             {
                 randoList = await _context.randonnees.Where(s => s.etatRandonnee == Randonnee.Etat.Publique).ToListAsync();
+                randoListAng = await _context.randonneeAnglais.Where(s => s.etatRandonnee == Randonnee.Etat.Publique).ToListAsync();
             }
             List<Score> scoreList = new List<Score>();
             List<string> strList = recherche.Split(' ').ToList();
 
             if (!recherche.Equals(""))
             {
+                int index = 0;
                 foreach (Randonnee randonnee in randoList)
                 {
 
@@ -179,7 +212,23 @@ namespace arsoudeServeur.Services
                         if (filtreTypeRandonne.Contains(randonnee.typeRandonnee.ToString()) || filtreTypeRandonne.Contains("undefined") || filtreTypeRandonne.Contains("Tous"))
                         {
                             Score score = new Score();
-                            score.randonnee = randonnee;
+                            if (language == "fr")
+                                score.randonnee = randonnee;
+                            else { 
+#pragma warning disable CS8601 
+                                score.randonnee = randoListAng.Where(p => p.randonneeId == randonnee.id).Select(p => new Randonnee
+                                {
+                                    id = p.id,
+                                    nom = p.nom,
+                                    description = p.description,
+                                    emplacement = p.emplacement,
+                                    typeRandonnee = p.typeRandonnee,
+                                    etatRandonnee = p.etatRandonnee,
+                                    GPS = p.GPS,
+                                    utilisateurId = p.utilisateurId
+                                }).FirstOrDefault();
+                        }
+#pragma warning restore CS8601 
                             foreach (string str in strList)
                             {
                                 if (randonnee.description.ToLower().Contains(str.ToLower()))
@@ -188,6 +237,15 @@ namespace arsoudeServeur.Services
                                     score.score++;
                                 if (randonnee.nom.ToLower().Contains(str.ToLower()))
                                     score.score++;
+                                if (randoListAng[index] != null)
+                                { 
+                                if (randoListAng[index].description.ToLower().Contains(str.ToLower()))
+                                    score.score++;
+                                if (randoListAng[index].emplacement.ToLower().Contains(str.ToLower()))
+                                    score.score++;
+                                if (randoListAng[index].nom.ToLower().Contains(str.ToLower()))
+                                    score.score++;
+                                }
                             }
                             if (loc != null)
                             {
@@ -216,11 +274,15 @@ namespace arsoudeServeur.Services
                             }
                         }
                     }
+                    index++;
                 }
                 randoList = scoreList.OrderByDescending(s => s.score).ThenBy(s => s.distance).Select(s => s.randonnee).ToList();
                 return randoList;
             }
             List<Randonnee> randoList2 = new List<Randonnee>();
+
+            if(language == "fr")
+            { 
             foreach (Randonnee randonnee in randoList)
             {
                 int count = _context.commentaires.Where(s => s.randonneeId == randonnee.id).Count();
@@ -239,6 +301,41 @@ namespace arsoudeServeur.Services
                     randoList2.Add(randonnee);
                 }
 
+            }
+            }
+            else
+            {
+                randoList = randoListAng.Select(p => new Randonnee
+                {
+                    id = p.randonneeId,
+                    nom = p.nom,
+                    description = p.description,
+                    emplacement = p.emplacement,
+                    typeRandonnee = p.typeRandonnee,
+                    etatRandonnee = p.etatRandonnee,
+                    GPS = p.GPS,
+                    utilisateurId = p.utilisateurId
+
+                }).ToList();
+                foreach (Randonnee randonnee in randoList)
+                {
+                    int count = _context.commentaires.Where(s => s.randonneeId == randonnee.id).Count();
+                    if (count != 0)
+                    {
+
+                        double? moyenne = _context.commentaires.Where(s => s.randonneeId == randonnee.id).Average(s => s.note);
+
+                        if (moyenne >= moyenneDemandé)
+                        {
+                            randoList2.Add(randonnee);
+                        }
+                    }
+                    else
+                    {
+                        randoList2.Add(randonnee);
+                    }
+
+                }
             }
             return randoList2;
 

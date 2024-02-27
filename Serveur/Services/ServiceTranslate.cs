@@ -35,6 +35,8 @@ namespace arsoudeServeur.Services
 
             TranslateTextResponse response = await client.TranslateTextAsync(request);
 
+            response.Translations[0].TranslatedText = response.Translations[0].TranslatedText.Replace("&#39;", "'");
+
             return response.Translations[0].TranslatedText;
         }
 
@@ -52,6 +54,7 @@ namespace arsoudeServeur.Services
                     string value = (string)field.GetValue(objet);
                     if (value != null)
                     {
+                        
                         stringObjet.Add(value);
                     }
                 }
