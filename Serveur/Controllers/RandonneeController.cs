@@ -4,6 +4,7 @@ using arsoudeServeur.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using static arsoudeServeur.Services.RandonneesService;
 
 namespace arsoudeServeur.Controllers
 {
@@ -21,10 +22,17 @@ namespace arsoudeServeur.Controllers
         [HttpGet("{listSize}")]
         public async Task<ActionResult<IEnumerable<RandonneeListDTO>>> GetRandonnees(int listSize)
         {
-            if (UtilisateurCourant !=null)
-                return await _randonneeService.GetRandonneesAFaireAsync(listSize, UtilisateurCourant);
-            else
-                return await _randonneeService.GetRandonneesAFaireAsync(listSize);
+            try
+            {
+                if (UtilisateurCourant != null)
+                    return await _randonneeService.GetRandonneesAFaireAsync(listSize, UtilisateurCourant);
+                else
+                    return await _randonneeService.GetRandonneesAFaireNoAuthAsync(listSize);
+            }
+            catch (RandonneeNotFoundException)
+            {
+                return NotFound(new { Error = "RandonneeNotFound" });
+            }
         }
 
         [HttpGet("{id}")]
@@ -63,8 +71,33 @@ namespace arsoudeServeur.Controllers
         {
             Utilisateur? user = UtilisateurCourant;
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var newRandonnee = await _randonneeService.CreateRandonneeAsync(randonneeDTO, user);
-            return CreatedAtAction(nameof(GetRandonnee), new { id = newRandonnee.id }, newRandonnee);
+            try
+            {
+                var newRandonnee = await _randonneeService.CreateRandonneeAsync(randonneeDTO, user);
+
+                return CreatedAtAction(nameof(GetRandonnee), new { id = newRandonnee.id }, newRandonnee);
+            }
+            catch (UtilisateurNotFoundException)
+            {
+                return NotFound(new { Error = "UtilisateurNotFound" });
+            }
+            catch (GPSRequiredException)
+            {
+                return BadRequest(new { Error = "GpsRequired" });
+            }
+            catch (NomOutOfBoundsException)
+            {
+                return BadRequest(new { Error = "NomOutOfBounds" });
+            }
+            catch (DescriptionOutOfBoundsException)
+            {
+                return BadRequest(new { Error = "DescriptionOutOfBounds" });
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+           
         }
 
         [HttpPost("{id}")]
