@@ -102,35 +102,28 @@ namespace arsoudeServeur.Services
                 throw new NullRandonneeException();
             }
 
-            try
+            var peutCommenter = await PeutCommenter(rando.id, utilisateurCourant);
+            if (peutCommenter)
             {
-                var peutCommenter = await PeutCommenter(rando.id, utilisateurCourant);
-                if (peutCommenter)
+                var newCommentaire = new Commentaire()
                 {
-                    var newCommentaire = new Commentaire()
-                    {
-                        message = commentaire.message,
-                        note = commentaire.note,
-                        randonnee = rando,
-                        randonneeId = rando.id,
-                        utilisateur = utilisateurCourant,
-                        utilisateurId = utilisateurCourant.id,
-                        utilisateursLikes = new List<CommentaireUtilisateur>(),
-                    };
+                    message = commentaire.message,
+                    note = commentaire.note,
+                    randonnee = rando,
+                    randonneeId = rando.id,
+                    utilisateur = utilisateurCourant,
+                    utilisateurId = utilisateurCourant.id,
+                    utilisateursLikes = new List<CommentaireUtilisateur>(),
+                };
 
-                    await _context.commentaires.AddAsync(newCommentaire);
-                    await _context.SaveChangesAsync();
+                await _context.commentaires.AddAsync(newCommentaire);
+                await _context.SaveChangesAsync();
 
-                    return newCommentaire;
-                }
-                else
-                {
-                    throw new UnauthorizedCreateCommentaireException();
-                }
+                return newCommentaire;
             }
-            catch
+            else
             {
-                throw;
+                throw new UnauthorizedCreateCommentaireException();
             }
         }
 

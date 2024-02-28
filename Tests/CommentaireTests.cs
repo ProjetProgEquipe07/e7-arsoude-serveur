@@ -12,6 +12,8 @@ using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Authentication;
 using arsoudeServeur.Models;
 using Microsoft.Extensions.Configuration.UserSecrets;
+using Microsoft.Extensions.Options;
+using System.Diagnostics;
 
 namespace Tests.Controllers.Commentaires
 {
@@ -23,8 +25,11 @@ namespace Tests.Controllers.Commentaires
 
         private static readonly Mock<UtilisateursService> userServiceMock = new Mock<UtilisateursService>() { CallBase = true };
 
+        private static readonly Mock<CommentaireService> commentaireServiceMock = new Mock<CommentaireService>() { CallBase = true };
+
+
         [ClassInitialize]
-        public static void ClassInitialize(TestContext dbContext)
+        public static void ClassInitialize(TestContext dbContext) //Obligé de passer TestContext en paramètre
         {
             // Initialiser test dbContext
             //await dbContext.Database.EnsureDeletedAsync();
@@ -39,13 +44,15 @@ namespace Tests.Controllers.Commentaires
 
             userServiceMock.Setup(service => service.GetUtilisateurFromUserId(It.IsAny<string>()))
                     .Returns(new Utilisateur { identityUserId = userId });
+
+            commentaireServiceMock.Setup(service => service.GetCommentaires(It.IsAny<int>()));
         }
 
         //[ClassCleanup]
-        //public static void ClassCleanup(TestContext dbContext)
+        //public static void ClassCleanup(dbContext dbContext)
         //{
         //    // Clean up resources after all tests in the class have run
-        //    //await dbContext.DisposeAsync();
+        //    await dbContext.();
         //}
 
         // CommentaireController générique
@@ -67,137 +74,417 @@ namespace Tests.Controllers.Commentaires
             return controller;
         }
 
-        //Pass
+        #region CreateCommentaire
         [TestMethod]
-        public async Task GetCommentaires_Controller_Ok()
+        public async Task CreateCommentaire_Controller_Ok()
         {
             //Arrange
-            Mock<CommentaireService>? commentaireServiceMock = new Mock<CommentaireService>() { CallBase = true };
-            commentaireServiceMock.Setup(service => service.GetCommentaires(It.IsAny<int>()))
-                                  .ReturnsAsync(new List<Commentaire> { new Commentaire(), new Commentaire() });
-            
+            commentaireServiceMock.Setup(service => service.CreateCommentaire(It.IsAny<CommentaireDTO>(), It.IsAny<Utilisateur>()))
+                                  .ReturnsAsync(new Commentaire());
+
+            CommentaireController? controller = CommentaireController(commentaireServiceMock);
+
+            CommentaireDTO commentaireDTO = new CommentaireDTO { randonneeId = 0, message = "I recently discovered Arsoude, a fantastic service for hikers of all levels. As an avid hiker, I was immediately drawn to the concept of being able to track my hikes and have all the information in one place. After using it for a few weeks, I can confidently say that Arsoude has exceeded my expectations.\r\n\r\nOne of the best features of Arsoude is its user-friendly interface. It is easy to navigate and has a clean design, making it simple to use for hikers of all ages and experience levels. The app allows users to track their hikes by recording the distance, elevation, and route taken. This information is then displayed in a clear and organized manner, making it easy to analyze and compare different hikes.\r\n\r\nAnother great aspect of Arsoude is the community aspect. Users can connect with other hikers, share their experiences, and even discover new hiking trails. This not only adds a social aspect to the app but also allows for a sense of camaraderie among hikers.\r\n\r\nOne feature that sets Arsoude apart from other hiking apps is its ability to track weather conditions. This is extremely helpful for planning hikes and ensuring safety on the trail. The app also provides suggestions for gear and equipment based on the weather, making it a valuable resource for hikers.\r\n\r\nOverall, I highly recommend Arsoude to anyone who loves hiking. It is a comprehensive and user-friendly service that has enhanced my hiking experience. Whether you are a beginner or an experienced hiker, Arsoude has something to offer for everyone. So, download the app and start tracking your hikes today!" };
+
+            // Act
+            var result = await controller.CreateCommentaire(commentaireDTO);
+
+            // Assert
+            Assert.IsInstanceOfType(result, typeof(OkObjectResult));
+        }
+
+        [TestMethod]
+        public async Task CreateCommentaire_Controller_UnauthorizedCreateCommentaireException()
+        {
+            //Arrange
+            commentaireServiceMock.Setup(service => service.CreateCommentaire(It.IsAny<CommentaireDTO>(), It.IsAny<Utilisateur>()))
+                                  .ThrowsAsync(new UnauthorizedCreateCommentaireException());
+
+            CommentaireController? controller = CommentaireController(commentaireServiceMock);
+
+            CommentaireDTO commentaireDTO = new CommentaireDTO { randonneeId = 0, message = "I recently discovered Arsoude, a fantastic service for hikers of all levels. As an avid hiker, I was immediately drawn to the concept of being able to track my hikes and have all the information in one place. After using it for a few weeks, I can confidently say that Arsoude has exceeded my expectations.\r\n\r\nOne of the best features of Arsoude is its user-friendly interface. It is easy to navigate and has a clean design, making it simple to use for hikers of all ages and experience levels. The app allows users to track their hikes by recording the distance, elevation, and route taken. This information is then displayed in a clear and organized manner, making it easy to analyze and compare different hikes.\r\n\r\nAnother great aspect of Arsoude is the community aspect. Users can connect with other hikers, share their experiences, and even discover new hiking trails. This not only adds a social aspect to the app but also allows for a sense of camaraderie among hikers.\r\n\r\nOne feature that sets Arsoude apart from other hiking apps is its ability to track weather conditions. This is extremely helpful for planning hikes and ensuring safety on the trail. The app also provides suggestions for gear and equipment based on the weather, making it a valuable resource for hikers.\r\n\r\nOverall, I highly recommend Arsoude to anyone who loves hiking. It is a comprehensive and user-friendly service that has enhanced my hiking experience. Whether you are a beginner or an experienced hiker, Arsoude has something to offer for everyone. So, download the app and start tracking your hikes today!" };
+
+            // Act
+            var result = await controller.CreateCommentaire(commentaireDTO);
+
+            // Assert
+            Assert.IsInstanceOfType(result, typeof(UnauthorizedObjectResult));
+        }
+
+        [TestMethod]
+        public async Task CreateCommentaire_Controller_NullRandonneeException()
+        {
+            //Arrange
+            commentaireServiceMock.Setup(service => service.CreateCommentaire(It.IsAny<CommentaireDTO>(), It.IsAny<Utilisateur>()))
+                                  .ThrowsAsync(new NullRandonneeException());
+
+            CommentaireController? controller = CommentaireController(commentaireServiceMock);
+
+            CommentaireDTO commentaireDTO = new CommentaireDTO { randonneeId = 0, message = "I recently discovered Arsoude, a fantastic service for hikers of all levels. As an avid hiker, I was immediately drawn to the concept of being able to track my hikes and have all the information in one place. After using it for a few weeks, I can confidently say that Arsoude has exceeded my expectations.\r\n\r\nOne of the best features of Arsoude is its user-friendly interface. It is easy to navigate and has a clean design, making it simple to use for hikers of all ages and experience levels. The app allows users to track their hikes by recording the distance, elevation, and route taken. This information is then displayed in a clear and organized manner, making it easy to analyze and compare different hikes.\r\n\r\nAnother great aspect of Arsoude is the community aspect. Users can connect with other hikers, share their experiences, and even discover new hiking trails. This not only adds a social aspect to the app but also allows for a sense of camaraderie among hikers.\r\n\r\nOne feature that sets Arsoude apart from other hiking apps is its ability to track weather conditions. This is extremely helpful for planning hikes and ensuring safety on the trail. The app also provides suggestions for gear and equipment based on the weather, making it a valuable resource for hikers.\r\n\r\nOverall, I highly recommend Arsoude to anyone who loves hiking. It is a comprehensive and user-friendly service that has enhanced my hiking experience. Whether you are a beginner or an experienced hiker, Arsoude has something to offer for everyone. So, download the app and start tracking your hikes today!" };
+
+            // Act
+            var result = await controller.CreateCommentaire(commentaireDTO);
+
+            // Assert
+            Assert.IsInstanceOfType(result, typeof(NotFoundObjectResult));
+        }
+
+        [TestMethod]
+        public async Task CreateCommentaire_Controller_NoTraceFoundException()
+        {
+            //Arrange
+            commentaireServiceMock.Setup(service => service.CreateCommentaire(It.IsAny<CommentaireDTO>(), It.IsAny<Utilisateur>()))
+                                  .ThrowsAsync(new NoTraceFoundException());
+
+            CommentaireController? controller = CommentaireController(commentaireServiceMock);
+
+            CommentaireDTO commentaireDTO = new CommentaireDTO { randonneeId = 0, message = "I recently discovered Arsoude, a fantastic service for hikers of all levels. As an avid hiker, I was immediately drawn to the concept of being able to track my hikes and have all the information in one place. After using it for a few weeks, I can confidently say that Arsoude has exceeded my expectations.\r\n\r\nOne of the best features of Arsoude is its user-friendly interface. It is easy to navigate and has a clean design, making it simple to use for hikers of all ages and experience levels. The app allows users to track their hikes by recording the distance, elevation, and route taken. This information is then displayed in a clear and organized manner, making it easy to analyze and compare different hikes.\r\n\r\nAnother great aspect of Arsoude is the community aspect. Users can connect with other hikers, share their experiences, and even discover new hiking trails. This not only adds a social aspect to the app but also allows for a sense of camaraderie among hikers.\r\n\r\nOne feature that sets Arsoude apart from other hiking apps is its ability to track weather conditions. This is extremely helpful for planning hikes and ensuring safety on the trail. The app also provides suggestions for gear and equipment based on the weather, making it a valuable resource for hikers.\r\n\r\nOverall, I highly recommend Arsoude to anyone who loves hiking. It is a comprehensive and user-friendly service that has enhanced my hiking experience. Whether you are a beginner or an experienced hiker, Arsoude has something to offer for everyone. So, download the app and start tracking your hikes today!" };
+
+            // Act
+            var result = await controller.CreateCommentaire(commentaireDTO);
+
+            // Assert
+            Assert.IsInstanceOfType(result, typeof(NotFoundObjectResult));
+        }
+
+        [TestMethod]
+        public async Task CreateCommentaire_Controller_AlreadyExistsCommentaireExeption()
+        {
+            //Arrange
+            commentaireServiceMock.Setup(service => service.CreateCommentaire(It.IsAny<CommentaireDTO>(), It.IsAny<Utilisateur>()))
+                                  .ThrowsAsync(new AlreadyExistsCommentaireExeption());
+
+            CommentaireController? controller = CommentaireController(commentaireServiceMock);
+
+            CommentaireDTO commentaireDTO = new CommentaireDTO { randonneeId = 0, message = "I recently discovered Arsoude, a fantastic service for hikers of all levels. As an avid hiker, I was immediately drawn to the concept of being able to track my hikes and have all the information in one place. After using it for a few weeks, I can confidently say that Arsoude has exceeded my expectations.\r\n\r\nOne of the best features of Arsoude is its user-friendly interface. It is easy to navigate and has a clean design, making it simple to use for hikers of all ages and experience levels. The app allows users to track their hikes by recording the distance, elevation, and route taken. This information is then displayed in a clear and organized manner, making it easy to analyze and compare different hikes.\r\n\r\nAnother great aspect of Arsoude is the community aspect. Users can connect with other hikers, share their experiences, and even discover new hiking trails. This not only adds a social aspect to the app but also allows for a sense of camaraderie among hikers.\r\n\r\nOne feature that sets Arsoude apart from other hiking apps is its ability to track weather conditions. This is extremely helpful for planning hikes and ensuring safety on the trail. The app also provides suggestions for gear and equipment based on the weather, making it a valuable resource for hikers.\r\n\r\nOverall, I highly recommend Arsoude to anyone who loves hiking. It is a comprehensive and user-friendly service that has enhanced my hiking experience. Whether you are a beginner or an experienced hiker, Arsoude has something to offer for everyone. So, download the app and start tracking your hikes today!" };
+
+            // Act
+            var result = await controller.CreateCommentaire(commentaireDTO);
+
+            // Assert
+            Assert.IsInstanceOfType(result, typeof(UnauthorizedObjectResult));
+        }
+
+        [TestMethod]
+        public async Task CreateCommentaire_Controller_RandonneeNotPublicException()
+        {
+            //Arrange
+            commentaireServiceMock.Setup(service => service.CreateCommentaire(It.IsAny<CommentaireDTO>(), It.IsAny<Utilisateur>()))
+                                  .ThrowsAsync(new RandonneeNotPublicException());
+
+            CommentaireController? controller = CommentaireController(commentaireServiceMock);
+
+            CommentaireDTO commentaireDTO = new CommentaireDTO { randonneeId = 0, message = "I recently discovered Arsoude, a fantastic service for hikers of all levels. As an avid hiker, I was immediately drawn to the concept of being able to track my hikes and have all the information in one place. After using it for a few weeks, I can confidently say that Arsoude has exceeded my expectations.\r\n\r\nOne of the best features of Arsoude is its user-friendly interface. It is easy to navigate and has a clean design, making it simple to use for hikers of all ages and experience levels. The app allows users to track their hikes by recording the distance, elevation, and route taken. This information is then displayed in a clear and organized manner, making it easy to analyze and compare different hikes.\r\n\r\nAnother great aspect of Arsoude is the community aspect. Users can connect with other hikers, share their experiences, and even discover new hiking trails. This not only adds a social aspect to the app but also allows for a sense of camaraderie among hikers.\r\n\r\nOne feature that sets Arsoude apart from other hiking apps is its ability to track weather conditions. This is extremely helpful for planning hikes and ensuring safety on the trail. The app also provides suggestions for gear and equipment based on the weather, making it a valuable resource for hikers.\r\n\r\nOverall, I highly recommend Arsoude to anyone who loves hiking. It is a comprehensive and user-friendly service that has enhanced my hiking experience. Whether you are a beginner or an experienced hiker, Arsoude has something to offer for everyone. So, download the app and start tracking your hikes today!" };
+
+            // Act
+            var result = await controller.CreateCommentaire(commentaireDTO);
+
+            // Assert
+            Assert.IsInstanceOfType(result, typeof(UnauthorizedObjectResult));
+        }
+        #endregion CreateCommentaire
+
+        #region DeleteCommentaire
+        [TestMethod]
+        public async Task DeleteCommentaire_Controller_Ok()
+        {
+            //Arrange
+            commentaireServiceMock.Setup(service => service.DeleteCommentaire(It.IsAny<int>(), It.IsAny<Utilisateur>()))
+                                  .ReturnsAsync(new Commentaire());
+
             CommentaireController? controller = CommentaireController(commentaireServiceMock);
 
             // Act
-            var result = await controller.GetCommentaires(0);
+            var result = await controller.DeleteCommentaire(0);
 
             // Assert
-            Assert.IsInstanceOfType(result.Result, typeof(OkObjectResult));
-            //}
+            Assert.IsInstanceOfType(result, typeof(OkObjectResult));
         }
 
-        //Pass
         [TestMethod]
-        public async Task GetCommentaires_Controller_NullRandonnee_NotFound()
+        public async Task DeleteCommentaire_Controller_NullCommentaireException()
         {
             //Arrange
-            Mock<CommentaireService>? commentaireServiceMock = new Mock<CommentaireService>() { CallBase = true };
-            commentaireServiceMock.Setup(service => service.GetCommentaires(It.IsAny<int>()))
-                                  .ThrowsAsync(new NullRandonneeException());
+            commentaireServiceMock.Setup(service => service.DeleteCommentaire(It.IsAny<int>(), It.IsAny<Utilisateur>()))
+                                  .ThrowsAsync(new NullCommentaireException());
+
+            CommentaireController? controller = CommentaireController(commentaireServiceMock);
 
             // Act
-            var result = await CommentaireController(commentaireServiceMock).GetCommentaires(0);
+            var result = await controller.DeleteCommentaire(0);
 
             // Assert
-            Assert.IsInstanceOfType(result.Result, typeof(NotFoundObjectResult), "Expected NotFoundObjectResult");
+            Assert.IsInstanceOfType(result, typeof(NotFoundObjectResult));
         }
 
         [TestMethod]
-        public async Task CreateCommentaire_Controller_Test()
+        public async Task DeleteCommentaire_Controller_AlreadyDeletedException()
         {
-            Assert.Fail();
+            //Arrange
+            commentaireServiceMock.Setup(service => service.DeleteCommentaire(It.IsAny<int>(), It.IsAny<Utilisateur>()))
+                                  .ThrowsAsync(new AlreadyDeletedException());
+
+            CommentaireController? controller = CommentaireController(commentaireServiceMock);
+
+            // Act
+            var result = await controller.DeleteCommentaire(0);
+
+            // Assert
+            Assert.IsInstanceOfType(result, typeof(NotFoundObjectResult));
         }
 
         [TestMethod]
-        public async Task DeleteCommentaire_Controller_Test()
+        public async Task DeleteCommentaire_Controller_UnauthorizedDeleteCommentaireException()
         {
-            Assert.Fail();
+            //Arrange
+            commentaireServiceMock.Setup(service => service.DeleteCommentaire(It.IsAny<int>(), It.IsAny<Utilisateur>()))
+                                  .ThrowsAsync(new UnauthorizedDeleteCommentaireException());
+
+            CommentaireController? controller = CommentaireController(commentaireServiceMock);
+
+            // Act
+            var result = await controller.DeleteCommentaire(0);
+
+            // Assert
+            Assert.IsInstanceOfType(result, typeof(UnauthorizedObjectResult));
         }
+        #endregion DeleteCommentaire
     }
 
     //Pas de Mock dans les Services, juste du dbContext
     [TestClass]
     public class Services
     {
-        //[TestMethod]
-        //public async Task GetCommentaires_Service_Ok()
-        //{
-        //    using (var dbContext = new ApplicationDbContext(options))
-        //    {
-        //        //Arrange
-        //        //Mock<CommentaireService>? commentaireServiceMock = new Mock<CommentaireService>(dbContext) { CallBase = true };
-        //        //commentaireServiceMock.Setup(service => service.GetCommentaires(It.IsAny<int>()))
-        //        //                      .ReturnsAsync(new List<Commentaire>());
+        private static readonly string userId = "11111111-1111-1111-1111-111111111111";
 
-        //        CommentaireService service = new CommentaireService(dbContext);
+        private static readonly Utilisateur utilisateur = new Utilisateur
+        {
+            identityUserId = userId,
+            codePostal = "J8L 9L9",
+            courriel = "testcourriel@gmail.com",
+            nom = "Test",
+            prenom = "Test",
+            role = "User"
+        };
+        private static readonly Commentaire commentaire = new Commentaire
+        {
+            id = 1,
+            randonneeId = 1,
+            utilisateur = utilisateur,
+            utilisateurId = utilisateur.id,
+            message = "I recently discovered Arsoude, a fantastic service for hikers of all levels. As an avid hiker, I was immediately drawn to the concept of being able to track my hikes and have all the information in one place. After using it for a few weeks, I can confidently say that Arsoude has exceeded my expectations.\r\n\r\nOne of the best features of Arsoude is its user-friendly interface. It is easy to navigate and has a clean design, making it simple to use for hikers of all ages and experience levels. The app allows users to track their hikes by recording the distance, elevation, and route taken. This information is then displayed in a clear and organized manner, making it easy to analyze and compare different hikes.\r\n\r\nAnother great aspect of Arsoude is the community aspect. Users can connect with other hikers, share their experiences, and even discover new hiking trails. This not only adds a social aspect to the app but also allows for a sense of camaraderie among hikers.\r\n\r\nOne feature that sets Arsoude apart from other hiking apps is its ability to track weather conditions. This is extremely helpful for planning hikes and ensuring safety on the trail. The app also provides suggestions for gear and equipment based on the weather, making it a valuable resource for hikers.\r\n\r\nOverall, I highly recommend Arsoude to anyone who loves hiking. It is a comprehensive and user-friendly service that has enhanced my hiking experience. Whether you are a beginner or an experienced hiker, Arsoude has something to offer for everyone. So, download the app and start tracking your hikes today!"
+        };
+        private static readonly RandonneeUtilisateurTrace trace = new RandonneeUtilisateurTrace
+        {
+            utilisateur = utilisateur,
+            randonnee = randonnee,
+            timer = "10"
+        };
+        private static readonly Randonnee randonnee = new Randonnee
+        {
+            id = 1,
+            nom = "TestNom",
+            description = "TestDescription",
+            emplacement = "TestEmplacement",
+            etatRandonnee = Randonnee.Etat.Publique,
+            commentaires = { commentaire },
+            traces = { trace }
+        };
 
-        //        //Mock<UtilisateursService>? userMock = UserServiceMock(dbContext);
+        private static readonly DbContextOptions<ApplicationDbContext> options = new DbContextOptionsBuilder<ApplicationDbContext>()
+                .UseInMemoryDatabase(databaseName: "CommentairesServices")
+                .Options;
 
+        #region CreateCommentaire
+        [TestMethod]
+        public async Task CreateCommentaires_Service_Ok()
+        {
+            using (var dbContext = new ApplicationDbContext(options))
+            {
+                //Arrange
+                await dbContext.utilisateursTrace.AddAsync(trace);
+                await dbContext.randonnees.AddAsync(randonnee);
+                await dbContext.commentaires.AddAsync(commentaire);
+                await dbContext.SaveChangesAsync();
 
-        //        List<Commentaire> commentaires = new List<Commentaire>
-        //        {
-        //            new Commentaire { id = 1, randonneeId = 0, message = "I recently discovered Arsoude, a fantastic service for hikers of all levels. As an avid hiker, I was immediately drawn to the concept of being able to track my hikes and have all the information in one place. After using it for a few weeks, I can confidently say that Arsoude has exceeded my expectations.\r\n\r\nOne of the best features of Arsoude is its user-friendly interface. It is easy to navigate and has a clean design, making it simple to use for hikers of all ages and experience levels. The app allows users to track their hikes by recording the distance, elevation, and route taken. This information is then displayed in a clear and organized manner, making it easy to analyze and compare different hikes.\r\n\r\nAnother great aspect of Arsoude is the community aspect. Users can connect with other hikers, share their experiences, and even discover new hiking trails. This not only adds a social aspect to the app but also allows for a sense of camaraderie among hikers.\r\n\r\nOne feature that sets Arsoude apart from other hiking apps is its ability to track weather conditions. This is extremely helpful for planning hikes and ensuring safety on the trail. The app also provides suggestions for gear and equipment based on the weather, making it a valuable resource for hikers.\r\n\r\nOverall, I highly recommend Arsoude to anyone who loves hiking. It is a comprehensive and user-friendly service that has enhanced my hiking experience. Whether you are a beginner or an experienced hiker, Arsoude has something to offer for everyone. So, download the app and start tracking your hikes today!" },
-        //            new Commentaire { id = 2, randonneeId = 0, message = "I recently discovered Arsoude, a fantastic service that has completely changed the way I track my hikes. As an avid hiker, I have always been interested in keeping track of my progress and exploring new trails. However, I struggled to find a reliable and user-friendly way to do so until I came across Arsoude.\r\n\r\nOne of the things I love most about Arsoude is its simplicity. The interface is clean and easy to navigate, making it perfect for hikers of all levels. Whether you're a beginner or an experienced hiker, Arsoude has everything you need to track your hikes and improve your skills.\r\n\r\nThe tracking feature is by far my favorite aspect of Arsoude. It uses GPS technology to accurately track my route, distance, and elevation gain. This has been incredibly helpful in planning my hikes and setting goals for myself. I can also save my favorite routes and share them with other hikers, making it a great community for exploring new trails.\r\n\r\nAnother great feature of Arsoude is the ability to log my hikes and keep a record of my progress. I can add notes, photos, and even rate the difficulty of the trail. This has been a game-changer for me as I can now easily refer back to my previous hikes and see how far I've come. It's also a great way to keep track of any challenges or obstacles I may have faced on a particular trail.\r\n\r\nOne of the things I appreciate most about Arsoude is its inclusivity. It caters to hikers of all levels, from beginners to experts. The app offers helpful tips and advice for beginners, while also providing advanced features for experienced hikers. This makes it a great tool for anyone looking to improve their hiking skills and explore new trails.\r\n\r\nIn addition to its tracking and logging features, Arsoude also offers a variety of resources for hikers. From safety tips to gear recommendations, the app has everything you need to make the most out of your hiking experience. It even has a feature that allows you to connect with other hikers in your area, making it a great way to meet new people who share your passion for hiking.\r\n\r\nOverall, I highly recommend Arsoude to any hiker looking to track their progress and explore new trails. It's a user-friendly, comprehensive, and inclusive service that has greatly enhanced my hiking experience. I can't imagine going on a hike without it now. Give it a try and see for yourself how Arsoude can take your hiking to the next level." },
-        //            new Commentaire { id = 3, randonneeId = 0, message = "I recently had the opportunity to try out Arsoude, a hiking tracking service, and I must say, I am thoroughly impressed. As an avid hiker, I am always looking for ways to enhance my hiking experience and Arsoude has definitely done that.\r\n\r\nOne of the best things about Arsoude is its user-friendly interface. It is easy to navigate and I was able to start tracking my hikes in no time. The app also offers a variety of features such as GPS tracking, elevation data, and even a social aspect where you can connect with other hikers and share your experiences.\r\n\r\nWhat I found most useful about Arsoude is its ability to track my progress and provide detailed information about my hikes. I was able to see the distance I covered, the time it took, and even the calories I burned. This not only helped me stay motivated but also allowed me to plan my future hikes more efficiently.\r\n\r\nAnother great aspect of Arsoude is its versatility. It caters to hikers of all levels, whether you are a beginner or an experienced hiker, there is something for everyone. The app offers a variety of trails to choose from, ranging from easy to difficult, so you can pick one that suits your level and preferences.\r\n\r\nAs someone who loves to explore new trails, I also appreciate the fact that Arsoude has a feature that allows you to discover new hikes in your area. This has opened up a whole new world of hiking possibilities for me and I am excited to try out new trails with the help of this app.\r\n\r\nLastly, I must mention the customer service of Arsoude. I had a few questions and concerns about the app and the team was quick to respond and resolve any issues I had. It is evident that they truly care about their users and their hiking experience.\r\n\r\nIn conclusion, I highly recommend Arsoude to all hikers out there. It is a fantastic service that not only helps you track your hikes but also enhances your overall experience. With its user-friendly interface, versatile features, and excellent customer service, Arsoude is a must-have for any hiker, regardless of their level. So, grab your hiking boots and give Arsoude a try, I promise you won't be disappointed. Happy hiking!" }
-        //        };
+                CommentaireDTO commentaireDTO = new CommentaireDTO { randonneeId = 1, note = 5, message = "I recently discovered Arsoude, a fantastic service for hikers of all levels. As an avid hiker, I was immediately drawn to the concept of being able to track my hikes and have all the information in one place. After using it for a few weeks, I can confidently say that Arsoude has exceeded my expectations.\r\n\r\nOne of the best features of Arsoude is its user-friendly interface. It is easy to navigate and has a clean design, making it simple to use for hikers of all ages and experience levels. The app allows users to track their hikes by recording the distance, elevation, and route taken. This information is then displayed in a clear and organized manner, making it easy to analyze and compare different hikes.\r\n\r\nAnother great aspect of Arsoude is the community aspect. Users can connect with other hikers, share their experiences, and even discover new hiking trails. This not only adds a social aspect to the app but also allows for a sense of camaraderie among hikers.\r\n\r\nOne feature that sets Arsoude apart from other hiking apps is its ability to track weather conditions. This is extremely helpful for planning hikes and ensuring safety on the trail. The app also provides suggestions for gear and equipment based on the weather, making it a valuable resource for hikers.\r\n\r\nOverall, I highly recommend Arsoude to anyone who loves hiking. It is a comprehensive and user-friendly service that has enhanced my hiking experience. Whether you are a beginner or an experienced hiker, Arsoude has something to offer for everyone. So, download the app and start tracking your hikes today!" };
 
-        //        //Console.WriteLine(commentaires);
+                CommentaireService commentaireService = new CommentaireService(dbContext);
 
-        //        await dbContext.commentaires.AddRangeAsync(commentaires);
-        //        await dbContext.SaveChangesAsync();
+                //Act
+                var result = await commentaireService.CreateCommentaire(commentaireDTO, utilisateur);
 
-        //        //Act
-        //        var result = await service.GetCommentaires(0);
+                //Assert
+                Assert.IsNotNull(result);
+                Assert.AreEqual(commentaire.message, result.message);
 
-        //        //Assert
-        //        Assert.IsNotNull(result);
-        //        Assert.AreEqual(commentaires.Count, result.Count);
+                await dbContext.DisposeAsync();
+            }
+        }
 
-        //        foreach (var commentaire in commentaires)
-        //        {
-        //            Assert.AreEqual(commentaire.message, result.Find(c => c.id == commentaire.id)!.message);
-        //        }
+        [TestMethod]
+        public async Task CreateCommentaires_Service_NullRandonneeException()
+        {
+            using (var dbContext = new ApplicationDbContext(options))
+            {
+                //Arrange
+                await dbContext.commentaires.AddAsync(commentaire);
+                await dbContext.SaveChangesAsync();
 
-        //        //CollectionAssert.AreEqual(commentaires, result);
+                CommentaireDTO commentaireDTO = new CommentaireDTO { randonneeId = 1, message = "I recently discovered Arsoude, a fantastic service for hikers of all levels. As an avid hiker, I was immediately drawn to the concept of being able to track my hikes and have all the information in one place. After using it for a few weeks, I can confidently say that Arsoude has exceeded my expectations.\r\n\r\nOne of the best features of Arsoude is its user-friendly interface. It is easy to navigate and has a clean design, making it simple to use for hikers of all ages and experience levels. The app allows users to track their hikes by recording the distance, elevation, and route taken. This information is then displayed in a clear and organized manner, making it easy to analyze and compare different hikes.\r\n\r\nAnother great aspect of Arsoude is the community aspect. Users can connect with other hikers, share their experiences, and even discover new hiking trails. This not only adds a social aspect to the app but also allows for a sense of camaraderie among hikers.\r\n\r\nOne feature that sets Arsoude apart from other hiking apps is its ability to track weather conditions. This is extremely helpful for planning hikes and ensuring safety on the trail. The app also provides suggestions for gear and equipment based on the weather, making it a valuable resource for hikers.\r\n\r\nOverall, I highly recommend Arsoude to anyone who loves hiking. It is a comprehensive and user-friendly service that has enhanced my hiking experience. Whether you are a beginner or an experienced hiker, Arsoude has something to offer for everyone. So, download the app and start tracking your hikes today!" };
 
+                CommentaireService commentaireService = new CommentaireService(dbContext);
 
+                //Assert
+                await Assert.ThrowsExceptionAsync<NullRandonneeException>(async () => await commentaireService.CreateCommentaire(commentaireDTO, utilisateur));
+            }
+        }
 
-        //        await dbContext.Database.EnsureDeletedAsync();
-        //    }
-        //}
+        [TestMethod]
+        public async Task CreateCommentaires_Service_RandonneeNotPublicException()
+        {
+            using (var dbContext = new ApplicationDbContext(options))
+            {
+                //Arrange
+                await dbContext.utilisateursTrace.AddAsync(trace);
+                randonnee.etatRandonnee = Randonnee.Etat.Privée;
+                await dbContext.randonnees.AddAsync(randonnee);
+                await dbContext.commentaires.AddAsync(commentaire);
+                await dbContext.SaveChangesAsync();
 
+                CommentaireDTO commentaireDTO = new CommentaireDTO { randonneeId = 1, message = "I recently discovered Arsoude, a fantastic service for hikers of all levels. As an avid hiker, I was immediately drawn to the concept of being able to track my hikes and have all the information in one place. After using it for a few weeks, I can confidently say that Arsoude has exceeded my expectations.\r\n\r\nOne of the best features of Arsoude is its user-friendly interface. It is easy to navigate and has a clean design, making it simple to use for hikers of all ages and experience levels. The app allows users to track their hikes by recording the distance, elevation, and route taken. This information is then displayed in a clear and organized manner, making it easy to analyze and compare different hikes.\r\n\r\nAnother great aspect of Arsoude is the community aspect. Users can connect with other hikers, share their experiences, and even discover new hiking trails. This not only adds a social aspect to the app but also allows for a sense of camaraderie among hikers.\r\n\r\nOne feature that sets Arsoude apart from other hiking apps is its ability to track weather conditions. This is extremely helpful for planning hikes and ensuring safety on the trail. The app also provides suggestions for gear and equipment based on the weather, making it a valuable resource for hikers.\r\n\r\nOverall, I highly recommend Arsoude to anyone who loves hiking. It is a comprehensive and user-friendly service that has enhanced my hiking experience. Whether you are a beginner or an experienced hiker, Arsoude has something to offer for everyone. So, download the app and start tracking your hikes today!" };
 
-        //[TestMethod]
-        //public async Task GetCommentaires_Service_NullRandonnee()
-        //{
-        //    using (var dbContext = new ApplicationDbContext(options))
-        //    {
-        //        //Arrange
-        //        dbContext.Database.EnsureDeleted();
+                CommentaireService commentaireService = new CommentaireService(dbContext);
 
-        //        Mock<CommentaireService>? commentaireServiceMock = new Mock<CommentaireService>(dbContext) { CallBase = true };
-        //        commentaireServiceMock.Setup(service => service.GetCommentaires(It.IsAny<int>()))
-        //                              .ThrowsAsync(new NullRandonneeException());
+                //Assert
+                await Assert.ThrowsExceptionAsync<RandonneeNotPublicException>(async () => await commentaireService.CreateCommentaire(commentaireDTO, utilisateur));
+            }
+        }
 
-        //        // Act
-        //        var result = await CommentaireController(dbContext, commentaireServiceMock).GetCommentaires(0);
+        [TestMethod]
+        public async Task CreateCommentaires_Service_NoTraceFoundException()
+        {
+            using (var dbContext = new ApplicationDbContext(options))
+            {
+                //Arrange
+                randonnee.traces = new();
+                await dbContext.randonnees.AddAsync(randonnee);
+                await dbContext.commentaires.AddAsync(commentaire);
+                await dbContext.SaveChangesAsync();
 
-        //        // Assert
-        //        Assert.IsInstanceOfType(result.Result, typeof(NotFoundObjectResult), "Expected NotFoundObjectResult");
-        //    }
-        //}
+                CommentaireDTO commentaireDTO = new CommentaireDTO { randonneeId = 1, message = "I recently discovered Arsoude, a fantastic service for hikers of all levels. As an avid hiker, I was immediately drawn to the concept of being able to track my hikes and have all the information in one place. After using it for a few weeks, I can confidently say that Arsoude has exceeded my expectations.\r\n\r\nOne of the best features of Arsoude is its user-friendly interface. It is easy to navigate and has a clean design, making it simple to use for hikers of all ages and experience levels. The app allows users to track their hikes by recording the distance, elevation, and route taken. This information is then displayed in a clear and organized manner, making it easy to analyze and compare different hikes.\r\n\r\nAnother great aspect of Arsoude is the community aspect. Users can connect with other hikers, share their experiences, and even discover new hiking trails. This not only adds a social aspect to the app but also allows for a sense of camaraderie among hikers.\r\n\r\nOne feature that sets Arsoude apart from other hiking apps is its ability to track weather conditions. This is extremely helpful for planning hikes and ensuring safety on the trail. The app also provides suggestions for gear and equipment based on the weather, making it a valuable resource for hikers.\r\n\r\nOverall, I highly recommend Arsoude to anyone who loves hiking. It is a comprehensive and user-friendly service that has enhanced my hiking experience. Whether you are a beginner or an experienced hiker, Arsoude has something to offer for everyone. So, download the app and start tracking your hikes today!" };
 
-        ////CommentaireService
-        //[TestMethod]
-        //public async Task GetCommentaires_Service_Test()
-        //{
-        //    Assert.Fail();
-        //}
+                CommentaireService commentaireService = new CommentaireService(dbContext);
 
-        //[TestMethod]
-        //public async Task CreateCommentaireService_Test()
-        //{
-        //    Assert.Fail();
-        //}
+                //Assert
+                await Assert.ThrowsExceptionAsync<NoTraceFoundException>(async () => await commentaireService.CreateCommentaire(commentaireDTO, utilisateur));
+            }
+        }
+
+        [TestMethod]
+        public async Task CreateCommentaires_Service_AlreadyExistsCommentaireExeption()
+        {
+            using (var dbContext = new ApplicationDbContext(options))
+            {
+                //Arrange
+
+                await dbContext.randonnees.AddAsync(randonnee);
+                await dbContext.commentaires.AddAsync(commentaire);
+                await dbContext.SaveChangesAsync();
+
+                CommentaireDTO commentaireDTO = new CommentaireDTO { randonneeId = 1, message = "I recently discovered Arsoude, a fantastic service for hikers of all levels. As an avid hiker, I was immediately drawn to the concept of being able to track my hikes and have all the information in one place. After using it for a few weeks, I can confidently say that Arsoude has exceeded my expectations.\r\n\r\nOne of the best features of Arsoude is its user-friendly interface. It is easy to navigate and has a clean design, making it simple to use for hikers of all ages and experience levels. The app allows users to track their hikes by recording the distance, elevation, and route taken. This information is then displayed in a clear and organized manner, making it easy to analyze and compare different hikes.\r\n\r\nAnother great aspect of Arsoude is the community aspect. Users can connect with other hikers, share their experiences, and even discover new hiking trails. This not only adds a social aspect to the app but also allows for a sense of camaraderie among hikers.\r\n\r\nOne feature that sets Arsoude apart from other hiking apps is its ability to track weather conditions. This is extremely helpful for planning hikes and ensuring safety on the trail. The app also provides suggestions for gear and equipment based on the weather, making it a valuable resource for hikers.\r\n\r\nOverall, I highly recommend Arsoude to anyone who loves hiking. It is a comprehensive and user-friendly service that has enhanced my hiking experience. Whether you are a beginner or an experienced hiker, Arsoude has something to offer for everyone. So, download the app and start tracking your hikes today!" };
+
+                CommentaireService commentaireService = new CommentaireService(dbContext);
+
+                //Assert
+                await Assert.ThrowsExceptionAsync<AlreadyExistsCommentaireExeption>(async () => await commentaireService.CreateCommentaire(commentaireDTO, utilisateur));
+            }
+        }
+        #endregion CreateCommentaire
+
+        #region DeleteCommentaire
+        [TestMethod]
+        public async Task DeleteCommentaires_Service_Ok() //PASS
+        {
+            using (var dbContext = new ApplicationDbContext(options))
+            {
+                //Arrange
+                await dbContext.randonnees.AddAsync(randonnee);
+                await dbContext.commentaires.AddAsync(commentaire);
+                await dbContext.SaveChangesAsync();
+
+                CommentaireService commentaireService = new CommentaireService(dbContext);
+
+                //Act
+                var result = await commentaireService.DeleteCommentaire(1, utilisateur);
+
+                //Assert
+                Assert.IsNotNull(result);
+                Assert.AreEqual("CommentDeletedByUserFirstNameLastName", result.message);
+            }
+        }
+
+        [TestMethod]
+        public async Task DeleteCommentaires_Service_NullCommentaireException()
+        {
+            using (var dbContext = new ApplicationDbContext(options))
+            {
+                //Arrange
+                await dbContext.Database.EnsureDeletedAsync();
+
+                await dbContext.randonnees.AddAsync(randonnee);
+                await dbContext.SaveChangesAsync();
+
+                CommentaireService commentaireService = new CommentaireService(dbContext);
+
+                //Assert
+                await Assert.ThrowsExceptionAsync<NullCommentaireException>(async () => await commentaireService.DeleteCommentaire(0, utilisateur));
+            }
+        }
+
+        [TestMethod]
+        public async Task DeleteCommentaires_Service_AlreadyDeletedException()
+        {
+            using (var dbContext = new ApplicationDbContext(options))
+            {
+                //Arrange
+                await dbContext.Database.EnsureDeletedAsync();
+
+                randonnee.etatRandonnee = Randonnee.Etat.Privée;
+                await dbContext.randonnees.AddAsync(randonnee);
+                await dbContext.commentaires.AddAsync(commentaire);
+                await dbContext.SaveChangesAsync();
+
+                CommentaireDTO commentaireDTO = new CommentaireDTO { randonneeId = 1, message = "I recently discovered Arsoude, a fantastic service for hikers of all levels. As an avid hiker, I was immediately drawn to the concept of being able to track my hikes and have all the information in one place. After using it for a few weeks, I can confidently say that Arsoude has exceeded my expectations.\r\n\r\nOne of the best features of Arsoude is its user-friendly interface. It is easy to navigate and has a clean design, making it simple to use for hikers of all ages and experience levels. The app allows users to track their hikes by recording the distance, elevation, and route taken. This information is then displayed in a clear and organized manner, making it easy to analyze and compare different hikes.\r\n\r\nAnother great aspect of Arsoude is the community aspect. Users can connect with other hikers, share their experiences, and even discover new hiking trails. This not only adds a social aspect to the app but also allows for a sense of camaraderie among hikers.\r\n\r\nOne feature that sets Arsoude apart from other hiking apps is its ability to track weather conditions. This is extremely helpful for planning hikes and ensuring safety on the trail. The app also provides suggestions for gear and equipment based on the weather, making it a valuable resource for hikers.\r\n\r\nOverall, I highly recommend Arsoude to anyone who loves hiking. It is a comprehensive and user-friendly service that has enhanced my hiking experience. Whether you are a beginner or an experienced hiker, Arsoude has something to offer for everyone. So, download the app and start tracking your hikes today!" };
+
+                CommentaireService commentaireService = new CommentaireService(dbContext);
+
+                //Assert
+                await Assert.ThrowsExceptionAsync<AlreadyDeletedException>(async () => await commentaireService.CreateCommentaire(commentaireDTO, utilisateur));
+            }
+        }
+
+        [TestMethod]
+        public async Task DeleteCommentaires_Service_UnauthorizedDeleteCommentaireException()
+        {
+            using (var dbContext = new ApplicationDbContext(options))
+            {
+                //Arrange
+                await dbContext.Database.EnsureDeletedAsync();
+
+                randonnee.traces = new();
+                await dbContext.randonnees.AddAsync(randonnee);
+                await dbContext.commentaires.AddAsync(commentaire);
+                await dbContext.SaveChangesAsync();
+
+                CommentaireDTO commentaireDTO = new CommentaireDTO { randonneeId = 1, message = "I recently discovered Arsoude, a fantastic service for hikers of all levels. As an avid hiker, I was immediately drawn to the concept of being able to track my hikes and have all the information in one place. After using it for a few weeks, I can confidently say that Arsoude has exceeded my expectations.\r\n\r\nOne of the best features of Arsoude is its user-friendly interface. It is easy to navigate and has a clean design, making it simple to use for hikers of all ages and experience levels. The app allows users to track their hikes by recording the distance, elevation, and route taken. This information is then displayed in a clear and organized manner, making it easy to analyze and compare different hikes.\r\n\r\nAnother great aspect of Arsoude is the community aspect. Users can connect with other hikers, share their experiences, and even discover new hiking trails. This not only adds a social aspect to the app but also allows for a sense of camaraderie among hikers.\r\n\r\nOne feature that sets Arsoude apart from other hiking apps is its ability to track weather conditions. This is extremely helpful for planning hikes and ensuring safety on the trail. The app also provides suggestions for gear and equipment based on the weather, making it a valuable resource for hikers.\r\n\r\nOverall, I highly recommend Arsoude to anyone who loves hiking. It is a comprehensive and user-friendly service that has enhanced my hiking experience. Whether you are a beginner or an experienced hiker, Arsoude has something to offer for everyone. So, download the app and start tracking your hikes today!" };
+
+                CommentaireService commentaireService = new CommentaireService(dbContext);
+
+                //Assert
+                await Assert.ThrowsExceptionAsync<UnauthorizedDeleteCommentaireException>(async () => await commentaireService.CreateCommentaire(commentaireDTO, utilisateur));
+            }
+        }
+        #endregion DeleteCommentaire
     }
 }

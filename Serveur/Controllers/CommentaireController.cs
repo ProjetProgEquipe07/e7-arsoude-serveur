@@ -121,10 +121,6 @@ namespace arsoudeServeur.Controllers
             {
                 return Unauthorized(ExceptionStrings.DeleteCommentaireInterdit);
             }
-            catch (Exception e)
-            {
-                return StatusCode(500, e.Message);
-            }
         }
 
         [HttpGet("{randonneeId}")]
@@ -151,10 +147,6 @@ namespace arsoudeServeur.Controllers
             {
                 return Unauthorized(ExceptionStrings.RandonnePrivee);
             }
-            catch (Exception e)
-            {
-                return StatusCode(500, e.Message);
-            }
         }
         [HttpGet("{commentaireId}")]
         public async Task<ActionResult> AjoutLikeCommentaire(int commentaireId)
@@ -172,10 +164,6 @@ namespace arsoudeServeur.Controllers
             {
                 return Unauthorized(ExceptionStrings.CommentaireDejaLike);
             }
-            catch (Exception e)
-            {
-                return StatusCode(500, e.Message);
-            }
         }
         [HttpGet("{commentaireId}")]
         public async Task<ActionResult> EnleveLikeCommentaire(int commentaireId)
@@ -192,10 +180,6 @@ namespace arsoudeServeur.Controllers
             catch (AlreadyUnlikedCommentaireException)
             {
                 return Unauthorized(ExceptionStrings.CommentaireDejaUnlike);
-            }
-            catch (Exception e)
-            {
-                return StatusCode(500, e.Message);
             }
         }
     }
