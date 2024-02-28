@@ -79,6 +79,7 @@ namespace arsoudeServeur.Services
         {
             _context = context;
         }
+        public CommentaireService() { }
 
         virtual public async Task<List<Commentaire>> GetCommentaires(int randonneId)
         {

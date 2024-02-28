@@ -15,13 +15,15 @@ namespace arsoudeServeur.Services
 
         UserManager<IdentityUser> userManager;
 
-        public class UserNotFoundException : Exception{}
+        public class UserNotFoundException : Exception { }
         public class BadPasswordException : Exception
         {
             public BadPasswordException(string? message) : base(message)
             {
             }
         }
+
+        public UtilisateursService() { }
 
         public UtilisateursService(ApplicationDbContext context)
         {
