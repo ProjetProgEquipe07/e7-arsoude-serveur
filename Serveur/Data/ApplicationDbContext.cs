@@ -24,7 +24,7 @@ namespace arsoudServeur.Data
 
             //Seed IdentityUsers
 
-            var hasher = new PasswordHasher<IdentityUser>();
+          /*  var hasher = new PasswordHasher<IdentityUser>();
             IdentityUser adminUser = new IdentityUser
             {
                 Id = "11111111-1111-1111-1111-111111111111",
@@ -59,10 +59,10 @@ namespace arsoudServeur.Data
             utilisateur1.PasswordHash = hasher.HashPassword(utilisateur1, "Passw0rd!");
             utilisateur2.PasswordHash = hasher.HashPassword(utilisateur2, "Passw0rd!");
 
-            builder.Entity<IdentityUser>().HasData(adminUser, utilisateur1, utilisateur2);
+            builder.Entity<IdentityUser>().HasData(adminUser, utilisateur1, utilisateur2);*/
 
             // Seed utilisateurs
-            List<Utilisateur> utilisateurs = new List<Utilisateur>()
+           /* List<Utilisateur> utilisateurs = new List<Utilisateur>()
             {
                 new Utilisateur
                 {
@@ -99,7 +99,7 @@ namespace arsoudServeur.Data
                 },
             };
 
-            builder.Entity<Utilisateur>().HasData(utilisateurs);
+            builder.Entity<Utilisateur>().HasData(utilisateurs);*/
             SeedRandonnees(builder);
             SeedGPSData(builder);
             SeedCommentaires(builder);
@@ -227,7 +227,7 @@ namespace arsoudServeur.Data
                 }
             };
 
-            var randonneesAnglais = new List<RandonneeAnglais>
+            /*var randonneesAnglais = new List<RandonneeAnglais>
             {
                 new RandonneeAnglais
                 {
@@ -295,10 +295,10 @@ namespace arsoudServeur.Data
                     etatRandonnee = Randonnee.Etat.Publique,
                     randonneeId = 6,
                 },
-            };
+            };*/
 
             builder.Entity<Randonnee>().HasData(randonnees);
-            builder.Entity<RandonneeAnglais>().HasData(randonneesAnglais);
+           // builder.Entity<RandonneeAnglais>().HasData(randonneesAnglais);
         }
 
         private void SeedGPSData(ModelBuilder builder)

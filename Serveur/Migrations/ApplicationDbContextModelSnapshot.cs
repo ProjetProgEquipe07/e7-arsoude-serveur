@@ -132,56 +132,6 @@ namespace arsoudeServeur.Migrations
                         .HasDatabaseName("UserNameIndex");
 
                     b.ToTable("AspNetUsers", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "11111111-1111-1111-1111-111111111111",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "7100160e-8cd6-4841-8abb-c939b18e431f",
-                            Email = "admin@gmail.com",
-                            EmailConfirmed = true,
-                            LockoutEnabled = false,
-                            NormalizedEmail = "ADMIN@GMAIL.COM",
-                            NormalizedUserName = "ADMIN@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAECmyNQmiKOQmiPBrYB6+sHT9fD/oN3XUtGQgmPpKttClYvPhTOmnhPxXk5d+WVS8SA==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "831503a0-25c6-4703-a65a-bb7b935b18a1",
-                            TwoFactorEnabled = false,
-                            UserName = "admin@gmail.com"
-                        },
-                        new
-                        {
-                            Id = "11111111-1111-1111-1111-111111111112",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "b075b4b5-8e05-4719-8214-e331d971b482",
-                            Email = "user1@hotmail.com",
-                            EmailConfirmed = true,
-                            LockoutEnabled = false,
-                            NormalizedEmail = "USER1@HOTMAIL.COM",
-                            NormalizedUserName = "USER1@HOTMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEC71ctfU10Y4QHzSRgtQpVg4PBFloq0fLshBy/UF4yxXTU7dloeGmL1e1nrhjy8QwA==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "418697ba-e8f0-4f82-ba25-1c21c3941643",
-                            TwoFactorEnabled = false,
-                            UserName = "user1@hotmail.com"
-                        },
-                        new
-                        {
-                            Id = "11111111-1111-1111-1111-111111111113",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "10c123ad-f21b-4338-80d4-c63641dd95f2",
-                            Email = "user2@hotmail.com",
-                            EmailConfirmed = true,
-                            LockoutEnabled = false,
-                            NormalizedEmail = "USER2@HOTMAIL.COM",
-                            NormalizedUserName = "USER2@HOTMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEObHBs8e/Y9wK99m8mgT9GqjcrxDrUv7pJfN59JziK2weUIVa//0Ujd8tmDkroG2Tg==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "330b001f-7deb-45da-8669-26e4a269a219",
-                            TwoFactorEnabled = false,
-                            UserName = "user2@hotmail.com"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -938,74 +888,6 @@ namespace arsoudeServeur.Migrations
                     b.HasIndex("utilisateurId");
 
                     b.ToTable("randonneeAnglais");
-
-                    b.HasData(
-                        new
-                        {
-                            id = 1,
-                            description = "Cool walk in St-Bruno",
-                            emplacement = "St-Bruno",
-                            etatRandonnee = 1,
-                            nom = "St-Bruno",
-                            randonneeId = 1,
-                            typeRandonnee = 1,
-                            utilisateurId = 1
-                        },
-                        new
-                        {
-                            id = 2,
-                            description = "Moderately cool walk there",
-                            emplacement = "Outside",
-                            etatRandonnee = 1,
-                            nom = "Little Walk to Subway",
-                            randonneeId = 2,
-                            typeRandonnee = 0,
-                            utilisateurId = 2
-                        },
-                        new
-                        {
-                            id = 3,
-                            description = "Fresh walk in St-Hilaire",
-                            emplacement = "St-Hilaire",
-                            etatRandonnee = 1,
-                            nom = "St-Hilaire",
-                            randonneeId = 3,
-                            typeRandonnee = 1,
-                            utilisateurId = 3
-                        },
-                        new
-                        {
-                            id = 4,
-                            description = "Walk to Subway",
-                            emplacement = "St-Grégoire",
-                            etatRandonnee = 1,
-                            nom = "My Hiking Trip",
-                            randonneeId = 4,
-                            typeRandonnee = 0,
-                            utilisateurId = 2
-                        },
-                        new
-                        {
-                            id = 5,
-                            description = "It must be cool there",
-                            emplacement = "Somewhere",
-                            etatRandonnee = 1,
-                            nom = "Red River",
-                            randonneeId = 5,
-                            typeRandonnee = 0,
-                            utilisateurId = 2
-                        },
-                        new
-                        {
-                            id = 6,
-                            description = "I think it's a lot of fun",
-                            emplacement = "Mont Tremblant",
-                            etatRandonnee = 1,
-                            nom = "My Trek",
-                            randonneeId = 6,
-                            typeRandonnee = 0,
-                            utilisateurId = 1
-                        });
                 });
 
             modelBuilder.Entity("arsoudeServeur.Models.RandonneeUtilisateur", b =>
@@ -1103,47 +985,6 @@ namespace arsoudeServeur.Migrations
                     b.HasIndex("identityUserId");
 
                     b.ToTable("utilisateurs");
-
-                    b.HasData(
-                        new
-                        {
-                            id = 1,
-                            adresse = "",
-                            anneeDeNaissance = 0,
-                            codePostal = "E3A 4R4",
-                            courriel = "admin@gmail.com",
-                            identityUserId = "11111111-1111-1111-1111-111111111111",
-                            moisDeNaissance = 0,
-                            nom = "tangerine",
-                            prenom = "robert",
-                            role = "Administrator"
-                        },
-                        new
-                        {
-                            id = 2,
-                            adresse = "",
-                            anneeDeNaissance = 0,
-                            codePostal = "E3A 4R4",
-                            courriel = "user1@hotmail.com",
-                            identityUserId = "11111111-1111-1111-1111-111111111112",
-                            moisDeNaissance = 0,
-                            nom = "Hogan",
-                            prenom = "Hulk",
-                            role = "User"
-                        },
-                        new
-                        {
-                            id = 3,
-                            adresse = "1260, rue Mill, suite 100",
-                            anneeDeNaissance = 0,
-                            codePostal = "E3A 4R4",
-                            courriel = "user2@hotmail.com",
-                            identityUserId = "11111111-1111-1111-1111-111111111113",
-                            moisDeNaissance = 0,
-                            nom = "Charles",
-                            prenom = "Grégory",
-                            role = "User"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

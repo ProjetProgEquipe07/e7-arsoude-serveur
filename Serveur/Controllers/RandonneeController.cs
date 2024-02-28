@@ -21,7 +21,6 @@ namespace arsoudeServeur.Controllers
         [HttpGet("{listSize}")]
         public async Task<ActionResult<IEnumerable<RandonneeListDTO>>> GetRandonnees(int listSize)
         {
-
             var languageHeader = HttpContext.Request.Headers["Accept-Language"].ToString();
 
                 if (UtilisateurCourant != null)

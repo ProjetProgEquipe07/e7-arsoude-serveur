@@ -4,9 +4,9 @@ namespace arsoudeServeur.Models.DTOs
 {
     public class CommentaireDTO
     {
-        public int randonneeId { get; set; }
-        public string message { get; set; }
+        public int? randonneeId { get; set; }
+        public string? message { get; set; }
         [Range(0, 5)]
-        public int note { get; set; }
+        public int? note { get; set; }
     }
 }

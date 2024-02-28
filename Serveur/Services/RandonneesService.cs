@@ -2,7 +2,9 @@ using arsoudeServeur.Models;
 using arsoudeServeur.Models.DTOs;
 using arsoudServeur.Data;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Razor.Language.Extensions;
 using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace arsoudeServeur.Services
 {
@@ -61,6 +63,8 @@ namespace arsoudeServeur.Services
                                 s => s.etatRandonnee == Randonnee.Etat.Publique || //Publique
                                 (s.etatRandonnee == Randonnee.Etat.Privée && s.utilisateurId == utilisateurCourant.id) //Privée et uniquement à l'utilisateur courant
                                 ).Take(listSize).ToListAsync();
+
+               
             }
             else
             {
@@ -117,8 +121,116 @@ namespace arsoudeServeur.Services
             
             if(language == "fr")
             {
-                randonnees = await _context.randonnees.Where(
-                s => s.etatRandonnee == Randonnee.Etat.Publique).Take(listSize).ToListAsync();
+                randonnees = await _context.randonnees.Take(listSize).ToListAsync();
+
+
+                foreach (var rando in randonnees)
+                {
+                    RandonneeAnglais randonneeAnglais = new RandonneeAnglais
+                    {
+                        id = 0,
+                        nom = null,
+                        description = null,
+                        emplacement = null,
+                        typeRandonnee = (Randonnee.Type)rando.typeRandonnee,
+                        GPS = rando.GPS,
+                        utilisateur = rando.utilisateur,
+                        randonneeId = rando.id,
+                    };
+
+                    RandonneeDTO rando2 = new RandonneeDTO
+                    {
+                        nom = rando.nom,
+                        description = rando.description,
+                        emplacement = rando.emplacement,
+                        id = 0,
+                        gps = rando.GPS,
+                        typeRandonnee = (int)rando.typeRandonnee
+                         
+                    };
+
+
+                    IEnumerable<TraductionIndicator> traductionIndicators = new List<TraductionIndicator>();
+
+
+                    traductionIndicators = await _serviceTranslate.DetectLanguage(rando2);
+
+                    int index = 0;
+                    foreach (var indicator in traductionIndicators)
+                    {
+                        switch (index)
+                        {
+                            case 0:
+                                if (indicator.targetLanguage == "en")
+                                {
+                                    randonneeAnglais.nom = indicator.text;
+                                }
+                                else
+                                {
+                                    rando.nom = indicator.text;
+                                }
+
+                                if (randonneeAnglais.nom == null)
+                                {
+                                    randonneeAnglais.nom = await _serviceTranslate.TranslateText(indicator.text, "en");
+                                }
+                                else
+                                {
+                                    rando.nom = await _serviceTranslate.TranslateText(indicator.text, "fr");
+                                }
+
+
+                                break;
+                            case 1:
+                                if (indicator.targetLanguage == "en")
+                                {
+                                    randonneeAnglais.description = indicator.text;
+                                }
+                                else
+                                {
+                                    rando.description = indicator.text;
+                                }
+
+                                if (randonneeAnglais.description == null)
+                                {
+                                    randonneeAnglais.description = await _serviceTranslate.TranslateText(indicator.text, "en");
+                                }
+                                else
+                                {
+                                    rando.description = await _serviceTranslate.TranslateText(indicator.text, "fr");
+                                }
+                                break;
+                            case 2:
+                                if (indicator.targetLanguage == "en")
+                                {
+                                    randonneeAnglais.emplacement = indicator.text;
+                                }
+                                else
+                                {
+                                    rando.emplacement = indicator.text;
+                                }
+
+                                if (randonneeAnglais.emplacement == null)
+                                {
+                                    randonneeAnglais.emplacement = await _serviceTranslate.TranslateText(indicator.text, "en");
+                                }
+                                else
+                                {
+                                    rando.emplacement = await _serviceTranslate.TranslateText(indicator.text, "fr");
+                                }
+                                break;
+
+                        }
+                        index++;
+                    }
+
+                    _context.randonneeAnglais.Add(randonneeAnglais);
+                    await _context.SaveChangesAsync();
+
+
+
+                }
+
             }
             else
             {
